@@ -1,0 +1,10 @@
+2019-07-26T11:49:29+00:00 CRITICAL Uncaught Error: Call to a member function get_products() on bool in /var/www/html/kitchens2tables/wp-content/themes/porto-child/input_menus.php:36
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/class-functions.php(504): include()
+#1 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(288): um_account_content_hook_menus(NULL)
+#2 /var/www/html/kitchens2tables/wp-includes/plugin.php(203): WP_Hook->apply_filters(NULL, Array)
+#3 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-account.php(683): apply_filters('um_account_cont...', NULL, Array)
+#4 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-account.php(71): um\core\Account->get_tab_fields('mytab', Array)
+#5 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-account.php(227): um\core\Account->init_tabs(Array)
+#6 /var/www/html/kitchens2tables/wp-includes/shortcodes.php(319): um\core\Account->ultimatemember_ac in /var/www/html/kitchens2tables/wp-content/themes/porto-child/input_menus.php on line 36
+

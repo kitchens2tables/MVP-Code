@@ -1,0 +1,52 @@
+2019-07-16T08:57:25+00:00 CRITICAL Uncaught Error: Call to a member function get_price() on int in /var/www/html/kitchens2tables/wp-content/plugins/woocommerce/includes/wc-product-functions.php:969
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/themes/porto-child/woocommerce/order/order-details.php(161): wc_get_price_including_tax(1)
+#1 /var/www/html/kitchens2tables/wp-content/plugins/woocommerce/includes/wc-core-functions.php(211): include('/var/www/html/k...')
+#2 /var/www/html/kitchens2tables/wp-content/plugins/woocommerce/includes/wc-template-functions.php(2405): wc_get_template('order/order-det...', Array)
+#3 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(286): woocommerce_order_details_table(4592)
+#4 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#5 /var/www/html/kitchens2tables/wp-includes/plugin.php(453): WP_Hook->do_action(Array)
+#6 /var/www/html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/view-order.php(47): do_action('woocommerce_vie.. in /var/www/html/kitchens2tables/wp-content/plugins/woocommerce/includes/wc-product-functions.php on line 969
+
+2019-07-16T09:04:44+00:00 CRITICAL Uncaught Error: Undefined class constant 'get_rate_percent' in /var/www/html/kitchens2tables/wp-content/themes/porto-child/woocommerce/order/order-details.php:161
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/woocommerce/includes/wc-core-functions.php(211): include()
+#1 /var/www/html/kitchens2tables/wp-content/plugins/woocommerce/includes/wc-template-functions.php(2405): wc_get_template('order/order-det...', Array)
+#2 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(286): woocommerce_order_details_table(4592)
+#3 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#4 /var/www/html/kitchens2tables/wp-includes/plugin.php(453): WP_Hook->do_action(Array)
+#5 /var/www/html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/view-order.php(47): do_action('woocommerce_vie...', 4592)
+#6 /var/www/html/kitchens2tables/wp-content/plugins/woocommerce/includes/wc-core-functions.php(211): include('/var/www/html/k...')
+#7 /var/www/ht in /var/www/html/kitchens2tables/wp-content/themes/porto-child/woocommerce/order/order-details.php on line 161
+
+2019-07-16T09:07:29+00:00 CRITICAL Uncaught Error: Undefined class constant 'get_rate_percent' in /var/www/html/kitchens2tables/wp-content/themes/porto-child/woocommerce/order/order-details.php:161
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/woocommerce/includes/wc-core-functions.php(211): include()
+#1 /var/www/html/kitchens2tables/wp-content/plugins/woocommerce/includes/wc-template-functions.php(2405): wc_get_template('order/order-det...', Array)
+#2 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(286): woocommerce_order_details_table(4592)
+#3 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#4 /var/www/html/kitchens2tables/wp-includes/plugin.php(453): WP_Hook->do_action(Array)
+#5 /var/www/html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/view-order.php(47): do_action('woocommerce_vie...', 4592)
+#6 /var/www/html/kitchens2tables/wp-content/plugins/woocommerce/includes/wc-core-functions.php(211): include('/var/www/html/k...')
+#7 /var/www/ht in /var/www/html/kitchens2tables/wp-content/themes/porto-child/woocommerce/order/order-details.php on line 161
+
+2019-07-16T09:08:04+00:00 CRITICAL Uncaught Error: Undefined class constant 'get_rate_percent' in /var/www/html/kitchens2tables/wp-content/themes/porto-child/woocommerce/order/order-details.php:161
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/woocommerce/includes/wc-core-functions.php(211): include()
+#1 /var/www/html/kitchens2tables/wp-content/plugins/woocommerce/includes/wc-template-functions.php(2405): wc_get_template('order/order-det...', Array)
+#2 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(286): woocommerce_order_details_table(4592)
+#3 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#4 /var/www/html/kitchens2tables/wp-includes/plugin.php(453): WP_Hook->do_action(Array)
+#5 /var/www/html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/view-order.php(47): do_action('woocommerce_vie...', 4592)
+#6 /var/www/html/kitchens2tables/wp-content/plugins/woocommerce/includes/wc-core-functions.php(211): include('/var/www/html/k...')
+#7 /var/www/ht in /var/www/html/kitchens2tables/wp-content/themes/porto-child/woocommerce/order/order-details.php on line 161
+
+2019-07-16T09:08:23+00:00 CRITICAL Uncaught ArgumentCountError: Too few arguments to function WC_Tax::get_rate_percent(), 0 passed in /var/www/html/kitchens2tables/wp-content/themes/porto-child/woocommerce/order/order-details.php on line 161 and exactly 1 expected in /var/www/html/kitchens2tables/wp-content/plugins/woocommerce/includes/class-wc-tax.php:642
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/themes/porto-child/woocommerce/order/order-details.php(161): WC_Tax::get_rate_percent()
+#1 /var/www/html/kitchens2tables/wp-content/plugins/woocommerce/includes/wc-core-functions.php(211): include('/var/www/html/k...')
+#2 /var/www/html/kitchens2tables/wp-content/plugins/woocommerce/includes/wc-template-functions.php(2405): wc_get_template('order/order-det...', Array)
+#3 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(286): woocommerce_order_details_table(4592)
+#4 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#5 /var/www/html/kitchens2tables/wp-includes/plugin.php(453): W in /var/www/html/kitchens2tables/wp-content/plugins/woocommerce/includes/class-wc-tax.php on line 642
+

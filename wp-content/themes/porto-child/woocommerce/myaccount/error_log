@@ -1,0 +1,39 @@
+[03-Apr-2019 08:19:32 UTC] PHP Fatal error:  Uncaught Error: Class 'WC_Order' not found in /home/acapqaadmin/public_html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/order_cancel.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/acapqaadmin/public_html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/order_cancel.php on line 7
+[03-Apr-2019 08:19:33 UTC] PHP Fatal error:  Uncaught Error: Class 'WC_Order' not found in /home/acapqaadmin/public_html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/order_cancel.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/acapqaadmin/public_html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/order_cancel.php on line 7
+[03-Apr-2019 08:19:37 UTC] PHP Fatal error:  Uncaught Error: Class 'WC_Order' not found in /home/acapqaadmin/public_html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/order_cancel.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/acapqaadmin/public_html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/order_cancel.php on line 7
+[03-Apr-2019 08:19:38 UTC] PHP Fatal error:  Uncaught Error: Class 'WC_Order' not found in /home/acapqaadmin/public_html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/order_cancel.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/acapqaadmin/public_html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/order_cancel.php on line 7
+[03-Apr-2019 08:19:54 UTC] PHP Fatal error:  Uncaught Error: Class 'WC_Order' not found in /home/acapqaadmin/public_html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/order_cancel.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/acapqaadmin/public_html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/order_cancel.php on line 7
+[03-Apr-2019 08:20:12 UTC] PHP Notice:  Undefined index: order_id_cancel in /home/acapqaadmin/public_html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/order_cancel.php on line 5
+[03-Apr-2019 08:20:12 UTC] PHP Fatal error:  Uncaught Error: Class 'WC_Order' not found in /home/acapqaadmin/public_html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/order_cancel.php:7
+Stack trace:
+#0 {main}
+  thrown in /home/acapqaadmin/public_html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/order_cancel.php on line 7
+[03-Apr-2019 08:22:27 UTC] PHP Fatal error:  Uncaught Error: Class 'WC_Order' not found in /home/acapqaadmin/public_html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/order_cancel.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/acapqaadmin/public_html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/order_cancel.php on line 9
+[03-Apr-2019 08:22:30 UTC] PHP Fatal error:  Uncaught Error: Class 'WC_Order' not found in /home/acapqaadmin/public_html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/order_cancel.php:9
+Stack trace:
+#0 {main}
+  thrown in /home/acapqaadmin/public_html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/order_cancel.php on line 9
+[03-Apr-2019 08:24:17 UTC] PHP Warning:  require(../../../wp-load.php): failed to open stream: No such file or directory in /home/acapqaadmin/public_html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/order_cancel.php on line 3
+[03-Apr-2019 08:24:17 UTC] PHP Fatal error:  require(): Failed opening required '../../../wp-load.php' (include_path='.:/opt/alt/php71/usr/share/pear') in /home/acapqaadmin/public_html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/order_cancel.php on line 3
+[03-Apr-2019 08:24:36 UTC] PHP Warning:  require(../../../../wp-load.php): failed to open stream: No such file or directory in /home/acapqaadmin/public_html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/order_cancel.php on line 3
+[03-Apr-2019 08:24:36 UTC] PHP Fatal error:  require(): Failed opening required '../../../../wp-load.php' (include_path='.:/opt/alt/php71/usr/share/pear') in /home/acapqaadmin/public_html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/order_cancel.php on line 3
+[03-Apr-2019 08:24:56 UTC] PHP Warning:  require(../../../wp-load.php): failed to open stream: No such file or directory in /home/acapqaadmin/public_html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/order_cancel.php on line 3
+[03-Apr-2019 08:24:56 UTC] PHP Fatal error:  require(): Failed opening required '../../../wp-load.php' (include_path='.:/opt/alt/php71/usr/share/pear') in /home/acapqaadmin/public_html/kitchens2tables/wp-content/themes/porto-child/woocommerce/myaccount/order_cancel.php on line 3
