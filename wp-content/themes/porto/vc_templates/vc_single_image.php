@@ -36,6 +36,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @var $this WPBakeryShortCode_VC_Single_image
  */
 $source = $add_caption = $css_animation = $animation_type = $animation_delay = $animation_duration = '';
+
+$floating_start_pos  = '';
+$floating_speed      = '';
+$floating_transition = 'yes';
+$floating_horizontal = '';
+
 $atts   = vc_map_get_attributes( $this->getShortcode(), $atts );
 extract( $atts );
 
@@ -98,13 +104,13 @@ switch ( $source ) {
 		break;
 
 	case 'external_link':
-		$dimensions = vcExtractDimensions( $external_img_size );
+		$dimensions = function_exists( 'vc_extract_dimensions' ) ? vc_extract_dimensions( $external_img_size ) : vcExtractDimensions( $external_img_size );
 		$hwstring   = $dimensions ? image_hwstring( $dimensions[0], $dimensions[1] ) : '';
 
-		$custom_src = $custom_src ? esc_attr( $custom_src ) : $default_src;
+		$custom_src = $custom_src ? $custom_src : $default_src;
 
 		$img = array(
-			'thumbnail' => '<img class="vc_single_image-img" ' . $hwstring . ' src="' . $custom_src . '" alt="external" />',
+			'thumbnail' => '<img class="vc_single_image-img" ' . $hwstring . ' src="' . esc_url( $custom_src ) . '" alt="external" />',
 		);
 		break;
 
@@ -132,7 +138,7 @@ if ( ! empty( $atts['img_link'] ) ) {
 }
 
 // backward compatibility
-if ( in_array( $link, array( 'none', 'link_no' ) ) ) {
+if ( in_array( $link, array( 'none', 'link_no' ), true ) ) {
 	$link = '';
 }
 
@@ -154,14 +160,12 @@ switch ( $onclick ) {
 		wp_enqueue_style( 'prettyphoto' );
 
 		$a_attrs['class'] = 'prettyphoto';
-		$a_attrs['rel']   = 'prettyPhoto[rel-' . get_the_ID() . '-' . rand() . ']';
+		$a_attrs['data-rel']   = 'prettyPhoto[rel-' . get_the_ID() . '-' . wp_rand() . ']';
 
 		// backward compatibility
-		if ( porto_has_class( 'prettyphoto', $el_class ) ) {
-			// $link is already defined
-		} elseif ( 'external_link' === $source ) {
+		if ( ! porto_has_class( 'prettyphoto', $el_class ) && 'external_link' === $source ) {
 			$link = $custom_src;
-		} else {
+		} elseif ( ! porto_has_class( 'prettyphoto', $el_class ) ) {
 			$link = wp_get_attachment_image_src( $img_id, 'large' );
 			$link = $link[0];
 		}
@@ -184,7 +188,7 @@ switch ( $onclick ) {
 			}
 		}
 
-		$img['thumbnail'] = str_replace( '<img ', '<img data-vc-zoom="' . esc_attr( $large_img_src ) . '" ', $img['thumbnail'] );
+		$img['thumbnail'] = str_replace( '<img ', '<img data-vc-zoom="' . esc_url( $large_img_src ) . '" ', $img['thumbnail'] );
 
 		break;
 }
@@ -196,7 +200,7 @@ if ( porto_has_class( 'prettyphoto', $el_class ) ) {
 
 $html = ( 'vc_box_shadow_3d' === $style ) ? '<span class="vc_box_shadow_3d_wrap">' . $img['thumbnail'] . '</span>' : $img['thumbnail'];
 
-if ( in_array( $source, array( 'media_library', 'featured_image' ) ) && 'yes' === $add_caption ) {
+if ( in_array( $source, array( 'media_library', 'featured_image' ), true ) && 'yes' === $add_caption ) {
 	$post    = get_post( $img_id );
 	$caption = $post->post_excerpt;
 } elseif ( 'external_link' === $source ) {
@@ -236,11 +240,24 @@ $wrapper_attributes = '';
 if ( $animation_type ) {
 	$wrapper_attributes .= 'data-appear-animation="' . esc_attr( $animation_type ) . '"';
 	if ( $animation_delay ) {
-		$wrapper_attributes .= 'data-appear-animation-delay="' . esc_attr( $animation_delay ) . '"';
+		$wrapper_attributes .= ' data-appear-animation-delay="' . esc_attr( $animation_delay ) . '"';
 	}
 	if ( $animation_duration && 1000 != $animation_duration ) {
-		$wrapper_attributes .= 'data-appear-animation-duration="' . esc_attr( $animation_duration ) . '"';
+		$wrapper_attributes .= ' data-appear-animation-duration="' . esc_attr( $animation_duration ) . '"';
 	}
+} elseif ( $floating_start_pos && $floating_speed ) {
+	$floating_options = array( 'startPos' => $floating_start_pos, 'speed' => $floating_speed );
+	if ( $floating_transition ) {
+		$floating_options['transition'] = true;
+	} else {
+		$floating_options['transition'] = false;
+	}
+	if ( $floating_horizontal ) {
+		$floating_options['horizontal'] = true;
+	} else {
+		$floating_options['horizontal'] = false;
+	}
+	$wrapper_attributes .= ' data-plugin-float-element data-plugin-options="' . esc_attr( json_encode( $floating_options ) ) . '"';
 }
 
 if ( 'yes' === $add_caption && '' !== $caption ) {

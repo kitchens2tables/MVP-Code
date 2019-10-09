@@ -74,13 +74,13 @@
 
     .plan-ribbon {
         @include if-ltr {
-            @include transform(rotate(45deg));
+            transform: rotate(45deg);
         }
         @include if-rtl {
-            @include transform(rotate(-45deg));
+            transform: rotate(-45deg);
         }
         @include background-image(linear-gradient(top, #bfdc7a, #8ebf45));
-        box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3);
+        box-shadow: 0px 0px 3px rgba(0, 0, 0, .3);
         color: #333;
         font-size: 14px;
         #{$left}: -5px;

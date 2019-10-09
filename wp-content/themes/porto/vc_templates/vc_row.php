@@ -68,7 +68,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 $el_class        = $full_height = $parallax_speed_bg = $parallax_speed_video = $full_width = $equal_height = $flex_row = $columns_placement = $content_placement = $parallax = $parallax_image = $css = $el_id = $video_bg = $video_bg_url = $video_bg_parallax = $no_padding = '';
 $disable_element = '';
-global $porto_settings;
+global $porto_settings, $porto_layout;
 $output = $after_output = '';
 $atts   = vc_map_get_attributes( $this->getShortcode(), $atts );
 extract( $atts );
@@ -96,7 +96,7 @@ if ( 'yes' === $disable_element ) {
 	}
 }
 
-if ( ! empty( $atts['gap'] ) ) {
+if ( ! $wrap_container && ! empty( $atts['gap'] ) ) {
 	$css_classes[] = 'vc_column-gap-' . $atts['gap'];
 }
 
@@ -211,19 +211,19 @@ if ( $is_section && $show_divider ) {
 					?>
 				color: <?php echo esc_html( $divider_icon_color ); ?> !important;
 					<?php
-endif;
+				endif;
 				if ( $divider_icon_bg_color ) :
 
 					?>
 				background-color: <?php echo esc_html( $divider_icon_bg_color ); ?> !important;
 					<?php
-endif;
+				endif;
 				if ( $divider_icon_border_color ) :
 
 					?>
 				border-color: <?php echo esc_html( $divider_icon_border_color ); ?> !important;
 					<?php
-endif;
+			endif;
 				?>
 			}
 			<?php
@@ -237,7 +237,7 @@ endif;
 					?>
 				border-color: <?php echo esc_html( $divider_icon_wrap_border_color ); ?> !important;
 					<?php
-endif;
+				endif;
 				?>
 			}
 			<?php
@@ -247,9 +247,9 @@ endif;
 		<?php
 	endif;
 
-	$divider_output = '<div class="' . implode( ' ', $divider_classes ) . '"' . $divider_inline_style . '>';
+	$divider_output = '<div class="' . esc_attr( implode( ' ', $divider_classes ) ) . '"' . $divider_inline_style . '>';
 	if ( $show_divider_icon && $divider_icon_class ) {
-		$divider_output .= '<i class="' . $divider_icon_class . '">';
+		$divider_output .= '<i class="' . esc_attr( $divider_icon_class ) . '">';
 		if ( 'icon-image' == $divider_icon_class && $divider_icon_image ) {
 			$divider_icon_image = preg_replace( '/[^\d]/', '', $divider_icon_image );
 			$divider_image_url  = wp_get_attachment_url( $divider_icon_image );
@@ -332,8 +332,9 @@ if ( $has_video_bg || ( 'mp4' === $video_type ) ) {
 	$parallax_image = $video_bg_url;
 	$css_classes[]  = ' vc_video-bg-container';
 	if ( 'mp4' === $video_type && empty( $parallax ) ) {
+		wp_enqueue_script( 'jquery-vide' );
 		$css_classes[]        = ' section-video';
-		$wrapper_attributes[] = 'data-video-path="' . esc_attr( str_replace( '.mp4', '', $video_bg_url ) ) . '"';
+		$wrapper_attributes[] = 'data-video-path="' . esc_url( str_replace( '.mp4', '', $video_bg_url ) ) . '"';
 		$wrapper_attributes[] = 'data-plugin-video-background';
 		$wrapper_attributes[] = 'data-plugin-options="{\'posterType\': \'jpg\', \'position\': \'50% 50%\', \'overlay\': true}"';
 	} elseif ( 'youtube' === $video_type ) {
@@ -366,10 +367,10 @@ if ( ! empty( $parallax_image ) ) {
 			$parallax_image_src = $parallax_image_src[0];
 		}
 	}
-	$wrapper_attributes[] = 'data-vc-parallax-image="' . esc_attr( $parallax_image_src ) . '"';
+	$wrapper_attributes[] = 'data-vc-parallax-image="' . esc_url( $parallax_image_src ) . '"';
 }
 if ( ! $parallax && $has_video_bg ) {
-	$wrapper_attributes[] = 'data-vc-video-bg="' . esc_attr( $video_bg_url ) . '"';
+	$wrapper_attributes[] = 'data-vc-video-bg="' . esc_url( $video_bg_url ) . '"';
 }
 if ( $wrap_container ) {
 	$css_classes[] = 'porto-inner-container';
@@ -389,13 +390,14 @@ if ( $animation_type ) {
 
 $output .= '<div ' . implode( ' ', $wrapper_attributes ) . '>';
 if ( 'mp4' === $video_type && ! empty( $parallax ) ) {
+	wp_enqueue_script( 'jquery-vide' );
 	$parallax_wrapper_attributes[] = 'data-vc-parallax="' . esc_attr( $parallax_speed ) . '"'; // parallax speed
 	$parallax_css_classes          = 'vc_general vc_parallax vc_parallax-' . $parallax;
-	$parallax_wrapper_attributes[] = 'data-video-path="' . esc_attr( str_replace( '.mp4', '', $video_bg_url ) ) . '"';
+	$parallax_wrapper_attributes[] = 'data-video-path="' . esc_url( str_replace( '.mp4', '', $video_bg_url ) ) . '"';
 	$parallax_wrapper_attributes[] = 'data-plugin-video-background';
 	$parallax_wrapper_attributes[] = 'data-plugin-options="{\'posterType\': \'jpg\', \'position\': \'50% 50%\', \'overlay\': true}"';
 	$end_percent                   = ( (float) $parallax_speed - 1 ) * 100;
-	$parallax_wrapper_attributes[] = 'data-bottom-top="top:-' . $end_percent . '%;"';
+	$parallax_wrapper_attributes[] = 'data-bottom-top="top:-' . esc_attr( $end_percent ) . '%;"';
 	$parallax_wrapper_attributes[] = 'data-top-bottom="top: 0;"';
 	$parallax_wrapper_attributes[] = 'style="height: ' . ( esc_attr( $parallax_speed ) * 100 ) . '%;"';
 	$output                       .= '<div class="section-video skrollable skrollable-between ' . esc_attr( $parallax_css_classes ) . '" ' . implode( ' ', $parallax_wrapper_attributes ) . '></div>';
@@ -407,7 +409,7 @@ if ( $wrap_container ) {
 		'top'    => 'align-items-start',
 		'bottom' => 'align-items-end',
 	);
-	$output             .= '<div class="porto-wrap-container container"><div class="row' . ( $content_placement ? ' ' . $align_items_cls_arr[ $content_placement ] : '' ) . '">';
+	$output             .= '<div class="porto-wrap-container container"><div class="row' . ( $content_placement ? ' ' . $align_items_cls_arr[ $content_placement ] : '' ) . ( ! empty( $atts['gap'] ) ? ' vc_column-gap-' . esc_attr( $atts['gap'] ) : '' ) . '">';
 }
 
 if ( $is_sticky ) {
@@ -443,4 +445,5 @@ if ( $wrap_container ) {
 $output .= '</div>';
 $output .= $after_output;
 
+// @codingStandardsIgnoreLine
 echo porto_filter_output( $output );

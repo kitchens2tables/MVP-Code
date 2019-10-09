@@ -4,91 +4,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-require_once( porto_functions . '/layout/breadcrumbs.php' );
-require_once( porto_functions . '/layout/page-title.php' );
+require_once( PORTO_FUNCTIONS . '/layout/breadcrumbs.php' );
+require_once( PORTO_FUNCTIONS . '/layout/page-title.php' );
 
 add_action( 'wp_head', 'porto_nofollow_block', 0 );
-
-
-function loginlogout()
-{
-    
-   
-    
-    global $porto_settings;
-     $html = '';
-                                    
-     if ( isset( $porto_settings['menu-login-pos'] ) && 'main_menu' == $porto_settings['menu-login-pos'] ) {
-    
-		if ( is_user_logged_in() ) {
-		    
-			$logout_link = '';
-			if ( class_exists( 'WooCommerce' ) ) {
-				$logout_link = wc_get_endpoint_url( 'customer-logout', '', wc_get_page_permalink( 'myaccount' ) );
-			} else {
-				$logout_link = wp_logout_url( get_home_url() );
-			}
-                        
-                        // Custom Added
-                        $logout_link = wp_logout_url( get_home_url() );
-
-			if ( ( 1 == $header_type || 4 == $header_type || 13 == $header_type || 14 == $header_type ) ) {
-				$html .= '<div class="menu-custom-block"><a href="' . $logout_link . '">';
-				$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="avatar">' . get_avatar( get_current_user_id(), $size = '24' ) . '</i>' : '';
-				$html .= esc_html__( 'Log out', 'porto' ) . '</a></div>';
-			} else {
-				
-				
-				$html .= '<a href="' . $logout_link . '"><i class="fa fa-power-off"></i>';
-				$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="avatar">' . get_avatar( get_current_user_id(), $size = '24' ) . '</i>' : '';
-				
-				$html .= esc_html__( 'Log out', 'porto' ) . '</a>';
-			}
-		} else {
-			$login_link    = '';
-			$register_link = '';
-			if ( class_exists( 'WooCommerce' ) ) {
-				$login_link = wc_get_page_permalink( 'myaccount' );
-				if ( get_option( 'woocommerce_enable_myaccount_registration' ) === 'yes' ) {
-					$register_link = wc_get_page_permalink( 'myaccount' );
-				}
-			} else {
-				$login_link    = wp_login_url( get_home_url() );
-				$active_signup = get_site_option( 'registration', 'none' );
-				$active_signup = apply_filters( 'wpmu_active_signup', $active_signup );
-				if ( 'none' != $active_signup ) {
-					$register_link = wp_registration_url( get_home_url() );
-				}
-			}
-			if ( ( 1 == $header_type || 4 == $header_type || 13 == $header_type || 14 == $header_type ) ) {
-				if ( $register_link && isset( $porto_settings['menu-enable-register'] ) && $porto_settings['menu-enable-register'] ) {
-					$html .= '<div class="menu-custom-block"><a class="porto-link-register" href="' . esc_url( $register_link ) . '">';
-					$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fa fa-user-plus"></i>' : '';
-					$html .= esc_html__( 'Register', 'porto' ) . '</a></div>';
-				}
-				$html .= '<div class="menu-custom-block"><a class="porto-link-login" href="' . esc_url( $login_link ) . '">';
-				$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fa fa-user"></i>' : '';
-				$html .= esc_html__( 'Log In', 'porto' ) . '</a></div>';
-			} else {
-				$html .= '<a class="porto-link-login" href="' . esc_url( $login_link ) . '">';
-				$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fa fa-user"></i>' : '';
-				$html .= esc_html__( 'Log In', 'porto' ) . '</a>';
-				if ( $register_link && isset( $porto_settings['menu-enable-register'] ) && $porto_settings['menu-enable-register'] ) {
-					$html .= '<a class="porto-link-register" href="' . esc_url( $register_link ) . '">';
-					$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fa fa-user-plus"></i>' : '';
-					$html .= esc_html__( 'Register', 'porto' ) . '</a>';
-				}
-			}
-			
-			
-		}
-	}
-        
-return $html;
-    
-}
-
-
 
 function porto_logo( $sticky_logo = false ) {
 	global $porto_settings;
@@ -114,55 +33,51 @@ function porto_logo( $sticky_logo = false ) {
 		<div class="logo">
 	<?php endif; ?>
 	<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?> - <?php bloginfo( 'description' ); ?>" <?php echo ! $sticky_logo ? ' rel="home"' : ''; ?>>
-		<?php if ( isset( $porto_settings['logo-type'] ) && $porto_settings['logo-type'] ) : ?>
-			<span class="logo-text"><?php echo do_shortcode( $porto_settings['logo-text'] ? $porto_settings['logo-text'] : get_bloginfo( 'name', 'display' ) ); ?></span>
-		<?php else : ?>
-			<?php
-			if ( $porto_settings['logo'] && $porto_settings['logo']['url'] ) {
-				$logo_width  = '';
-				$logo_height = '';
-				$logo        = $porto_settings['logo']['url'];
-				if ( $sticky_logo && $porto_settings['sticky-logo'] && $porto_settings['sticky-logo']['url'] ) {
-					$logo = $porto_settings['sticky-logo']['url'];
-				}
-				if ( isset( $porto_settings['logo-retina-width'] ) && isset( $porto_settings['logo-retina-height'] ) && $porto_settings['logo-retina-width'] && $porto_settings['logo-retina-height'] ) {
-					$logo_width  = (int) $porto_settings['logo-retina-width'];
-					$logo_height = (int) $porto_settings['logo-retina-height'];
-				}
-
-				// sticky logo
-				if ( ! $sticky_logo && isset( $porto_settings['sticky-logo-retina'] ) && $porto_settings['sticky-logo-retina'] && $porto_settings['sticky-logo-retina']['url'] ) {
-					$sticky_retina_logo_src = $porto_settings['sticky-logo-retina']['url'];
-				}
-				if ( ! $sticky_logo && $porto_settings['sticky-logo'] && $porto_settings['sticky-logo']['url'] ) {
-					$sticky_logo_src = $porto_settings['sticky-logo']['url'];
-					echo '<img class="img-responsive sticky-logo' . ( ! isset( $sticky_retina_logo_src ) || ! $sticky_retina_logo_src || $sticky_retina_logo_src == $sticky_logo_src ? ' sticky-retina-logo' : '' ) . '"' . ( $logo_width ? ' width="' . $logo_width . '"' : '' ) . ( $logo_height ? ' height="' . $logo_height . '"' : '' ) . ' src="' . esc_url( str_replace( array( 'http:', 'https:' ), '', $sticky_logo_src ) ) . '" alt="' . esc_attr( get_bloginfo( 'name', 'display' ) ) . '" />';
-				}
-				if ( isset( $sticky_retina_logo_src ) && $sticky_retina_logo_src && $sticky_retina_logo_src != $sticky_logo_src ) {
-					echo '<img class="img-responsive sticky-retina-logo"' . ( $logo_width ? ' width="' . $logo_width . '"' : '' ) . ( $logo_height ? ' height="' . $logo_height . '"' : '' ) . ' src="' . esc_url( str_replace( array( 'http:', 'https:' ), '', $sticky_retina_logo_src ) ) . '" alt="' . esc_attr( get_bloginfo( 'name', 'display' ) ) . '" style="max-height:' . $logo_height . 'px;" />';
-				}
-
-				// default logo
-				$retina_logo = '';
-				if ( isset( $porto_settings['logo-retina'] ) && $porto_settings['logo-retina'] && $porto_settings['logo-retina']['url'] ) {
-					$retina_logo = $porto_settings['logo-retina']['url'];
-				}
-				if ( $sticky_logo && isset( $porto_settings['sticky-logo-retina'] ) && $porto_settings['sticky-logo-retina'] && $porto_settings['sticky-logo-retina']['url'] ) {
-					$retina_logo = $porto_settings['sticky-logo-retina']['url'];
-				}
-
-				echo '<img class="img-responsive standard-logo' . ( ! $retina_logo || $retina_logo == $logo ? ' retina-logo' : '' ) . '"' . ( $logo_width ? ' width="' . $logo_width . '"' : '' ) . ( $logo_height ? ' height="' . $logo_height . '"' : '' ) . ' src="' . esc_url( str_replace( array( 'http:', 'https:' ), '', $logo ) ) . '" alt="' . esc_attr( get_bloginfo( 'name', 'display' ) ) . '" />';
-
-				if ( $retina_logo && $retina_logo != $logo ) {
-					echo '<img class="img-responsive retina-logo"' . ( $logo_width ? ' width="' . $logo_width . '"' : '' ) . ( $logo_height ? ' height="' . $logo_height . '"' : '' ) . ' src="' . esc_url( str_replace( array( 'http:', 'https:' ), '', $retina_logo ) ) . '" alt="' . esc_attr( get_bloginfo( 'name', 'display' ) ) . '" style="max-height:' . $logo_height . 'px;" />';
-				}
-			} else {
-				?>
-			<span class="logo-text"><?php echo get_bloginfo( 'name', 'display' ); ?></span>
-				<?php
+		<?php
+		if ( $porto_settings['logo'] && $porto_settings['logo']['url'] ) {
+			$logo_width  = '';
+			$logo_height = '';
+			$logo        = $porto_settings['logo']['url'];
+			if ( $sticky_logo && $porto_settings['sticky-logo'] && $porto_settings['sticky-logo']['url'] ) {
+				$logo = $porto_settings['sticky-logo']['url'];
 			}
+			if ( isset( $porto_settings['logo-retina-width'] ) && isset( $porto_settings['logo-retina-height'] ) && $porto_settings['logo-retina-width'] && $porto_settings['logo-retina-height'] ) {
+				$logo_width  = (int) $porto_settings['logo-retina-width'];
+				$logo_height = (int) $porto_settings['logo-retina-height'];
+			}
+
+			// sticky logo
+			if ( ! $sticky_logo && isset( $porto_settings['sticky-logo-retina'] ) && $porto_settings['sticky-logo-retina'] && $porto_settings['sticky-logo-retina']['url'] ) {
+				$sticky_retina_logo_src = $porto_settings['sticky-logo-retina']['url'];
+			}
+			if ( ! $sticky_logo && $porto_settings['sticky-logo'] && $porto_settings['sticky-logo']['url'] ) {
+				$sticky_logo_src = $porto_settings['sticky-logo']['url'];
+				echo '<img class="img-responsive sticky-logo' . ( ! isset( $sticky_retina_logo_src ) || ! $sticky_retina_logo_src || $sticky_retina_logo_src == $sticky_logo_src ? ' sticky-retina-logo' : '' ) . '"' . ( $logo_width ? ' width="' . $logo_width . '"' : '' ) . ( $logo_height ? ' height="' . $logo_height . '"' : '' ) . ' src="' . esc_url( str_replace( array( 'http:', 'https:' ), '', $sticky_logo_src ) ) . '" alt="' . esc_attr( get_bloginfo( 'name', 'display' ) ) . '" />';
+			}
+			if ( isset( $sticky_retina_logo_src ) && $sticky_retina_logo_src && $sticky_retina_logo_src != $sticky_logo_src ) {
+				echo '<img class="img-responsive sticky-retina-logo"' . ( $logo_width ? ' width="' . $logo_width . '"' : '' ) . ( $logo_height ? ' height="' . $logo_height . '"' : '' ) . ' src="' . esc_url( str_replace( array( 'http:', 'https:' ), '', $sticky_retina_logo_src ) ) . '" alt="' . esc_attr( get_bloginfo( 'name', 'display' ) ) . '" style="max-height:' . $logo_height . 'px;" />';
+			}
+
+			// default logo
+			$retina_logo = '';
+			if ( isset( $porto_settings['logo-retina'] ) && $porto_settings['logo-retina'] && $porto_settings['logo-retina']['url'] ) {
+				$retina_logo = $porto_settings['logo-retina']['url'];
+			}
+			if ( $sticky_logo && isset( $porto_settings['sticky-logo-retina'] ) && $porto_settings['sticky-logo-retina'] && $porto_settings['sticky-logo-retina']['url'] ) {
+				$retina_logo = $porto_settings['sticky-logo-retina']['url'];
+			}
+
+			echo '<img class="img-responsive standard-logo' . ( ! $retina_logo || $retina_logo == $logo ? ' retina-logo' : '' ) . '"' . ( $logo_width ? ' width="' . $logo_width . '"' : '' ) . ( $logo_height ? ' height="' . $logo_height . '"' : '' ) . ' src="' . esc_url( str_replace( array( 'http:', 'https:' ), '', $logo ) ) . '" alt="' . esc_attr( get_bloginfo( 'name', 'display' ) ) . '" />';
+
+			if ( $retina_logo && $retina_logo != $logo ) {
+				echo '<img class="img-responsive retina-logo"' . ( $logo_width ? ' width="' . $logo_width . '"' : '' ) . ( $logo_height ? ' height="' . $logo_height . '"' : '' ) . ' src="' . esc_url( str_replace( array( 'http:', 'https:' ), '', $retina_logo ) ) . '" alt="' . esc_attr( get_bloginfo( 'name', 'display' ) ) . '" style="max-height:' . $logo_height . 'px;" />';
+			}
+		} else {
 			?>
-		<?php endif; ?>
+			<span class="logo-text"><?php echo do_shortcode( isset( $porto_settings['logo-text'] ) && $porto_settings['logo-text'] ? $porto_settings['logo-text'] : get_bloginfo( 'name', 'display' ) ); ?></span>
+			<?php
+		}
+		?>
 	</a>
 	<?php if ( ( ( is_front_page() && is_home() ) || is_front_page() ) && ! $sticky_logo ) : ?>
 		</h1>
@@ -202,7 +117,7 @@ function porto_banner( $banner_class = '' ) {
 								<span class="thumb-info-icons position-style-3 text-color-light">
 									<span class="thumb-info-icon pictures background-color-primary">
 										<?php echo porto_filter_output( $portfolio_images_count ); ?>
-										<i class="fa fa-picture-o"></i>
+										<i class="far fa-image"></i>
 									</span>
 								</span>
 								<?php endif; ?>
@@ -308,7 +223,7 @@ function porto_currency_switcher() {
 						<div class="popup">
 							<div class="inner">
 								<ul class="sub-menu wcml-switcher">
-									<?php echo wp_kses_post( $other_c ); ?>
+									<?php echo porto_filter_output( $other_c ); ?>
 								</ul>
 							</div>
 						</div>
@@ -325,11 +240,11 @@ function porto_currency_switcher() {
 			$other_c  = '';
 
 			foreach ( $currencies as $currency ) {
-				$label = ( $currency['flag'] ? '<span class="flag"><img src="' . esc_url( $currency['flag'] ) . '" height="12" alt="' . esc_attr( $currency['name'] ) . '" width="18" /></span>' : '' ) . $currency['name'] . ' ' . $currency['symbol'];
+				$label = ( $currency['flag'] ? '<span class="flag"><img src="' . esc_url( $currency['flag'] ) . '" height="12" alt="' . esc_attr( $currency['name'] ) . '" width="18" /></span>' : '' ) . esc_html( $currency['name'] . ' ' . $currency['symbol'] );
 				if ( $currency['name'] == $current_currency ) {
 					$active_c .= $label;
 				} else {
-					$other_c .= '<li rel="' . $currency['name'] . '" class="menu-item"><a class="nolink" href="#">' . wp_kses_post( $label ) . '</a></li>';
+					$other_c .= '<li rel="' . esc_attr( $currency['name'] ) . '" class="menu-item"><a class="nolink" href="#">' . wp_kses_post( $label ) . '</a></li>';
 				}
 			}
 			?>
@@ -340,7 +255,7 @@ function porto_currency_switcher() {
 						<div class="popup">
 							<div class="inner">
 								<ul class="sub-menu woocs-switcher">
-									<?php echo wp_kses_post( $other_c ); ?>
+									<?php echo porto_filter_output( $other_c ); ?>
 								</ul>
 							</div>
 						</div>
@@ -417,7 +332,7 @@ function porto_mobile_currency_switcher() {
 				if ( $selected ) {
 					$active_c .= $currency_format;
 				} else {
-					$other_c .= '<li rel="' . $currency . '" class="menu-item"><a class="nolink" href="#">' . wp_kses_post( $currency_format ) . '</a></li>';
+					$other_c .= '<li rel="' . esc_attr( $currency ) . '" class="menu-item"><a class="nolink" href="#">' . wp_kses_post( $currency_format ) . '</a></li>';
 				}
 			}
 		}
@@ -428,7 +343,7 @@ function porto_mobile_currency_switcher() {
 				<?php if ( $other_c ) : ?>
 					<span class="arrow"></span>
 					<ul class="sub-menu wcml-switcher">
-						<?php echo wp_kses_post( $other_c ); ?>
+						<?php echo porto_filter_output( $other_c ); ?>
 					</ul>
 				<?php endif; ?>
 			</li>
@@ -443,11 +358,11 @@ function porto_mobile_currency_switcher() {
 		$other_c  = '';
 
 		foreach ( $currencies as $currency ) {
-			$label = ( $currency['flag'] ? '<span class="flag"><img src="' . esc_url( $currency['flag'] ) . '" height="12" alt="' . esc_attr( $currency['name'] ) . '" width="18" /></span>' : '' ) . $currency['name'] . ' ' . $currency['symbol'];
+			$label = ( $currency['flag'] ? '<span class="flag"><img src="' . esc_url( $currency['flag'] ) . '" height="12" alt="' . esc_attr( $currency['name'] ) . '" width="18" /></span>' : '' ) . esc_html( $currency['name'] . ' ' . $currency['symbol'] );
 			if ( $currency['name'] == $current_currency ) {
 				$active_c .= $label;
 			} else {
-				$other_c .= '<li rel="' . $currency['name'] . '" class="menu-item"><a class="nolink" href="#">' . $label . '</a></li>';
+				$other_c .= '<li rel="' . esc_attr( $currency['name'] ) . '" class="menu-item"><a class="nolink" href="#">' . wp_kses_post( $label ) . '</a></li>';
 			}
 		}
 		?>
@@ -458,15 +373,28 @@ function porto_mobile_currency_switcher() {
 				<?php if ( $other_c ) : ?>
 					<span class="arrow"></span>
 					<ul class="sub-menu woocs-switcher">
-						<?php echo wp_kses_post( $other_c ); ?>
+						<?php echo porto_filter_output( $other_c ); ?>
 					</ul>
 				<?php endif; ?>
 			</li>
 		</ul>
 		<?php
 	}
+	$result = str_replace( '&nbsp;', '', ob_get_clean() );
+	if ( ! $result && $porto_settings['wcml-switcher-html'] ) {
+		$result = '<ul id="menu-currency-switcher" class="currency-switcher porto-view-switcher accordion-menu show-arrow">
+					<li class="menu-item has-sub narrow">
+						<a class="nolink" href="#">USD</a>
+						<span class="arrow"></span>
+						<ul class="sub-menu wcml-switcher">
+							<li class="menu-item"><a href="#">USD</a></li>
+							<li class="menu-item"><a href="#">EUR</a></li>
+						</ul>
+					</li>
+				</ul>';
+	}
 
-	return apply_filters( 'porto_mobile_currency_switcher', str_replace( '&nbsp;', '', ob_get_clean() ) );
+	return apply_filters( 'porto_mobile_currency_switcher', $result );
 }
 
 function porto_view_switcher() {
@@ -821,7 +749,7 @@ function porto_top_navigation() {
 					if ( $selected ) {
 						$active_c .= $currency_format;
 					} else {
-						$other_c .= '<li rel="' . $currency . '" class="menu-item"><a class="nolink" href="#">' . wp_kses_post( $currency_format ) . '</a></li>';
+						$other_c .= '<li rel="' . esc_attr( $currency ) . '" class="menu-item"><a class="nolink" href="#">' . wp_kses_post( $currency_format ) . '</a></li>';
 					}
 				}
 			}
@@ -842,11 +770,11 @@ function porto_top_navigation() {
 			$other_c  = '';
 
 			foreach ( $currencies as $currency ) {
-				$label = ( $currency['flag'] ? '<span class="flag"><img src="' . esc_url( $currency['flag'] ) . '" height="12" alt="' . esc_attr( $currency['name'] ) . '" width="18" /></span>' : '' ) . $currency['name'] . ' ' . $currency['symbol'];
+				$label = ( $currency['flag'] ? '<span class="flag"><img src="' . esc_url( $currency['flag'] ) . '" height="12" alt="' . esc_attr( $currency['name'] ) . '" width="18" /></span>' : '' ) . esc_html( $currency['name'] ) . ' ' . esc_html( $currency['symbol'] );
 				if ( $currency['name'] == $current_currency ) {
 					$active_c .= $label;
 				} else {
-					$other_c .= '<li rel="' . $currency['name'] . '" class="menu-item"><a class="nolink" href="#">' . $label . '</a></li>';
+					$other_c .= '<li rel="' . esc_attr( $currency['name'] ) . '" class="menu-item"><a class="nolink" href="#">' . $label . '</a></li>';
 				}
 			}
 			$html .= '<li class="menu-item' . ( $other_c ? ' has-sub' : '' ) . ' narrow">';
@@ -889,11 +817,11 @@ function porto_top_navigation() {
 				}
 			}
 			$html .= '<li class="menu-item"><a class="porto-link-login" href="' . esc_url( $login_link ) . '">';
-			$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fa fa-user"></i>' : '';
+			$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fas fa-user"></i>' : '';
 			$html .= esc_html__( 'Log In', 'porto' ) . '</a></li>';
 			if ( $register_link && isset( $porto_settings['menu-enable-register'] ) && $porto_settings['menu-enable-register'] ) {
 				$html .= '<li class="menu-item"><a class="porto-link-register" href="' . esc_url( $register_link ) . '">';
-				$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fa fa-user-plus"></i>' : '';
+				$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fas fa-user-plus"></i>' : '';
 				$html .= esc_html__( 'Register', 'porto' ) . '</a></li>';
 			}
 		}
@@ -960,11 +888,11 @@ function porto_mobile_top_navigation() {
 				}
 			}
 			$html .= '<li class="menu-item"><a class="porto-link-login" href="' . esc_url( $login_link ) . '">';
-			$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fa fa-user"></i>' : '';
+			$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fas fa-user"></i>' : '';
 			$html .= esc_html__( 'Log In', 'porto' ) . '</a></li>';
 			if ( $register_link && isset( $porto_settings['menu-enable-register'] ) && $porto_settings['menu-enable-register'] ) {
 				$html .= '<li class="menu-item"><a class="porto-link-register" href="' . esc_url( $register_link ) . '">';
-				$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fa fa-user-plus"></i>' : '';
+				$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fas fa-user-plus"></i>' : '';
 				$html .= esc_html__( 'Register', 'porto' ) . '</a></li>';
 			}
 		}
@@ -1078,7 +1006,7 @@ function porto_main_menu() {
 						$other_langs .= '</a></li>';
 					} else {
 						$active_lang .= '<span class="flag"><img src="' . esc_url( $flag_location . $q_config['flag'][ $language ] ) . '" alt="' . esc_attr( $q_config['language_name'][ $language ] ) . '" /></span>';
-						$active_lang .= $q_config['language_name'][ $language ];
+						$active_lang .= esc_html( $q_config['language_name'][ $language ] );
 					}
 				}
 				$html .= '<li class="menu-item' . ( $other_langs ? ' has-sub' : '' ) . ' narrow">';
@@ -1121,7 +1049,7 @@ function porto_main_menu() {
 					if ( $selected ) {
 						$active_c .= $currency_format;
 					} else {
-						$other_c .= '<li rel="' . $currency . '" class="menu-item"><a class="nolink" href="#">' . wp_kses_post( $currency_format ) . '</a></li>';
+						$other_c .= '<li rel="' . esc_attr( $currency ) . '" class="menu-item"><a class="nolink" href="#">' . wp_kses_post( $currency_format ) . '</a></li>';
 					}
 				}
 			}
@@ -1142,11 +1070,11 @@ function porto_main_menu() {
 			$other_c  = '';
 
 			foreach ( $currencies as $currency ) {
-				$label = ( $currency['flag'] ? '<span class="flag"><img src="' . esc_url( $currency['flag'] ) . '" height="12" alt="' . esc_attr( $currency['name'] ) . '" width="18" /></span>' : '' ) . $currency['name'] . ' ' . $currency['symbol'];
+				$label = ( $currency['flag'] ? '<span class="flag"><img src="' . esc_url( $currency['flag'] ) . '" height="12" alt="' . esc_attr( $currency['name'] ) . '" width="18" /></span>' : '' ) . esc_html( $currency['name'] . ' ' . $currency['symbol'] );
 				if ( $currency['name'] == $current_currency ) {
 					$active_c .= $label;
 				} else {
-					$other_c .= '<li rel="' . $currency['name'] . '" class="menu-item"><a class="nolink" href="#">' . $label . '</a></li>';
+					$other_c .= '<li rel="' . esc_attr( $currency['name'] ) . '" class="menu-item"><a class="nolink" href="#">' . $label . '</a></li>';
 				}
 			}
 			$html .= '<li class="menu-item' . ( $other_c ? ' has-sub' : '' ) . ' narrow">';
@@ -1160,8 +1088,6 @@ function porto_main_menu() {
 		}
 	}
 
-        
-        /*
 	// show login/logout link
 	if ( isset( $porto_settings['menu-login-pos'] ) && 'main_menu' == $porto_settings['menu-login-pos'] ) {
 		if ( is_user_logged_in() ) {
@@ -1173,11 +1099,11 @@ function porto_main_menu() {
 			}
 
 			if ( ( 1 == $header_type || 4 == $header_type || 13 == $header_type || 14 == $header_type ) ) {
-				$html .= '<li class="' . ( is_rtl() ? 'pull-left' : 'pull-right' ) . '"><div class="menu-custom-block"><a href="' . $logout_link . '">';
+				$html .= '<li class="' . ( is_rtl() ? 'pull-left' : 'pull-right' ) . '"><div class="menu-custom-block"><a href="' . esc_url( $logout_link ) . '">';
 				$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="avatar">' . get_avatar( get_current_user_id(), $size = '24' ) . '</i>' : '';
 				$html .= esc_html__( 'Log out', 'porto' ) . '</a></div></li>';
 			} else {
-				$html .= '<li class="menu-item"><a href="' . $logout_link . '">';
+				$html .= '<li class="menu-item"><a href="' . esc_url( $logout_link ) . '">';
 				$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="avatar">' . get_avatar( get_current_user_id(), $size = '24' ) . '</i>' : '';
 				$html .= esc_html__( 'Log out', 'porto' ) . '</a></li>';
 			}
@@ -1200,26 +1126,25 @@ function porto_main_menu() {
 			if ( ( 1 == $header_type || 4 == $header_type || 13 == $header_type || 14 == $header_type ) ) {
 				if ( $register_link && isset( $porto_settings['menu-enable-register'] ) && $porto_settings['menu-enable-register'] ) {
 					$html .= '<li class="' . ( is_rtl() ? 'pull-left' : 'pull-right' ) . '"><div class="menu-custom-block"><a class="porto-link-register" href="' . esc_url( $register_link ) . '">';
-					$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fa fa-user-plus"></i>' : '';
+					$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fas fa-user-plus"></i>' : '';
 					$html .= esc_html__( 'Register', 'porto' ) . '</a></div></li>';
 				}
 				$html .= '<li class="' . ( is_rtl() ? 'pull-left' : 'pull-right' ) . '"><div class="menu-custom-block"><a class="porto-link-login" href="' . esc_url( $login_link ) . '">';
-				$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fa fa-user"></i>' : '';
+				$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fas fa-user"></i>' : '';
 				$html .= esc_html__( 'Log In', 'porto' ) . '</a></div></li>';
 			} else {
 				$html .= '<li class="menu-item"><a class="porto-link-login" href="' . esc_url( $login_link ) . '">';
-				$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fa fa-user"></i>' : '';
+				$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fas fa-user"></i>' : '';
 				$html .= esc_html__( 'Log In', 'porto' ) . '</a></li>';
 				if ( $register_link && isset( $porto_settings['menu-enable-register'] ) && $porto_settings['menu-enable-register'] ) {
 					$html .= '<li class="menu-item"><a class="porto-link-register" href="' . esc_url( $register_link ) . '">';
-					$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fa fa-user-plus"></i>' : '';
+					$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fas fa-user-plus"></i>' : '';
 					$html .= esc_html__( 'Register', 'porto' ) . '</a></li>';
 				}
 			}
 		}
 	}
-        */
-        
+
 	if ( 1 == $header_type || 4 == $header_type || 13 == $header_type || 14 == $header_type ) {
 		if ( $porto_settings['menu-block'] ) {
 			$html .= '<li class="menu-custom-content ' . ( is_rtl() ? 'pull-left' : 'pull-right' ) . '"><div class="menu-custom-block">' . wp_kses_post( $porto_settings['menu-block'] ) . '</div></li>';
@@ -1237,12 +1162,14 @@ function porto_main_menu() {
 			'link_before' => '',
 			'link_after'  => '',
 			'fallback_cb' => false,
-			'walker'      => new porto_top_navwalker,
 		);
 		if ( $main_menu ) {
 			$args['menu'] = $main_menu;
 		} else {
 			$args['theme_location'] = 'main_menu';
+		}
+		if ( 'overlay' != $porto_settings['menu-type'] ) {
+			$args['walker'] = new porto_top_navwalker;
 		}
 		wp_nav_menu( $args );
 	endif;
@@ -1255,6 +1182,10 @@ function porto_main_menu() {
 		$output = '<ul class="' . 'main-menu mega-menu' . ( $porto_settings['menu-arrow'] ? ' show-arrow' : '' ) . '" id="menu-main-menu">' . $html . '</ul>';
 	}
 
+	// main menu popup style
+	if ( 'overlay' == $porto_settings['menu-type'] ) {
+		$output = '<div class="porto-popup-menu"><button class="hamburguer-btn"><span class="hamburguer"><span></span><span></span><span></span></span><span class="close"><span></span><span></span></span></button>' . $output . '</div>';
+	}
 	return apply_filters( 'porto_main_menu', $output );
 }
 
@@ -1292,7 +1223,7 @@ function porto_main_toggle_menu() {
 
 	$header_type = porto_get_header_type();
 
-	if ( 9 != $header_type ) {
+	if ( 9 != $header_type && ! empty( $header_type ) ) {
 		return porto_main_menu();
 	}
 
@@ -1430,7 +1361,7 @@ function porto_header_side_menu() {
 					if ( $selected ) {
 						$active_c .= $currency_format;
 					} else {
-						$other_c .= '<li rel="' . $currency . '" class="menu-item"><a class="nolink" href="#">' . wp_kses_post( $currency_format ) . '</a></li>';
+						$other_c .= '<li rel="' . esc_attr( $currency ) . '" class="menu-item"><a class="nolink" href="#">' . wp_kses_post( $currency_format ) . '</a></li>';
 					}
 				}
 			}
@@ -1451,11 +1382,11 @@ function porto_header_side_menu() {
 			$other_c  = '';
 
 			foreach ( $currencies as $currency ) {
-				$label = ( $currency['flag'] ? '<span class="flag"><img src="' . esc_url( $currency['flag'] ) . '" height="12" alt="' . esc_attr( $currency['name'] ) . '" width="18" /></span>' : '' ) . $currency['name'] . ' ' . $currency['symbol'];
+				$label = ( $currency['flag'] ? '<span class="flag"><img src="' . esc_url( $currency['flag'] ) . '" height="12" alt="' . esc_attr( $currency['name'] ) . '" width="18" /></span>' : '' ) . esc_html( $currency['name'] . ' ' . $currency['symbol'] );
 				if ( $currency['name'] == $current_currency ) {
 					$active_c .= $label;
 				} else {
-					$other_c .= '<li rel="' . $currency['name'] . '" class="menu-item"><a class="nolink" href="#">' . $label . '</a></li>';
+					$other_c .= '<li rel="' . esc_attr( $currency['name'] ) . '" class="menu-item"><a class="nolink" href="#">' . $label . '</a></li>';
 				}
 			}
 			$html .= '<li class="menu-item' . ( $other_c ? ' has-sub' : '' ) . ' narrow">';
@@ -1498,11 +1429,11 @@ function porto_header_side_menu() {
 				}
 			}
 			$html .= '<li class="menu-item"><a class="porto-link-login" href="' . esc_url( $login_link ) . '">';
-			$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fa fa-user"></i>' : '';
+			$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fas fa-user"></i>' : '';
 			$html .= esc_html__( 'Log In', 'porto' ) . '</a></li>';
 			if ( $register_link && isset( $porto_settings['menu-enable-register'] ) && $porto_settings['menu-enable-register'] ) {
 				$html .= '<li class="menu-item"><a class="porto-link-register" href="' . esc_url( $register_link ) . '">';
-				$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fa fa-user-plus"></i>' : '';
+				$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fas fa-user-plus"></i>' : '';
 				$html .= esc_html__( 'Register', 'porto' ) . '</a></li>';
 			}
 		}
@@ -1704,7 +1635,7 @@ function porto_sidebar_menu() {
 						if ( $selected ) {
 							$active_c .= $currency_format;
 						} else {
-							$other_c .= '<li rel="' . $currency . '" class="menu-item"><a class="nolink" href="#">' . wp_kses_post( $currency_format ) . '</a></li>';
+							$other_c .= '<li rel="' . esc_attr( $currency ) . '" class="menu-item"><a class="nolink" href="#">' . wp_kses_post( $currency_format ) . '</a></li>';
 						}
 					}
 				}
@@ -1725,11 +1656,11 @@ function porto_sidebar_menu() {
 				$other_c  = '';
 
 				foreach ( $currencies as $currency ) {
-					$label = ( $currency['flag'] ? '<span class="flag"><img src="' . esc_url( $currency['flag'] ) . '" height="12" alt="' . esc_attr( $currency['name'] ) . '" width="18" /></span>' : '' ) . $currency['name'] . ' ' . $currency['symbol'];
+					$label = ( $currency['flag'] ? '<span class="flag"><img src="' . esc_url( $currency['flag'] ) . '" height="12" alt="' . esc_attr( $currency['name'] ) . '" width="18" /></span>' : '' ) . esc_html( $currency['name'] . ' ' . $currency['symbol'] );
 					if ( $currency['name'] == $current_currency ) {
 						$active_c .= $label;
 					} else {
-						$other_c .= '<li rel="' . $currency['name'] . '" class="menu-item"><a class="nolink" href="#">' . $label . '</a></li>';
+						$other_c .= '<li rel="' . esc_attr( $currency['name'] ) . '" class="menu-item"><a class="nolink" href="#">' . $label . '</a></li>';
 					}
 				}
 				$html .= '<li class="menu-item' . ( $other_c ? ' has-sub' : '' ) . ' narrow">';
@@ -1772,11 +1703,11 @@ function porto_sidebar_menu() {
 					}
 				}
 				$html .= '<li class="menu-item"><a class="porto-link-login" href="' . esc_url( $login_link ) . '">';
-				$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fa fa-user"></i>' : '';
+				$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fas fa-user"></i>' : '';
 				$html .= esc_html__( 'Log In', 'porto' ) . '</a></li>';
 				if ( $register_link && isset( $porto_settings['menu-enable-register'] ) && $porto_settings['menu-enable-register'] ) {
 					$html .= '<li class="menu-item"><a class="porto-link-register" href="' . esc_url( $register_link ) . '">';
-					$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fa fa-user-plus"></i>' : '';
+					$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fas fa-user-plus"></i>' : '';
 					$html .= esc_html__( 'Register', 'porto' ) . '</a></li>';
 				}
 			}
@@ -1874,11 +1805,11 @@ function porto_mobile_menu( $secondary_menu = false ) {
 				}
 			}
 			$html .= '<li class="menu-item"><a class="porto-link-login" href="' . esc_url( $login_link ) . '">';
-			$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fa fa-user"></i>' : '';
+			$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fas fa-user"></i>' : '';
 			$html .= esc_html__( 'Log In', 'porto' ) . '</a></li>';
 			if ( $register_link && isset( $porto_settings['menu-enable-register'] ) && $porto_settings['menu-enable-register'] ) {
 				$html .= '<li class="menu-item"><a class="porto-link-register" href="' . esc_url( $register_link ) . '">';
-				$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fa fa-user-plus"></i>' : '';
+				$html .= ( isset( $porto_settings['menu-show-login-icon'] ) && $porto_settings['menu-show-login-icon'] ) ? '<i class="fas fa-user-plus"></i>' : '';
 				$html .= esc_html__( 'Register', 'porto' ) . '</a></li>';
 			}
 		}
@@ -1971,15 +1902,12 @@ function porto_search_form() {
 	if ( ! $porto_settings['show-searchform'] ) {
 		return '';
 	}
-
-	ob_start();
-	?>
-	<div class="searchform-popup<?php echo isset( $porto_settings['search-layout'] ) && ( 'simple' == $porto_settings['search-layout'] || 'large' == $porto_settings['search-layout'] ) ? ' search-popup' : ''; ?>">
-		<a class="search-toggle"><i class="fa fa-search"></i><span class="search-text"><?php esc_html_e( 'Search', 'porto' ); ?></span></a>
-		<?php echo porto_search_form_content(); ?>
-	</div>
-	<?php
-	return apply_filters( 'porto_search_form', ob_get_clean() );
+	$result = '';
+	$result .= '<div class="searchform-popup' . ( isset( $porto_settings['search-layout'] ) && ( 'simple' == $porto_settings['search-layout'] || 'large' == $porto_settings['search-layout'] || 'reveal' == $porto_settings['search-layout'] || 'overlay' == $porto_settings['search-layout'] ) ? ' search-popup' : '' ) . '">';
+		$result .= '<a class="search-toggle"><i class="fas fa-search"></i><span class="search-text">' . esc_html__( 'Search', 'porto' ) . '</span></a>';
+		$result .= porto_search_form_content();
+	$result .= '</div>';
+	return apply_filters( 'porto_search_form', $result );
 }
 
 function porto_search_form_content() {
@@ -1993,22 +1921,26 @@ function porto_search_form_content() {
 	if ( isset( $porto_settings['search-type'] ) && 'product' === $porto_settings['search-type'] && class_exists( 'WooCommerce' ) && defined( 'YITH_WCAS' ) ) {
 		$wc_get_template = function_exists( 'wc_get_template' ) ? 'wc_get_template' : 'woocommerce_get_template';
 		$wc_get_template( 'yith-woocommerce-ajax-search.php', array(), '', YITH_WCAS_DIR . 'templates/' );
-		return;
+		return ob_get_clean();
 	}
 	if ( isset( $porto_settings['search-placeholder'] ) && $porto_settings['search-placeholder'] ) {
 		$placeholder_text = strip_tags( $porto_settings['search-placeholder'] );
 	} else {
 		$placeholder_text = __( 'Search&hellip;', 'porto' );
 	}
+	$show_cats = isset( $porto_settings['search-cats'] ) && $porto_settings['search-cats'];
+	if ( $show_cats && wp_is_mobile() ) {
+		$show_cats = ( ! isset( $porto_settings['search-cats-mobile'] ) || $porto_settings['search-cats-mobile'] );
+	}
 	?>
 	<form action="<?php echo esc_url( home_url() ); ?>/" method="get"
-		class="searchform<?php echo isset( $porto_settings['search-type'] ) && ( 'post' === $porto_settings['search-type'] || 'product' === $porto_settings['search-type'] || 'portfolio' === $porto_settings['search-type'] ) && ( isset( $porto_settings['search-cats'] ) && $porto_settings['search-cats'] ) ? ' searchform-cats' : ''; ?>">
-		<div class="searchform-fields">
+		class="searchform<?php echo isset( $porto_settings['search-type'] ) && ( 'post' === $porto_settings['search-type'] || 'product' === $porto_settings['search-type'] || 'portfolio' === $porto_settings['search-type'] ) && $show_cats ? ' searchform-cats' : ''; ?>">
+		<div class="searchform-fields<?php echo 'overlay' == $porto_settings['search-layout'] ? ' container' : ''; ?>">
 			<span class="text"><input name="s" type="text" value="<?php echo get_search_query(); ?>" placeholder="<?php echo esc_attr( $placeholder_text ); ?>" autocomplete="off" /></span>
 			<?php if ( isset( $porto_settings['search-type'] ) && ( 'post' === $porto_settings['search-type'] || 'product' === $porto_settings['search-type'] || 'portfolio' === $porto_settings['search-type'] ) ) : ?>
 				<input type="hidden" name="post_type" value="<?php echo esc_attr( $porto_settings['search-type'] ); ?>"/>
 				<?php
-				if ( isset( $porto_settings['search-cats'] ) && $porto_settings['search-cats'] ) {
+				if ( $show_cats ) {
 					$args = array(
 						'show_option_all' => __( 'All Categories', 'porto' ),
 						'hierarchical'    => 1,
@@ -2033,7 +1965,13 @@ function porto_search_form_content() {
 				}
 			endif;
 			?>
-			<span class="button-wrap"><button class="btn btn-special" title="<?php esc_attr_e( 'Search', 'porto' ); ?>" type="submit"><i class="fa fa-search"></i></button></span>
+			<span class="button-wrap">
+			<?php if ( 'reveal' == $porto_settings['search-layout'] || 'overlay' == $porto_settings['search-layout'] ) : ?>
+				<a href="#" class="btn-close-search-form"><i class="fas fa-times"></i></a>
+			<?php else : ?>
+				<button class="btn btn-special" title="<?php esc_attr_e( 'Search', 'porto' ); ?>" type="submit"><i class="fas fa-search"></i></button>
+			<?php endif; ?>
+			</span>
 		</div>
 		<?php if ( isset( $porto_settings['search-live'] ) && $porto_settings['search-live'] ) : ?>
 		<div class="live-search-list"></div>
@@ -2197,7 +2135,7 @@ function porto_minicart() {
 				/* translators: %s: Cart quantity */
 				$format = '<i class="minicart-icon"></i><span class="cart-items">%s</span><span class="cart-subtotal">' . esc_html__( 'Cart %s', 'porto' ) . '</span>';
 				if ( defined( 'WP_CACHE' ) && WP_CACHE ) {
-					$_cart_qty   = '<i class="fa fa-spinner fa-pulse"></i>';
+					$_cart_qty   = '<i class="fas fa-spinner fa-pulse"></i>';
 					$_cart_total = $_cart_qty;
 				} else {
 					$_cart_qty   = $woocommerce->cart->cart_contents_count;
@@ -2206,16 +2144,16 @@ function porto_minicart() {
 				printf( $format, $_cart_qty, $_cart_total );
 			} else {
 				$format = '<i class="minicart-icon"></i><span class="cart-items">%s</span><span class="cart-items-text">%s</span>';
-				if ( defined( 'WP_CACHE' ) && WP_CACHE ) {
-					$_cart_qty  = '<i class="fa fa-spinner fa-pulse"></i>';
+				if ( ! class_exists( 'Woocommerce' ) && defined( 'PORTO_DEMO' ) && PORTO_DEMO ) {
+					$_cart_qty  = 1;
+					$_cart_qty1 = 1;
+				} elseif ( defined( 'WP_CACHE' ) && WP_CACHE ) {
+					$_cart_qty  = '<i class="fas fa-spinner fa-pulse"></i>';
 					$_cart_qty1 = $_cart_qty;
 				} else {
 					$_cart_qty = $woocommerce->cart->cart_contents_count;
 					/* translators: %s: Cart quantity */
 					$_cart_qty1 = sprintf( _n( '%d item', '%d items', $_cart_qty, 'porto' ), $_cart_qty );
-				}
-				if ( ! class_exists( 'Woocommerce' ) && defined( 'PORTO_DEMO' ) && PORTO_DEMO ) {
-					$_cart_qty = 1;
 				}
 
 				printf( $format, $_cart_qty, $_cart_qty1 );
@@ -2365,7 +2303,7 @@ function porto_icl_disp_language( $native_name, $translated_name = false, $lang_
 				$hidden1 .
 				' class="icl_lang_sel_native">)</span></span>';
 		} else {
-			$ret = '<span ' . $hidden3 . ' class="icl_lang_sel_current">' . $native_name . '</span>';
+			$ret = '<span ' . $hidden3 . ' class="icl_lang_sel_current">' . esc_html( $native_name ) . '</span>';
 		}
 	} elseif ( $native_name ) {
 		$ret = $native_name;
@@ -2849,9 +2787,9 @@ if ( ! function_exists( 'porto_portfolio_category_image' ) ) :
 	function porto_portfolio_category_image() {
 		$term = get_queried_object();
 		if ( $term ) {
-			$image = esc_url( get_metadata( $term->taxonomy, $term->term_id, 'category_image', true ) );
+			$image = get_metadata( $term->taxonomy, $term->term_id, 'category_image', true );
 			if ( $image ) {
-				echo '<img src="' . $image . '" class="category-image" alt="' . esc_attr( $term->name ) . '" />';
+				echo '<img src="' . esc_url( $image ) . '" class="category-image" alt="' . esc_attr( $term->name ) . '" />';
 			}
 		}
 	}
@@ -2870,10 +2808,24 @@ function porto_header_elements( $elements ) {
 		} else {
 			foreach ( $element as $key => $value ) {
 				if ( 'porto_block' == $key && $value ) {
-					echo do_shortcode( '[porto_block name="' . $value . '"]' );
+					$str = '';
+					if ( is_string( $value ) ) {
+						$str = $value;
+					} elseif ( is_object( $value ) && isset( $value->html ) ) {
+						$str = $value->html;
+					}
+					if ( $str ) {
+						echo do_shortcode( '[porto_block name="' . $str . '" el_class="' . ( is_object( $value ) && isset( $value->el_class ) ? $value->el_class : '' ) . '"]' );
+					}
 				} elseif ( 'html' == $key && $value ) {
-					echo '<div class="custom-html">';
-						echo do_shortcode( $value );
+					$str = '';
+					if ( is_string( $value ) ) {
+						$str = $value;
+					} elseif ( is_object( $value ) && isset( $value->html ) ) {
+						$str = $value->html;
+					}
+					echo '<div class="custom-html' . ( is_object( $value ) && isset( $value->el_class ) && $value->el_class ? ' ' . esc_attr( $value->el_class ) : '' ) . '">';
+						echo do_shortcode( $str );
 					echo '</div>';
 				} elseif ( 'logo' == $key ) {
 					echo porto_logo();
@@ -2893,7 +2845,7 @@ function porto_header_elements( $elements ) {
 				} elseif ( 'social' == $key ) {
 					echo porto_header_socials();
 				} elseif ( 'menu-icon' == $key ) {
-					echo '<a class="mobile-toggle"><i class="fa fa-reorder"></i></a>';
+					echo '<a class="mobile-toggle"><i class="fas fa-bars"></i></a>';
 				} elseif ( 'nav-top' == $key ) {
 					echo porto_top_navigation();
 				} elseif ( 'main-menu' == $key ) {
@@ -2902,6 +2854,18 @@ function porto_header_elements( $elements ) {
 					} else {
 						echo porto_main_menu();
 					}
+				} elseif ( 'main-toggle-menu' == $key ) {
+					echo '<div id="main-toggle-menu" class="' . ( ( ! $porto_settings['menu-toggle-onhome'] && is_front_page() ) ? 'show-always' : 'closed' ) . '">';
+						echo '<div class="menu-title closed">';
+							echo '<div class="toggle"></div>';
+					if ( $porto_settings['menu-title'] ) {
+						echo do_shortcode( $porto_settings['menu-title'] );
+					}
+						echo '</div>';
+						echo '<div class="toggle-menu-wrap">';
+							echo porto_main_toggle_menu();
+						echo '</div>';
+					echo '</div>';
 				} elseif ( 'secondary-menu' == $key ) {
 					echo porto_secondary_menu();
 				} elseif ( 'menu-block' == $key ) {

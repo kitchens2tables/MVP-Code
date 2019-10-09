@@ -24,7 +24,7 @@ if ( 'without-icon' == $porto_settings['post-title-style'] ) {
 	<div class="portfolio-title<?php echo ( 'widewidth' === $porto_layout ? ' container m-t-lg' : '' ); ?>">
 		<div class="row m-b-xl">
 			<div class="portfolio-nav-all col-lg-1">
-				<a title="<?php esc_attr_e( 'Back to list', 'porto' ); ?>" data-tooltip href="<?php echo get_post_type_archive_link( 'portfolio' ); ?>"><i class="fa fa-th"></i></a>
+				<a title="<?php esc_attr_e( 'Back to list', 'porto' ); ?>" data-tooltip href="<?php echo get_post_type_archive_link( 'portfolio' ); ?>"><i class="fas fa-th"></i></a>
 			</div>
 			<div class="col-lg-10 text-center">
 				<h2 class="entry-title shorter"><?php the_title(); ?></h2>
@@ -57,24 +57,24 @@ if ( 'without-icon' == $porto_settings['post-title-style'] ) {
 
 			if ( $count ) :
 				?>
-			<div id="revolutionSliderCarouselContainer" class="rev_slider_wrapper fullwidthbanner-container m-b-none br-none" data-alias="" style="background: #f3f3f2;">
-				<div id="revolutionSliderCarousel" class="rev_slider fullwidthabanner" data-version="5.2.1">
-					<ul>
+			<rs-module-wrap id="revolutionSliderCarouselContainer" class="rev_slider_wrapper fullwidthbanner-container m-b-none br-none" data-alias="" style="background: #f3f3f2;">
+				<rs-module id="revolutionSliderCarousel" class="rev_slider fullwidthabanner" data-version="6.0.4">
+					<rs-slides>
 						<?php
 						foreach ( $featured_images as $featured_image ) {
-							$attachment = porto_get_attachment( $featured_image['attachment_id'] );
+							$attachment = porto_get_attachment( $featured_image['attachment_id'], 'blog-masonry' );
 							if ( $attachment ) {
 								?>
-								<li data-index="rs-<?php echo (int) ( $i++ ); ?>" data-transition="fade" data-slotamount="7" data-easein="default" data-easeout="default" data-masterspeed="300" data-rotate="0" data-saveperformance="off" data-title="" data-description="">
-									<img width="<?php echo esc_attr( $attachment['width'] ); ?>" height="<?php echo esc_attr( $attachment['height'] ); ?>" src="<?php echo esc_url( $attachment['src'] ); ?>" alt="<?php echo esc_attr( $attachment['alt'] ); ?>" data-bgposition="center center" data-bgfit="contain" data-bgrepeat="no-repeat" class="rev-slidebg" data-no-retina>
-								</li>
+								<rs-slide data-index="rs-<?php echo (int) ( $i++ ); ?>" data-transition="fade" data-slotamount="7" data-easein="default" data-easeout="default" data-masterspeed="300" data-rotate="0" data-saveperformance="off" data-title="" data-description="">
+									<img width="<?php echo esc_attr( $attachment['width'] ); ?>" height="<?php echo esc_attr( $attachment['height'] ); ?>" src="<?php echo esc_url( $attachment['src'] ); ?>" alt="<?php echo esc_attr( $attachment['alt'] ); ?>" data-bg="f:contain;" class="rev-slidebg" data-no-retina>
+								</rs-slide>
 								<?php
 							}
 						}
 						?>
-					</ul>
-				</div>
-			</div>
+					</rs-slides>
+				</rs-module>
+			</rs-module-wrap>
 			<script>
 				(function($) {
 					'use strict';
@@ -120,7 +120,7 @@ if ( 'without-icon' == $porto_settings['post-title-style'] ) {
 								vary_fade: "on",
 								maxVisibleItems: 5,
 								infinity: "on",
-								space: -150,
+								space: -100,
 								stretch: "off"
 							},
 							gridwidth: 600,
@@ -132,7 +132,7 @@ if ( 'without-icon' == $porto_settings['post-title-style'] ) {
 							stopAfterLoops: 0,
 							stopAtSlide: 3,
 							shuffle: "off",
-							autoHeight: "off",
+							//autoHeight: "off",
 							disableProgressBar: "on",
 							hideThumbsOnMobile: "off",
 							hideSliderAtLimit: 0,
@@ -143,7 +143,7 @@ if ( 'without-icon' == $porto_settings['post-title-style'] ) {
 								simplifyAll: "off",
 								nextSlideOnWindowFocus: "off",
 								disableFocusListener: false
-							}
+							},
 						});
 					}
 				}).apply(this, [jQuery]);
@@ -181,7 +181,7 @@ if ( 'without-icon' == $porto_settings['post-title-style'] ) {
 				if ( in_array( 'date', $porto_settings['portfolio-metas'] ) ) :
 					?>
 					<li>
-						<i class="fa fa-calendar"></i> <?php echo get_the_date(); ?>
+						<i class="far fa-calendar-alt"></i> <?php echo get_the_date(); ?>
 					</li>
 					<?php
 				endif;
@@ -189,7 +189,7 @@ if ( 'without-icon' == $porto_settings['post-title-style'] ) {
 				if ( in_array( 'cats', $porto_settings['portfolio-metas'] ) && $cat_list ) :
 					?>
 					<li>
-						<i class="fa fa-tags"></i> <?php echo porto_filter_output( $cat_list ); ?>
+						<i class="fas fa-tags"></i> <?php echo porto_filter_output( $cat_list ); ?>
 					</li>
 				<?php endif; ?>
 				<?php
@@ -258,7 +258,7 @@ if ( 'without-icon' == $porto_settings['post-title-style'] ) {
 				<?php if ( $portfolio_info ) : ?>
 					<h4 class="m-t-sm"><?php esc_html_e( 'More Information', 'porto' ); ?></h4>
 					<div class="m-b-lg">
-						<?php echo do_shortcode( wpautop( $portfolio_info ) ); ?>
+						<?php echo do_shortcode( $portfolio_info ); ?>
 					</div>
 				<?php endif; ?>
 			</div>
@@ -270,7 +270,7 @@ if ( 'without-icon' == $porto_settings['post-title-style'] ) {
 				<?php if ( 'without-icon' == $porto_settings['post-title-style'] ) : ?>
 					<h4><?php esc_html_e( 'Author', 'porto' ); ?></h4>
 				<?php else : ?>
-					<h3><i class="fa fa-user"></i><?php esc_html_e( 'Author', 'porto' ); ?></h3>
+					<h3><i class="fas fa-user"></i><?php esc_html_e( 'Author', 'porto' ); ?></h3>
 				<?php endif; ?>
 				<div class="img-thumbnail">
 					<?php echo get_avatar( get_the_author_meta( 'email' ), '80' ); ?>

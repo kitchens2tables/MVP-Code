@@ -1,6 +1,6 @@
 <?php
 
-$output              = $fancytext_strings = $fancytext_prefix = $fancytext_suffix = $strings_tickerspeed = $fancytext_align = $strings_font_family = $strings_font_style = $strings_font_size = $sufpref_color = $strings_line_height = $ticker_wait_time = $ticker_hover_pause = $el_class = '';
+$output              = $fancytext_strings = $fancytext_prefix = $fancytext_suffix = $fancytext_align = $strings_font_family = $strings_font_style = $strings_font_size = $sufpref_color = $strings_line_height = $ticker_wait_time = $ticker_hover_pause = $el_class = '';
 $prefsuf_font_family = $prefsuf_font_style = $prefix_suffix_font_size = $prefix_suffix_line_height = $sufpref_bg_color = '';
 $id                  = uniqid( rand() );
 
@@ -10,7 +10,6 @@ extract(
 			'fancytext_strings'         => '',
 			'fancytext_prefix'          => '',
 			'fancytext_suffix'          => '',
-			'strings_tickerspeed'       => '200',
 			'fancytext_tag'             => 'h2',
 			'fancytext_align'           => 'center',
 			'strings_font_family'       => '',
@@ -20,7 +19,7 @@ extract(
 			'strings_font_size'         => '',
 			'sufpref_color'             => '',
 			'strings_line_height'       => '',
-			'ticker_wait_time'          => '3000',
+			'ticker_wait_time'          => '2500',
 			'ticker_hover_pause'        => '',
 			'ticker_background'         => '',
 			'fancytext_color'           => '',
@@ -31,7 +30,7 @@ extract(
 			'prefix_suffix_font_size'   => '',
 			'prefix_suffix_line_height' => '',
 			'sufpref_bg_color'          => '',
-			'animation_effect'          => '',
+			'animation_effect'          => 'slide',
 			'el_class'                  => '',
 			'css_fancy_design'          => '',
 			'animation_type'            => '',
@@ -42,11 +41,11 @@ extract(
 	)
 );
 
+wp_enqueue_script( 'porto_word_rotator' );
+
 $string_inline_style = $word_rotate_inline = $prefsuf_style = $css_design_style = '';
 
 $css_design_style = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, vc_shortcode_custom_css_class( $css_fancy_design, ' ' ), 'porto_fancytext', $atts );
-
-$css_design_style = esc_attr( $css_design_style );
 
 if ( ( ! isset( $atts['strings_use_theme_fonts'] ) || 'yes' !== $atts['strings_use_theme_fonts'] ) && $strings_google_font ) {
 	$google_fonts_data   = porto_sc_parse_google_font( $strings_google_font );
@@ -138,11 +137,10 @@ if ( $fancytext_color ) {
 if ( $ticker_background ) {
 	$word_rotate_inline .= 'background:' . esc_attr( $ticker_background ) . ';';
 }
-
-$classes = 'word-rotator-title';
-if ( $animation_effect ) {
-	$classes .= ' ' . esc_attr( $animation_effect );
+if ( 'bounce' == $animation_effect ) {
+	$animation_effect = 'slide';
 }
+$classes = 'word-rotator ' . esc_attr( $animation_effect );
 if ( $css_design_style ) {
 	$classes .= ' ' . esc_attr( $css_design_style );
 }
@@ -153,7 +151,7 @@ if ( $el_class ) {
 if ( 'true' != $ticker_hover_pause ) {
 	$ticker_hover_pause = 'false';
 }
-$plugin_options = "{'delay': " . esc_attr( $ticker_wait_time ) . ", 'animDelay': " . esc_attr( $strings_tickerspeed ) . ", 'pauseOnHover': " . esc_attr( $ticker_hover_pause ) . '}';
+$plugin_options = "{'waittime': " . esc_attr( $ticker_wait_time ) . ", 'pauseOnHover': " . esc_attr( $ticker_hover_pause ) . '}';
 
 $attrs = '';
 if ( $animation_type ) {
@@ -166,16 +164,17 @@ if ( $animation_type ) {
 	}
 }
 
-$output = '<' . esc_html( $fancytext_tag ) . ' class="' . esc_attr( $classes ) . '"' . $attrs . ' style="' . esc_attr( $string_inline_style ) . '">';
+$output = '<' . esc_html( $fancytext_tag ) . ' class="' . esc_attr( $classes ) . '"' . $attrs . ' style="' . esc_attr( $string_inline_style ) . '" data-plugin-options="' . $plugin_options . '">';
 
 if ( trim( $fancytext_prefix ) ) {
 	$output .= '<span class="word-rotate-prefix" style="' . esc_attr( $prefsuf_style ) . '">' . esc_html( ltrim( $fancytext_prefix ) ) . '</span> ';
 }
-	$output .= '<strong' . ( $ticker_background ? ' class="inverted"' : '' ) . ' style="' . esc_attr( $word_rotate_inline ) . '"><span class="word-rotate" data-plugin-options="' . $plugin_options . '"><span class="word-rotate-items">';
+
+	$output .= '<span class="word-rotator-items' . ( $ticker_background ? ' has-bg' : '' ) . ( strpos( $animation_effect, 'type' ) !== false ? ' waiting' : '' ) . '"' . ' style="' . esc_attr( $word_rotate_inline ) . '">';
 foreach ( $lines as $key => $line ) {
-	$output .= '<span' . ( 0 === $key ? ' class="active"' : '' ) . '>' . strip_tags( $line ) . '</span>';
+	$output .= '<b' . ( 0 === $key ? ' class="active"' : '' ) . '>' . strip_tags( $line ) . '</b>';
 }
-	$output .= '</span></span></strong>';
+	$output .= '</span>';
 if ( trim( $fancytext_suffix ) ) {
 	$output .= ' <span class="word-rotate-suffix" style="' . esc_attr( $prefsuf_style ) . '">' . esc_html( rtrim( $fancytext_suffix ) ) . '</span>';
 }

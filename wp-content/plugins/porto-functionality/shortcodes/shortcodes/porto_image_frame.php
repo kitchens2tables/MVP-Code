@@ -69,11 +69,11 @@ function porto_load_image_frame_shortcode() {
 					'param_name' => 'image_id',
 				),
 				array(
-					'type'        => 'textfield',
-					'heading'     => __( 'Image Size', 'porto-functionality' ),
-					'param_name'  => 'image_size',
-					'std'         => '',
-					'description' => __( 'Enter image size (Example: "thumbnail", "medium", "large", "full" or other sizes defined by theme). Alternatively enter size in pixels (Example: 200x100 (Width x Height)).', 'js_composer' ),
+					'type'       => 'dropdown',
+					'heading'    => __( 'Image Size', 'porto-functionality' ),
+					'param_name' => 'image_size',
+					'value'      => porto_sh_commons( 'image_sizes' ),
+					'std'        => '',
 				),
 				array(
 					'type'        => 'textfield',

@@ -9,9 +9,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-global $post, $woocommerce, $product, $porto_product_layout;
+global $post, $woocommerce, $product, $porto_product_layout, $porto_settings;
 
-if ( 'extended' == $porto_product_layout ) {
+if ( 'extended' == $porto_product_layout || 'sticky_info' == $porto_product_layout || 'sticky_both_info' == $porto_product_layout || 'grid' == $porto_product_layout ) {
 	return;
 }
 
@@ -28,19 +28,19 @@ if ( 'full_width' === $porto_product_layout || 'centered_vertical_zoom' === $por
 ?>
 <div class="product-thumbnails thumbnails">
 	<?php
-	$html = '<div class="' . esc_attr( $thumbnails_classes ) . '">';
+	$html = '<div class="' . esc_attr( $thumbnails_classes ) . ( 'product-thumbs-slider owl-carousel' == $thumbnails_classes ? ' has-ccols ccols-' . intval( $porto_settings['product-thumbs-count'] ) : '' ) . '">';
 
 	if ( $product->get_image_id() ) {
 
 		$attachment_id = get_post_thumbnail_id();
-		$image_title   = esc_attr( get_the_title( $attachment_id ) );
+		$image_title   = get_the_title( $attachment_id );
 		if ( ! $image_title ) {
 			$image_title = '';
 		}
 		$image_thumb_link = wp_get_attachment_image_src( $attachment_id, 'shop_thumbnail' );
 
 		$html .= '<div class="img-thumbnail">';
-		$html .= apply_filters( 'woocommerce_single_product_image_thumbnail_html', '<img class="woocommerce-main-thumb img-responsive" alt="' . esc_attr( $image_title ) . '" src="' . $image_thumb_link[0] . '" />', $attachment_id, $post->ID, '' ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
+		$html .= apply_filters( 'woocommerce_single_product_image_thumbnail_html', '<img class="woocommerce-main-thumb img-responsive" alt="' . esc_attr( $image_title ) . '" src="' . esc_url( $image_thumb_link[0] ) . '" />', $attachment_id, $post->ID, '' ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
 		$html .= '</div>';
 
 	} else {
@@ -62,13 +62,13 @@ if ( 'full_width' === $porto_product_layout || 'centered_vertical_zoom' === $por
 
 			$image            = wp_get_attachment_image( $attachment_id, apply_filters( 'single_product_small_thumbnail_size', 'shop_thumbnail' ) );
 			$image_thumb_link = wp_get_attachment_image_src( $attachment_id, 'shop_thumbnail' );
-			$image_title      = esc_attr( get_the_title( $attachment_id ) );
+			$image_title      = get_the_title( $attachment_id );
 			if ( ! $image_title ) {
 				$image_title = '';
 			}
 
 			$html .= '<div class="img-thumbnail">';
-			$html .= apply_filters( 'woocommerce_single_product_image_thumbnail_html', '<img class="img-responsive" alt="' . esc_attr( $image_title ) . '" src="' . $image_thumb_link[0] . '" />', $attachment_id, $post->ID, '' ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
+			$html .= apply_filters( 'woocommerce_single_product_image_thumbnail_html', '<img class="img-responsive" alt="' . esc_attr( $image_title ) . '" src="' . esc_url( $image_thumb_link[0] ) . '" />', $attachment_id, $post->ID, '' ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped
 			$html .= '</div>';
 
 		}

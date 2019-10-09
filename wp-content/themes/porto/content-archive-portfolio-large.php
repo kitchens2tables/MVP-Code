@@ -124,7 +124,7 @@ if ( $ajax_attr_escaped ) {
 					the_permalink();
 				}
 			}
-			?>"<?php echo $ajax_attr_escaped; ?>>
+			?>"<?php echo ! $ajax_attr_escaped ? '' : $ajax_attr_escaped; ?>>
 				<span class="thumb-info m-b-xl <?php echo esc_attr( $class ); ?>">
 					<span class="thumb-info-wrapper">
 						<?php
@@ -166,7 +166,7 @@ if ( $ajax_attr_escaped ) {
 									<span class="thumb-info-action-icon thumb-info-action-icon-primary"><i class="fa <?php echo ! $ajax_attr_escaped ? 'fa-link' : 'fa-plus-square'; ?>"></i></span>
 								<?php endif; ?>
 								<?php if ( $portfolio_show_zoom ) : ?>
-									<span class="thumb-info-action-icon thumb-info-action-icon-light thumb-info-zoom" data-src="<?php echo esc_attr( json_encode( $zoom_src ) ); ?>" data-title="<?php echo esc_attr( json_encode( $zoom_title ) ); ?>"><i class="fa fa-search-plus"></i></span>
+									<span class="thumb-info-action-icon thumb-info-action-icon-light thumb-info-zoom" data-src="<?php echo esc_attr( json_encode( $zoom_src ) ); ?>" data-title="<?php echo esc_attr( json_encode( $zoom_title ) ); ?>"><i class="fas fa-search-plus"></i></span>
 								<?php endif; ?>
 							</span>
 						<?php endif; ?>
@@ -195,7 +195,7 @@ if ( $ajax_attr_escaped ) {
 					if ( in_array( 'date', $porto_settings['portfolio-metas'] ) ) :
 						?>
 						<li>
-							<i class="fa fa-calendar"></i> <?php echo get_the_date(); ?>
+							<i class="far fa-calendar-alt"></i> <?php echo get_the_date(); ?>
 						</li>
 						<?php
 					endif;
@@ -203,7 +203,7 @@ if ( $ajax_attr_escaped ) {
 					if ( in_array( 'cats', $porto_settings['portfolio-metas'] ) && $cat_list_escaped ) :
 						?>
 						<li>
-							<i class="fa fa-tags"></i> <?php echo $cat_list_escaped; ?>
+							<i class="fas fa-tags"></i><?php echo ! $cat_list_escaped ? '' : ' ' . $cat_list_escaped; ?>
 						</li>
 					<?php endif; ?>
 					<?php
@@ -226,7 +226,7 @@ if ( $ajax_attr_escaped ) {
 			?>
 				<h4 class="entry-title"<?php echo ! empty( $animation_attrs ) ? $animation_attrs . ' data-appear-animation-delay="600"' : ''; ?>><?php the_title(); ?></h4>
 			<?php else : ?>
-				<h4 class="entry-title"<?php echo ! empty( $animation_attrs ) ? $animation_attrs . ' data-appear-animation-delay="600"' : ''; ?>><a href="<?php echo ! $show_external_link || ! $portfolio_link ? get_the_permalink() : esc_url( $portfolio_link ); ?>"><?php the_title(); ?></a></h4>
+				<h4 class="entry-title"<?php echo ! empty( $animation_attrs ) ? $animation_attrs . ' data-appear-animation-delay="600"' : ''; ?>><a href="<?php echo ! $show_external_link || ! $portfolio_link ? esc_url( get_the_permalink() ) : esc_url( $portfolio_link ); ?>"><?php the_title(); ?></a></h4>
 			<?php endif; ?>
 
 			<?php if ( $porto_settings['portfolio-show-content'] ) : ?>

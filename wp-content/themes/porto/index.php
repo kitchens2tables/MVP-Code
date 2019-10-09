@@ -1,11 +1,12 @@
 <?php get_header(); ?>
+
 <?php
 global $porto_settings, $page_share;
 
 $post_layout = $porto_settings['post-layout'];
 ?>
 
-<div id="content" role="main" class="<?php echo porto_is_wide_layout() ? 'm-t-lg m-b-xl' . ( porto_get_wrapper_type() !== 'boxed' ? ' m-r-md m-l-md' : '' ) : ''; ?>">
+<div id="content" role="main">
 	<?php if ( have_posts() ) : ?>
 
 		<?php

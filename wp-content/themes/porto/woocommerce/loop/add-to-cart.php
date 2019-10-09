@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-global $porto_settings, $product;
+global $porto_settings, $product, $woocommerce_loop;
 
 $wishlist  = class_exists( 'YITH_WCWL' ) && $porto_settings['product-wishlist'];
 $quickview = $porto_settings['product-quickview'];
@@ -73,7 +73,7 @@ $porto_woo_version = porto_get_woo_version_number();
 						( $product->is_purchasable() && $product->is_in_stock() && isset( $porto_settings['category-addlinks-convert'] ) && $porto_settings['category-addlinks-convert'] ) ? 'span' : 'a',
 						esc_url( $product->add_to_cart_url() ),
 						esc_attr( isset( $args['quantity'] ) ? $args['quantity'] : 1 ),
-						esc_attr( ( isset( $args['class'] ) ? $args['class'] : 'button' ) . ( $product->is_purchasable() && $product->is_in_stock() ? '' : ' add_to_cart_read_more' ) ),
+						esc_attr( ( isset( $args['class'] ) ? $args['class'] . '' : 'button' ) . ( $product->is_purchasable() && $product->is_in_stock() ? '' : ' add_to_cart_read_more' ) ),
 						isset( $args['attributes'] ) ? wc_implode_html_attributes( $args['attributes'] ) : '',
 						esc_html( $product->add_to_cart_text() ),
 						( $product->is_purchasable() && $product->is_in_stock() && isset( $porto_settings['category-addlinks-convert'] ) && $porto_settings['category-addlinks-convert'] ) ? 'span' : 'a'
@@ -89,7 +89,7 @@ $porto_woo_version = porto_get_woo_version_number();
 				if ( $link ) {
 					$more_link = $link;
 				}
-				$more_target = $porto_settings['catalog-readmore-target'] ? 'target="' . $porto_settings['catalog-readmore-target'] . '"' : '';
+				$more_target = $porto_settings['catalog-readmore-target'] ? 'target="' . esc_attr( $porto_settings['catalog-readmore-target'] ) . '"' : '';
 			}
 			echo apply_filters(
 				'woocommerce_loop_add_to_cart_link', // WPCS: XSS ok.
@@ -112,10 +112,16 @@ $porto_woo_version = porto_get_woo_version_number();
 		if ( $wishlist ) {
 			echo do_shortcode( '[yith_wcwl_add_to_wishlist]' );
 		}
-		if ( $quickview ) {
+		if ( $quickview && ( ! isset( $woocommerce_loop['addlinks_pos'] ) || 'onimage2' !== $woocommerce_loop['addlinks_pos'] ) ) {
 			$label = ( ( isset( $porto_settings['product-quickview-label'] ) && $porto_settings['product-quickview-label'] ) ? $porto_settings['product-quickview-label'] : __( 'Quick View', 'porto' ) );
-			echo '<div class="quickview" data-id="' . esc_attr( $product->get_id() ) . '" title="' . $label . '">' . $label . '</div>';
+			echo '<div class="quickview" data-id="' . esc_attr( $product->get_id() ) . '" title="' . esc_attr( $label ) . '">' . esc_html( $label ) . '</div>';
 		}
 		?>
 	</div>
+	<?php
+	if ( isset( $woocommerce_loop['addlinks_pos'] ) && 'onimage2' == $woocommerce_loop['addlinks_pos'] ) {
+		$label = ( ( isset( $porto_settings['product-quickview-label'] ) && $porto_settings['product-quickview-label'] ) ? $porto_settings['product-quickview-label'] : __( 'Quick View', 'porto' ) );
+		echo '<div class="quickview" data-id="' . esc_attr( $product->get_id() ) . '" title="' . esc_attr( $label ) . '">' . esc_html( $label ) . '</div>';
+	}
+	?>
 </div>

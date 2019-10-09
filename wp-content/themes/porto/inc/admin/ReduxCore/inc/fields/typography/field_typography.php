@@ -957,7 +957,7 @@ if ( ! class_exists( 'ReduxFramework_typography' ) ) {
 				return;
 			}
 
-			$gFile = dirname( __FILE__ ) . '/googlefonts.php';
+			$gFile = PORTO_ADMIN . '/ReduxCore/inc/fields/typography/googlefonts.php';
 
 			// Weekly update
 			if ( isset( $this->parent->args['google_update_weekly'] ) && $this->parent->args['google_update_weekly'] && ! empty( $this->parent->args['google_api_key'] ) ) {

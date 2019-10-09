@@ -1,0 +1,47 @@
+2019-09-24T09:01:15+00:00 CRITICAL Uncaught Error: Call to undefined function porto_ct_share_options() in /var/www/html/kitchens2tables/wp-content/plugins/porto-functionality/meta_boxes/page.php:13
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/porto-functionality/meta_boxes/page.php(56): porto_page_meta_fields()
+#1 /var/www/html/kitchens2tables/wp-admin/includes/template.php(1215): porto_page_meta_box(Object(WP_Post), Array)
+#2 /var/www/html/kitchens2tables/wp-admin/edit-form-advanced.php(580): do_meta_boxes(Object(WP_Screen), 'normal', Object(WP_Post))
+#3 /var/www/html/kitchens2tables/wp-admin/post.php(186): include('/var/www/html/k...')
+#4 {main}
+  thrown in /var/www/html/kitchens2tables/wp-content/plugins/porto-functionality/meta_boxes/page.php on line 13
+
+2019-09-24T09:02:06+00:00 CRITICAL Uncaught Error: Call to undefined function porto_ct_share_options() in /var/www/html/kitchens2tables/wp-content/plugins/porto-functionality/meta_boxes/page.php:13
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/porto-functionality/meta_boxes/page.php(56): porto_page_meta_fields()
+#1 /var/www/html/kitchens2tables/wp-admin/includes/template.php(1215): porto_page_meta_box(Object(WP_Post), Array)
+#2 /var/www/html/kitchens2tables/wp-admin/edit-form-advanced.php(580): do_meta_boxes(Object(WP_Screen), 'normal', Object(WP_Post))
+#3 /var/www/html/kitchens2tables/wp-admin/post.php(186): include('/var/www/html/k...')
+#4 {main}
+  thrown in /var/www/html/kitchens2tables/wp-content/plugins/porto-functionality/meta_boxes/page.php on line 13
+
+2019-09-24T09:07:21+00:00 CRITICAL Uncaught Error: Call to undefined function porto_ct_share_options() in /var/www/html/kitchens2tables/wp-content/plugins/porto-functionality/meta_boxes/page.php:13
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/porto-functionality/meta_boxes/page.php(56): porto_page_meta_fields()
+#1 /var/www/html/kitchens2tables/wp-admin/includes/template.php(1215): porto_page_meta_box(Object(WP_Post), Array)
+#2 /var/www/html/kitchens2tables/wp-admin/edit-form-advanced.php(580): do_meta_boxes(Object(WP_Screen), 'normal', Object(WP_Post))
+#3 /var/www/html/kitchens2tables/wp-admin/post.php(186): include('/var/www/html/k...')
+#4 {main}
+  thrown in /var/www/html/kitchens2tables/wp-content/plugins/porto-functionality/meta_boxes/page.php on line 13
+
+2019-09-24T09:07:38+00:00 CRITICAL Uncaught Error: Call to undefined function porto_ct_share_options() in /var/www/html/kitchens2tables/wp-content/plugins/porto-functionality/meta_boxes/page.php:13
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/porto-functionality/meta_boxes/page.php(56): porto_page_meta_fields()
+#1 /var/www/html/kitchens2tables/wp-admin/includes/template.php(1215): porto_page_meta_box(Object(WP_Post), Array)
+#2 /var/www/html/kitchens2tables/wp-admin/includes/post.php(2106): do_meta_boxes(Object(WP_Screen), 'normal', Object(WP_Post))
+#3 /var/www/html/kitchens2tables/wp-admin/edit-form-blocks.php(401): the_block_editor_meta_boxes()
+#4 /var/www/html/kitchens2tables/wp-admin/post.php(168): include('/var/www/html/k...')
+#5 {main}
+  thrown in /var/www/html/kitchens2tables/wp-content/plugins/porto-functionality/meta_boxes/page.php on line 13
+
+2019-09-24T09:07:52+00:00 CRITICAL Uncaught Error: Call to undefined function porto_ct_share_options() in /var/www/html/kitchens2tables/wp-content/plugins/porto-functionality/meta_boxes/page.php:13
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/porto-functionality/meta_boxes/page.php(56): porto_page_meta_fields()
+#1 /var/www/html/kitchens2tables/wp-admin/includes/template.php(1215): porto_page_meta_box(Object(WP_Post), Array)
+#2 /var/www/html/kitchens2tables/wp-admin/includes/post.php(2106): do_meta_boxes(Object(WP_Screen), 'normal', Object(WP_Post))
+#3 /var/www/html/kitchens2tables/wp-admin/edit-form-blocks.php(401): the_block_editor_meta_boxes()
+#4 /var/www/html/kitchens2tables/wp-admin/post.php(168): include('/var/www/html/k...')
+#5 {main}
+  thrown in /var/www/html/kitchens2tables/wp-content/plugins/porto-functionality/meta_boxes/page.php on line 13
+

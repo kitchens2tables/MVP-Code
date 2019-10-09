@@ -24,7 +24,7 @@ if ( have_comments() ) :
 			?>
 			</h4>
 		<?php else : ?>
-			<h3><i class="fa fa-comments"></i>
+			<h3><i class="far fa-comments"></i>
 			<?php
 				printf(
 					_nx( 'Comment (1)', 'Comments (%1$s)', get_comments_number(), 'comments title', 'porto' ),

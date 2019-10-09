@@ -86,7 +86,7 @@ $wrapper        = porto_get_wrapper_type();
 			$footer_view = porto_get_meta_value( 'footer_view' );
 			?>
 
-			<div class="footer-wrapper<?php echo 'wide' == $porto_settings['footer-wrapper'] ? ' wide' : ''; ?> <?php echo esc_attr( $footer_view ); ?>">
+			<div class="footer-wrapper<?php echo 'wide' == $porto_settings['footer-wrapper'] ? ' wide' : '', $footer_view ? ' ' . esc_attr( $footer_view ) : '', isset( $porto_settings['footer-reveal'] ) && $porto_settings['footer-reveal'] ? ' footer-reveal' : ''; ?>">
 
 				<?php if ( porto_get_wrapper_type() != 'boxed' && 'boxed' == $porto_settings['footer-wrapper'] ) : ?>
 				<div id="footer-boxed">
@@ -119,12 +119,16 @@ $wrapper        = porto_get_wrapper_type();
 		endif;
 		?>
 
+		<?php if ( 'side' == porto_get_header_type() ) : ?>
+			</div>
+		<?php endif; ?>
+
 	</div><!-- end wrapper -->
 	<?php do_action( 'porto_after_wrapper' ); ?>
 
 <?php
 
-if ( isset( $porto_settings['mobile-panel-type'] ) && 'side' === $porto_settings['mobile-panel-type'] ) {
+if ( isset( $porto_settings['mobile-panel-type'] ) && 'side' === $porto_settings['mobile-panel-type'] && 'overlay' != $porto_settings['menu-type'] ) {
 	// navigation panel
 	get_template_part( 'panel' );
 }
@@ -132,8 +136,8 @@ if ( isset( $porto_settings['mobile-panel-type'] ) && 'side' === $porto_settings
 ?>
 
 <!--[if lt IE 9]>
-<script src="<?php echo esc_url( porto_js ); ?>/libs/html5shiv.min.js"></script>
-<script src="<?php echo esc_url( porto_js ); ?>/libs/respond.min.js"></script>
+<script src="<?php echo esc_url( PORTO_JS ); ?>/libs/html5shiv.min.js"></script>
+<script src="<?php echo esc_url( PORTO_JS ); ?>/libs/respond.min.js"></script>
 <![endif]-->
 
 <?php wp_footer(); ?>
@@ -143,180 +147,7 @@ if ( isset( $porto_settings['mobile-panel-type'] ) && 'side' === $porto_settings
 if ( isset( $porto_settings['js-code'] ) && $porto_settings['js-code'] ) {
 	?>
 	<script>
-	    
-	// new code added by Girish
-		jQuery(document).ready(function(){
-		    setTimeout(function() {
-		        jQuery("#user_email-2709").val("");
-		        jQuery("#user_password-2709").val("");
-		        
-		        jQuery("#user_email-2695").val("");
-		        jQuery("#user_password-2695").val("");
-		    },2000);
-        
-            jQuery('.um-field-label > label').after('<span class="required">*</span>' );
-            
-           jQuery('.um-2709 .um-col-alt').after('<a class="orange-link" href="http://lsc1.acapqa.net/kitchens2tables/my-account/">Already a Customer?</a>' );
-           
-        jQuery("#first_name-2709, #last_name-2709, #user_email-2709, #user_password-2709, #confirm_user_password-2709").keyup(function(){
-          jQuery(".um-field-area span").remove();
-          
-        });
-        
-           
-    jQuery('#pum-2683 .register-btn').on('click', DoPrevent);
-    jQuery("#pum-2683 .register-btn").click(function(e){
-    
-     	 var fname =  jQuery('#first_name-2709').val();
-     	 var lname =  jQuery('#last_name-2709').val();
-     	 var email =  jQuery('#user_email-2709').val();
-     	 var pass =  jQuery('#user_password-2709').val();
-     	 var cpass =  jQuery('#confirm_user_password-2709').val();
-        
-        var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-     	
-           
-           if(fname =='' || lname =='' || email =='' || pass =='' || cpass ==''){
-               jQuery(".um-field-area span").remove();
-
-               if(fname == ''){
-                   jQuery('#first_name-2709').after("<span class='error-msg'>Please fill out First Name</span>");
-               }
-               if(lname == ''){
-                   jQuery('#last_name-2709').after("<span class='error-msg'>Please fill out Last Name</span>");
-               }
-               if(email == ''){
-                   jQuery('#user_email-2709').after("<span class='error-msg'>Please fill out Email</span>");
-               }else if(regex.test(email) != true){
-                   jQuery(".um-field-area span").remove();
-                   jQuery('#user_email-2709').after("<span class='error-msg'>Email is not valid</span>");
-                }
-               if(pass == ''){
-                   jQuery('#user_password-2709').after("<span class='error-msg'>Please fill out Password</span>");
-               }
-               if(cpass == ''){
-                   jQuery('#confirm_user_password-2709').after("<span class='error-msg'>Please fill out Confirm Password</span>");
-               }
-               if(pass != cpass){
-                   jQuery(".um-field-area span").remove();
-                   jQuery('#confirm_user_password-2709').after("<span class='error-msg'>Password not matched</span>");
-               }
-
-           }
-           else if(regex.test(email) != true){
-               jQuery(".um-field-area span").remove();
-               jQuery('#user_email-2709').after("<span class='error-msg'>Email is not valid</span>");
-
-           }
-           else if(pass != cpass){
-               jQuery(".um-field-area span").remove();
-               jQuery('#confirm_user_password-2709').after("<span class='error-msg'>Password not matched</span>");
-
-           }
-            else{
-               jQuery('#pum-2683 .register-btn').off('click', DoPrevent);
-        	   jQuery(this).closest('form').submit();
-       		   
-            }
-     	
-     	
-    });
-    
-    jQuery("#first_name-2695, #last_name-2695, #user_email-2695, #user_password-2695, #confirm_user_password-2695, #Address_Line_1, #Address_Line_2, #City-2695, #States-2695, #Zip-2695, #License_Info-2695").keyup(function(){
-          jQuery(".um-field-error, .error-msg").hide();
-          
-    });
-    
-    jQuery('#pum-2680 .register-btn').on('click', DoPrevent);
-    jQuery("#pum-2680 .register-btn").click(function(e){
-        var fname =  jQuery('#first_name-2695').val();
-     	var lname =  jQuery('#last_name-2695').val();
-     	var email =  jQuery('#user_email-2695').val();
-     	var pass =  jQuery('#user_password-2695').val();
-     	var cpass =  jQuery('#confirm_user_password-2695').val();
-     	var address_1 =  jQuery('#Address_Line_1').val();
-     	var address_2 =  jQuery('#Address_Line_2').val();
-     	var city =  jQuery('#City-2695').val();
-     	var state =  jQuery('#States-2695').val();
-     	var zip =  jQuery('#Zip-2695').val();
-     	var licese_info =  jQuery('#License_Info-2695').val();
-     	var cuisine =  jQuery('#cusine').val();
-     	var price_test =  jQuery('#PRICE_TEST').val();
-     	
-     	var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-     	
-     	if(fname =='' || lname =='' || email =='' || pass =='' || cpass =='' || address_1=='' || address_2=='' || city=='' || state=='' || zip=='' || licese_info ==''){
-     	    jQuery(".um-field-error, .error-msg").remove();
-     	    
-     	    if(fname ==''){
-     	        jQuery('#first_name-2695').after("<span class='error-msg'>Please fill out First Name</span>");
-     	    }
-     	    if(lname ==''){
-     	        jQuery('#last_name-2695').after("<span class='error-msg'>Please fill out Last Name</span>");
-     	    }
-     	    if(email ==''){
-     	        jQuery('#user_email-2695').after("<span class='error-msg'>Please fill out Email Id</span>");
-     	    }else if(regex.test(email) != true){
-     	        jQuery(".um-field-error, .error-msg").remove();
-     	        jQuery('#user_email-2695').after("<span class='error-msg'>Email Id is not valid</span>");
-     	    }
-     	    if(pass ==''){
-     	        jQuery('#user_password-2695').after("<span class='error-msg'>Please fill out Password</span>");
-     	    }
-     	    if(cpass ==''){
-     	        jQuery('#confirm_user_password-2695').after("<span class='error-msg'>Please fill out Confirm Password</span>");
-     	    }
-     	    if(pass != cpass){
-     	        jQuery(".um-field-error, .error-msg").remove();
-     	        jQuery('#confirm_user_password-2695').after("<span class='error-msg'>Password not matched</span>");
-     	    }
-     	    if(address_1 ==''){
-     	        jQuery('#Address_Line_1').after("<span class='error-msg'>Please fill out Address Line 1</span>");
-     	    }
-     	    if(address_2 ==''){
-     	        jQuery('#Address_Line_2').after("<span class='error-msg'>Please fill out Address Line 2</span>");
-     	    }
-     	    if(city ==''){
-     	        jQuery('#City-2695').after("<span class='error-msg'>Please fill out City</span>");
-     	    }
-     	    if(state ==''){
-     	        jQuery('#States-2695').after("<span class='error-msg'>Please fill out State</span>");
-     	    }
-     	    if(zip ==''){
-     	        jQuery('#Zip-2695').after("<span class='error-msg'>Please fill out Zip Code</span>");
-     	    }
-     	    if(licese_info ==''){
-     	        jQuery('#License_Info-2695').after("<span class='error-msg'>Please fill out License Number</span>");
-     	    }
-     	    
-     	   
-     	}else if(regex.test(email) != true){
-     	    jQuery(".um-field-error, .error-msg").remove();
-     	    jQuery('#user_email-2695').after("<span class='error-msg'>Email Id is not valid</span>");
-     	}else if(pass != cpass){
- 	        jQuery(".um-field-error, .error-msg").remove();
- 	        jQuery('#confirm_user_password-2695').after("<span class='error-msg'>Password not matched</span>");
-     	}else{
-           jQuery('#pum-2680 .register-btn').off('click', DoPrevent);
-    	   jQuery(this).closest('form').submit();
-       		   
-        }
-     	
-     	
-    });
-    
-    function DoPrevent(e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    
-    
-
-});
-        //end of new code added by Girish
-           
 		<?php echo porto_filter_output( $porto_settings['js-code'] ); ?>
-	
 	</script>
 <?php } ?>
 <?php if ( isset( $porto_settings['page-share-pos'] ) && $porto_settings['page-share-pos'] ) : ?>
@@ -324,5 +155,7 @@ if ( isset( $porto_settings['js-code'] ) && $porto_settings['js-code'] ) {
 		<?php get_template_part( 'share' ); ?>
 	</div>
 <?php endif; ?>
+
+
 </body>
 </html>

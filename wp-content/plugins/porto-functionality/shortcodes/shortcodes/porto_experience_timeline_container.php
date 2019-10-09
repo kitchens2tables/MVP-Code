@@ -34,7 +34,6 @@ function porto_load_experience_timeline_container_shortcode() {
 
 	if ( ! class_exists( 'WPBakeryShortCode_Porto_Experience_Timeline_Container' ) ) {
 		class WPBakeryShortCode_Porto_Experience_Timeline_Container extends WPBakeryShortCodesContainer {
-
 		}
 	}
 }

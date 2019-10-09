@@ -104,7 +104,7 @@ if ( ! class_exists( 'ReduxFramework_extension_custom_fonts' ) ) {
 			}
 
 			if ( empty( $this->extension_dir ) ) {
-				$this->extension_dir = trailingslashit( str_replace( '\\', '/', dirname( __FILE__ ) ) );
+				$this->extension_dir = trailingslashit( str_replace( '\\', '/', PORTO_ADMIN . '/ReduxCore/inc/extensions/custom_fonts' ) );
 			}
 
 			$this->field_name = 'custom_fonts';
@@ -1163,7 +1163,7 @@ if ( ! class_exists( 'ReduxFramework_extension_custom_fonts' ) ) {
 		 * @return string
 		 */
 		public function overload_field_path( $field ) {
-			return dirname( __FILE__ ) . '/' . $this->field_name . '/field_' . $this->field_name . '.php';
+			return PORTO_ADMIN . '/ReduxCore/inc/extensions/custom_fonts/' . $this->field_name . '/field_' . $this->field_name . '.php';
 		}
 
 		/**

@@ -32,11 +32,11 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
 
         function __construct() {
             $classname = 'yith-woocommerce-ajax-product-filter yith-woo-ajax-navigation woocommerce widget_layered_nav';
-            $classname .= 'checkboxes' == yith_wcan_get_option( 'yith_wcan_ajax_shop_filter_style', 'standard' ) ? ' with-checkbox' : '';
+            $classname .= defined( 'YITH_WCAN_PREMIUM' ) && 'checkboxes' == yith_wcan_get_option( 'yith_wcan_ajax_shop_filter_style', 'standard' ) ? ' with-checkbox' : '';
             $widget_ops  = array( 'classname' => $classname, 'description' => __( 'Filter the list of products without reloading the page', 'yith-woocommerce-ajax-navigation' ) );
             $control_ops = array( 'width' => 400, 'height' => 350 );
             add_action('wp_ajax_yith_wcan_select_type', array( $this, 'ajax_print_terms') );
-            parent::__construct( 'yith-woo-ajax-navigation', _x( 'YITH WooCommerce Ajax Product Filter', '[Plugin Name] Admin: Widget Title', 'yith-woocommerce-ajax-navigation' ), $widget_ops, $control_ops );
+            parent::__construct( 'yith-woo-ajax-navigation', _x( 'YITH Ajax Product Filter', '[Plugin Name] Admin: Widget Title', 'yith-woocommerce-ajax-navigation' ), $widget_ops, $control_ops );
         }
 
 
@@ -150,8 +150,8 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
 
                     echo "</ul>";
                 }
-                elseif ( $display_type == 'select' ) {
-                    $dropdown_label = apply_filters( 'yith_wcan_dropdown_label', __( 'Filters:', 'yith-woocommerce-ajax-navigation' ), $this, $instance );
+                elseif ( in_array( $display_type, apply_filters( 'yith_wcan_display_type_select', array( 'select' ) ) ) ) {
+                    $dropdown_label = apply_filters( 'yith_wcan_dropdown_label', __( 'Filters:', 'yith-woocommerce-ajax-navigation' ), $this, $instance, $instance['attribute'] );
                     ?>
 
                     <a class="yit-wcan-select-open" href="#"><?php echo apply_filters( 'yith_wcan_dropdown_default_label', $dropdown_label, $this ) ?></a>
@@ -211,10 +211,9 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
 
                         }
 
-                        $arg = 'filter_' . urldecode( sanitize_title( $instance['attribute'] ) );
+	                    $arg = apply_filters('yith_wcan_select_type_query_arg', 'filter_' . sanitize_title($instance['attribute']), $display_type, $term);
 
-                        $current_filter = ( isset( $_GET[$arg] ) ) ? explode( ',', $_GET[$arg] ) : array();
-
+	                    $current_filter = (isset($_GET[$arg])) ? explode(apply_filters('yith_wcan_select_filter_operator', ',', $display_type), apply_filters("yith_wcan_select_filter_query_{$arg}", $_GET[$arg] ) ) : array();
                         if ( ! is_array( $current_filter ) ) {
                             $current_filter = array();
                         }
@@ -308,8 +307,7 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
                         if ( isset( $_GET['source_id'] ) && isset( $_GET['source_tax'] ) ) {
                             $add_source_id = true;
                             if( property_exists( $term, 'term_id' ) && property_exists( $queried_object, 'term_id' ) && $term->term_id == $queried_object->term_id ){
-                                $parse = parse_url( $link );
-                                if( empty( $parse['query'] ) ){
+                                if( ! yit_is_filtered_uri() ){
                                     $add_source_id = false;
                                 }
                             }
@@ -328,7 +326,10 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
                         }
 
                         // Current Filter = this widget
-                        if ( isset( $_chosen_attributes[$taxonomy] ) && is_array( $_chosen_attributes[$taxonomy]['terms'] ) && $in_array_function( $term->$filter_term_field, $_chosen_attributes[$taxonomy]['terms'] ) ) {
+	                    $term_param = apply_filters('yith_wcan_term_param_uri', $term->$filter_term_field, $display_type, $term);
+	                    $check_for_current_widget = isset( $_chosen_attributes[$taxonomy] ) && is_array( $_chosen_attributes[$taxonomy]['terms'] ) && $in_array_function( $term->$filter_term_field, $_chosen_attributes[$taxonomy]['terms'] );
+	                    $check_for_current_widget =  apply_filters('yith_wcan_select_type_current_widget_check', $check_for_current_widget, $current_filter, $display_type, $term_param );
+                        if ( $check_for_current_widget ) {
 
                             $class = ( $terms_type_list == 'hierarchical' && yit_term_is_child( $term ) ) ? "class='{$is_chosen_class}  {$is_child_class}'" : "class='{$is_chosen_class}'";
 
@@ -346,7 +347,7 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
 
                         // Search Arg
                         if ( get_search_query() ) {
-                            $link = add_query_arg( 's', get_search_query(), $link );
+	                        $link = add_query_arg( 's', urlencode( get_search_query() ), $link );
                         }
 
                         // Post Type Arg
@@ -427,6 +428,9 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
                                 $this->found = true;
                             }
 
+	                        if ( apply_filters( 'yith_wcan_skip_no_products_color', $count == 0 ) ){
+		                        continue;
+	                        }
                         }
 
                         $arg = 'filter_' . sanitize_title( $instance['attribute'] );
@@ -525,8 +529,7 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
                         if ( isset( $_GET['source_id'] ) && isset( $_GET['source_tax'] ) ) {
                             $add_source_id = true;
                             if( property_exists( $term, 'term_id' ) && property_exists( $queried_object, 'term_id' ) && $term->term_id == $queried_object->term_id ){
-                                $parse = parse_url( $link );
-                                if( empty( $parse['query'] ) ){
+                                if( ! yit_is_filtered_uri() ){
                                     $add_source_id = false;
                                 }
                             }
@@ -559,7 +562,7 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
 
                         // Search Arg
                         if ( get_search_query() ) {
-                            $link = add_query_arg( 's', get_search_query(), $link );
+                            $link = add_query_arg( 's', urlencode( get_search_query() ), $link );
                         }
 
                         // Post Type Arg
@@ -684,8 +687,10 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
 
                                     // Exclude query arg for current term archive term
                                     while ( $in_array_function( $term->slug, $data['terms'] ) ) {
-                                        $key = array_search( $current_term, $data );
-                                        unset( $data['terms'][$key] );
+                                        if( ! empty( $current_term ) ){
+	                                        $key = array_search( $current_term, $data );
+	                                        unset( $data['terms'][$key] );
+                                        }
                                     }
 
                                     // Remove pa_ and sanitize
@@ -757,8 +762,7 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
                         if ( isset( $_GET['source_id'] ) && isset( $_GET['source_tax'] ) ) {
                             $add_source_id = true;
                             if( property_exists( $term, 'term_id' ) && property_exists( $queried_object, 'term_id' ) && $term->term_id == $queried_object->term_id ){
-                                $parse = parse_url( $link );
-                                if( empty( $parse['query'] ) ){
+                                if( ! yit_is_filtered_uri() ){
                                     $add_source_id = false;
                                 }
                             }
@@ -794,7 +798,7 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
 
                         // Search Arg
                         if ( get_search_query() ) {
-                            $link = add_query_arg( 's', get_search_query(), $link );
+	                        $link = add_query_arg( 's', urlencode( get_search_query() ), $link );
                         }
 
                         // Post Type Arg
@@ -1154,8 +1158,7 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
                         $add_source_id = true;
 
                         if( property_exists( $term, 'term_id' ) && property_exists( $queried_object, 'term_id' ) && $term->term_id == $queried_object->term_id ){
-                            $parse = parse_url( $link );
-                            if( empty( $parse['query'] ) ){
+                            if( ! yit_is_filtered_uri() ){
                                 $add_source_id = false;
                             }
                         }
@@ -1200,13 +1203,12 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
                     // Current Filter = this widget
                     if ( apply_filters('yith_wcan_list_type_current_widget_check', $check_for_current_widget, $current_filter, $display_type, $term_param ) ) {
                         if (($terms_type_list == 'hierarchical' || ($terms_type_list == 'tags' && $instance['display'] == 'hierarchical'))) {
-                            $level_class = 'level-' . $level;
                             if (yit_term_is_child($term)) {
-                                $class = "class='{$is_chosen_class}  {$is_child_class} {$level_class}'";
+                                $class = "class='{$is_chosen_class}  {$is_child_class}'";
                             }
 
                             elseif (yit_term_is_parent($term)) {
-                                $class = "class='{$is_chosen_class}  {$is_parent_class} {$level_class}'";
+                                $class = "class='{$is_chosen_class}  {$is_parent_class}'";
                             }
                         }
 
@@ -1224,14 +1226,13 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
                     else {
 
                         if (($terms_type_list == 'hierarchical' || $terms_type_list == 'tags')) {
-                            $level_class = 'level-' . $level;
                             if (yit_term_is_child($term)) {
 
-                                $class = "class='{$is_child_class} {$level_class}'";
+                                $class = "class='{$is_child_class}'";
                             }
 
                             elseif (yit_term_is_parent($term)) {
-                                $class = "class='{$is_parent_class} {$level_class}'";
+                                $class = "class='{$is_parent_class}'";
                             }
                         }
 
@@ -1262,7 +1263,8 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
 
                     if( $count > 0 || $option_is_set ) {
                         $to_print = true;
-                        printf( '<li %s><a %s href="%s">%s</a>', $class, $rel_nofollow, $link, $term->name );
+                        $term_name = apply_filters( 'yith_wcan_term_name_to_show',$term->name, $term );
+                        printf( '<li %s><a %s href="%s">%s</a>', $class, $rel_nofollow, $link, $term_name );
                         $li_printed = true;
                     }
 
@@ -1270,8 +1272,10 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
                         $to_print = apply_filters( 'yith_wcan_show_no_products_attributes', ( ! $filter_by_tags_hierarchical && $query_type != 'and' ), $count, $term );
                         $class = apply_filters( 'yith_wcan_list_type_empty_filter_class', $class );
 
-                        $to_print && printf( '<li %s><span>%s</span>', $class, $term->name );
-                        $li_printed = true;
+                        if( $to_print ){
+                            printf( '<li %s><span>%s</span>', $class, $term->name );
+                            $li_printed = true;
+                        }
                     }
 
                     $show_count = $count != 0 && ! empty( $instance['show_count'] ) && ! $instance['show_count'];
@@ -1289,9 +1293,11 @@ if ( ! class_exists( 'YITH_WCAN_Navigation_Widget' ) ) {
                 }
 
                 if( ! empty( $term_ids ) && is_array( $term_ids ) ){
+	                echo '<ul class="yith-child-terms level-' . $level . '">';
                     $temp_level = $level;
                     $temp_level++;
                     $this->get_list_html( $term_ids, $taxonomy, $query_type, $display_type, $instance, $terms_type_list, $current_term, $args, $is_child_class, $is_parent_class, $is_chosen_class, $temp_level, $filter_term_field, $rel_nofollow );
+	                echo '</ul>';
                 }
             }
         }

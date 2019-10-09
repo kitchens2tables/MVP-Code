@@ -30,6 +30,9 @@
 		'orderby'     => 'meta_value',
 	);
 
+	$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : ( ( get_query_var( 'page' ) ) ? get_query_var( 'page' ) : 1 );
+	$args['paged'] = $paged;
+
 	$event_query = new WP_Query( $args );
 	?>
 
@@ -42,8 +45,8 @@
 					$event_count++;
 					$event_query->the_post();
 					?>
-					<div class="col-lg-6<?php echo 'grid' == $event_layout ? 'col-md-8 offset-lg-0 offset-md-2 custom-sm-margin-bottom-1 p-b-lg' : ''; ?>">
-						<?php get_template_part( 'content', 'archive-event-' . $event_layout ); ?>    
+					<div class="col-lg-6<?php echo 'grid' == $event_layout ? ' col-md-8 offset-lg-0 offset-md-2 custom-sm-margin-bottom-1 p-b-lg' : ''; ?>">
+						<?php get_template_part( 'content', 'archive-event-' . $event_layout ); ?>
 					</div>
 					<?php
 					if ( 0 === $event_count % 2 && ( $event_query->current_post + 1 ) != ( $event_query->post_count ) ) {

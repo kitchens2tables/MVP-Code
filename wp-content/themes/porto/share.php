@@ -112,7 +112,7 @@ endif;
 
 if ( $porto_settings['share-whatsapp'] ) :
 	?>
-	<a href="whatsapp://send?text=<?php echo rawurlencode( $title ) . ' - ' . $permalink; ?>" data-action="share/whatsapp/share" <?php echo porto_filter_output( $nofollow . $tooltip ); ?> title="<?php esc_attr_e( 'WhatsApp', 'porto' ); ?>" class="share-whatsapp" style="display:none"><?php esc_html_e( 'WhatsApp', 'porto' ); ?></a>
+	<a href="whatsapp://send?text=<?php echo rawurlencode( $title ) . ' - ' . esc_url( $permalink ); ?>" data-action="share/whatsapp/share" <?php echo porto_filter_output( $nofollow . $tooltip ); ?> title="<?php esc_attr_e( 'WhatsApp', 'porto' ); ?>" class="share-whatsapp" style="display:none"><?php esc_html_e( 'WhatsApp', 'porto' ); ?></a>
 	<?php
 endif;
 

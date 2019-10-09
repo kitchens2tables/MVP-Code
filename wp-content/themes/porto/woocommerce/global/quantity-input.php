@@ -2,7 +2,7 @@
 /**
  * Product quantity inputs
  *
- * @version     3.4.0
+ * @version     3.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,14 +16,13 @@ if ( $max_value && $min_value === $max_value ) {
 	</div>
 	<?php
 } else {
-	/* translators: %s: Quantity. */
-	$labelledby = ! empty( $args['product_name'] ) ? sprintf( __( '%s quantity', 'woocommerce' ), strip_tags( $args['product_name'] ) ) : '';
 	?>
 	<div class="quantity">
+		<?php do_action( 'woocommerce_before_quantity_input_field' ); ?>
 		<input
 			type="number"
 			id="<?php echo esc_attr( $input_id ); ?>"
-			class="input-text qty text"
+			class="<?php echo isset( $classes ) && $classes ? esc_attr( join( ' ', (array) $classes ) ) : 'input-text qty text'; ?>"
 			step="<?php echo esc_attr( $step ); ?>"
 			min="<?php echo esc_attr( $min_value ); ?>"
 			max="<?php echo esc_attr( 0 < $max_value ? $max_value : '' ); ?>"
@@ -31,11 +30,8 @@ if ( $max_value && $min_value === $max_value ) {
 			value="<?php echo esc_attr( $input_value ); ?>"
 			title="<?php echo esc_attr_x( 'Qty', 'Product quantity input tooltip', 'woocommerce' ); ?>"
 			size="4"
-		<?php if ( version_compare( $porto_woo_version, '2.6', '>=' ) ) : ?>
-			pattern="<?php echo esc_attr( $pattern ); ?>"
-			inputmode="<?php echo esc_attr( $inputmode ); ?>"
-			aria-labelledby="<?php echo esc_attr( $labelledby ); ?>" />
-		<?php endif; ?>
+			inputmode="<?php echo esc_attr( $inputmode ); ?>" />
+		<?php do_action( 'woocommerce_after_quantity_input_field' ); ?>
 	</div>
 	<?php
 }

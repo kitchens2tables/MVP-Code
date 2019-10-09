@@ -206,8 +206,8 @@
         _addNav : function() {
 
             var self = this,
-                $navLeft = $( '<div class="fc-left"><span></span><span></span><span></span><i class="fa fa-arrow-left"></i></div>' ),
-                $navRight = $( '<div class="fc-right"><span></span><span></span><span></span><i class="fa fa-arrow-right"></i></div>' );
+                $navLeft = $( '<div class="fc-left"><span></span><span></span><span></span><i class="fas fa-arrow-left"></i></div>' ),
+                $navRight = $( '<div class="fc-right"><span></span><span></span><span></span><i class="fas fa-arrow-right"></i></div>' );
 
             $( '<nav></nav>' ).append( $navLeft, $navRight ).appendTo( this.$el );
 

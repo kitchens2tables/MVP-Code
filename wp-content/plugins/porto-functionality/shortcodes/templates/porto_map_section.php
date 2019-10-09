@@ -35,7 +35,7 @@ if ( $customize ) {
 	$img_url = wp_get_attachment_url( $img_id );
 	$img_url = str_replace( array( 'http:', 'https:' ), '', $img_url );
 	$gap     = (int) $gap;
-	$output .= ' style="background-image:url(' . str_replace( array( 'http:', 'https:' ), '', $img_url ) . ');' . ( 164 != $gap ? 'padding-top:' . esc_attr( $gap ) . 'px' : '' ) . '"';
+	$output .= ' style="background-image:url(' . esc_url( str_replace( array( 'http:', 'https:' ), '', $img_url ) ) . ');' . ( 164 != $gap ? 'padding-top:' . esc_attr( $gap ) . 'px' : '' ) . '"';
 }
 
 $output .= '>';

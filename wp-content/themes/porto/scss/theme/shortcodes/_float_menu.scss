@@ -52,6 +52,7 @@
 				&:hover > a > span {
 					-webkit-transform: rotateY(0deg);
 					transform: rotateY(0deg);
+					opacity: 1;
 				}
 				> a {
 					font-size: 25px;
@@ -73,14 +74,15 @@
 						position: absolute;
 						top: 0;
 						#{$left}: 127%;
-						background: #FFF;
+						background: #fff;
 						padding: 0 25px;
 						height: 100%;
 						line-height: 4.1;
 						white-space: nowrap;
 						font-size: 14px;
 						z-index: -2;
-						transition: ease transform 300ms;
+						transition: transform .3s;
+						opacity: 0;
 						@if $rtl == 1 {
 							-webkit-transform-origin: 119% 0%;
 							transform-origin: 119% 0%;
@@ -93,16 +95,16 @@
 							transform: rotateY(88deg);
 						}
 						&:before {
-						  content: '';
-						  display: block;
-						  position: absolute;
-						  top: 50%;
-						  #{$left}: -4px;
-						  padding: 10px;
-						  background: #FFF;
-						  z-index: -1;
-						  -webkit-transform: translate(0, -50%) rotate(45deg);
-						  transform: translate(0, -50%) rotate(45deg);
+							content: '';
+							display: block;
+							position: absolute;
+							top: 50%;
+							#{$left}: -4px;
+							padding: 10px;
+							background: #FFF;
+							z-index: -1;
+							-webkit-transform: translate(0, -50%) rotate(45deg);
+							transform: translate(0, -50%) rotate(45deg);
 						}
 					}
 				}

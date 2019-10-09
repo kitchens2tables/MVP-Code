@@ -183,7 +183,7 @@ function is_porto_events_page() {
 function porto_events_page_id() {
 	global $porto_settings;
 
-	$events_page = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['event-archive-page'] ) && $porto_settings['event-archive-page'] ) ? esc_attr( $porto_settings['event-archive-page'] ) : 0 );
+	$events_page = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['event-archive-page'] ) && $porto_settings['event-archive-page'] ) ? $porto_settings['event-archive-page'] : 0 );
 	return $events_page;
 }
 

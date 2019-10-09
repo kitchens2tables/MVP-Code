@@ -7,6 +7,7 @@ extract(
 			'min_width'          => 767,
 			'top'                => 110,
 			'bottom'             => 0,
+			'autofit'            => '',
 			'active_class'       => 'sticky-active',
 			'animation_type'     => '',
 			'animation_duration' => 1000,
@@ -25,7 +26,10 @@ $options['minWidth']          = (int) $min_width;
 $options['padding']['top']    = (int) $top;
 $options['padding']['bottom'] = (int) $bottom;
 $options['activeClass']       = $active_class;
-$options                      = json_encode( $options );
+if ( $autofit ) {
+	$options['autoFit'] = true;
+}
+$options = json_encode( $options );
 
 $output .= '<div class="porto-sticky ' . esc_attr( $el_class ) . '" data-plugin-options="' . esc_attr( $options ) . '"';
 if ( $animation_type ) {

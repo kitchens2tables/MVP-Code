@@ -66,7 +66,7 @@ global $porto_settings, $porto_layout;
 
 				// show mobile toggle
 				?>
-				<a class="mobile-toggle"><i class="fa fa-reorder"></i></a>
+				<a class="mobile-toggle"><i class="fas fa-bars"></i></a>
 			</div>
 			<div class="header-right">
 				<div>
@@ -151,9 +151,9 @@ global $porto_settings, $porto_layout;
 										}
 									}
 									if ( $register_link && isset( $porto_settings['menu-enable-register'] ) && $porto_settings['menu-enable-register'] ) {
-										echo '<a class="porto-link-register ' . ( is_rtl() ? 'pull-left p-l-none' : 'pull-right p-r-none' ) . '" href="' . esc_url( $register_link ) . '"><i class="fa fa-user-plus"></i>' . esc_html__( 'Register', 'porto' ) . '</a>';
+										echo '<a class="porto-link-register ' . ( is_rtl() ? 'pull-left p-l-none' : 'pull-right p-r-none' ) . '" href="' . esc_url( $register_link ) . '"><i class="fas fa-user-plus"></i>' . esc_html__( 'Register', 'porto' ) . '</a>';
 									}
-									echo '<a class="porto-link-login ' . ( is_rtl() ? 'pull-left p-l-none' : 'pull-right p-r-none' ) . '" href="' . esc_url( $login_link ) . '"><i class="fa fa-user"></i>' . esc_html__( 'Login', 'porto' ) . '</a>';
+									echo '<a class="porto-link-login ' . ( is_rtl() ? 'pull-left p-l-none' : 'pull-right p-r-none' ) . '" href="' . esc_url( $login_link ) . '"><i class="fas fa-user"></i>' . esc_html__( 'Login', 'porto' ) . '</a>';
 								}
 							}
 							?>

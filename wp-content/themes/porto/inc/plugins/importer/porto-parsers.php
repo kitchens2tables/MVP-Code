@@ -158,6 +158,15 @@ if ( ! class_exists( 'PORTO_WXR_Parser_SimpleXML' ) ) {
 					);
 				}
 
+				if ( isset( $t->tax_meta ) ) {
+					foreach ( $t->tax_meta as $meta ) {
+						$category['tax_meta'][] = array(
+							'key'   => (string) $meta->meta_key,
+							'value' => (string) $meta->meta_value
+						);
+					}
+				}
+
 				$categories[] = $category;
 			}
 
@@ -196,6 +205,15 @@ if ( ! class_exists( 'PORTO_WXR_Parser_SimpleXML' ) ) {
 						'key'   => (string) $meta->meta_key,
 						'value' => (string) $meta->meta_value,
 					);
+				}
+
+				if ( isset( $t->tax_meta ) ) {
+					foreach ( $t->tax_meta as $meta ) {
+						$term['tax_meta'][] = array(
+							'key'   => (string) $meta->meta_key,
+							'value' => (string) $meta->meta_value
+						);
+					}
 				}
 
 				$terms[] = $term;

@@ -3,7 +3,7 @@ function porto_check_theme_options() {
 	// check default options
 	global $porto_settings;
 	ob_start();
-	include porto_admin . '/theme_options/default_options.php';
+	include PORTO_ADMIN . '/theme_options/default_options.php';
 	$options                = ob_get_clean();
 	$porto_default_settings = json_decode( $options, true );
 	foreach ( $porto_default_settings as $key => $value ) {
@@ -52,15 +52,15 @@ if ( ! function_exists( 'porto_options_body_wrapper' ) ) :
 		return array(
 			'wide'  => array(
 				'alt' => 'Wide',
-				'img' => porto_options_uri . '/layouts/body_wide.jpg',
+				'img' => PORTO_OPTIONS_URI . '/layouts/body_wide.jpg',
 			),
 			'full'  => array(
 				'alt' => 'Full',
-				'img' => porto_options_uri . '/layouts/body_full.jpg',
+				'img' => PORTO_OPTIONS_URI . '/layouts/body_full.jpg',
 			),
 			'boxed' => array(
 				'alt' => 'Boxed',
-				'img' => porto_options_uri . '/layouts/body_boxed.jpg',
+				'img' => PORTO_OPTIONS_URI . '/layouts/body_boxed.jpg',
 			),
 		);
 	}
@@ -71,35 +71,35 @@ if ( ! function_exists( 'porto_options_layouts' ) ) :
 		return array(
 			'widewidth'          => array(
 				'alt' => 'Wide Width',
-				'img' => porto_options_uri . '/layouts/page_wide.jpg',
+				'img' => PORTO_OPTIONS_URI . '/layouts/page_wide.jpg',
 			),
 			'wide-left-sidebar'  => array(
 				'alt' => 'Wide Left Sidebar',
-				'img' => porto_options_uri . '/layouts/page_wide_left.jpg',
+				'img' => PORTO_OPTIONS_URI . '/layouts/page_wide_left.jpg',
 			),
 			'wide-right-sidebar' => array(
 				'alt' => 'Wide Right Sidebar',
-				'img' => porto_options_uri . '/layouts/page_wide_right.jpg',
+				'img' => PORTO_OPTIONS_URI . '/layouts/page_wide_right.jpg',
 			),
 			'wide-both-sidebar'  => array(
 				'alt' => 'Wide Both Sidebars',
-				'img' => porto_options_uri . '/layouts/page_wide_both.jpg',
+				'img' => PORTO_OPTIONS_URI . '/layouts/page_wide_both.jpg',
 			),
 			'fullwidth'          => array(
 				'alt' => 'Without Sidebar',
-				'img' => porto_options_uri . '/layouts/page_full.jpg',
+				'img' => PORTO_OPTIONS_URI . '/layouts/page_full.jpg',
 			),
 			'left-sidebar'       => array(
 				'alt' => 'Left Sidebar',
-				'img' => porto_options_uri . '/layouts/page_full_left.jpg',
+				'img' => PORTO_OPTIONS_URI . '/layouts/page_full_left.jpg',
 			),
 			'right-sidebar'      => array(
 				'alt' => 'Right Sidebar',
-				'img' => porto_options_uri . '/layouts/page_full_right.jpg',
+				'img' => PORTO_OPTIONS_URI . '/layouts/page_full_right.jpg',
 			),
 			'both-sidebar'       => array(
 				'alt' => 'Both Sidebars',
-				'img' => porto_options_uri . '/layouts/page_full_both.jpg',
+				'img' => PORTO_OPTIONS_URI . '/layouts/page_full_both.jpg',
 			),
 		);
 	}
@@ -110,15 +110,15 @@ if ( ! function_exists( 'porto_options_wrapper' ) ) :
 		return array(
 			'wide'  => array(
 				'alt' => 'Wide',
-				'img' => porto_options_uri . '/layouts/content_wide.jpg',
+				'img' => PORTO_OPTIONS_URI . '/layouts/content_wide.jpg',
 			),
 			'full'  => array(
 				'alt' => 'Full',
-				'img' => porto_options_uri . '/layouts/content_full.jpg',
+				'img' => PORTO_OPTIONS_URI . '/layouts/content_full.jpg',
 			),
 			'boxed' => array(
 				'alt' => 'Boxed',
-				'img' => porto_options_uri . '/layouts/content_boxed.jpg',
+				'img' => PORTO_OPTIONS_URI . '/layouts/content_boxed.jpg',
 			),
 		);
 	}
@@ -129,11 +129,11 @@ if ( ! function_exists( 'porto_options_banner_wrapper' ) ) :
 		return array(
 			'wide'  => array(
 				'alt' => 'Wide',
-				'img' => porto_options_uri . '/layouts/content_wide.jpg',
+				'img' => PORTO_OPTIONS_URI . '/layouts/content_wide.jpg',
 			),
 			'boxed' => array(
 				'alt' => 'Boxed',
-				'img' => porto_options_uri . '/layouts/content_boxed.jpg',
+				'img' => PORTO_OPTIONS_URI . '/layouts/content_boxed.jpg',
 			),
 		);
 	}
@@ -145,105 +145,105 @@ if ( ! function_exists( 'porto_options_header_types' ) ) :
 			'10'   => array(
 				'alt'             => 'Header Type 10',
 				'title'           => '10',
-				'img'             => porto_options_uri . '/headers/header_10.png',
+				'img'             => PORTO_OPTIONS_URI . '/headers/header_10.png',
 				'default_options' => array(),
 			),
 			'11'   => array(
 				'alt'   => 'Header Type 11',
 				'title' => '11',
-				'img'   => porto_options_uri . '/headers/header_11.png',
+				'img'   => PORTO_OPTIONS_URI . '/headers/header_11.png',
 			),
 			'12'   => array(
 				'alt'   => 'Header Type 12',
 				'title' => '12',
-				'img'   => porto_options_uri . '/headers/header_12.png',
+				'img'   => PORTO_OPTIONS_URI . '/headers/header_12.png',
 			),
 			'13'   => array(
 				'alt'   => 'Header Type 13',
 				'title' => '13',
-				'img'   => porto_options_uri . '/headers/header_13.png',
+				'img'   => PORTO_OPTIONS_URI . '/headers/header_13.png',
 			),
 			'14'   => array(
 				'alt'   => 'Header Type 14',
 				'title' => '14',
-				'img'   => porto_options_uri . '/headers/header_14.png',
+				'img'   => PORTO_OPTIONS_URI . '/headers/header_14.png',
 			),
 			'15'   => array(
 				'alt'   => 'Header Type 15',
 				'title' => '15',
-				'img'   => porto_options_uri . '/headers/header_15.png',
+				'img'   => PORTO_OPTIONS_URI . '/headers/header_15.png',
 			),
 			'16'   => array(
 				'alt'   => 'Header Type 16',
 				'title' => '16',
-				'img'   => porto_options_uri . '/headers/header_16.png',
+				'img'   => PORTO_OPTIONS_URI . '/headers/header_16.png',
 			),
 			'17'   => array(
 				'alt'   => 'Header Type 17',
 				'title' => '17',
-				'img'   => porto_options_uri . '/headers/header_17.png',
+				'img'   => PORTO_OPTIONS_URI . '/headers/header_17.png',
 			),
 
 			'1'    => array(
 				'alt'   => 'Header Type 1',
 				'title' => '1',
-				'img'   => porto_options_uri . '/headers/header_01.png',
+				'img'   => PORTO_OPTIONS_URI . '/headers/header_01.png',
 			),
 			'2'    => array(
 				'alt'   => 'Header Type 2',
 				'title' => '2',
-				'img'   => porto_options_uri . '/headers/header_02.png',
+				'img'   => PORTO_OPTIONS_URI . '/headers/header_02.png',
 			),
 			'3'    => array(
 				'alt'   => 'Header Type 3',
 				'title' => '3',
-				'img'   => porto_options_uri . '/headers/header_03.jpg',
+				'img'   => PORTO_OPTIONS_URI . '/headers/header_03.jpg',
 			),
 			'4'    => array(
 				'alt'   => 'Header Type 4',
 				'title' => '4',
-				'img'   => porto_options_uri . '/headers/header_04.png',
+				'img'   => PORTO_OPTIONS_URI . '/headers/header_04.png',
 			),
 			'5'    => array(
 				'alt'   => 'Header Type 5',
 				'title' => '5',
-				'img'   => porto_options_uri . '/headers/header_05.jpg',
+				'img'   => PORTO_OPTIONS_URI . '/headers/header_05.jpg',
 			),
 			'6'    => array(
 				'alt'   => 'Header Type 6',
 				'title' => '6',
-				'img'   => porto_options_uri . '/headers/header_06.jpg',
+				'img'   => PORTO_OPTIONS_URI . '/headers/header_06.jpg',
 			),
 			'7'    => array(
 				'alt'   => 'Header Type 7',
 				'title' => '7',
-				'img'   => porto_options_uri . '/headers/header_07.jpg',
+				'img'   => PORTO_OPTIONS_URI . '/headers/header_07.jpg',
 			),
 			'8'    => array(
 				'alt'   => 'Header Type 8',
 				'title' => '8',
-				'img'   => porto_options_uri . '/headers/header_08.png',
+				'img'   => PORTO_OPTIONS_URI . '/headers/header_08.png',
 			),
 			'9'    => array(
 				'alt'   => 'Header Type 9',
 				'title' => '9',
-				'img'   => porto_options_uri . '/headers/header_09.png',
+				'img'   => PORTO_OPTIONS_URI . '/headers/header_09.png',
 			),
 
 			'18'   => array(
 				'alt'   => 'Header Type 18',
 				'title' => '18',
-				'img'   => porto_options_uri . '/headers/header_18.jpg',
+				'img'   => PORTO_OPTIONS_URI . '/headers/header_18.jpg',
 			),
 			'19'   => array(
 				'alt'   => 'Header Type 19',
 				'title' => '19',
-				'img'   => porto_options_uri . '/headers/header_19.png',
+				'img'   => PORTO_OPTIONS_URI . '/headers/header_19.png',
 			),
 			'side' => array(
 				'alt'   => 'Header Type(Side Navigation)',
 				'title' => 'Side',
-				'img'   => porto_options_uri . '/headers/header_side.jpg',
+				'img'   => PORTO_OPTIONS_URI . '/headers/header_side.jpg',
 			),
 		);
 	}
@@ -308,7 +308,7 @@ if ( ! function_exists( 'porto_header_builder_presets' ) ) :
 				'title'    => 'Header Preset 1',
 				'elements' => array(
 					'top_left'   => '[{"contact":""}]',
-					'top_right'  => '[{"html":"<ul class=\"nav nav-top\">\n    <li class=\"nav-item\">\n        <a href=\"mailto:mail@domain.com\"><i class=\"fa fa-envelope-o text-color-primary\"></i>mail@domain.com</a>\n    </li>\n    <li class=\"nav-item\">\n        <a href=\"tel:123-456-7890\"><i class=\"fa fa-whatsapp text-color-primary\"></i>123-456-7890</a>\n    </li>\n</ul>"}]',
+					'top_right'  => '[{"html":"<ul class=\"nav nav-top\">\n    <li class=\"nav-item\">\n        <a href=\"mailto:mail@domain.com\"><i class=\"far fa-envelope text-color-primary\"></i>mail@domain.com</a>\n    </li>\n    <li class=\"nav-item\">\n        <a href=\"tel:123-456-7890\"><i class=\"fab fa-whatsapp text-color-primary\"></i>123-456-7890</a>\n    </li>\n</ul>"}]',
 					'main_left'  => '[{"logo":""}]',
 					'main_right' => '[{"main-menu":""},{"social":""},{"divider":""},{"search-form":""},{"mini-cart":""},{"menu-icon":""}]',
 				),
@@ -351,7 +351,7 @@ if ( ! function_exists( 'porto_header_builder_presets' ) ) :
 				'title'    => 'Header Preset 2',
 				'elements' => array(
 					'top_left'   => '[{"contact":""}]',
-					'top_right'  => '[{"html":"<ul class=\"nav nav-top\">\n    <li class=\"nav-item\">\n        <a href=\"mailto:mail@domain.com\"><i class=\"fa fa-envelope-o text-color-primary\"></i>mail@domain.com</a>\n    </li>\n    <li class=\"nav-item\">\n        <a href=\"tel:123-456-7890\"><i class=\"fa fa-whatsapp text-color-primary\"></i>123-456-7890</a>\n    </li>\n</ul>"}]',
+					'top_right'  => '[{"html":"<ul class=\"nav nav-top\">\n    <li class=\"nav-item\">\n        <a href=\"mailto:mail@domain.com\"><i class=\"far fa-envelope text-color-primary\"></i>mail@domain.com</a>\n    </li>\n    <li class=\"nav-item\">\n        <a href=\"tel:123-456-7890\"><i class=\"fab fa-whatsapp text-color-primary\"></i>123-456-7890</a>\n    </li>\n</ul>"}]',
 					'main_left'  => '[{"logo":""}]',
 					'main_right' => '[{"main-menu":""},{"social":""},{"menu-icon":""}]',
 
@@ -566,14 +566,14 @@ if ( ! function_exists( 'porto_header_builder_presets' ) ) :
 				'elements'   => array(
 					'top_left'           => '[{"contact":""}]',
 					'top_right'          => '[{"social":""}]',
-					'main_left'          => '[{"html":"<div class=\"feature-box feature-box-style-2 align-items-center\">\n\t<div class=\"feature-box-icon font-size-sm\">\n\t\t<i class=\"fa fa-clock-o\"></i>\n\t</div>\n\t<div class=\"feature-box-info pl-2\">\n\t\t<p class=\"pb-0 font-weight-semibold font-size-sm mb-0\">MON - FRI: 10:00 - 18:00<br>SAT - SUN: 10:00 - 14:00</p>\n\t</div>\n</div>"}]',
+					'main_left'          => '[{"html":"<div class=\"feature-box feature-box-style-2 align-items-center\">\n\t<div class=\"feature-box-icon font-size-sm\">\n\t\t<i class=\"far fa-clock\"></i>\n\t</div>\n\t<div class=\"feature-box-info pl-2\">\n\t\t<p class=\"pb-0 font-weight-semibold font-size-sm mb-0\">MON - FRI: 10:00 - 18:00<br>SAT - SUN: 10:00 - 14:00</p>\n\t</div>\n</div>"}]',
 					'main_center'        => '[{"logo":""}]',
-					'main_right'         => '[{"html":"<div class=\"feature-box reverse-allres feature-box-style-2 align-items-center\">\n\t<div class=\"feature-box-icon font-size-sm\">\n\t\t<i class=\"fa fa-whatsapp\"></i>\n\t</div>\n\t<div class=\"feature-box-info pr-2 mt-1\">\n\t\t<p class=\"mb-0 font-weight-semibold font-size-sm\">(123) 456-7890<br>(123) 456-7891</p>\n\t</div>\n</div>"}]',
+					'main_right'         => '[{"html":"<div class=\"feature-box reverse-allres feature-box-style-2 align-items-center\">\n\t<div class=\"feature-box-icon font-size-sm\">\n\t\t<i class=\"fab fa-whatsapp\"></i>\n\t</div>\n\t<div class=\"feature-box-info pr-2 mt-1\">\n\t\t<p class=\"mb-0 font-weight-semibold font-size-sm\">(123) 456-7890<br>(123) 456-7891</p>\n\t</div>\n</div>"}]',
 					'bottom_center'      => '[{"main-menu":""}]',
 					'mobile_top_left'    => '[{"contact":""}]',
 					'mobile_top_right'   => '[{"social":""}]',
 					'mobile_main_center' => '[{"logo":""}]',
-					'mobile_main_right'  => '[{"html":"<div class=\"feature-box reverse-allres feature-box-style-2 align-items-center\">\n\t<div class=\"feature-box-icon font-size-sm\">\n\t\t<i class=\"fa fa-whatsapp\"></i>\n\t</div>\n\t<div class=\"feature-box-info pr-2 mt-1\">\n\t\t<p class=\"mb-0 font-weight-semibold font-size-sm\">(123) 456-7890<br>(123) 456-7891</p>\n\t</div>\n</div>"},{"menu-icon":""}]',
+					'mobile_main_right'  => '[{"html":"<div class=\"feature-box reverse-allres feature-box-style-2 align-items-center\">\n\t<div class=\"feature-box-icon font-size-sm\">\n\t\t<i class=\"fab fa-whatsapp\"></i>\n\t</div>\n\t<div class=\"feature-box-info pr-2 mt-1\">\n\t\t<p class=\"mb-0 font-weight-semibold font-size-sm\">(123) 456-7890<br>(123) 456-7891</p>\n\t</div>\n</div>"},{"menu-icon":""}]',
 				),
 				'custom_css' => '#header .feature-box p { line-height: 1.5; }@media (min-width: 992px) { .header-bottom { border-top: 1px solid rgba(0, 0, 0, .08); } }',
 				'options'    => array(
@@ -743,15 +743,15 @@ if ( ! function_exists( 'porto_options_footer_types' ) ) :
 		return array(
 			'1' => array(
 				'alt' => 'Footer Type 1',
-				'img' => porto_options_uri . '/footers/footer_01.jpg',
+				'img' => PORTO_OPTIONS_URI . '/footers/footer_01.jpg',
 			),
 			'2' => array(
 				'alt' => 'Footer Type 2',
-				'img' => porto_options_uri . '/footers/footer_02.jpg',
+				'img' => PORTO_OPTIONS_URI . '/footers/footer_02.jpg',
 			),
 			'3' => array(
 				'alt' => 'Footer Type 3',
-				'img' => porto_options_uri . '/footers/footer_03.jpg',
+				'img' => PORTO_OPTIONS_URI . '/footers/footer_03.jpg',
 			),
 		);
 	}
@@ -762,31 +762,31 @@ if ( ! function_exists( 'porto_options_breadcrumbs_types' ) ) :
 		return array(
 			'1' => array(
 				'alt' => 'Breadcrumbs Type 1',
-				'img' => porto_options_uri . '/breadcrumbs/breadcrumbs_01.jpg',
+				'img' => PORTO_OPTIONS_URI . '/breadcrumbs/breadcrumbs_01.jpg',
 			),
 			'2' => array(
 				'alt' => 'Breadcrumbs Type 2',
-				'img' => porto_options_uri . '/breadcrumbs/breadcrumbs_02.jpg',
+				'img' => PORTO_OPTIONS_URI . '/breadcrumbs/breadcrumbs_02.jpg',
 			),
 			'3' => array(
 				'alt' => 'Breadcrumbs Type 3',
-				'img' => porto_options_uri . '/breadcrumbs/breadcrumbs_03.jpg',
+				'img' => PORTO_OPTIONS_URI . '/breadcrumbs/breadcrumbs_03.jpg',
 			),
 			'4' => array(
 				'alt' => 'Breadcrumbs Type 4',
-				'img' => porto_options_uri . '/breadcrumbs/breadcrumbs_04.jpg',
+				'img' => PORTO_OPTIONS_URI . '/breadcrumbs/breadcrumbs_04.jpg',
 			),
 			'5' => array(
 				'alt' => 'Breadcrumbs Type 5',
-				'img' => porto_options_uri . '/breadcrumbs/breadcrumbs_05.jpg',
+				'img' => PORTO_OPTIONS_URI . '/breadcrumbs/breadcrumbs_05.jpg',
 			),
 			'6' => array(
 				'alt' => 'Breadcrumbs Type 6',
-				'img' => porto_options_uri . '/breadcrumbs/breadcrumbs_06.jpg',
+				'img' => PORTO_OPTIONS_URI . '/breadcrumbs/breadcrumbs_06.jpg',
 			),
 			'7' => array(
 				'alt' => 'Breadcrumbs Type 7',
-				'img' => porto_options_uri . '/breadcrumbs/breadcrumbs_07.jpg',
+				'img' => PORTO_OPTIONS_URI . '/breadcrumbs/breadcrumbs_07.jpg',
 			),
 		);
 	}

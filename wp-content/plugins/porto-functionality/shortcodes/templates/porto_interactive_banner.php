@@ -3,7 +3,12 @@
 $banner_title              = $banner_desc = $banner_image = $banner_link = $banner_style = $el_class = '';
 $banner_title_font_size    = '';
 $banner_title_style_inline = $banner_desc_style_inline = $banner_color_bg = $banner_color_title = $banner_color_desc = $banner_title_bg = '';
-$image_opacity             = $image_opacity_on_hover = $target = $link_title  = $rel = '';
+
+$animation_type     = '';
+$animation_delay    = '';
+$animation_duration = '';
+
+$image_opacity = $image_opacity_on_hover = $target = $link_title  = $rel = '';
 extract(
 	shortcode_atts(
 		array(
@@ -23,6 +28,9 @@ extract(
 			'el_class'               => '',
 			'css_ibanner'            => '',
 			'className'              => '',
+			'animation_type'         => '',
+			'animation_duration'     => 1000,
+			'animation_delay'        => 0,
 		),
 		$atts
 	)
@@ -48,16 +56,51 @@ if ( $banner_title_bg && 'style2' == $banner_style ) {
 	$title_bg .= 'background:' . esc_attr( $banner_title_bg ) . ';';
 }
 
-$img = $alt = $img_width = $img_height = '';
-if ( is_numeric( $banner_image ) ) {
-	$img = wp_get_attachment_image_src( $banner_image, 'full' );
-	if ( $img ) {
-		$img_width  = $img[1];
-		$img_height = $img[2];
-		$img        = $img[0];
+$img = '';
+if ( $image_opacity && '1' != $image_opacity ) {
+	$img_style .= 'opacity:' . esc_attr( $image_opacity ) . ';';
+}
+if ( $banner_image ) {
+	global $porto_carousel_lazyload;
+	$img_attr = array();
+	if ( 'enable' === $lazyload || $lazyload ) {
+		if ( isset( $porto_carousel_lazyload ) && true === $porto_carousel_lazyload ) {
+			$img_attr['class'] = 'porto-ibanner-img owl-lazy';
+		} else {
+			wp_enqueue_script( 'jquery-lazyload' );
+
+			$img_attr['class'] = 'porto-ibanner-img porto-lazyload';
+		}
+	} else {
+		$img_attr['class'] = 'porto-ibanner-img';
 	}
-} elseif ( $banner_image ) {
-	$img = $banner_image;
+	if ( $img_style ) {
+		$img_attr['style'] = $img_style;
+	}
+	if ( is_numeric( $banner_image ) ) {
+		if ( 'enable' === $lazyload || $lazyload ) {
+			$img_data = wp_get_attachment_image_src( $banner_image, 'full' );
+			if ( $img_data ) {
+				$placeholder               = porto_generate_placeholder( $img_data[1] . 'x' . $img_data[2] );
+				$img_attr['src']           = esc_url( $placeholder[0] );
+				$img_attr['data-original'] = esc_url( $img_data[0] );
+			}
+		}
+		$img = wp_get_attachment_image( $banner_image, 'full', false, $img_attr );
+	} else {
+		if ( 'enable' === $lazyload || $lazyload ) {
+			$placeholder               = porto_generate_placeholder( '1x1' );
+			$img_attr['src']           = esc_url( $placeholder[0] );
+			$img_attr['data-original'] = esc_url( $banner_image );
+		} else {
+			$img_attr['src'] = esc_url( $banner_image );
+		}
+		$img_attr_html = '';
+		foreach ( $img_attr as $name => $value ) {
+			$img_attr_html .= " $name=" . '"' . $value . '"';
+		}
+		$img = '<img alt=""' . $img_attr_html . ' />';
+	}
 }
 
 if ( $banner_link ) {
@@ -95,9 +138,6 @@ if ( $banner_color_desc ) {
 	$banner_desc_style_inline .= 'color:' . esc_attr( $banner_color_desc ) . ';';
 }
 
-if ( $image_opacity && $image_opacity != $image_opacity_on_hover && '1' != $image_opacity ) {
-	$img_style .= 'opacity:' . esc_attr( $image_opacity ) . ';';
-}
 if ( '#' !== $link ) {
 	$href = 'href="' . esc_url( $link ) . '"';
 } else {
@@ -107,44 +147,29 @@ if ( '#' !== $link ) {
 $heading_tag = 'h2';
 
 $opacity_attr = '';
-if ( $image_opacity != $image_opacity_on_hover && '1' != $image_opacity ) {
+if ( $image_opacity != $image_opacity_on_hover ) {
 	$opacity_attr .= ' data-opacity="' . esc_attr( $image_opacity ) . '" data-hover-opacity="' . esc_attr( $image_opacity_on_hover ) . '"';
+}
+if ( $animation_type ) {
+	$opacity_attr .= ' data-appear-animation="' . esc_attr( $animation_type ) . '"';
+	if ( $animation_delay ) {
+		$opacity_attr .= ' data-appear-animation-delay="' . esc_attr( $animation_delay ) . '"';
+	}
+	if ( $animation_duration && 1000 != $animation_duration ) {
+		$opacity_attr .= ' data-appear-animation-duration="' . esc_attr( $animation_duration ) . '"';
+	}
 }
 
 $output .= '<div class="porto-ibanner ' . ( $banner_style ? 'porto-ibanner-effect-' . esc_attr( $banner_style ) : '' ) . ' ' . esc_attr( $el_class ) . ' ' . esc_attr( $css_ib_styles ) . '" style="' . esc_attr( $banner_style_inline ) . '"' . $opacity_attr . '>';
 if ( $img ) {
-	global $porto_carousel_lazyload;
-	if ( 'enable' === $lazyload || $lazyload ) {
-		if ( isset( $porto_carousel_lazyload ) && true === $porto_carousel_lazyload ) {
-			$img_class    = 'porto-ibanner-img owl-lazy';
-			$img_src_attr = 'data-src="' . esc_url( $img ) . '"';
-		} else {
-			$img_class    = 'porto-ibanner-img porto-lazyload';
-			$img_src_attr = 'data-original="' . esc_url( $img ) . '"';
-		}
-		if ( $img_width && $img_height ) {
-			$placeholder   = porto_generate_placeholder( $img_width . 'x' . $img_height );
-			$img_src_attr .= ' src="' . esc_url( $placeholder[0] ) . '"';
-		}
-	} else {
-		$img_class    = 'porto-ibanner-img';
-		$img_src_attr = 'src="' . esc_url( $img ) . '"';
-	}
-	if ( $img_width ) {
-		$img_src_attr .= ' width="' . esc_attr( $img_width ) . '"';
-	}
-	if ( $img_height ) {
-		$img_src_attr .= ' height="' . esc_attr( $img_height ) . '"';
-	}
-	$output .= '<img class="' . $img_class . '" style="' . esc_attr( $img_style ) . '" alt="' . esc_attr( $alt ) . '" ' . $img_src_attr . ' />';
+	$output .= $img;
 }
 if ( $banner_title || $banner_desc || $content ) {
-	$banner_title = porto_remove_wpautop( $banner_title );
-	$output      .= '<div id="' . esc_attr( $interactive_banner_id ) . '" class="porto-ibanner-desc" style="' . esc_attr( $title_bg ) . '">';
+	$output .= '<div id="' . esc_attr( $interactive_banner_id ) . '" class="porto-ibanner-desc" style="' . esc_attr( $title_bg ) . '">';
 	if ( $banner_title ) {
 		$output .= '<' . $heading_tag . ' class="porto-ibanner-title" style="' . esc_attr( $banner_title_style_inline ) . '">' . do_shortcode( $banner_title ) . '</' . $heading_tag . '>';
 	}
-	$output .= '<div class="porto-ibanner-content" style="' . esc_attr( $banner_desc_style_inline ) . '">' . do_shortcode( porto_remove_wpautop( $banner_desc ? $banner_desc : $content ) ) . '</div>';
+	$output .= '<div class="porto-ibanner-content" style="' . esc_attr( $banner_desc_style_inline ) . '">' . do_shortcode( $banner_desc ? $banner_desc : $content ) . '</div>';
 	$output .= '</div>';
 }
 if ( $href ) {

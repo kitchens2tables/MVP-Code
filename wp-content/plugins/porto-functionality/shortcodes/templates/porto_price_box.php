@@ -91,18 +91,18 @@ if ( 'open_link' === $btn_action ) {
 	$attributes = implode( ' ', $attributes );
 
 	if ( $use_link ) {
-		$btn_html .= '<a ' . $attributes . ' class="' . $btn_class . '">' . $btn_label . '</a>';
+		$btn_html .= '<a ' . $attributes . ' class="' . $btn_class . '">' . esc_html( $btn_label ) . '</a>';
 	} else {
-		$btn_html .= '<span class="' . $btn_class . '">' . $btn_label . '</span>';
+		$btn_html .= '<span class="' . $btn_class . '">' . esc_html( $btn_label ) . '</span>';
 	}
 } elseif ( 'popup_iframe' === $btn_action ) {
 	if ( $popup_iframe ) {
-		$btn_html .= '<a class="' . $btn_class . ' porto-popup-iframe" href="' . $popup_iframe . '">' . $btn_label . '</a>';
+		$btn_html .= '<a class="' . $btn_class . ' porto-popup-iframe" href="' . esc_url( $popup_iframe ) . '">' . esc_html( $btn_label ) . '</a>';
 	}
 } else {
 	if ( $popup_block ) {
 		$id        = 'popup' . rand();
-		$btn_html .= '<a class="' . $btn_class . ' porto-popup-content" href="#' . $id . '" data-animation="' . esc_attr( $popup_animation ) . '">' . $btn_label . '</a>';
+		$btn_html .= '<a class="' . $btn_class . ' porto-popup-content" href="#' . esc_attr( $id ) . '" data-animation="' . esc_attr( $popup_animation ) . '">' . $btn_label . '</a>';
 		$btn_html .= '<div id="' . $id . '" class="dialog dialog-' . esc_attr( $popup_size ) . ' zoom-anim-dialog mfp-hide">' . do_shortcode( '[porto_block name="' . $popup_block . '"]' ) . '</div>';
 	}
 }
@@ -172,7 +172,7 @@ if ( $show_btn && 'bottom' !== $btn_pos ) {
 	$output .= $btn_html;
 }
 
-$output .= porto_shortcode_js_remove_wpautop( $content, true );
+$output .= function_exists( 'wpb_js_remove_wpautop' ) ? wpb_js_remove_wpautop( $content, true ) : do_shortcode( $content );
 
 if ( $show_btn && 'bottom' === $btn_pos ) {
 	$output .= $btn_html;

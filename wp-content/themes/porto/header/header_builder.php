@@ -28,7 +28,7 @@ if ( is_customize_preview() && porto_get_wrapper_type() != 'boxed' && 'boxed' ==
 	<div class="side-header-narrow-bar side-header-narrow-bar-<?php echo esc_attr( $current_layout['side_header_toggle'] ); ?>">
 		<div class="side-header-narrow-bar-logo">
 		<?php if ( isset( $current_layout['side_header_toggle_logo'] ) && $current_layout['side_header_toggle_logo'] ) : ?>
-			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?> - <?php bloginfo( 'description' ); ?>"><img src="<?php echo esc_url( $current_layout['side_header_toggle_logo'] ); ?>" alt="<?php esc_html_e( 'Secondary Logo', 'porto' ); ?>"></a>
+			<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?> - <?php bloginfo( 'description' ); ?>"><img src="<?php echo esc_url( $current_layout['side_header_toggle_logo'] ); ?>" alt="<?php esc_attr_e( 'Secondary Logo', 'porto' ); ?>"></a>
 		<?php endif; ?>
 		</div>
 		<div class="side-header-narrow-bar-content">
@@ -53,6 +53,15 @@ if ( is_customize_preview() && porto_get_wrapper_type() != 'boxed' && 'boxed' ==
 <?php endif; ?>
 
 	<header id="header" class="header-builder<?php echo porto_header_type_is_side() ? ' header-side sticky-menu-header' : '', $porto_settings['logo-overlay'] && $porto_settings['logo-overlay']['url'] ? ' logo-overlay-header' : ''; ?>">
+	<?php if ( porto_header_type_is_side() && isset( $current_layout['side_header_toggle'] ) && 'top' == $current_layout['side_header_toggle'] && isset( $current_layout['side_header_disable_overlay'] ) && $current_layout['side_header_disable_overlay'] ) : ?>
+		<button class="hamburguer-btn hamburguer-close active">
+			<span class="close">
+				<span></span>
+				<span></span>
+			</span>
+		</button>
+	<?php endif; ?>
+
 	<?php
 		$header_rows     = array( 'top', 'main', 'bottom' );
 		$header_columns  = array( 'left', 'center', 'right' );
@@ -89,7 +98,7 @@ if ( is_customize_preview() && porto_get_wrapper_type() != 'boxed' && 'boxed' ==
 			if ( 'bottom' == $row ) {
 				foreach ( $header_columns as $column ) {
 					$elements = isset( $header_elements[ $row . '_' . $column ] ) ? $header_elements[ $row . '_' . $column ] : '';
-					if ( strpos( $elements, '"main-menu"' ) !== false ) {
+					if ( strpos( $elements, '"main-menu"' ) !== false || strpos( $elements, '"main-toggle-menu"' ) !== false ) {
 						$main_menu_wrap = ' main-menu-wrap';
 						break;
 					}
@@ -136,6 +145,6 @@ if ( is_customize_preview() && porto_get_wrapper_type() != 'boxed' && 'boxed' ==
 <?php if ( is_customize_preview() && porto_get_wrapper_type() != 'boxed' && 'boxed' == $porto_settings['header-wrapper'] ) : ?>
 	</div>
 <?php endif; ?>
-<?php if ( porto_header_type_is_side() && isset( $current_layout['side_header_toggle'] ) && 'top' == $current_layout['side_header_toggle'] ) : ?>
+<?php if ( porto_header_type_is_side() && isset( $current_layout['side_header_toggle'] ) && 'top' == $current_layout['side_header_toggle'] && ( ! isset( $current_layout['side_header_disable_overlay'] ) || ! $current_layout['side_header_disable_overlay'] )  ) : ?>
 	<div class="side-header-overlay hamburguer-close"></div>
 <?php endif; ?>

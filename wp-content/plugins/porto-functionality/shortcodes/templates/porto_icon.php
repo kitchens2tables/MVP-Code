@@ -172,10 +172,10 @@ $uniqid         = uniqid( rand() );
 $internal_style = '';
 if ( 'circle_img' == $icon_style && 'custom' == $icon_type && $icon_border_spacing ) {
 	$internal_style         .= '<style>';
-		$internal_style     .= '#porto-icon-' . esc_attr( $uniqid ) . ' .porto-sicon-img.porto-u-circle-img:before {';
-			$internal_style .= 'border-width: ' . ( esc_attr( $icon_border_spacing ) + 1 ) . 'px;';
+		$internal_style     .= '#porto-icon-' . esc_html( $uniqid ) . ' .porto-sicon-img.porto-u-circle-img:before {';
+			$internal_style .= 'border-width: ' . ( esc_html( $icon_border_spacing ) + 1 ) . 'px;';
 	if ( $icon_color_bg ) {
-		$internal_style .= 'border-color: ' . esc_attr( $icon_color_bg );
+		$internal_style .= 'border-color: ' . esc_html( $icon_color_bg );
 	}
 		$internal_style .= '}';
 	$internal_style     .= '</style>';

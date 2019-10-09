@@ -68,6 +68,10 @@
             color: #000a1b;
             padding: 10px 5px 0 0;
         }
+         .porto-link-login-pad-0 {
+          
+            padding-right :0;
+        }
         .porto-link-login:before {
             font-family: "Font Awesome 5 Free";
             font-weight: 900;
@@ -571,7 +575,7 @@
             padding-right: 17px;
         }
         #header #mini-cart .cart-head:after {
-            content: "\f107";
+            content: "\e81c";
         }
         .um-account-side li a span.um-account-icon,
         .um-account-side li a.current span.um-account-icon,
@@ -1153,6 +1157,7 @@
         /*filter*/
 
         .home-filter {
+            z-index: 1;
             background: #fff;
             border-left: 11px solid #ef805e;
             margin-top: -120px;
@@ -1270,7 +1275,7 @@
             outline: none;
         }
         .home-filter-heading {
-            z-index: 1;
+            z-index: 2;
             padding-left: 80px;
             margin-top: -100px;
         }
@@ -1919,17 +1924,7 @@
 
     }
      .provide_general_feedback {
-
-
-        background: #374977 !important;
-
-
-            float: left !important;
-
-        padding: 7px !important;
-        margin-top: 5px;
-        color: white !important;
-        text-decoration: none!important;
+    display: inline-block;
     } 
 
     .woocommerce-table--order-details.shop_table ul.wc-item-meta > li:last-child {
@@ -2050,3 +2045,26 @@
     input[type=number] {
       -moz-appearance: textfield;
     }
+.nav-tabs li .nav-link .featured-box i.icon-featured {
+    color: #273a6c;
+}
+
+label.woocommerce-form__label.woocommerce-form__label-for-checkbox.inline {
+    margin-left: 20px;
+}
+
+.woocommerce-info{
+    font-family: Lato,sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0px;
+}    
+
+ul.wc_payment_methods.payment_methods.methods{
+    margin-bottom: 0;
+}
+
+/*div#main-menu li.menu-item{
+    display : none!important;
+}*/

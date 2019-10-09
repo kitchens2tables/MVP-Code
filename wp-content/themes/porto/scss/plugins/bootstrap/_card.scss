@@ -4,8 +4,8 @@
 
 .card {
   position: relative;
-  display: -webkit-flex; display: -ms-flexbox; display: flex;
-  -webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column;
+  display: -ms-flexbox; display: flex;
+  -ms-flex-direction: column; flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
   background-color: $card-bg;
@@ -34,7 +34,7 @@
 .card-body {
   // Enable `flex-grow: 1` for decks and groups so that card blocks take up
   // as much space as possible, ensuring footers are aligned to the bottom.
-  -webkit-flex: 1 1 auto; -ms-flex: 1 1 auto; flex: 1 1 auto;
+  -ms-flex: 1 1 auto; flex: 1 1 auto;
   padding: $card-spacer-x;
 }
 
@@ -139,23 +139,23 @@
 // Card deck
 
 .card-deck {
-  display: -webkit-flex; display: -ms-flexbox; display: flex;
-  -webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column;
+  display: -ms-flexbox; display: flex;
+  -ms-flex-direction: column; flex-direction: column;
 
   .card {
     margin-bottom: $card-deck-margin;
   }
 
   @include media-breakpoint-up(sm) {
-    -webkit-flex-flow: row wrap; -ms-flex-flow: row wrap; flex-flow: row wrap;
+    -ms-flex-flow: row wrap; flex-flow: row wrap;
     margin-right: -$card-deck-margin;
     margin-left: -$card-deck-margin;
 
     .card {
-      display: -webkit-flex; display: -ms-flexbox; display: flex;
+      display: -ms-flexbox; display: flex;
       // Flexbugs #4: https://github.com/philipwalton/flexbugs#flexbug-4
-      -webkit-flex: 1 0 0%; -ms-flex: 1 0 0%; flex: 1 0 0%;
-      -webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column;
+      -ms-flex: 1 0 0%; flex: 1 0 0%;
+      -ms-flex-direction: column; flex-direction: column;
       margin-right: $card-deck-margin;
       margin-bottom: 0; // Override the default
       margin-left: $card-deck-margin;
@@ -169,8 +169,8 @@
 //
 
 .card-group {
-  display: -webkit-flex; display: -ms-flexbox; display: flex;
-  -webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column;
+  display: -ms-flexbox; display: flex;
+  -ms-flex-direction: column; flex-direction: column;
 
   // The child selector allows nested `.card` within `.card-group`
   // to display properly.
@@ -179,12 +179,12 @@
   }
 
   @include media-breakpoint-up(sm) {
-    -webkit-flex-flow: row wrap; -ms-flex-flow: row wrap; flex-flow: row wrap;
+    -ms-flex-flow: row wrap; flex-flow: row wrap;
     // The child selector allows nested `.card` within `.card-group`
     // to display properly.
     > .card {
       // Flexbugs #4: https://github.com/philipwalton/flexbugs#flexbug-4
-      -webkit-flex: 1 0 0%; -ms-flex: 1 0 0%; flex: 1 0 0%;
+      -ms-flex: 1 0 0%; flex: 1 0 0%;
       margin-bottom: 0;
 
       + .card {

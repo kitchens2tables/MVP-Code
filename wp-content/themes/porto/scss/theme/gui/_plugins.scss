@@ -1,6 +1,6 @@
 .menu-item {
     &[class*="col-"] {
-        -webkit-flex: none; -ms-flex: none; flex: none;
+        -ms-flex: none; flex: none;
         width: auto;
         max-width: none;
         min-height: 0;
@@ -15,3 +15,6 @@
 
 .wpcf7 .wpcf7-validation-errors,
 .wpcf7 .ajax-loader { display: none !important; }
+
+rs-module i[class^="fa-"], rs-module i[class*=" fa-"] { font-family: 'Font Awesome 5 Free'; font-weight: 900; }
+rs-module [class^="fa-"]:before, rs-module [class*=" fa-"]:before { font-family: inherit; font-weight: inherit; }

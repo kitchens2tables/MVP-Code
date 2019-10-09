@@ -3,16 +3,16 @@
 /**
  * Loop Rating
  *
- * @version     3.0.0
+ * @version     3.6.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-global $product;
+global $product, $porto_woocommerce_loop;
 
-if ( get_option( 'woocommerce_enable_review_rating' ) === 'no' ) {
+if ( ( function_exists( 'wc_review_ratings_enabled' ) && ! wc_review_ratings_enabled() ) || ( ! function_exists( 'wc_review_ratings_enabled' ) && 'no' === get_option( 'woocommerce_enable_review_rating' ) ) ) {
 	return;
 }
 
@@ -21,9 +21,7 @@ if ( get_option( 'woocommerce_enable_review_rating' ) === 'no' ) {
 <?php if ( $rating_html = porto_get_rating_html( $product ) ) : ?>
 
 <div class="rating-wrap">
-	<span class="rating-before"><span class="rating-line"></span></span>
 	<div class="rating-content"><?php echo porto_filter_output( $rating_html ); ?></div>
-	<span class="rating-after"><span class="rating-line"></span></span>
 </div>
 
 <?php endif; ?>

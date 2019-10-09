@@ -161,7 +161,9 @@
                 show_metas = props.attributes.show_metas,
                 clientId = props.clientId,
                 widgetTitle = props.attributes.title;
-
+            if ( ! props.categoriesList ) {
+                props.categoriesList = [];
+            }
             var inspectorControls = el( InspectorControls, {},
                 el( TextControl, {
                     label: __('Title'),
@@ -209,9 +211,9 @@
                     __('Enter image size (Example: "thumbnail", "medium", "large", "full" or other sizes defined by theme). Alternatively enter size in pixels (Example: 200x100 (Width x Height)).')
                 ),
                 el( QueryControls, {
+                    numberOfItems: props.attributes.number,
                     categoriesList: props.categoriesList,
                     selectedCategoryId: props.attributes.cats,
-                    numberOfItems: props.attributes.number,
                     onCategoryChange: function onCategoryChange(value) {
                         return props.setAttributes({ cats: value !== '' ? value : undefined });
                     },
@@ -298,8 +300,8 @@
                     __('Please check this url to see animation types. '),
                     el(
                         'a',
-                        { href: 'https://www.portotheme.com/wordpress/porto/classic-original/animations/', target: '_blank' },
-                        'https://www.portotheme.com/wordpress/porto/classic-original/animations/'
+                        { href: 'https://www.portotheme.com/wordpress/porto/shortcodes/animations/', target: '_blank' },
+                        'https://www.portotheme.com/wordpress/porto/shortcodes/animations/'
                     ),
                 ),
                 el( TextControl, {
@@ -383,7 +385,7 @@
                                     { className: 'meta-date' },
                                     el(
                                         'i',
-                                        { className: 'fa fa-clock-o' },
+                                        { className: 'far fa-clock' },
                                     ),
                                     moment(post.date_gmt).local().format('DD MMMM, Y')
                                 ),
@@ -406,7 +408,7 @@
                                     ),
                                     el(
                                         'i',
-                                        { className: 'fa fa-angle-right' },
+                                        { className: 'fas fa-angle-right' },
                                     )
                                 )
 
@@ -683,8 +685,8 @@
                     __('Please check this url to see animation types.'),
                     el(
                         'a',
-                        { href: 'https://www.portotheme.com/wordpress/porto/classic-original/animations/', target: '_blank' },
-                        'https://www.portotheme.com/wordpress/porto/classic-original/animations/'
+                        { href: 'https://www.portotheme.com/wordpress/porto/shortcodes/animations/', target: '_blank' },
+                        'https://www.portotheme.com/wordpress/porto/shortcodes/animations/'
                     ),
                 ),
                 el( TextControl, {
@@ -698,8 +700,8 @@
                     __('Please check this url to see animation types.'),
                     el(
                         'a',
-                        { href: 'https://www.portotheme.com/wordpress/porto/classic-original/animations/', target: '_blank' },
-                        'https://www.portotheme.com/wordpress/porto/classic-original/animations/'
+                        { href: 'https://www.portotheme.com/wordpress/porto/shortcodes/animations/', target: '_blank' },
+                        'https://www.portotheme.com/wordpress/porto/shortcodes/animations/'
                     ),
                 ),
                 el( ToggleControl, {
@@ -770,8 +772,8 @@
                     __('Please check this url to see animation types.'),
                     el(
                         'a',
-                        { href: 'https://www.portotheme.com/wordpress/porto/classic-original/animations/', target: '_blank' },
-                        'https://www.portotheme.com/wordpress/porto/classic-original/animations/'
+                        { href: 'https://www.portotheme.com/wordpress/porto/shortcodes/animations/', target: '_blank' },
+                        'https://www.portotheme.com/wordpress/porto/shortcodes/animations/'
                     ),
                 ),
                 el( TextControl, {
@@ -966,7 +968,9 @@
             var post_layout = props.attributes.post_layout,
                 widgetTitle = props.attributes.title,
                 attrs = props.attributes;
-
+            if ( ! props.categoriesList ) {
+                props.categoriesList = [];
+            }
             var inspectorControls = el( InspectorControls, {},
                 el( TextControl, {
                     label: __('Title'),
@@ -1030,8 +1034,8 @@
                     __('Please check this url to see animation types. '),
                     el(
                         'a',
-                        { href: 'https://www.portotheme.com/wordpress/porto/classic-original/animations/', target: '_blank' },
-                        'https://www.portotheme.com/wordpress/porto/classic-original/animations/'
+                        { href: 'https://www.portotheme.com/wordpress/porto/shortcodes/animations/', target: '_blank' },
+                        'https://www.portotheme.com/wordpress/porto/shortcodes/animations/'
                     ),
                 ),
                 el( TextControl, {
@@ -1121,7 +1125,7 @@
                             { className: 'meta-date' },
                             el(
                                 'i',
-                                { className: 'fa fa-clock-o' },
+                                { className: 'far fa-clock' },
                             ),
                             ' ' + moment(post.date_gmt).local().format('DD MMMM, Y')
                         ),
@@ -1829,8 +1833,8 @@
                     __('Please check this url to see animation types. '),
                     el(
                         'a',
-                        { href: 'https://www.portotheme.com/wordpress/porto/classic-original/animations/', target: '_blank' },
-                        'https://www.portotheme.com/wordpress/porto/classic-original/animations/'
+                        { href: 'https://www.portotheme.com/wordpress/porto/shortcodes/animations/', target: '_blank' },
+                        'https://www.portotheme.com/wordpress/porto/shortcodes/animations/'
                     ),
                 ),
                 el( TextControl, {
@@ -2238,8 +2242,8 @@
                     __('Please check this url to see animation types. '),
                     el(
                         'a',
-                        { href: 'https://www.portotheme.com/wordpress/porto/classic-original/animations/', target: '_blank' },
-                        'https://www.portotheme.com/wordpress/porto/classic-original/animations/'
+                        { href: 'https://www.portotheme.com/wordpress/porto/shortcodes/animations/', target: '_blank' },
+                        'https://www.portotheme.com/wordpress/porto/shortcodes/animations/'
                     ),
                 ),
                 el( TextControl, {
@@ -2959,8 +2963,8 @@
                     __('Please check this url to see animation types. '),
                     el(
                         'a',
-                        { href: 'https://www.portotheme.com/wordpress/porto/classic-original/animations/', target: '_blank' },
-                        'https://www.portotheme.com/wordpress/porto/classic-original/animations/'
+                        { href: 'https://www.portotheme.com/wordpress/porto/shortcodes/animations/', target: '_blank' },
+                        'https://www.portotheme.com/wordpress/porto/shortcodes/animations/'
                     ),
                 ),
                 el( SelectControl, {
@@ -3589,8 +3593,8 @@
                     __('Please check this url to see animation types. '),
                     el(
                         'a',
-                        { href: 'https://www.portotheme.com/wordpress/porto/classic-original/animations/', target: '_blank' },
-                        'https://www.portotheme.com/wordpress/porto/classic-original/animations/'
+                        { href: 'https://www.portotheme.com/wordpress/porto/shortcodes/animations/', target: '_blank' },
+                        'https://www.portotheme.com/wordpress/porto/shortcodes/animations/'
                     ),
                 ),
             );
@@ -4251,8 +4255,8 @@ function _makeConsumableArray(arr) {
                     __('Please check this url to see animation types. '),
                     el(
                         'a',
-                        { href: 'https://www.portotheme.com/wordpress/porto/classic-original/animations/', target: '_blank' },
-                        'https://www.portotheme.com/wordpress/porto/classic-original/animations/'
+                        { href: 'https://www.portotheme.com/wordpress/porto/shortcodes/animations/', target: '_blank' },
+                        'https://www.portotheme.com/wordpress/porto/shortcodes/animations/'
                     ),
                 ),
                 el( TextControl, {

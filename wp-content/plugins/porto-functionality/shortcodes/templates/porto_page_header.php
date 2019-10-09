@@ -36,26 +36,26 @@ echo '>';
 		echo '.page-top { background: none; border-bottom: none; } .page-top .page-title:not(.b-none):after { display: none; }';
 
 if ( $breadcrumbs_text_color ) {
-	echo '.page-top .breadcrumbs-wrap { color: ' . esc_attr( $breadcrumbs_text_color ) . ' }';
+	echo '.page-top .breadcrumbs-wrap { color: ' . esc_html( $breadcrumbs_text_color ) . ' }';
 }
 if ( $breadcrumbs_link_color ) {
-	echo '.page-top .breadcrumbs-wrap a { color: ' . esc_attr( $breadcrumbs_link_color ) . ' }';
+	echo '.page-top .breadcrumbs-wrap a { color: ' . esc_html( $breadcrumbs_link_color ) . ' }';
 }
 if ( $page_title_color || $page_title_font_size || $page_title_margin_bottom ) {
 	echo '.page-top .page-title {';
 	if ( $page_title_color ) {
-		echo 'color: ' . esc_attr( $page_title_color ) . ';';
+		echo 'color: ' . esc_html( $page_title_color ) . ';';
 	}
 	if ( $page_title_font_size ) {
-		echo 'font-size: ' . esc_attr( $page_title_font_size ) . ( is_numeric( $page_title_font_size ) ? 'px' : '' ) . ';';
+		echo 'font-size: ' . esc_html( $page_title_font_size ) . ( is_numeric( $page_title_font_size ) ? 'px' : '' ) . ';';
 	}
 	if ( $page_title_margin_bottom ) {
-		echo 'margin-bottom: ' . esc_attr( $page_title_margin_bottom ) . ( is_numeric( $page_title_margin_bottom ) ? 'px' : '' ) . ';';
+		echo 'margin-bottom: ' . esc_html( $page_title_margin_bottom ) . ( is_numeric( $page_title_margin_bottom ) ? 'px' : '' ) . ';';
 	}
 	echo '}';
 }
 if ( $page_subtitle_color ) {
-	echo '.page-top .page-sub-title { color: ' . esc_attr( $page_subtitle_color ) . ' }';
+	echo '.page-top .page-sub-title { color: ' . esc_html( $page_subtitle_color ) . ' }';
 }
 	echo '</style>';
 

@@ -126,7 +126,7 @@ class sidebar_generator {
 	public static function add_sidebar() {
 		check_admin_referer( 'sidebar_generator', 'sidebar_generator_nonce' );
 		$sidebars = sidebar_generator::get_sidebars();
-		$name     = str_replace( array( "\n", "\r", "\t" ), '', $_POST['sidebar_name'] );
+		$name     = str_replace( array( "\n", "\r", "\t" ), '', sanitize_text_field( $_POST['sidebar_name'] ) );
 		if ( ! $name || $name == 'null' ) {
 			die( "alert('Please input sidebar name and try again.')" );
 		}
@@ -179,12 +179,12 @@ class sidebar_generator {
 	public static function remove_sidebar() {
 		check_admin_referer( 'sidebar_generator', 'sidebar_generator_nonce' );
 		$sidebars = sidebar_generator::get_sidebars();
-		$name     = str_replace( array( "\n", "\r", "\t" ), '', $_POST['sidebar_name'] );
+		$name     = str_replace( array( "\n", "\r", "\t" ), '', sanitize_text_field( $_POST['sidebar_name'] ) );
 		$id       = sidebar_generator::name_to_class( $name );
 		if ( ! isset( $sidebars[ $id ] ) ) {
 			die( "alert('Sidebar does not exist.')" );
 		}
-		$row_number = $_POST['row_number'];
+		$row_number = (int) $_POST['row_number'];
 		unset( $sidebars[ $id ] );
 		sidebar_generator::update_sidebars( $sidebars );
 		$js = "
@@ -272,12 +272,11 @@ class sidebar_generator {
 			return;
 		}
 
-		$is_saving = $_POST['sbg_edit'];
-		if ( ! empty( $is_saving ) ) {
+		if ( ! empty( $_POST['sbg_edit'] ) ) {
 			delete_post_meta( $post_id, 'sbg_selected_sidebar' );
 			delete_post_meta( $post_id, 'sbg_selected_sidebar_replacement' );
-			add_post_meta( $post_id, 'sbg_selected_sidebar', $_POST['sidebar_generator'] );
-			add_post_meta( $post_id, 'sbg_selected_sidebar_replacement', $_POST['sidebar_generator_replacement'] );
+			add_post_meta( $post_id, 'sbg_selected_sidebar', porto_sanitize_array( $_POST['sidebar_generator'] ) );
+			add_post_meta( $post_id, 'sbg_selected_sidebar_replacement', porto_sanitize_array( $_POST['sidebar_generator_replacement'] ) );
 		}
 	}
 

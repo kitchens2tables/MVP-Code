@@ -32,14 +32,73 @@ function porto_load_schedule_timeline_item_shortcode() {
 					'param_name' => 'subtitle',
 				),
 				array(
+					'type'        => 'dropdown',
+					'class'       => '',
+					'heading'     => __( 'Icon to display:', 'porto-functionality' ),
+					'param_name'  => 'icon_type',
+					'value'       => array(
+						__( 'Font Awesome', 'porto-functionality' ) => 'fontawesome',
+						__( 'Simple Line Icon', 'porto-functionality' ) => 'simpleline',
+						__( 'Porto Icon', 'porto-functionality' ) => 'porto',
+						__( 'Custom Image Icon', 'porto-functionality' ) => 'custom',
+					),
+					'std'         => 'custom',
+					'description' => __( 'Use an existing font icon or upload a custom image.', 'porto-functionality' ),
+				),
+				array(
 					'type'       => 'textfield',
 					'heading'    => __( 'Image URL', 'porto-functionality' ),
 					'param_name' => 'image_url',
+					'dependency' => array(
+						'element' => 'icon_type',
+						'value'   => array( 'custom' ),
+					),
 				),
 				array(
 					'type'       => 'attach_image',
 					'heading'    => __( 'Image', 'porto-functionality' ),
 					'param_name' => 'image_id',
+					'dependency' => array(
+						'element' => 'icon_type',
+						'value'   => array( 'custom' ),
+					),
+				),
+				array(
+					'type'       => 'iconpicker',
+					'class'      => '',
+					'heading'    => __( 'Icon ', 'porto-functionality' ),
+					'param_name' => 'icon',
+					'value'      => '',
+					'dependency' => array(
+						'element' => 'icon_type',
+						'value'   => array( 'fontawesome' ),
+					),
+				),
+				array(
+					'type'       => 'iconpicker',
+					'heading'    => __( 'Icon', 'porto-functionality' ),
+					'param_name' => 'icon_simpleline',
+					'settings'   => array(
+						'type'         => 'simpleline',
+						'iconsPerPage' => 4000,
+					),
+					'dependency' => array(
+						'element' => 'icon_type',
+						'value'   => 'simpleline',
+					),
+				),
+				array(
+					'type'       => 'iconpicker',
+					'heading'    => __( 'Icon', 'porto-functionality' ),
+					'param_name' => 'icon_porto',
+					'settings'   => array(
+						'type'         => 'porto',
+						'iconsPerPage' => 4000,
+					),
+					'dependency' => array(
+						'element' => 'icon_type',
+						'value'   => 'porto',
+					),
 				),
 				array(
 					'type'        => 'textfield',

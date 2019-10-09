@@ -15,18 +15,18 @@ if ( 'without-icon' == $porto_settings['post-title-style'] ) {
 $post_meta  = '';
 $post_meta .= '<div class="post-meta ' . ( empty( $porto_settings['post-metas'] ) ? ' d-none' : '' ) . '">';
 if ( in_array( 'author', $porto_settings['post-metas'] ) ) {
-	$post_meta .= '<span class="meta-author"><i class="fa fa-user-o"></i> ' . esc_html__( 'By ', 'porto' ) . get_the_author_posts_link() . '</span>';
+	$post_meta .= '<span class="meta-author"><i class="far fa-user"></i>' . esc_html__( 'By ', 'porto' ) . get_the_author_posts_link() . '</span>';
 }
 	$cats_list = get_the_category_list( ', ' );
 if ( $cats_list && in_array( 'cats', $porto_settings['post-metas'] ) ) {
-	$post_meta .= '<span class="meta-cats"><i class="fa fa-folder-open-o"></i> ' . porto_filter_output( $cats_list ) . '</span>';
+	$post_meta .= '<span class="meta-cats"><i class="far fa-folder"></i>' . porto_filter_output( $cats_list ) . '</span>';
 }
 	$tags_list = get_the_tag_list( '', ', ' );
 if ( $tags_list && in_array( 'tags', $porto_settings['post-metas'] ) ) {
-	$post_meta .= '<span class="meta-tags"><i class="fa fa-envelope-o"></i> ' . porto_filter_output( $tags_list ) . '</span>';
+	$post_meta .= '<span class="meta-tags"><i class="far fa-envelope"></i>' . porto_filter_output( $tags_list ) . '</span>';
 }
 if ( in_array( 'comments', $porto_settings['post-metas'] ) ) {
-	$post_meta .= '<span class="meta-comments"><i class="fa fa-comments-o"></i> ' . get_comments_popup_link( __( '0 Comments', 'porto' ), __( '1 Comment', 'porto' ), '% ' . __( 'Comments', 'porto' ) ) . '</span>';
+	$post_meta .= '<span class="meta-comments"><i class="far fa-comments"></i>' . get_comments_popup_link( __( '0 Comments', 'porto' ), __( '1 Comment', 'porto' ), '% ' . __( 'Comments', 'porto' ) ) . '</span>';
 }
 if ( function_exists( 'Post_Views_Counter' ) && 'manual' == Post_Views_Counter()->options['display']['position'] && in_array( 'post', (array) Post_Views_Counter()->options['general']['post_types_count'] ) ) {
 	$post_count = do_shortcode( '[post-views]' );
@@ -45,7 +45,7 @@ $post_meta .= '</div>';
 		printf( '<span class="sticky-post">%s</span>', esc_html__( 'Featured', 'porto' ) );
 	}
 		// Post Media
-		$slideshow_type = get_post_meta( $post->ID, 'slideshow_type', true );
+		$slideshow_type = get_post_meta( get_the_ID(), 'slideshow_type', true );
 	if ( ! $slideshow_type ) {
 		$slideshow_type = 'images';
 	}

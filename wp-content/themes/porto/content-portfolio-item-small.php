@@ -22,7 +22,7 @@ if ( count( $featured_images ) ) :
 	?>
 	<div class="portfolio-item-small">
 		<div class="portfolio-image img-thumbnail">
-			<a href="<?php echo ! $show_external_link || ! $portfolio_link ? get_the_permalink() : esc_url( $portfolio_link ); ?>">
+			<a href="<?php echo ! $show_external_link || ! $portfolio_link ? esc_url( get_the_permalink() ) : esc_url( $portfolio_link ); ?>">
 				<img width="<?php echo esc_attr( $attachment_thumb['width'] ); ?>" height="<?php echo esc_attr( $attachment_thumb['height'] ); ?>" src="<?php echo esc_url( $attachment_thumb['src'] ); ?>" alt="<?php echo esc_attr( $attachment_thumb['alt'] ); ?>" />
 			</a>
 		</div>

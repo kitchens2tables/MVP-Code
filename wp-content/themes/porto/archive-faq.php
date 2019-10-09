@@ -9,15 +9,17 @@ $args = array(
 	'post_status' => 'publish',
 );
 if ( isset( $porto_settings['faq-orderby'] ) && $porto_settings['faq-orderby'] ) {
-	$args['orderby'] = esc_attr( $porto_settings['faq-orderby'] );
+	$args['orderby'] = $porto_settings['faq-orderby'];
 }
 if ( isset( $porto_settings['faq-order'] ) && $porto_settings['faq-order'] ) {
-	$args['order'] = esc_attr( $porto_settings['faq-order'] );
+	$args['order'] = $porto_settings['faq-order'];
 }
+$paged = ( get_query_var( 'paged' ) ) ? get_query_var( 'paged' ) : ( ( get_query_var( 'page' ) ) ? get_query_var( 'page' ) : 1 );
+$args['paged'] = $paged;
 $query = new WP_Query( $args );
 ?>
 
-<div id="content" role="main" class="<?php echo porto_is_wide_layout( $porto_layout ) ? 'm-t-lg m-b-xl' . ( porto_get_wrapper_type() !== 'boxed' ? ' m-r-md m-l-md' : '' ) : ''; ?>">
+<div id="content" role="main">
 
 	<?php if ( ! is_search() && 'content' == $porto_settings['faq-cat-sort-pos'] && $porto_settings['faq-title'] ) : ?>
 		<?php

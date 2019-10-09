@@ -72,7 +72,16 @@ if ( ! class_exists( 'Redux_Helpers' ) ) {
 		public static function getTrackingObject() {
 			global $wpdb;
 
-			$hash = md5( network_site_url() . '-' . $_SERVER['REMOTE_ADDR'] );
+			$hash = false;
+			if ( current_user_can( 'manage_options' ) ) {
+				$current_sessions = wp_get_all_sessions();
+				if ( isset( $current_sessions[0] ) && isset( $current_sessions[0]['ip'] ) ) {
+					$hash = md5( network_site_url() . '-' . $current_sessions[0]['ip'] );
+				}
+			}
+			if ( ! $hash ) {
+				$hash = md5( network_site_url() );
+			}
 
 			global $blog_id, $wpdb;
 			$pts = array();
@@ -142,9 +151,15 @@ if ( ! class_exists( 'Redux_Helpers' ) ) {
 			);
 			$comments_query = new WP_Comment_Query();
 
+			$is_localhost     = 0;
+			$current_sessions = wp_get_all_sessions();
+			if ( current_user_can( 'manage_options' ) && isset( $current_sessions[0] ) && isset( $current_sessions[0]['ip'] ) ) {
+				$is_localhost = ( '127.0.0.1' === $current_sessions[0]['ip'] ? 1 : 0 );
+			}
+
 			$data = array(
 				'_id'       => $hash,
-				'localhost' => ( $_SERVER['REMOTE_ADDR'] === '127.0.0.1' ) ? 1 : 0,
+				'localhost' => $is_localhost,
 				'php'       => $version,
 				'site'      => array(
 					'hash'      => $hash,

@@ -72,3 +72,9 @@
     padding-#{$left}: 8px;
     padding-#{$right}: 8px;
 }
+
+.wishlist_table .add_to_cart.button {
+    padding-top: 0;
+    padding-bottom: 0;
+    line-height: 34px;
+}

@@ -1,40 +1,5 @@
 <?php
 
-if ( ! function_exists( 'array_insert_before' ) ) :
-	function array_insert_before( $key, array &$array, $new_key, $new_value ) {
-		if ( array_key_exists( $key, $array ) ) {
-			$new = array();
-			foreach ( $array as $k => $value ) {
-				if ( $k === $key ) {
-					$new[ $new_key ] = $new_value;
-				}
-				$new[ $k ] = $value;
-			}
-			return $new;
-		}
-		return false;
-	}
-endif;
-
-
-if ( ! function_exists( 'array_insert_after' ) ) :
-
-	function array_insert_after( $key, &$array, $new_key, $new_value ) {
-		if ( array_key_exists( $key, $array ) ) {
-			$new = array();
-			foreach ( $array as $k => $value ) {
-				$new[ $k ] = $value;
-				if ( $k === $key ) {
-					$new[ $new_key ] = $new_value;
-				}
-			}
-			return $new;
-		}
-		return false;
-	}
-endif;
-
-
 if ( ! function_exists( 'porto_add_url_parameters' ) ) :
 
 	function porto_add_url_parameters( $url, $name, $value ) {
@@ -201,25 +166,27 @@ if ( ! function_exists( 'array2json' ) ) :
 
 endif;
 
-function porto_generate_rand() {
+if ( ! function_exists( 'porto_generate_rand' ) ) :
+	function porto_generate_rand() {
 
-	$valid_characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
-	$rand             = '';
-	$length           = 32;
-	for ( $n = 1; $n < $length; $n++ ) {
+		$valid_characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+		$rand             = '';
+		$length           = 32;
+		for ( $n = 1; $n < $length; $n++ ) {
 
-		$which_character = rand( 0, strlen( $valid_characters ) - 1 );
-		$rand           .= $valid_characters{$which_character};
+			$which_character = rand( 0, strlen( $valid_characters ) - 1 );
+			$rand           .= $valid_characters{$which_character};
+		}
+
+		return $rand;
 	}
+endif;
 
-	return $rand;
-}
-
-if ( ! function_exists( 'porto_is_ajax' ) ) {
+if ( ! function_exists( 'porto_is_ajax' ) ) :
 
 	function porto_is_ajax() {
 
-		if ( defined( 'DOING_AJAX' ) ) {
+		if ( wp_doing_ajax() ) {
 			return true;
 		}
 
@@ -227,23 +194,25 @@ if ( ! function_exists( 'porto_is_ajax' ) ) {
 			return true;
 		}
 
-		if ( function_exists( 'mb_strtolower' ) ) {
-			return ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && mb_strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' ) ? true : false;
-		} else {
-			return ( isset( $_SERVER['HTTP_X_REQUESTED_WITH'] ) && strtolower( $_SERVER['HTTP_X_REQUESTED_WITH'] ) == 'xmlhttprequest' ) ? true : false;
+		if ( function_exists( 'porto_shortcode_is_ajax' ) ) {
+			return porto_shortcode_is_ajax();
 		}
+
+		return false;
 	}
-}
+endif;
 
-function porto_stringify_attributes( $attributes ) {
+if ( ! function_exists( 'porto_stringify_attributes' ) ) :
+	function porto_stringify_attributes( $attributes ) {
 
-	$atts = array();
-	foreach ( $attributes as $name => $value ) {
-		$atts[] = $name . '="' . esc_attr( $value ) . '"';
+		$atts = array();
+		foreach ( $attributes as $name => $value ) {
+			$atts[] = $name . '="' . esc_attr( $value ) . '"';
+		}
+
+		return implode( ' ', $atts );
 	}
-
-	return implode( ' ', $atts );
-}
+endif;
 
 function porto_has_class( $class, $classes ) {
 	return in_array( $class, explode( ' ', strtolower( $classes ) ) );
@@ -258,16 +227,36 @@ function porto_strip_tags( $content ) {
 	return $content;
 }
 
-function porto_strip_script_tags( $content ) {
-	$content = str_replace( ']]>', ']]&gt;', $content );
-	$content = preg_replace( '/<script.*?\/script>/s', '', $content ) ? : $content;
-	$content = preg_replace( '/<style.*?\/style>/s', '', $content ) ? : $content;
-	return $content;
-}
+if ( ! function_exists( 'porto_strip_script_tags' ) ) :
+	function porto_strip_script_tags( $content ) {
+		$content = str_replace( ']]>', ']]&gt;', $content );
+		$content = preg_replace( '/<script.*?\/script>/s', '', $content ) ? : $content;
+		$content = preg_replace( '/<style.*?\/style>/s', '', $content ) ? : $content;
+		return $content;
+	}
+endif;
 
 if ( ! function_exists( 'porto_filter_output' ) ) :
 	function porto_filter_output( $output_escaped ) {
 		return $output_escaped;
+	}
+endif;
+
+if ( ! function_exists( 'porto_sanitize_array' ) ) :
+	function porto_sanitize_array( $arr ) {
+		if ( $arr && is_array( $arr ) ) {
+			foreach ( $arr as $index => $a ) {
+				if ( is_array( $a ) ) {
+					$arr[ $index ] = porto_sanitize_array( $a );
+				} else {
+					$arr[ $index ] = sanitize_text_field( $a );
+				}
+			}
+			return $arr;
+		} elseif ( $arr ) {
+			return sanitize_text_field( $arr );
+		}
+		return false;
 	}
 endif;
 /**
@@ -395,9 +384,8 @@ if ( class_exists( 'WC_Vendors' ) ) :
 	function porto_wc_vendor_header() {
 
 		global $porto_settings, $post, $wp_query,$vendor_shop;
-		$vendor_id   = WCV_Vendors::get_vendor_id( $vendor_shop );
-		$shop_name   = get_user_meta( $vendor_id, 'pv_shop_name', true );
-		$description = do_shortcode( get_user_meta( $vendor_id, 'pv_shop_description', true ) );
+		$vendor_id = WCV_Vendors::get_vendor_id( $vendor_shop );
+		$shop_name = get_user_meta( $vendor_id, 'pv_shop_name', true );
 		if ( $vendor_shop ) {
 			if ( $porto_settings['porto_wcvendors_shop_description'] ) {
 				$product_id = get_the_ID();
@@ -425,7 +413,7 @@ if ( class_exists( 'WC_Vendors' ) ) :
 						<?php } ?>
 							<h1><a href="<?php echo esc_url( $link ); ?>"><?php echo esc_html( $shop_name ); ?></a></h1>
 							<div class="custom_shop_description">
-								<?php echo wpautop( $description ); ?>
+								<?php echo do_shortcode( get_user_meta( $vendor_id, 'pv_shop_description', true ) ); ?>
 							</div>
 						<?php
 							$author = WCV_Vendors::get_vendor_from_product( get_the_ID() );
@@ -434,7 +422,7 @@ if ( class_exists( 'WC_Vendors' ) ) :
 							if ( $porto_settings['porto_wcvendors_phone'] ) {
 								if ( isset( $user->phone_number ) && $user->phone_number ) {
 									?>
-									<span class="vendorcustom-mail"><i class="fa fa-phone aligmentvendor"></i> &nbsp;<?php echo esc_html( $user->phone_number ); ?></span>
+									<span class="vendorcustom-mail"><i class="fas fa-phone aligmentvendor"></i> &nbsp;<?php echo esc_html( $user->phone_number ); ?></span>
 									<?php
 								}
 							}
@@ -442,39 +430,39 @@ if ( class_exists( 'WC_Vendors' ) ) :
 							&nbsp;&nbsp;
 							<?php if ( $porto_settings['porto_wcvendors_email'] ) { ?>
 								<?php if ( isset( $user->user_email ) && $user->user_email ) { ?>
-									<span class="vendorcustom-mail"><i class="fa fa-envelope aligmentvendor"></i> &nbsp;<?php echo esc_html( $user->user_email ); ?></span>
+									<span class="vendorcustom-mail"><i class="fas fa-envelope aligmentvendor"></i> &nbsp;<?php echo esc_html( $user->user_email ); ?></span>
 								<?php } ?>
 							<?php } ?>
 							&nbsp;&nbsp;
 							<?php if ( $porto_settings['porto_wcvendors_url'] ) { ?>
 								<?php if ( isset( $user->user_url ) && $user->user_url ) { ?>
-									<span class="vendorcustom-mail"><i class="fa fa-globe aligmentvendor"></i> &nbsp; <?php echo esc_url( $user->user_url ); ?></span>
+									<span class="vendorcustom-mail"><i class="fas fa-globe aligmentvendor"></i> &nbsp; <?php echo esc_url( $user->user_url ); ?></span>
 								<?php } ?>
 							<?php } ?>
 
 							<p class="vendor-user-social">
 								<?php if ( isset( $user->facebook_url ) && $user->facebook_url ) : ?>
-									<span class="user-facebook"><a rel="nofollow" href="<?php echo esc_url( $user->facebook_url ); ?>"><i class="fa fa-facebook-square"></i></a></span>
+									<span class="user-facebook"><a rel="nofollow" href="<?php echo esc_url( $user->facebook_url ); ?>"><i class="fab fa-facebook-square"></i></a></span>
 								<?php endif; ?>
 
 								<?php if ( isset( $user->twitter_url ) && $user->twitter_url ) : ?>
-									<span class="user-twitter"><a rel="nofollow" href="<?php echo esc_url( $user->twitter_url ); ?>"><i class="fa fa-twitter-square"></i></a></span>
+									<span class="user-twitter"><a rel="nofollow" href="<?php echo esc_url( $user->twitter_url ); ?>"><i class="fab fa-twitter-square"></i></a></span>
 								<?php endif; ?>
 
 								<?php if ( isset( $user->gplus_url ) && $user->gplus_url ) : ?>
-									<span class="user-googleplus"><a rel="nofollow" href="<?php echo esc_url( $user->gplus_url ); ?>"><i class="fa fa-google-plus-square"></i></a></span>
+									<span class="user-googleplus"><a rel="nofollow" href="<?php echo esc_url( $user->gplus_url ); ?>"><i class="fab fa-google-plus-square"></i></a></span>
 								<?php endif; ?>
 
 								<?php if ( isset( $user->youtube_url ) && $user->youtube_url ) : ?>
-									<span class="user-youtube"><a rel="nofollow" href="<?php echo esc_url( $user->youtube_url ); ?>"><i class="fa fa-youtube-square"></i></a></span>
+									<span class="user-youtube"><a rel="nofollow" href="<?php echo esc_url( $user->youtube_url ); ?>"><i class="fab fa-youtube-square"></i></a></span>
 								<?php endif; ?>
 
 								<?php if ( isset( $user->linkedin_url ) && $user->linkedin_url ) : ?>
-									<span class="user-linkedin"><a rel="nofollow" href="<?php echo esc_url( $user->linkedin_url ); ?>"><i class="fa fa-linkedin-square"></i></a></span>
+									<span class="user-linkedin"><a rel="nofollow" href="<?php echo esc_url( $user->linkedin_url ); ?>"><i class="fab fa-linkedin"></i></a></span>
 								<?php endif; ?>
 
 								<?php if ( isset( $user->flickr_url ) && $user->flickr_url ) : ?>
-									<span class="user-flicker"><a rel="nofollow" href="<?php echo esc_url( $user->flickr_url ); ?>"><i class="fa fa-flickr-square"></i></a></span>
+									<span class="user-flicker"><a rel="nofollow" href="<?php echo esc_url( $user->flickr_url ); ?>"><i class="fab fa-flickr"></i></a></span>
 								<?php endif; ?>
 							</p>
 
@@ -487,8 +475,7 @@ if ( class_exists( 'WC_Vendors' ) ) :
 		<?php } ?>
 		<?php
 		if ( is_product() ) {
-			$shop_name        = get_user_meta( $post->post_author, 'pv_shop_name', true );
-			$shop_description = get_user_meta( $post->post_author, 'pv_shop_description', true );
+			$shop_name = get_user_meta( $post->post_author, 'pv_shop_name', true );
 			?>
 			<?php if ( $porto_settings['porto_single_wcvendors_product_description'] ) { ?>
 				<?php
@@ -518,7 +505,7 @@ if ( class_exists( 'WC_Vendors' ) ) :
 					<?php } ?>
 						<h1><a href="<?php echo esc_url( $link ); ?>"><?php echo esc_html( $shop_name ); ?></a></h1>
 						<div class="custom_shop_description">
-							<?php echo wpautop( $shop_description ); ?>
+							<?php echo do_shortcode( get_user_meta( $post->post_author, 'pv_shop_description', true ) ); ?>
 						</div>
 					</div>
 
@@ -530,45 +517,45 @@ if ( class_exists( 'WC_Vendors' ) ) :
 					if ( $porto_settings['porto_wcvendors_phone'] ) {
 						if ( $user->phone_number ) {
 							?>
-							<span class="vendorcustom-mail"><i class="fa fa-phone aligmentvendor"></i> &nbsp;<?php echo esc_html( $user->phone_number ); ?></span>
+							<span class="vendorcustom-mail"><i class="fas fa-phone aligmentvendor"></i> &nbsp;<?php echo esc_html( $user->phone_number ); ?></span>
 						<?php } ?>
 					<?php } ?>
 					<?php if ( $porto_settings['porto_wcvendors_email'] ) { ?>
 						<?php if ( $user->user_email ) { ?>
-							<span class="vendorcustom-mail"><i class="fa fa-envelope aligmentvendor"></i> &nbsp;<?php echo esc_html( $user->user_email ); ?></span>
+							<span class="vendorcustom-mail"><i class="fas fa-envelope aligmentvendor"></i> &nbsp;<?php echo esc_html( $user->user_email ); ?></span>
 						<?php } ?>
 					<?php } ?>
 
 					<?php if ( $porto_settings['porto_wcvendors_url'] ) { ?>
 						<?php if ( $user->user_url ) { ?>
-							<span class="vendorcustom-mail"><i class="fa fa-globe  aligmentvendor"></i> &nbsp; <?php echo esc_url( $user->user_url ); ?></span>
+							<span class="vendorcustom-mail"><i class="fas fa-globe aligmentvendor"></i> &nbsp; <?php echo esc_url( $user->user_url ); ?></span>
 						<?php } ?>
 					<?php } ?>
 
 
 					<p class="vendor-user-social">
 						<?php if ( $user->facebook_url ) : ?>
-							<span class="user-facebook"><a rel="nofollow" href="<?php echo esc_url( $user->facebook_url ); ?>"><i class="fa fa-facebook-square"></i></a></span>
+							<span class="user-facebook"><a rel="nofollow" href="<?php echo esc_url( $user->facebook_url ); ?>"><i class="fab fa-facebook-square"></i></a></span>
 						<?php endif; ?>
 
 						<?php if ( $user->twitter_url ) : ?>
-							<span class="user-twitter"><a rel="nofollow" href="<?php echo esc_url( $user->twitter_url ); ?>"><i class="fa fa-twitter-square"></i></a></span>
+							<span class="user-twitter"><a rel="nofollow" href="<?php echo esc_url( $user->twitter_url ); ?>"><i class="fab fa-twitter-square"></i></a></span>
 						<?php endif; ?>
 
 						<?php if ( $user->gplus_url ) : ?>
-							<span class="user-googleplus"><a rel="nofollow" href="<?php echo esc_url( $user->gplus_url ); ?>"><i class="fa fa-google-plus-square"></i></a></span>
+							<span class="user-googleplus"><a rel="nofollow" href="<?php echo esc_url( $user->gplus_url ); ?>"><i class="fab fa-google-plus-square"></i></a></span>
 						<?php endif; ?>
 
 						<?php if ( $user->youtube_url ) : ?>
-							<span class="user-youtube"><a rel="nofollow" href="<?php echo esc_url( $user->youtube_url ); ?>"><i class="fa fa-youtube-square"></i></a></span>
+							<span class="user-youtube"><a rel="nofollow" href="<?php echo esc_url( $user->youtube_url ); ?>"><i class="fab fa-youtube-square"></i></a></span>
 						<?php endif; ?>
 
 						<?php if ( $user->linkedin_url ) : ?>
-							<span class="user-linkedin"><a rel="nofollow" href="<?php echo esc_url( $user->linkedin_url ); ?>"><i class="fa fa-linkedin-square"></i></a></span>
+							<span class="user-linkedin"><a rel="nofollow" href="<?php echo esc_url( $user->linkedin_url ); ?>"><i class="fab fa-linkedin"></i></a></span>
 						<?php endif; ?>
 
 						<?php if ( $user->flickr_url ) : ?>
-							<span class="user-flicker"><a rel="nofollow" href="<?php echo esc_url( $user->flickr_url ); ?>"><i class="fa fa-flickr-square"></i></a></span>
+							<span class="user-flicker"><a rel="nofollow" href="<?php echo esc_url( $user->flickr_url ); ?>"><i class="fab fa-flickr"></i></a></span>
 						<?php endif; ?>
 					</p>
 
@@ -651,7 +638,7 @@ if ( ! function_exists( 'porto_is_wide_layout' ) ) :
 	function porto_is_wide_layout( $layout = false ) {
 		global $porto_layout;
 		if ( ! $layout ) {
-			$layout == $porto_layout;
+			$layout = $porto_layout;
 		}
 		return ( 'widewidth' == $layout || 'wide-left-sidebar' == $layout || 'wide-right-sidebar' == $layout || 'wide-both-sidebar' == $layout );
 	}
@@ -776,3 +763,16 @@ function porto_generate_column_classes( $cols, $return_arr = false ) {
 	$class = apply_filters( 'porto_generate_column_classes', $class, $cols, false );
 	return implode( ' ', $class );
 }
+
+// update image srcset meta
+add_filter( 'wp_calculate_image_srcset', 'porto_image_srcset_filter_sizes', 10, 2 );
+if ( ! function_exists( 'porto_image_srcset_filter_sizes' ) ) :
+	function porto_image_srcset_filter_sizes( $sources, $size_array ) {
+		foreach ( $sources as $width => $source ) {
+			if ( isset( $source['descriptor'] ) && 'w' == $source['descriptor'] && ( $width < apply_filters( 'porto_mini_screen_size', 320 ) || (int) $width > (int) $size_array[0] ) ) {
+				unset( $sources[ $width ] );
+			}
+		}
+		return $sources;
+	}
+endif;

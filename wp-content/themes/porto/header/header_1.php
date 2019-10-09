@@ -60,7 +60,7 @@ global $porto_settings, $porto_layout;
 				?>
 			</div>
 			<div class="header-center">
-				<a class="mobile-toggle"><i class="fa fa-reorder"></i></a>
+				<a class="mobile-toggle"><i class="fas fa-bars"></i></a>
 				<?php
 				// show search form
 				echo porto_search_form();

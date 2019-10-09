@@ -183,7 +183,7 @@ function is_porto_faqs_page() {
 function porto_faqs_page_id() {
 	global $porto_settings;
 
-	$faqs_page = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['faq-archive-page'] ) && $porto_settings['faq-archive-page'] ) ? esc_attr( $porto_settings['faq-archive-page'] ) : 0 );
+	$faqs_page = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['faq-archive-page'] ) && $porto_settings['faq-archive-page'] ) ? $porto_settings['faq-archive-page'] : 0 );
 	return $faqs_page;
 }
 

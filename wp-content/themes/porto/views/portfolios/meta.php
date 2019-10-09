@@ -21,11 +21,11 @@ if ( ( in_array( 'link', $porto_settings['portfolio-metas'] ) && $portfolio_link
 	if ( in_array( 'client', $porto_settings['portfolio-metas'] ) && $portfolio_client ) :
 		?>
 			<li>
-				<h5><i class="fa fa-caret-right"></i><?php esc_html_e( 'Client', 'porto' ); ?>:</h5>
+				<h5><i class="fas fa-caret-right"></i><?php esc_html_e( 'Client', 'porto' ); ?>:</h5>
 				<p>
 				<?php echo esc_html( $portfolio_client ); ?>
 				<?php if ( $portfolio_client_link ) : ?>
-					 - <a href="<?php echo esc_url( $portfolio_client_link ); ?>" target="_blank"><i class="fa fa-external-link"></i> <?php echo esc_url( $portfolio_client_link ); ?></a>
+					 - <a href="<?php echo esc_url( $portfolio_client_link ); ?>" target="_blank"><i class="fas fa-external-link-alt"></i> <?php echo esc_url( $portfolio_client_link ); ?></a>
 				<?php endif; ?>
 				</p>
 			</li>
@@ -35,7 +35,7 @@ if ( ( in_array( 'link', $porto_settings['portfolio-metas'] ) && $portfolio_link
 	if ( in_array( 'skills', $porto_settings['portfolio-metas'] ) && $skill_list ) :
 		?>
 			<li class="skill-list">
-				<h5><i class="fa fa-caret-right"></i><?php esc_html_e( 'Skills', 'porto' ); ?>:</h5>
+				<h5><i class="fas fa-caret-right"></i><?php esc_html_e( 'Skills', 'porto' ); ?>:</h5>
 				<?php echo porto_filter_output( $skill_list ); ?>
 			</li>
 		<?php
@@ -43,15 +43,15 @@ if ( ( in_array( 'link', $porto_settings['portfolio-metas'] ) && $portfolio_link
 	if ( in_array( 'location', $porto_settings['portfolio-metas'] ) && $portfolio_location ) :
 		?>
 			<li>
-				<h5><i class="fa fa-caret-right"></i><?php esc_html_e( 'Location', 'porto' ); ?>:</h5>
-				<p><?php echo esc_html( $portfolio_location ); ?></p>
+				<h5><i class="fas fa-caret-right"></i><?php esc_html_e( 'Location', 'porto' ); ?>:</h5>
+				<p><?php echo wp_kses_post( $portfolio_location ); ?></p>
 			</li>
 		<?php
 		endif;
 	if ( in_array( 'link', $porto_settings['portfolio-metas'] ) && $portfolio_link ) :
 		?>
 			<li>
-				<h5><i class="fa fa-caret-right"></i><?php printf( esc_html__( '%s URL', 'porto' ), $portfolio_name ); ?>:</h5>
+				<h5><i class="fas fa-caret-right"></i><?php printf( esc_html__( '%s URL', 'porto' ), $portfolio_name ); ?>:</h5>
 				<p><a href="<?php echo esc_url( $portfolio_link ); ?>" target="_blank"><?php echo esc_html( $portfolio_link ); ?></a></p>
 			</li>
 		<?php
@@ -61,7 +61,7 @@ if ( ( in_array( 'link', $porto_settings['portfolio-metas'] ) && $portfolio_link
 	<?php if ( is_single() && in_array( 'quote', $porto_settings['portfolio-metas'] ) && $portfolio_author_quote ) : ?>
 		<div class="testimonial testimonial-style-4">
 			<blockquote>
-				<p><?php echo esc_html( $portfolio_author_quote ); ?></p>
+				<p><?php echo wp_kses_post( $portfolio_author_quote ); ?></p>
 			</blockquote>
 			<div class="testimonial-arrow-down"></div>
 			<div class="testimonial-author">

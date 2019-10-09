@@ -7,6 +7,9 @@ global $porto_settings, $porto_layout;
 		<div class="container">
 			<div class="header-left">
 				<?php
+				// show search form
+				echo porto_search_form();
+
 				// show social links
 				echo porto_header_socials();
 
@@ -56,15 +59,13 @@ global $porto_settings, $porto_layout;
 			<div class="header-left">
 				<div id="main-menu">
 					<?php
-					// show search form
-					echo porto_search_form();
 
 					// show main menu
 					echo porto_main_menu();
 
 					// show mobile toggle
 					?>
-					<a class="mobile-toggle"><i class="fa fa-reorder"></i></a>
+					<a class="mobile-toggle"><i class="fas fa-bars"></i></a>
 				</div>
 			</div>
 			<div class="header-center">

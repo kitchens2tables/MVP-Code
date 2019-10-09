@@ -3,8 +3,8 @@
 // Easily usable on <ul>, <ol>, or <div>.
 
 .list-group {
-  display: -webkit-flex; display: -ms-flexbox; display: flex;
-  -webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column;
+  display: -ms-flexbox; display: flex;
+  -ms-flex-direction: column; flex-direction: column;
 
   // No need to set list-style: none; since .list-group-item is block level
   padding-left: 0; // reset padding because ul and ol

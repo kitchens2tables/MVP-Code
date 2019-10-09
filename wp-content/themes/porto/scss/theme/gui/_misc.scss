@@ -3,10 +3,6 @@ body a {
     outline: none !important;
 }
 
-li {
-    line-height: 24px;
-}
-
 .inline {
     display: inline;
 }
@@ -75,6 +71,9 @@ li {
 .overflow-hidden {
     overflow: hidden;
 }
+.overflow-visible {
+    overflow: visible;
+}
 
 .inverted {
     color: #FFF;
@@ -137,7 +136,7 @@ li {
 .tf-none {
     &,
     & img {
-        @include transform(none !important);
+        transform: none !important;
         @include transition(none !important);
     }
 }
@@ -245,12 +244,11 @@ blockquote {
         position: relative;
         padding: 10px;
         margin: 0;
-        display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
-        -webkit-align-items: center; -ms-align-items: center; align-items: center; -ms-flex-align: center;
-        -webkit-justify-content: center; -ms-justify-content: center; justify-content: center; -ms-flex-pack: center;
-        &.vc_column_container { -webkit-align-items: center; -ms-align-items: center; align-items: center; -ms-flex-align: center; }
+        -ms-flex-align: center; align-items: center;
+        -ms-flex-pack: center; justify-content: center;
+        &.vc_column_container { -ms-flex-align: center; align-items: center; }
         &:before, &:after {
             content: '';
             position: absolute;
@@ -269,7 +267,7 @@ blockquote {
         }
         .img-responsive, .img-fluid {
             display: inline-block;
-            -webkit-flex: 0 0 auto; -ms-flex: 0 0 auto; flex: 0 0 auto;
+            -ms-flex: 0 0 auto; flex: 0 0 auto;
         }
     }
 }
@@ -286,13 +284,16 @@ blockquote {
 
 .font-size-sm {
     font-size: 0.9em !important;
-    .vc_btn3 {
+    > .vc_btn3 {
         font-size: 1em !important;
     }
 }
 
 .font-size-md {
     font-size: 1em !important;
+    > .vc_btn3 {
+        font-size: 1em !important;
+    }
 }
 
 .font-size-lg {
@@ -350,7 +351,7 @@ blockquote {
 
 /* sticky class */
 .sticky-transition[data-plugin-sticky] {
-    @include transition(top 0.3s ease-in-out 0s);
+    @include transition(top 0.3s ease-in-out);
 }
 
 /* Bounce Loading */
@@ -388,8 +389,8 @@ blockquote {
 }
 
 @keyframes bouncedelay {
-    0%, 80%, 100% {-ms-transform: scale(0.0);transform: scale(0.0);}
-    40% {-ms-transform: scale(1.0);transform: scale(1.0);}
+    0%, 80%, 100% {transform: scale(0.0);}
+    40% {transform: scale(1.0);}
 }
 
 /* Ajax Box */
@@ -444,7 +445,6 @@ blockquote {
     padding-#{$left}: 10px;
     float: none;
     @if $rtl == 0 {
-        -webkit-order: 2;
         order: 2;
         -ms-flex-order: 2;
     }
@@ -453,6 +453,13 @@ blockquote {
 .hover-effect-3 img {
     opacity: .3;
     transition: opacity .3s;
+    &:hover {
+        opacity: 1;
+    }
+}
+.hover-effect-5 img {
+    opacity: .5;
+    transition: opacity .5s;
     &:hover {
         opacity: 1;
     }
@@ -471,11 +478,19 @@ blockquote {
 .ls-0 {
     letter-spacing: 0;
 }
+.ls-negative-2 {
+    letter-spacing: -2px;
+}
+.ls-negative-1 {
+    letter-spacing: -1px;
+}
 
 .curved-border {
     min-height: 7.2vw;
+    position: relative;
     &:after {
         content: '';
+        display: block;
         background-image: url(../images/curved-border.svg);
         background-size: 100% 100%;
         background-position: center;

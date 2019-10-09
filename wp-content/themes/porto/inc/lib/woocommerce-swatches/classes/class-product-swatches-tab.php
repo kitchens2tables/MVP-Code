@@ -32,8 +32,6 @@ if ( ! class_exists( 'Porto_Product_Swatches_Tab' ) ) {
 		public function render_product_tab_content( $post_id = false ) {
 			global $_wp_additional_image_sizes;
 
-			add_filter( 'woocommerce_variation_is_visible', '__return_true' );
-
 			if ( ! $post_id ) {
 				global $post;
 				$post_id = $post->ID;
@@ -182,7 +180,7 @@ if ( ! class_exists( 'Porto_Product_Swatches_Tab' ) ) {
 												}
 
 												if ( $global_attribute && isset( $attribute_term['term_id'] ) ) {
-													$current_attribute_color = get_woocommerce_term_meta( $attribute_term['term_id'], 'color_value' );
+													$current_attribute_color = get_term_meta( $attribute_term['term_id'], 'color_value', true );
 													if ( $current_attribute_color ) {
 														$global_attribute_item = true;
 													}
@@ -232,7 +230,7 @@ else :
 
 														<div>
 															<div id="swatch_option_<?php echo esc_attr( $key_attr ); ?>_<?php echo esc_attr( $attribute_term['id'] ); ?>_image_thumbnail" style="float:left;margin-top:3px;margin-right:10px;">
-																<img src="<?php echo esc_url( $current_attribute_image_src ); ?>" alt="<?php esc_html_e( 'Thumbnail Preview', 'porto' ); ?>" class="wp-post-image" width="16" height="16">
+																<img src="<?php echo esc_url( $current_attribute_image_src ); ?>" alt="<?php esc_attr_e( 'Thumbnail Preview', 'porto' ); ?>" class="wp-post-image" width="16" height="16">
 															</div>
 															<input class="upload_image_id" type="hidden" id="swatch_option_<?php echo esc_attr( $key_attr ); ?>_<?php echo esc_attr( $attribute_term['id'] ); ?>_image" name="swatch_options[<?php echo esc_attr( $key ); ?>][attributes][<?php echo esc_attr( $attribute_term['id'] ); ?>][image]" value="<?php echo esc_attr( $current_attribute_image_id ); ?>" />
 															<button type="submit" class="upload_swatch_image_button button" rel="<?php echo esc_attr( $post_id ); ?>"><?php esc_html_e( 'Upload/Add image', 'porto' ); ?></button>
@@ -259,8 +257,6 @@ else :
 
 			<?php
 			echo '</div>';
-
-			remove_filter( 'woocommerce_variation_is_visible', '__return_true' );
 		}
 
 		public function process_meta_box( $post_id, $post ) {
@@ -269,7 +265,7 @@ else :
 
 			$swatch_options = isset( $_POST['swatch_options'] ) ? $_POST['swatch_options'] : false;
 			if ( $swatch_options && is_array( $swatch_options ) ) {
-				$product->update_meta_data( 'swatch_options', $swatch_options );
+				$product->update_meta_data( 'swatch_options', porto_sanitize_array( $swatch_options ) );
 			}
 			$product->save_meta_data();
 		}

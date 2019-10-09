@@ -110,7 +110,7 @@ if ( ! class_exists( 'ReduxFramework_ace_editor' ) ) {
 			if ( ! wp_script_is( 'ace-editor-js' ) ) {
 				wp_enqueue_script(
 					'ace-editor-js',
-					porto_js . '/admin/ace.js',
+					PORTO_JS . '/admin/ace.js',
 					array( 'jquery' ),
 					'1.1.9',
 					true

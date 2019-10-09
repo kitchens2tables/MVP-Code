@@ -21,7 +21,7 @@ global $porto_settings;
 $share = porto_get_meta_value( 'page_share' );
 if ( $porto_settings['share-enable'] && 'no' !== $share && ( 'yes' === $share || ( 'yes' !== $share && $porto_settings['page-share'] ) ) ) : ?>
 <div class="page-share wishlist-share">
-	<h3><i class="fa fa-share"></i><?php esc_html_e( 'Share on', 'porto' ); ?></h3>
+	<h3><i class="fas fa-share"></i><?php esc_html_e( 'Share on', 'porto' ); ?></h3>
 	<?php get_template_part( 'share' ); ?>
 </div>
 	<?php

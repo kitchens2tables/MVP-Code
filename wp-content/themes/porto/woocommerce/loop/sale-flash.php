@@ -24,11 +24,13 @@ if ( $porto_settings['product-sale'] ) {
 		$percentage = 0;
 		if ( $product->get_regular_price() ) {
 			$percentage = - round( ( ( $product->get_regular_price() - $product->get_sale_price() ) / $product->get_regular_price() ) * 100 );
+		} elseif ( 'variable' == $product->get_type() && $product->get_variation_regular_price() ) {
+			$percentage = - round( ( ( $product->get_variation_regular_price() - $product->get_variation_sale_price() ) / $product->get_variation_regular_price() ) * 100 );
 		}
 		if ( $porto_settings['product-sale-percent'] && $percentage ) {
 			$sales_html = '<div class="onsale">' . $percentage . '%</div>';
 		} else {
-			$sales_html = apply_filters( 'woocommerce_sale_flash', '<div class="onsale">' . ( ( isset( $porto_settings['product-sale-label'] ) && $porto_settings['product-sale-label'] ) ? esc_html( $porto_settings['product-sale-label'] ) : __( 'Sale', 'porto' ) ) . '</div>', $post, $product );
+			$sales_html = apply_filters( 'woocommerce_sale_flash', '<div class="onsale">' . ( ( isset( $porto_settings['product-sale-label'] ) && $porto_settings['product-sale-label'] ) ? esc_html( $porto_settings['product-sale-label'] ) : esc_html__( 'Sale', 'porto' ) ) . '</div>', $post, $product );
 		}
 		$labels .= $sales_html;
 	}
@@ -39,7 +41,7 @@ if ( $labels ) {
 }
 
 $availability = $product->get_availability();
-if ( __( 'Out of stock', 'porto' ) == $availability['availability'] ) {
+if ( 'out-of-stock' == $availability['class'] ) {
 	if ( $porto_settings['product-stock'] ) {
 		echo apply_filters( 'woocommerce_stock_html', '<div class="stock ' . esc_attr( $availability['class'] ) . '">' . esc_html( $availability['availability'] ) . '</div>', $availability['availability'] );
 	}

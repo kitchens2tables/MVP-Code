@@ -5,37 +5,15 @@
  * @version     3.0.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 global $product, $porto_settings;
 
-$crosssells = WC()->cart->get_cross_sells();
-
-if ( 0 === sizeof( $crosssells ) || ! $porto_settings['product-crosssell'] ) {
-	return;
-}
-
-$meta_query = WC()->query->get_meta_query();
-
-$args = array(
-	'post_type'           => 'product',
-	'ignore_sticky_posts' => 1,
-	'no_found_rows'       => 1,
-	'posts_per_page'      => apply_filters( 'woocommerce_cross_sells_total', $porto_settings['product-crosssell-count'] ),
-	'orderby'             => $orderby,
-	'post__in'            => $crosssells,
-	'meta_query'          => $meta_query,
-);
-
-$products = new WP_Query( $args );
-
-if ( $products->have_posts() ) : ?>
+if ( $cross_sells && $porto_settings['product-crosssell'] ) : ?>
 
 	<div class="cross-sells">
 
-		<h2 class="slider-title"><span class="inline-title"><?php esc_html_e( 'You may be interested in&hellip;', 'porto' ); ?></span><span class="line"></span></h2>
+		<h2 class="slider-title"><span class="inline-title"><?php esc_html_e( 'You may be interested in&hellip;', 'woocommerce' ); ?></span><span class="line"></span></h2>
 
 		<div class="slider-wrapper">
 
@@ -52,14 +30,21 @@ if ( $products->have_posts() ) : ?>
 			woocommerce_product_loop_start();
 			?>
 
-				<?php
-				while ( $products->have_posts() ) :
-					$products->the_post();
+				<?php foreach ( $cross_sells as $index => $cross_sell ) : ?>
+
+					<?php
+
+					if ( isset( $porto_settings['product-crosssell-count'] ) && $index >= (int) $porto_settings['product-crosssell-count'] ) {
+						break;
+					}
+						$post_object = get_post( $cross_sell->get_id() );
+
+						setup_postdata( $GLOBALS['post'] =& $post_object ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited, Squiz.PHP.DisallowMultipleAssignments.Found
+
+						wc_get_template_part( 'content', 'product' );
 					?>
 
-					<?php wc_get_template_part( 'content', 'product' ); ?>
-
-				<?php endwhile; // end of the loop. ?>
+				<?php endforeach; ?>
 
 			<?php
 			woocommerce_product_loop_end();
@@ -68,8 +53,7 @@ if ( $products->have_posts() ) : ?>
 		</div>
 
 	</div>
-
 	<?php
 endif;
 
-wp_reset_query();
+wp_reset_postdata();

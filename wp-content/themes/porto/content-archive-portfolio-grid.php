@@ -79,6 +79,10 @@ switch ( $portfolio_thumb ) {
 		$show_info      = false;
 		$show_plus_icon = true;
 		break;
+	case 'left-info-no-bg':
+		$classes[]           = 'thumb-info-left-no-bg';
+		$portfolio_show_zoom = false;
+		break;
 	case 'centered-info':
 		$classes[]           = 'thumb-info-centered-info';
 		$portfolio_show_zoom = false;
@@ -177,7 +181,7 @@ if ( $count ) :
 				<span class="thumb-info-icons position-style-2 text-color-light">
 					<span class="thumb-info-icon pictures background-color-primary">
 					<?php echo function_exists( 'porto_get_featured_images' ) ? count( porto_get_featured_images() ) : 0; ?>
-					<i class="fa fa-picture-o"></i>
+					<i class="far fa-image"></i>
 					</span>
 				</span>
 			<?php endif; ?>
@@ -241,7 +245,7 @@ if ( $count ) :
 
 									if ( $porto_settings['portfolio-archive-img-lightbox-thumb'] && $attachment_id ) {
 										$attachment_thumb             = porto_get_attachment( $attachment_id, 'widget-thumb-medium' );
-										$porto_portfolio_thumbs_html .= '<span><img src="' . $attachment_thumb['src'] . '" alt="' . $attachment_thumb['alt'] . '" ></span>';
+										$porto_portfolio_thumbs_html .= '<span><img src="' . esc_url( $attachment_thumb['src'] ) . '" alt="' . esc_attr( $attachment_thumb['alt'] ) . '" ></span>';
 									}
 
 									if ( ! $portfolio_show_all_images ) {
@@ -296,7 +300,7 @@ if ( $count ) :
 									<span class="thumb-info-action-icon thumb-info-action-icon-<?php echo ! $portfolio_show_zoom ? 'dark opacity-8' : 'primary'; ?>"><i class="fa <?php echo ! $ajax_attr ? 'fa-link' : 'fa-plus-square'; ?>"></i></span>
 								<?php endif; ?>
 								<?php if ( $portfolio_show_zoom ) : ?>
-									<span class="thumb-info-action-icon thumb-info-action-icon-light thumb-info-zoom" data-src="<?php echo esc_attr( json_encode( $zoom_src ) ); ?>" data-title="<?php echo esc_attr( json_encode( $zoom_title ) ); ?>"><i class="fa fa-search-plus"></i></span>
+									<span class="thumb-info-action-icon thumb-info-action-icon-light thumb-info-zoom" data-src="<?php echo esc_attr( json_encode( $zoom_src ) ); ?>" data-title="<?php echo esc_attr( json_encode( $zoom_title ) ); ?>"><i class="fas fa-search-plus"></i></span>
 								<?php endif; ?>
 							</span>
 						<?php endif; ?>
@@ -325,7 +329,7 @@ if ( $count ) :
 						if ( has_excerpt() ) {
 							the_excerpt();
 						} else {
-							echo porto_get_excerpt( $porto_settings['portfolio-excerpt-length'], false );
+							echo porto_get_excerpt( $porto_settings['portfolio-excerpt-length'], $porto_settings['portfolio-archive-readmore'] ? true : false );
 						}
 					} else {
 						porto_the_content();

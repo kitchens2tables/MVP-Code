@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /******************************/
 /* Include Sidebars Generator */
 /******************************/
-$plugin = porto_plugins . '/sidebar-generator/sidebar_generator.php';
+$plugin = PORTO_PLUGINS . '/sidebar-generator/sidebar_generator.php';
 include_once $plugin;
 
 if ( current_user_can( 'manage_options' ) ) {
@@ -21,39 +21,39 @@ if ( current_user_can( 'manage_options' ) ) {
 			array(
 				'name'      => 'Porto Functionality',
 				'slug'      => 'porto-functionality',
-				'source'    => porto_plugins . '/porto-functionality.zip',
+				'source'    => PORTO_PLUGINS . '/porto-functionality.zip',
 				'required'  => true,
-				'version'   => '1.3.0',
+				'version'   => '1.4',
 				'url'       => 'porto-functionality/porto-functionality.php',
-				'image_url' => porto_plugins_uri . '/images/porto_functionality.png',
+				'image_url' => PORTO_PLUGINS_URI . '/images/porto_functionality.png',
 			),
 			array(
 				'name'      => 'Contact Form 7',
 				'slug'      => 'contact-form-7',
 				'required'  => false,
 				'url'       => 'contact-form-7/wp-contact-form-7.php',
-				'image_url' => porto_plugins_uri . '/images/contact_form_7.png',
+				'image_url' => PORTO_PLUGINS_URI . '/images/contact_form_7.png',
 			),
 			array(
 				'name'      => 'Woocommerce',
 				'slug'      => 'woocommerce',
 				'required'  => false,
 				'url'       => 'woocommerce/woocommerce.php',
-				'image_url' => porto_plugins_uri . '/images/woocommerce.png',
+				'image_url' => PORTO_PLUGINS_URI . '/images/woocommerce.png',
 			),
 			array(
 				'name'      => 'Dynamic Featured Image',
 				'slug'      => 'dynamic-featured-image',
 				'required'  => false,
 				'url'       => 'dynamic-featured-image/dynamic-featured-image.php',
-				'image_url' => porto_plugins_uri . '/images/dynamic_featured_image.png',
+				'image_url' => PORTO_PLUGINS_URI . '/images/dynamic_featured_image.png',
 			),
 			array(
 				'name'       => 'MailPoet Newsletters',
 				'slug'       => 'wysija-newsletters',
 				'required'   => false,
 				'url'        => 'wysija-newsletters/index.php',
-				'image_url'  => porto_plugins_uri . '/images/mailpoet_newsletter.png',
+				'image_url'  => PORTO_PLUGINS_URI . '/images/mailpoet_newsletter.png',
 				'visibility' => 'hidden',
 			),
 			array(
@@ -61,7 +61,7 @@ if ( current_user_can( 'manage_options' ) ) {
 				'slug'       => 'instagram-slider-widget',
 				'required'   => false,
 				'url'        => 'instagram-slider-widget/instaram_slider.php',
-				'image_url'  => porto_plugins_uri . '/images/instagram_slider_widget.png',
+				'image_url'  => PORTO_PLUGINS_URI . '/images/instagram_slider_widget.png',
 				'visibility' => 'hidden',
 			),
 
@@ -70,7 +70,7 @@ if ( current_user_can( 'manage_options' ) ) {
 				'slug'       => 'regenerate-thumbnails',
 				'required'   => false,
 				'url'        => 'regenerate-thumbnails/regenerate-thumbnails.php',
-				'image_url'  => porto_plugins_uri . '/images/regenerate_thumbnails.png',
+				'image_url'  => PORTO_PLUGINS_URI . '/images/regenerate_thumbnails.png',
 				'visibility' => 'hidden',
 			),
 			array(
@@ -78,7 +78,7 @@ if ( current_user_can( 'manage_options' ) ) {
 				'slug'       => 'yith-woocommerce-wishlist',
 				'required'   => false,
 				'url'        => 'yith-woocommerce-wishlist/init.php',
-				'image_url'  => porto_plugins_uri . '/images/yith_wishlist.png',
+				'image_url'  => PORTO_PLUGINS_URI . '/images/yith_wishlist.png',
 				'visibility' => 'hidden',
 			),
 			array(
@@ -86,7 +86,7 @@ if ( current_user_can( 'manage_options' ) ) {
 				'slug'       => 'yith-woocommerce-ajax-navigation',
 				'required'   => false,
 				'url'        => 'yith-woocommerce-ajax-navigation/init.php',
-				'image_url'  => porto_plugins_uri . '/images/yith_ajax_filter.png',
+				'image_url'  => PORTO_PLUGINS_URI . '/images/yith_ajax_filter.png',
 				'visibility' => 'hidden',
 			),
 			array(
@@ -94,7 +94,15 @@ if ( current_user_can( 'manage_options' ) ) {
 				'slug'       => 'yith-woocommerce-ajax-search',
 				'required'   => false,
 				'url'        => 'yith-woocommerce-ajax-search/init.php',
-				'image_url'  => porto_plugins_uri . '/images/yith_ajax_search.png',
+				'image_url'  => PORTO_PLUGINS_URI . '/images/yith_ajax_search.png',
+				'visibility' => 'hidden',
+			),
+			array(
+				'name'       => 'Dokan',
+				'slug'       => 'dokan-lite',
+				'required'   => false,
+				'url'        => 'dokan-lite/dokan.php',
+				'image_url'  => PORTO_PLUGINS_URI . '/images/dokan-logo.png',
 				'visibility' => 'hidden',
 			),
 			array(
@@ -102,7 +110,7 @@ if ( current_user_can( 'manage_options' ) ) {
 				'slug'       => 'wp-sitemap-page',
 				'required'   => false,
 				'url'        => 'wp-sitemap-page/wp-sitemap-page.php',
-				'image_url'  => porto_plugins_uri . '/images/wp_sitemap_page.png',
+				'image_url'  => PORTO_PLUGINS_URI . '/images/wp_sitemap_page.png',
 				'visibility' => 'hidden',
 			),
 			array(
@@ -128,7 +136,7 @@ if ( current_user_can( 'manage_options' ) ) {
 			/*************************/
 			/* TGM Plugin Activation */
 			/*************************/
-			$plugin = porto_plugins . '/tgm-plugin-activation/class-tgm-plugin-activation.php';
+			$plugin = PORTO_PLUGINS . '/tgm-plugin-activation/class-tgm-plugin-activation.php';
 			if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				require_once $plugin;
 			}
@@ -144,10 +152,10 @@ if ( current_user_can( 'manage_options' ) ) {
 						array(
 							'name'      => 'GeoDirectory Porto Theme Compatibility Pack',
 							'slug'      => 'geodirectory-porto-theme-compatibility-pack',
-							'source'    => porto_plugins_uri . '/geodirectory-porto-theme-compatibility-pack.zip',
+							'source'    => PORTO_PLUGINS_URI . '/geodirectory-porto-theme-compatibility-pack.zip',
 							'required'  => true,
 							'version'   => '1.0.0',
-							'image_url' => porto_plugins_uri . '/images/geodirectory_porto_pack.png',
+							'image_url' => PORTO_PLUGINS_URI . '/images/geodirectory_porto_pack.png',
 						),
 					)
 				);
@@ -163,8 +171,6 @@ if ( current_user_can( 'manage_options' ) ) {
 			if ( $vc_manager ) {
 				$vc_updater = $vc_manager->updater();
 				if ( $vc_updater ) {
-					remove_filter( 'upgrader_pre_download', array( $vc_updater, 'upgradeFilterFromEnvato' ) );
-					remove_filter( 'upgrader_pre_download', array( $vc_updater, 'preUpgradeFilter' ) );
 					remove_action( 'wp_ajax_nopriv_vc_check_license_key', array( $vc_updater, 'checkLicenseKeyFromRemote' ) );
 				}
 			}
@@ -230,7 +236,7 @@ if ( current_user_can( 'manage_options' ) ) {
 
 		private function update_plugins_list() {
 
-			require_once porto_plugins . '/importer/importer-api.php';
+			require_once PORTO_PLUGINS . '/importer/importer-api.php';
 			$importer_api = new Porto_Importer_API();
 			$plugins      = $importer_api->get_response( 'plugins_version' );
 			if ( is_wp_error( $plugins ) || ! $plugins ) {
@@ -242,10 +248,10 @@ if ( current_user_can( 'manage_options' ) ) {
 			foreach ( $plugins as $key => $plugin ) {
 				$args['plugin']               = $plugin['slug'];
 				$plugins[ $key ]['source']    = add_query_arg( $args, $importer_api->get_url( 'plugins' ) );
-				$plugins[ $key ]['image_url'] = porto_plugins_uri . '/images/' . $args['plugin'] . '.png';
+				$plugins[ $key ]['image_url'] = PORTO_PLUGINS_URI . '/images/' . $args['plugin'] . '.png';
 			}
 			// set transient
-			set_site_transient( 'porto_plugins', $plugins, 24 * HOUR_IN_SECONDS );
+			set_site_transient( 'porto_plugins', $plugins, 4 * 24 * HOUR_IN_SECONDS );
 			return $plugins;
 		}
 

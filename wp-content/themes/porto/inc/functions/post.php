@@ -168,28 +168,38 @@ if ( ! function_exists( 'porto_get_excerpt' ) ) :
 		$content = preg_replace( $pattern, '', $content );
 
 		$content = porto_strip_tags( porto_the_content( $content, false ) );
-		$content = explode( ' ', $content, $limit );
 
-		if ( count( $content ) >= $limit ) {
-			array_pop( $content );
-			if ( $more_link ) {
-				$content = implode( ' ', $content ) . '... ';
-			} else {
-				$content = implode( ' ', $content ) . ' [...]';
+		if ( isset( $porto_settings['blog-excerpt-base'] ) && 'characters' == $porto_settings['blog-excerpt-base'] ) {
+			if ( mb_strlen( $content ) > $limit ) {
+				$content = mb_substr( $content, 0, $limit ) . '...';
 			}
 		} else {
-			$content = implode( ' ', $content );
+			$content = explode( ' ', $content, $limit );
+
+			if ( count( $content ) >= $limit ) {
+				array_pop( $content );
+				if ( $more_link ) {
+					$content = implode( ' ', $content ) . '... ';
+				} else {
+					$content = implode( ' ', $content ) . '...';
+				}
+			} else {
+				$content = implode( ' ', $content );
+			}
 		}
 
 		if ( 'html' == $porto_settings['blog-excerpt-type'] ) {
 			$content = porto_the_content( $content, false );
 		}
 
+		if ( $content ) {
+			$content = wp_kses_post( $content );
+		}
 		if ( $more_link ) {
 			if ( $more_style_block ) {
-				$content .= ' <a class="read-more read-more-block" href="' . esc_url( apply_filters( 'the_permalink', get_permalink() ) ) . '">' . esc_html__( 'Read More', 'porto' ) . ' <i class="fa fa-long-arrow-right"></i></a>';
+				$content .= ' <a class="read-more read-more-block" href="' . esc_url( apply_filters( 'the_permalink', get_permalink() ) ) . '">' . esc_html__( 'Read More', 'porto' ) . ' <i class="fas fa-long-arrow-alt-right"></i></a>';
 			} else {
-				$content .= ' <a class="read-more" href="' . esc_url( apply_filters( 'the_permalink', get_permalink() ) ) . '">' . esc_html__( 'read more', 'porto' ) . ' <i class="fa fa-angle-right"></i></a>';
+				$content .= ' <a class="read-more" href="' . esc_url( apply_filters( 'the_permalink', get_permalink() ) ) . '">' . esc_html__( 'read more', 'porto' ) . ' <i class="fas fa-angle-right"></i></a>';
 			}
 		}
 
@@ -209,7 +219,7 @@ if ( ! function_exists( 'porto_the_content' ) ) :
 		if ( function_exists( 'has_blocks' ) && has_blocks( $content ) ) {
 			$result = do_shortcode( do_blocks( $content ) );
 		} else {
-			$result = do_shortcode( wpautop( $content ) );
+			$result = do_shortcode( $content );
 		}
 		if ( ! $echo ) {
 			return $result;
@@ -265,14 +275,14 @@ if ( ! function_exists( 'porto_comment' ) ) :
 				<span class="comment-by">
 					<strong><?php echo get_comment_author_link(); ?></strong>
 					<span class="pt-right">
-						<span> <?php edit_comment_link( '<i class="fa fa-pencil"></i> ' . __( 'Edit', 'porto' ), '  ', '' ); ?></span>
+						<span> <?php edit_comment_link( '<i class="fas fa-pencil-alt"></i> ' . __( 'Edit', 'porto' ), '  ', '' ); ?></span>
 						<span> 
 						<?php
 						comment_reply_link(
 							array_merge(
 								$args,
 								array(
-									'reply_text' => '<i class="fa fa-reply"></i> ' . __( 'Reply', 'porto' ),
+									'reply_text' => '<i class="fas fa-reply"></i> ' . __( 'Reply', 'porto' ),
 									'add_below'  => 'comment',
 									'depth'      => $depth,
 									'max_depth'  => $args['max_depth'],
@@ -300,11 +310,15 @@ if ( ! function_exists( 'porto_comment' ) ) :
 endif;
 
 if ( ! function_exists( 'porto_post_date' ) ) :
-	function porto_post_date() {
-		?>
-		<span class="day"><?php echo get_the_time( 'd', get_the_ID() ); ?></span>
-		<span class="month"><?php echo get_the_time( 'M', get_the_ID() ); ?></span>
-		<?php
+	function porto_post_date( $echo = true ) {
+		$result  = '<span class="day">' . esc_html( get_the_date( 'd', get_the_ID() ) ) . '</span>';
+		$result .= '<span class="month">' . esc_html( get_the_date( 'M', get_the_ID() ) ) . '</span>';
+		$result .= '<time>'. esc_html( get_the_date( '', get_the_ID() ) ) .'</time>';
+		if ( $echo ) {
+			echo porto_filter_output( $result );
+		} else {
+			return $result;
+		}
 	}
 endif;
 
@@ -331,35 +345,35 @@ if ( ! function_exists( 'porto_post_format' ) ) :
 					$fa_icon_escaped = '';
 					switch ( $post_format ) {
 						case 'aside':
-							$fa_icon_escaped = 'file-text';
+							$fa_icon_escaped = 'fas fa-file-alt';
 							break;
 						case 'gallery':
-							$fa_icon_escaped = 'camera-retro';
+							$fa_icon_escaped = 'fas fa-camera-retro';
 							break;
 						case 'link':
-							$fa_icon_escaped = 'link';
+							$fa_icon_escaped = 'fas fa-link';
 							break;
 						case 'image':
-							$fa_icon_escaped = 'picture-o';
+							$fa_icon_escaped = 'far fa-image';
 							break;
 						case 'quote':
-							$fa_icon_escaped = 'quote-left';
+							$fa_icon_escaped = 'fas fa-quote-left';
 							break;
 						case 'video':
-							$fa_icon_escaped = 'film';
+							$fa_icon_escaped = 'fas fa-film';
 							break;
 						case 'audio':
-							$fa_icon_escaped = 'music';
+							$fa_icon_escaped = 'fas fa-music';
 							break;
 						case 'chat':
-							$fa_icon_escaped = 'comments';
+							$fa_icon_escaped = 'fas fa-comments';
 							break;
 						case 'status':
-							$fa_icon_escaped = 'exclamation-triangle';
+							$fa_icon_escaped = 'fas fa-exclamation-triangle';
 							break;
 					}
 					?>
-					<i class="fa fa-<?php echo $fa_icon_escaped; ?>"></i>
+					<i class="<?php echo ! $fa_icon_escaped ? '' : $fa_icon_escaped; ?>"></i>
 				</div>
 				<?php
 			endif;
@@ -403,7 +417,7 @@ if ( ! function_exists( 'porto_pagination' ) ) :
 		$format  = $wp_rewrite->using_index_permalinks() && ! strpos( $page_num_link, 'index.php' ) ? 'index.php/' : '';
 		$format .= $wp_rewrite->using_permalinks() ? user_trailingslashit( $wp_rewrite->pagination_base . '/%#%', 'paged' ) : '?paged=%#%';
 
-		$next_text = ( $load_more ) ? __( 'Load More...', 'porto' ) : __( 'Next&nbsp;&nbsp;<i class="fa fa-long-arrow-right"></i>', 'porto' );
+		$next_text = ( $load_more ) ? __( 'Load More...', 'porto' ) : __( 'Next&nbsp;&nbsp;<i class="fas fa-long-arrow-alt-right"></i>', 'porto' );
 
 		// Set up paginated links.
 		$links = paginate_links(
@@ -415,7 +429,7 @@ if ( ! function_exists( 'porto_pagination' ) ) :
 				'end_size'  => 1,
 				'mid_size'  => 1,
 				'add_args'  => array_map( 'urlencode', $query_args ),
-				'prev_text' => __( '<i class="fa fa-long-arrow-left"></i>&nbsp;&nbsp;Prev', 'porto' ),
+				'prev_text' => __( '<i class="fas fa-long-arrow-alt-left"></i>&nbsp;&nbsp;Prev', 'porto' ),
 				'next_text' => $next_text,
 			)
 		);

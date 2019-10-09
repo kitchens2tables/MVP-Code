@@ -45,7 +45,7 @@ function porto_load_product_shortcode() {
 					'param_name' => 'column_width',
 					'dependency' => array(
 						'element' => 'view',
-						'value'   => array( 'grid' ),
+						'value'   => array( 'grid', 'divider' ),
 					),
 					'value'      => porto_sh_commons( 'products_column_width' ),
 				),
@@ -63,10 +63,28 @@ function porto_load_product_shortcode() {
 				),
 				array(
 					'type'        => 'dropdown',
-					'heading'     => __( 'Add Links Position', 'porto-functionality' ),
+					'heading'     => __( 'Product Layout', 'porto-functionality' ),
 					'description' => __( 'Select position of add to cart, add to wishlist, quickview.', 'porto-functionality' ),
 					'param_name'  => 'addlinks_pos',
 					'value'       => porto_sh_commons( 'products_addlinks_pos' ),
+				),
+				array(
+					'type'        => 'checkbox',
+					'heading'     => __( 'Use simple layout?', 'porto-functionality' ),
+					'description' => __( 'If you check this option, it will display product title and price only.', 'porto-functionality' ),
+					'param_name'  => 'use_simple',
+					'std'         => 'no',
+				),
+				array(
+					'type'       => 'dropdown',
+					'heading'    => __( 'Image Size', 'porto-functionality' ),
+					'param_name' => 'image_size',
+					'dependency' => array(
+						'element' => 'view',
+						'value'   => array( 'products-slider', 'grid', 'divider', 'list' ),
+					),
+					'value'      => porto_sh_commons( 'image_sizes' ),
+					'std'        => '',
 				),
 				$custom_class,
 				$animation_type,

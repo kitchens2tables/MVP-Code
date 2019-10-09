@@ -11,7 +11,7 @@ if ( ! ( $show_date || $show_format ) ) {
 if ( 'without-icon' == $porto_settings['post-title-style'] ) {
 	$post_class[] = 'post-title-simple';
 }
-$post_share   = get_post_meta( $post->ID, 'post_share', true );
+$post_share   = get_post_meta( get_the_ID(), 'post_share', true );
 $social_share = true;
 if ( ! $porto_settings['share-enable'] ) {
 	$social_share = false;
@@ -24,18 +24,18 @@ if ( ! $porto_settings['share-enable'] ) {
 $post_meta  = '';
 $post_meta .= '<div class="post-meta ' . ( empty( $porto_settings['post-metas'] ) ? ' d-none' : '' ) . '">';
 if ( in_array( 'author', $porto_settings['post-metas'] ) ) {
-	$post_meta .= '<span class="meta-author"><i class="fa fa-user-o"></i> ' . esc_html__( 'By ', 'porto' ) . get_the_author_posts_link() . '</span>';
+	$post_meta .= '<span class="meta-author"><i class="far fa-user"></i>' . esc_html__( 'By ', 'porto' ) . get_the_author_posts_link() . '</span>';
 }
 	$cats_list = get_the_category_list( ', ' );
 if ( $cats_list && in_array( 'cats', $porto_settings['post-metas'] ) ) {
-	$post_meta .= '<span class="meta-cats"><i class="fa fa-folder-open-o"></i> ' . $cats_list . '</span>';
+	$post_meta .= '<span class="meta-cats"><i class="far fa-folder"></i>' . $cats_list . '</span>';
 }
 	$tags_list = get_the_tag_list( '', ', ' );
 if ( $tags_list && in_array( 'tags', $porto_settings['post-metas'] ) ) {
-	$post_meta .= '<span class="meta-tags"><i class="fa fa-envelope-o"></i> ' . $tags_list . '</span>';
+	$post_meta .= '<span class="meta-tags"><i class="far fa-envelope"></i>' . $tags_list . '</span>';
 }
 if ( in_array( 'comments', $porto_settings['post-metas'] ) ) {
-	$post_meta .= '<span class="meta-comments"><i class="fa fa-comments-o"></i> ' . get_comments_popup_link( __( '0 Comments', 'porto' ), __( '1 Comment', 'porto' ), '% ' . __( 'Comments', 'porto' ) ) . '</span>';
+	$post_meta .= '<span class="meta-comments"><i class="far fa-comments"></i>' . get_comments_popup_link( __( '0 Comments', 'porto' ), __( '1 Comment', 'porto' ), '% ' . __( 'Comments', 'porto' ) ) . '</span>';
 }
 if ( function_exists( 'Post_Views_Counter' ) && 'manual' == Post_Views_Counter()->options['display']['position'] && in_array( 'post', (array) Post_Views_Counter()->options['general']['post_types_count'] ) ) {
 	$post_count = do_shortcode( '[post-views]' );
@@ -61,7 +61,7 @@ $post_meta .= '</div>';
 	<div class="post-content">
 		<?php
 			// Post Media
-			$slideshow_type = get_post_meta( $post->ID, 'slideshow_type', true );
+			$slideshow_type = get_post_meta( get_the_ID(), 'slideshow_type', true );
 		if ( ! $slideshow_type ) {
 			$slideshow_type = 'images';
 		}
@@ -103,7 +103,7 @@ $post_meta .= '</div>';
 		?>
 
 		<?php
-			$share = get_post_meta( $post->ID, 'post_share', true );
+			$share = get_post_meta( get_the_ID(), 'post_share', true );
 		if ( 'yes' == $share || ( empty( $share ) && $social_share ) ) :
 			?>
 			<?php if ( 'advance' !== $porto_settings['blog-post-share-position'] ) : ?>

@@ -37,7 +37,6 @@
     }
 
     .testimonial-author {
-        @include clearfix;
         @include display-flex;
         margin: 12px 0 0 0;
         .testimonial-author-thumbnail {

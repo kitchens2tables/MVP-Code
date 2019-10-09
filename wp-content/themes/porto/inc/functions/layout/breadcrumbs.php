@@ -15,8 +15,6 @@ function porto_breadcrumbs() {
 	// use yoast breadcrumbs if enabled
 	if ( function_exists( 'yoast_breadcrumb' ) ) {
 		$yoast_breadcrumbs = yoast_breadcrumb( '', '', false );
-		
-	
 		if ( $yoast_breadcrumbs ) {
 			return $yoast_breadcrumbs;
 		}
@@ -26,13 +24,11 @@ function porto_breadcrumbs() {
 
 	$post   = isset( $GLOBALS['post'] ) ? $GLOBALS['post'] : null;
 	$output = '';
-	
-	
 
 	// add breadcrumbs prefix
 	if ( ! is_front_page() ) {
 		if ( isset( $porto_settings['breadcrumbs-prefix'] ) && $porto_settings['breadcrumbs-prefix'] ) {
-			$output .= '<span class="breadcrumbs-prefix">' . $porto_settings['breadcrumbs-prefix'] . '</span>';
+			$output .= '<span class="breadcrumbs-prefix">' . esc_html( $porto_settings['breadcrumbs-prefix'] ) . '</span>';
 		}
 	}
 
@@ -47,7 +43,7 @@ function porto_breadcrumbs() {
 	}
 
 	// add woocommerce shop page link
-	if ( class_exists( 'WooCommerce' ) && ( ( is_woocommerce() && is_archive() && ! is_shop() ) || is_product() || is_cart() || is_checkout() || is_account_page() ) ) {
+	if ( class_exists( 'WooCommerce' ) && ( ! isset( $porto_settings['breadcrumbs-shop-link'] ) || $porto_settings['breadcrumbs-shop-link'] ) && ( ( is_woocommerce() && is_archive() && ! is_shop() ) || is_product() || is_cart() || is_checkout() || is_account_page() ) ) {
 		$output .= porto_breadcrumbs_shop_link();
 	}
 
@@ -58,10 +54,7 @@ function porto_breadcrumbs() {
 
 	if ( is_singular() ) {
 		if ( isset( $post->post_type ) && 'product' !== $post->post_type && get_post_type_archive_link( $post->post_type ) && ( isset( $porto_settings['breadcrumbs-archives-link'] ) && $porto_settings['breadcrumbs-archives-link'] ) ) {
-			$output = porto_breadcrumbs_archive_link();
-			
-			
-			
+			$output .= porto_breadcrumbs_archive_link();
 		} elseif ( isset( $post->post_type ) && 'post' == $post->post_type && get_option( 'show_on_front' ) == 'page' && ( isset( $porto_settings['breadcrumbs-blog-link'] ) && $porto_settings['breadcrumbs-blog-link'] ) ) {
 			$output .= porto_breadcrumbs_link( get_the_title( get_option( 'page_for_posts', true ) ), get_permalink( get_option( 'page_for_posts' ) ) );
 		}
@@ -145,6 +138,17 @@ function porto_breadcrumbs() {
 				$output .= porto_breadcrumb_leaf( 'bbpress_user' );
 			} else {
 				$output .= porto_breadcrumb_leaf();
+			}
+		} elseif ( class_exists( 'WeDevs_Dokan' ) ) {
+			$arr = apply_filters( 'woocommerce_get_breadcrumb', array() );
+			$index = 0;
+			foreach( $arr as $crumb ) {
+				if ( $index == count( $arr ) - 1) {
+					$output .= esc_html( $crumb[0] );
+				} else {
+					$output .= porto_breadcrumbs_link( $crumb[0], $crumb[1] );
+				}
+				$index++;
 			}
 		} else {
 			if ( is_home() && ! is_front_page() ) {
@@ -254,7 +258,7 @@ function porto_breadcrumb_leaf( $object_type = '' ) {
 			$search = esc_html( get_search_query() );
 			if ( $product_cat = get_query_var( 'product_cat' ) ) {
 				$product_cat = get_term_by( 'slug', $product_cat, 'product_cat' );
-				$search      = '<a href="' . get_term_link( $product_cat, 'product_cat' ) . '">' . esc_html( $product_cat->name ) . '</a>' . ( $search ? ' / ' : '' ) . $search;
+				$search      = '<a href="' . esc_url( get_term_link( $product_cat, 'product_cat' ) ) . '">' . esc_html( $product_cat->name ) . '</a>' . ( $search ? ' / ' : '' ) . $search;
 			}
 			/* translators: %s: Search query */
 			$title = sprintf( __( 'Search - %s', 'porto' ), $search );
@@ -283,7 +287,7 @@ function porto_breadcrumb_leaf( $object_type = '' ) {
 
 function porto_breadcrumbs_links( $output ) {
 	global $porto_settings;
-	$delimiter = '<i class="delimiter' . ( $porto_settings['breadcrumbs-delimiter'] ? ' ' . $porto_settings['breadcrumbs-delimiter'] : '' ) . '"></i>';
+	$delimiter = '<i class="delimiter' . ( $porto_settings['breadcrumbs-delimiter'] ? ' ' . esc_attr( $porto_settings['breadcrumbs-delimiter'] ) : '' ) . '"></i>';
 	$before    = '<li>';
 	$after     = '</li>';
 	return $before . $output . $delimiter . $after;
@@ -297,21 +301,16 @@ function porto_breadcrumbs_shop_link( $linked = true ) {
 	$output = '';
 	if ( is_object( $post_type_object ) && class_exists( 'WooCommerce' ) && ( is_woocommerce() || is_cart() || is_checkout() || is_account_page() ) ) {
 		$shop_page_id   = wc_get_page_id( 'shop' );
-		$shop_page_id2   = '3158';
-		
-	//	$shop_page_name = $shop_page_id ? get_the_title( $shop_page_id ) : '';
-	$shop_page_name = $shop_page_id ? get_the_title( $shop_page_id ) : '';
+		$shop_page_name = $shop_page_id ? get_the_title( $shop_page_id ) : '';
 
 		if ( ! $shop_page_name ) {
 			$shop_page_name = $post_type_object->labels->name;
 		}
 		if ( $linked ) {
-			$link = -1 !== $shop_page_id2 ? get_permalink( $shop_page_id2 ) : get_post_type_archive_link( $post_type );
+			$link = -1 !== $shop_page_id ? get_permalink( $shop_page_id ) : get_post_type_archive_link( $post_type );
 		}
 		$output .= porto_breadcrumbs_link( $shop_page_name, esc_url( $link ) );
 	}
-
-
 
 	return $output;
 }
@@ -327,11 +326,7 @@ function porto_breadcrumbs_archive_link( $linked = true ) {
 	if ( is_object( $post_type_object ) ) {
 
 		// woocommerce
-	
-		
 		if ( 'product' == $post_type && $shop_link = porto_breadcrumbs_shop_link( $linked ) ) {
-		    
-		  
 			return $shop_link;
 		}
 
@@ -368,13 +363,13 @@ function porto_breadcrumbs_archive_name( $post_type ) {
 	$page_id = 0;
 	switch ( $post_type ) {
 		case 'portfolio':
-			$page_id = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['portfolio-archive-page'] ) && $porto_settings['portfolio-archive-page'] ) ? esc_attr( $porto_settings['portfolio-archive-page'] ) : 0 );
+			$page_id = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['portfolio-archive-page'] ) && $porto_settings['portfolio-archive-page'] ) ? $porto_settings['portfolio-archive-page'] : 0 );
 			break;
 		case 'member':
-			$page_id = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['member-archive-page'] ) && $porto_settings['member-archive-page'] ) ? esc_attr( $porto_settings['member-archive-page'] ) : 0 );
+			$page_id = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['member-archive-page'] ) && $porto_settings['member-archive-page'] ) ? $porto_settings['member-archive-page'] : 0 );
 			break;
 		case 'faq':
-			$page_id = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['faq-archive-page'] ) && $porto_settings['faq-archive-page'] ) ? esc_attr( $porto_settings['faq-archive-page'] ) : 0 );
+			$page_id = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['faq-archive-page'] ) && $porto_settings['faq-archive-page'] ) ? $porto_settings['faq-archive-page'] : 0 );
 			break;
 	}
 

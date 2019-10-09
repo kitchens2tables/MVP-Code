@@ -48,9 +48,9 @@ $overlay_bg_opacity = ( $overlay_bg_opacity / 100 );
 $overlay_bg         = '';
 if ( $overlay_bg_color ) {
 	if ( strlen( $overlay_bg_color ) <= 7 ) {
-		$overlay_bg = 'rgba(' . esc_attr( porto_get_red_from_hexcolor( $overlay_bg_color ) ) . ',' . esc_attr( porto_get_green_from_hexcolor( $overlay_bg_color ) ) . ',' . esc_attr( porto_get_blue_from_hexcolor( $overlay_bg_color ) ) . ',' . esc_attr( $overlay_bg_opacity ) . ')';
+		$overlay_bg = 'rgba(' . esc_js( porto_get_red_from_hexcolor( $overlay_bg_color ) ) . ',' . esc_js( porto_get_green_from_hexcolor( $overlay_bg_color ) ) . ',' . esc_js( porto_get_blue_from_hexcolor( $overlay_bg_color ) ) . ',' . esc_js( $overlay_bg_opacity ) . ')';
 	} else {
-		$overlay_bg = esc_attr( $overlay_bg_color );
+		$overlay_bg = esc_js( $overlay_bg_color );
 	}
 
 	$overlay_bg = 'background-color:' . $overlay_bg . ';';
@@ -92,11 +92,11 @@ if ( 'image' == $modal_on && $btn_img ) {
 	$html .= '<script>
 	(function($){
 		$(document).ready(function(){
-			var selector = "' . esc_attr( $modal_on_selector ) . '";
+			var selector = "' . esc_js( $modal_on_selector ) . '";
 			$(selector).addClass("porto-modal-trigger");
-			$(selector).attr("data-trigger-id", "' . esc_attr( $trigger_id ) . '");
-			$(selector).attr("data-type", "' . esc_attr( $content_type ) . '");
-			$(selector).attr("data-overlay-class", "' . esc_attr( $modal_style ) . '");
+			$(selector).attr("data-trigger-id", "' . esc_js( $trigger_id ) . '");
+			$(selector).attr("data-type", "' . esc_js( $content_type ) . '");
+			$(selector).attr("data-overlay-class", "' . esc_js( $modal_style ) . '");
 		});
 	})(jQuery);
 	</script>';

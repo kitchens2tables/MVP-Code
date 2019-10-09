@@ -16,7 +16,7 @@ $porto_woo_version = porto_get_woo_version_number();
 
 if ( version_compare( $porto_woo_version, '2.6', '>=' ) ) :
 	?>
-<li itemprop="review" itemscope itemtype="http://schema.org/Review" <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
+<li <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
 
 	<div id="comment-<?php comment_ID(); ?>" class="comment_container">
 
@@ -71,7 +71,7 @@ else :
 
 	?>
 
-<li itemprop="review" itemscope itemtype="http://schema.org/Review" <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
+<li <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
 
 	<div id="comment-<?php comment_ID(); ?>" class="comment_container">
 
@@ -81,8 +81,8 @@ else :
 
 			<?php if ( $rating && get_option( 'woocommerce_enable_review_rating' ) === 'yes' ) : ?>
 
-				<div itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating" class="star-rating" title="<?php echo esc_attr( $rating ); ?>">
-					<span style="width:<?php echo 100 * ( $rating / 5 ); ?>%"><strong itemprop="ratingValue"><?php echo esc_html( $rating ); ?></strong> <?php esc_html_e( 'out of 5', 'woocommerce' ); ?></span>
+				<div class="star-rating" title="<?php echo esc_attr( $rating ); ?>">
+					<span style="width:<?php echo 100 * ( $rating / 5 ); ?>%"><strong><?php echo esc_html( $rating ); ?></strong> <?php esc_html_e( 'out of 5', 'woocommerce' ); ?></span>
 				</div>
 
 			<?php endif; ?>
@@ -96,7 +96,7 @@ else :
 			<?php else : ?>
 
 				<p class="meta">
-					<strong itemprop="author"><?php comment_author(); ?></strong>
+					<strong><?php comment_author(); ?></strong>
 					<?php
 					if ( get_option( 'woocommerce_review_rating_verification_label' ) === 'yes' ) {
 						if ( version_compare( $porto_woo_version, '2.5', '>=' ) ? $verified : wc_customer_bought_product( $comment->comment_author_email, $comment->user_id, $comment->comment_post_ID ) ) {
@@ -104,14 +104,14 @@ else :
 						}
 					}
 					?>
-					&ndash; <time itemprop="datePublished" datetime="<?php echo get_comment_date( 'c' ); ?>"><?php echo get_comment_date( wc_date_format() ); ?></time>
+					&ndash; <time datetime="<?php echo get_comment_date( 'c' ); ?>"><?php echo get_comment_date( wc_date_format() ); ?></time>
 				</p>
 
 			<?php endif; ?>
 
 			<?php do_action( 'woocommerce_review_before_comment_text', $comment ); ?>
 
-			<div itemprop="description" class="description"><?php comment_text(); ?></div>
+			<div class="description"><?php comment_text(); ?></div>
 
 			<?php do_action( 'woocommerce_review_after_comment_text', $comment ); ?>
 

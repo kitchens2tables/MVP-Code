@@ -183,7 +183,7 @@ function is_porto_portfolios_page() {
 function porto_portfolios_page_id() {
 	global $porto_settings;
 
-	$portfolios_page = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['portfolio-archive-page'] ) && $porto_settings['portfolio-archive-page'] ) ? esc_attr( $porto_settings['portfolio-archive-page'] ) : 0 );
+	$portfolios_page = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['portfolio-archive-page'] ) && $porto_settings['portfolio-archive-page'] ) ? $porto_settings['portfolio-archive-page'] : 0 );
 	return $portfolios_page;
 }
 

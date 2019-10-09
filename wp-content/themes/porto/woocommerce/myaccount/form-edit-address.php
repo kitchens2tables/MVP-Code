@@ -2,12 +2,12 @@
 /**
  * Edit address form
  *
- * @version     3.4.0
+ * @version     3.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
-$page_title = ( 'billing' === $load_address ) ? __( 'Billing Address', 'porto' ) : __( 'Shipping Address', 'porto' );
+$page_title = ( 'billing' === $load_address ) ? esc_html__( 'Billing address', 'woocommerce' ) : esc_html__( 'Shipping address', 'woocommerce' );
 
 if ( version_compare( porto_get_woo_version_number(), '2.5.1', '<' ) ) {
 	global $current_user;
@@ -39,7 +39,7 @@ do_action( 'woocommerce_before_edit_account_address_form' ); ?>
 			<?php do_action( "woocommerce_before_edit_address_form_{$load_address}" ); ?>			<div class="woocommerce-address-fields__field-wrapper">
 				<?php
 				foreach ( $address as $key => $field ) {
-					if ( isset( $field['country_field'], $address[ $field['country_field'] ] ) ) {
+					if ( version_compare( $porto_woo_version, '3.6', '<' ) && isset( $field['country_field'], $address[ $field['country_field'] ] ) ) {
 						$field['country'] = wc_get_post_data_by_key( $field['country_field'], $address[ $field['country_field'] ]['value'] );
 					}
 					woocommerce_form_field( $key, $field, wc_get_post_data_by_key( $key, $field['value'] ) );

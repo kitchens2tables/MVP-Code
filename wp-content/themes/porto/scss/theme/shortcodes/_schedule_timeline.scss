@@ -33,7 +33,8 @@
 	.circle-center {
 		> span:first-child {
 			font-size: 1.5em;
-			line-height: 1;
+			line-height: 1.5;
+			display: block;
 		}
 	}
 	&.circle-light {
@@ -186,6 +187,128 @@
 		}
 		.balloon-content {
 			margin-#{$left}: 5px;
+		}
+	}
+}
+
+.porto-process {
+	.process-step {
+		display: -ms-flexbox;
+		display: flex;
+		position: relative;
+		padding-bottom: 60px;
+		overflow: hidden;
+		&:first-child {
+			.process-step-circle:before {
+				display: none;
+			}
+		}
+		&:last-child {
+			padding-bottom: 20px;
+			.process-step-circle:after {
+				display: none;
+			}
+		}
+	}
+	.process-step-circle {
+		display: -ms-flexbox;
+		display: flex;
+		-ms-flex-pack: center;
+		justify-content: center;
+		height: 60px;
+		text-align: center;
+		width: 60px;
+		flex: 60px 0 0;
+		border: 2px solid #ccc;
+		border-radius: 50%;
+		-ms-flex-align: center;
+		align-items: center;
+		position: relative;
+		background: none;
+		transition: all 0.2s ease-in-out;
+		margin: side-values(5px 15px 0 0);
+		font-size: 1.6em;
+		letter-spacing: -1px;
+		color: $color-black;
+		&:before,
+		&:after {
+			content: '';
+			width: 2px;
+			display: block;
+			background-color: #ededed;
+			position: absolute;
+			height: 300px;
+			top: 58px;
+			left: 28px;
+		}
+		&:before {
+			top: auto;
+			bottom: 100%;
+			height: 58px;
+			margin-bottom: 2px;
+		}
+	}
+	.process-step-content {
+		h4 {
+			font-size: 1.2em;
+			margin-bottom: .25rem;
+			font-weight: 700;
+		}
+	}
+	&.process-horizontal {
+		text-align: center;
+		@media (min-width: 992px) {
+			display: -ms-flexbox;
+			display: flex;
+		}
+		.process-step {
+			-ms-flex-align: center;
+			align-items: center;
+			-ms-flex-direction: column;
+			flex-direction: column;
+			-ms-flex-pack: center;
+			justify-content: center;
+			-ms-flex: 1;
+			flex: 1;
+			padding: 0 1.5rem;
+			margin-bottom: 2.5rem;
+			overflow: visible;
+			@media (min-width: 992px) {
+				&:before {
+					content: '';
+					height: 2px;
+					display: block;
+					background-color: #ededed;
+					position: absolute;
+					width: 50%;
+					top: 45px;
+					#{$left}: 75%;
+				}
+				&:last-child:before {
+					content: none;
+				}
+			}
+		}
+		.process-step-circle {
+			-ms-flex: none;
+			flex: none;
+			width: 90px;
+			height: 90px;
+			margin: 0;
+			i {
+				font-size: 1.5em;
+			}
+			&:before,
+			&:after {
+				content: none;
+			}
+		}
+		.process-step-content {
+			padding-top: 20px;
+			h4 {
+				font-size: 1.5em;
+				margin-bottom: .5rem;
+			}
 		}
 	}
 }

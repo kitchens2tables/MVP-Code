@@ -10,6 +10,7 @@ function porto_tweets_load_widgets() {
 }
 
 function porto_twitter_tweets() {
+	check_ajax_referer( 'porto-twitter-widget-nonce', 'nonce' );
 	if ( ! isset( $_POST['id'] ) ) {
 		die;
 	}
@@ -47,7 +48,7 @@ function porto_twitter_tweets() {
 			'format'              => 'array', // Can be 'html' or 'array'
 			'twitter_wrap_open'   => '<ul>',
 			'twitter_wrap_close'  => '</ul>',
-			'tweet_wrap_open'     => '<li><span class="status"><i class="fa fa-twitter"></i> ',
+			'tweet_wrap_open'     => '<li><span class="status"><i class="fab fa-twitter"></i> ',
 			'meta_wrap_open'      => '</span><span class="meta"> ',
 			'meta_wrap_close'     => '</span>',
 			'tweet_wrap_close'    => '</li>',
@@ -101,12 +102,13 @@ class Porto_Twitter_Tweets_Widget extends WP_Widget {
 				jQuery(function($) {
 					$.post('<?php echo esc_js( admin_url( 'admin-ajax.php' ) ); ?>', {
 							id: '<?php echo str_replace( 'tweets-widget-', '', $widget_id ); ?>',
-							action: 'porto_twitter_tweets'
+							action: 'porto_twitter_tweets',
+							nonce: '<?php echo wp_create_nonce( 'porto-twitter-widget-nonce' ); ?>'
 						},
 						function(data) {
 							if (data) {
-								$('#<?php echo esc_attr( $widget_id ); ?> .tweets-box').html(data);
-								$("#<?php echo esc_attr( $widget_id ); ?> .twitter-slider").owlCarousel({
+								$('#<?php echo esc_js( $widget_id ); ?> .tweets-box').html(data);
+								$("#<?php echo esc_js( $widget_id ); ?> .twitter-slider").owlCarousel({
 									rtl: <?php echo is_rtl() ? 'true' : 'false'; ?>,
 									dots : false,
 									nav : true,

@@ -34,25 +34,23 @@ $atts   = $this->convertAttributesToNewProgressBar( $atts );
 extract( $atts );
 
 if ( porto_is_ajax() ) {
-	if ( wp_script_is( 'waypoints', 'registered' ) && ! wp_script_is( 'waypoints', 'done' ) ) {
+	if ( wp_script_is( 'vc_waypoints', 'registered' ) && ! wp_script_is( 'vc_waypoints', 'done' ) ) {
 		$wp_scripts = wp_scripts();
-		$src        = $wp_scripts->registered['waypoints']->src;
+		$src        = $wp_scripts->registered['vc_waypoints']->src;
 		echo "<script type='text/javascript' src='" . esc_url( $src ) . "'></script>";
-		wp_dequeue_script( 'waypoints' );
-		wp_deregister_script( 'waypoints' );
 	}
 } else {
-	wp_enqueue_script( 'waypoints' );
+	wp_enqueue_script( 'vc_waypoints' );
 }
 
 $el_class = $this->getExtraClass( $el_class );
 
 $bar_options = array();
 $options     = explode( ',', $options );
-if ( in_array( 'animated', $options ) ) {
+if ( in_array( 'animated', $options, true ) ) {
 	$bar_options[] = 'animated';
 }
-if ( in_array( 'striped', $options ) ) {
+if ( in_array( 'striped', $options, true ) ) {
 	$bar_options[] = 'striped';
 }
 
@@ -111,9 +109,9 @@ foreach ( $values as $data ) {
 }
 
 foreach ( $graph_lines_data as $line ) {
-	$output .= '<div class="progress-label"><span' . $line['txtcolor'] . '>' . $line['label'] . '</span></div>';
+	$output .= '<div class="progress-label"><span' . $line['txtcolor'] . '>' . wp_kses_post( $line['label'] ) . '</span></div>';
 	$unit    = ( '' !== $units ) ? ' <span class="vc_label_units">' . wp_kses_post( $line['value'] . $units ) . '</span>' : '';
-	$output .= '<div class="vc_general vc_single_bar progress' . $bgcolor . ( $border_radius ? ' progress-' . esc_attr( $border_radius ) : '' ) . ( $size ? ' progress-' . esc_attr( $size ) : '' ) . ( ( isset( $line['color'] ) && 'custom' !== $line['color'] ) ?
+	$output .= '<div class="vc_general vc_single_bar progress' . esc_attr( $bgcolor ) . ( $border_radius ? ' progress-' . esc_attr( $border_radius ) : '' ) . ( $size ? ' progress-' . esc_attr( $size ) : '' ) . ( ( isset( $line['color'] ) && 'custom' !== $line['color'] ) ?
 			' vc_progress-bar-color-' . esc_attr( $line['color'] ) : '' )
 		. '">';
 	if ( $max_value > 100.00 ) {

@@ -13,7 +13,7 @@
  * @see     https://docs.woocommerce.com/document/template-structure/
  * @author  WooThemes
  * @package WooCommerce/Templates
- * @version 3.5.0
+ * @version 3.6.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -28,7 +28,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<div class="box-content">
 		<?php do_action( 'woocommerce_before_customer_login_form' ); ?>
 
-		<?php if ( get_option( 'woocommerce_enable_myaccount_registration' ) === 'yes' ) : ?>
+		<?php if ( 'yes' === get_option( 'woocommerce_enable_myaccount_registration' ) ) : ?>
 
 		<div class="u-columns col2-set" id="customer_login">
 
@@ -43,12 +43,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<?php do_action( 'woocommerce_login_form_start' ); ?>
 
 					<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
-						<label for="username"><?php esc_html_e( 'Email address', 'woocommerce' ); ?>&nbsp;<span class="required">*</span></label>
-						<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="username" id="username" autocomplete="username" value="<?php echo ( ! empty( $_POST['username'] ) ) ? esc_attr( wp_unslash( $_POST['username'] ) ) : ''; ?>" required /><?php // @codingStandardsIgnoreLine ?>
+						<label for="username"><?php esc_html_e( 'Username or email address', 'woocommerce' ); ?>&nbsp;<span class="required">*</span></label>
+						<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="username" id="username" autocomplete="username" value="<?php echo ( ! empty( $_POST['username'] ) ) ? esc_attr( wp_unslash( $_POST['username'] ) ) : ''; ?>" /><?php // @codingStandardsIgnoreLine ?>
 					</p>
 					<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
 						<label for="password"><?php esc_html_e( 'Password', 'woocommerce' ); ?>&nbsp;<span class="required">*</span></label>
-						<input class="woocommerce-Input woocommerce-Input--text input-text" type="password" name="password" id="password" autocomplete="current-password" required />
+						<input class="woocommerce-Input woocommerce-Input--text input-text" type="password" name="password" id="password" autocomplete="current-password" />
 					</p>
 
 					<?php do_action( 'woocommerce_login_form' ); ?>
@@ -58,7 +58,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 					<p class="form-row">
 						<?php wp_nonce_field( 'woocommerce-login', 'woocommerce-login-nonce' ); ?>
 						<button type="submit" class="woocommerce-Button button" name="login" value="<?php esc_attr_e( 'Login', 'woocommerce' ); ?>"><?php esc_html_e( 'Login', 'woocommerce' ); ?></button>
-						<label class="woocommerce-form__label woocommerce-form__label-for-checkbox inline">
+						<label class="woocommerce-form__label woocommerce-form__label-for-checkbox inline woocommerce-form-login__rememberme">
 							<input class="woocommerce-form__input woocommerce-form__input-checkbox" name="rememberme" type="checkbox" id="rememberme" value="forever" /> <span><?php esc_html_e( 'Remember me', 'woocommerce' ); ?></span>
 						</label>
 					</p>
@@ -70,7 +70,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 				</form>
 
-		<?php if ( get_option( 'woocommerce_enable_myaccount_registration' ) === 'yes' ) : ?>
+		<?php if ( 'yes' === get_option( 'woocommerce_enable_myaccount_registration' ) ) : ?>
 
 			</div>
 
@@ -88,6 +88,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 							<label for="reg_username"><?php esc_html_e( 'Username', 'woocommerce' ); ?>&nbsp;<span class="required">*</span></label>
 							<input type="text" class="woocommerce-Input woocommerce-Input--text input-text" name="username" id="reg_username" autocomplete="username" value="<?php echo ( ! empty( $_POST['username'] ) ) ? esc_attr( wp_unslash( $_POST['username'] ) ) : ''; ?>" /><?php // @codingStandardsIgnoreLine ?>
 						</p>
+
+					<?php else : ?>
+
+						<p><?php esc_html_e( 'A password will be sent to your email address.', 'woocommerce' ); ?></p>
 
 					<?php endif; ?>
 

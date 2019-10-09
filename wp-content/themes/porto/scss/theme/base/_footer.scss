@@ -307,6 +307,10 @@
         right: 0;
         z-index: 10;
     }
+
+    .post-item-small h5 {
+        font-size: inherit;
+    }
 }
 
 #footer-boxed {
@@ -324,4 +328,12 @@
     &:hover {
         left: 3px;
     }
+}
+
+.footer-reveal {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: -10;
 }

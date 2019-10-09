@@ -82,7 +82,7 @@ switch ( $icon_type ) {
 
 $html             = $target = $suffix = $prefix = $title_style = $desc_style = $inf_design_style = '';
 $inf_design_style = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, vc_shortcode_custom_css_class( $css_info_box, ' ' ), 'porto_info_box', $atts );
-$box_icon         = do_shortcode( '[porto_icon icon_type="' . esc_attr( $icon_type ) . '" icon="' . esc_attr( $icon ) . '" icon_img="' . esc_attr( $icon_img ) . '" img_width="' . esc_attr( $img_width ) . '" icon_size="' . esc_attr( $icon_size ) . '" icon_color="' . esc_attr( $icon_color ) . '" icon_style="' . esc_attr( $icon_style ) . '" icon_color_bg="' . esc_attr( $icon_color_bg ) . '" icon_color_border="' . esc_attr( $icon_color_border ) . '"  icon_border_style="' . esc_attr( $icon_border_style ) . '" icon_border_size="' . esc_attr( $icon_border_size ) . '" icon_border_radius="' . esc_attr( $icon_border_radius ) . '" icon_border_spacing="' . esc_attr( $icon_border_spacing ) . '" animation_type="' . esc_attr( $animation_type ) . '"]' );
+$box_icon         = do_shortcode( '[porto_icon icon_type="' . $icon_type . '" icon="' . $icon . '" icon_img="' . $icon_img . '" img_width="' . $img_width . '" icon_size="' . $icon_size . '" icon_color="' . $icon_color . '" icon_style="' . $icon_style . '" icon_color_bg="' . $icon_color_bg . '" icon_color_border="' . $icon_color_border . '"  icon_border_style="' . $icon_border_style . '" icon_border_size="' . $icon_border_size . '" icon_border_radius="' . $icon_border_radius . '" icon_border_spacing="' . $icon_border_spacing . '" animation_type="' . $animation_type . '"]' );
 $classes          = 'porto-sicon-wrapper';
 if ( $inf_design_style ) {
 	$classes .= ' ' . $inf_design_style;
@@ -319,7 +319,7 @@ if ( 'none' !== $link ) {
 		$link_title = ( isset( $href['title'] ) && $href['title'] ) ? "title='" . esc_attr( $href['title'] ) . "'" : '';
 		$rel        = ( isset( $href['rel'] ) && $href['rel'] ) ? "rel='" . esc_attr( $href['rel'] ) . "'" : '';
 
-		$output = $prefix . '<a class="porto-sicon-box-link" href="' . esc_attr( $url ) . '" ' . $target . ' ' . $rel . ' ' . $link_title . '>' . $html . '</a>' . $suffix;
+		$output = $prefix . '<a class="porto-sicon-box-link" href="' . esc_url( $url ) . '" ' . $target . ' ' . $rel . ' ' . $link_title . '>' . $html . '</a>' . $suffix;
 	} else {
 		$output = $prefix . $html . $suffix;
 	}

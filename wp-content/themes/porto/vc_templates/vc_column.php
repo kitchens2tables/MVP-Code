@@ -214,7 +214,7 @@ endif;
 		<?php
 	endif;
 
-	$divider_output = '<div class="' . implode( ' ', $divider_classes ) . '"' . $divider_inline_style . '>';
+	$divider_output = '<div class="' . esc_attr( implode( ' ', $divider_classes ) ) . '"' . $divider_inline_style . '>';
 	if ( $show_divider_icon && $divider_icon_class ) {
 		$divider_output .= '<i class="' . esc_attr( $divider_icon_class ) . '">';
 		if ( 'icon-image' == $divider_icon_class && $divider_icon_image ) {

@@ -2,7 +2,7 @@
 
 <?php
 
-$post_type = ( isset( $_GET['post_type'] ) && $_GET['post_type'] ) ? $_GET['post_type'] : null;
+$post_type = ( isset( $_GET['post_type'] ) && $_GET['post_type'] ) ? sanitize_text_field( $_GET['post_type'] ) : null;
 if ( isset( $post_type ) && locate_template( 'archive-' . $post_type . '.php' ) ) {
 	get_template_part( 'archive', $post_type );
 	exit;
@@ -13,7 +13,7 @@ global $porto_settings;
 $post_layout = $porto_settings['post-layout'];
 ?>
 
-	<div id="content" role="main" class="<?php echo porto_is_wide_layout() ? 'm-t-lg m-b-xl' . ( porto_get_wrapper_type() !== 'boxed' ? ' m-r-md m-l-md' : '' ) : ''; ?>">
+	<div id="content" role="main">
 
 		<?php if ( have_posts() ) : ?>
 

@@ -30,7 +30,7 @@ $options['margin'] = (int) $porto_settings['grid-gutter-width'];
 $options     = json_encode( $options );
 $member_name = ! empty( $porto_settings['member-name'] ) ? $porto_settings['member-name'] : __( 'Members', 'porto' );
 ?>
-	<div id="content" role="main" class="<?php echo 'wide-left-sidebar' == $porto_layout || 'wide-right-sidebar' == $porto_layout || 'wide-both-sidebar' == $porto_layout ? 'm-t-lg m-b-xl m-r-md m-l-md' : ''; ?>">
+	<div id="content" role="main">
 
 		<?php
 		if ( have_posts() ) :

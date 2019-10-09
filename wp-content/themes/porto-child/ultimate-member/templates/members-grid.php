@@ -5,10 +5,14 @@
 	<?php $i = 0; foreach( um_members('users_per_page') as $member) { $i++; um_fetch_user( $member ); 
 	
 	
+
 	// Custom URL added by Chandrashekhar
 	$usernickname = get_userdata( um_user('ID') )->user_nicename; 	
-	$iProfileurl = SITE_URL().'/cook-profile/'.$usernickname; 		
+	$iProfileurl = SITE_URL().'/cook-profile/'.$usernickname; 	
+	$UserProfileHiddenArray = 	get_user_meta(um_user('ID'), 'hide_in_members');
+	$UserProfileHiddenValue = $UserProfileHiddenArray[0];
 	
+		if($UserProfileHiddenValue == '2'){
 	?>
 			
 	<div class="um-member um-role-<?php echo um_user( 'role' ); ?> <?php echo um_user('account_status'); ?> <?php if ($cover_photos) { echo 'with-cover'; } ?>">
@@ -201,8 +205,9 @@
 	<?php 
 	um_reset_user_clean();
 	} // end foreach
-
+}
 	um_reset_user();
+
 	?>
 
 	<div class="um-clear"></div>

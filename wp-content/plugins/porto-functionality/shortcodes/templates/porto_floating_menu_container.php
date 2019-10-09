@@ -17,7 +17,7 @@ $output                         .= '<div class="floating-menu ' . esc_attr( $el_
 	$output                     .= '<div class="floating-menu-body">';
 		$output                 .= '<div class="floating-menu-row">';
 			$output             .= '<button class="btn floating-menu-btn-collapse-nav" data-toggle="collapse" data-target=".floating-menu-nav-main">';
-				$output         .= '<i class="fa fa-bars"></i>';
+				$output         .= '<i class="fas fa-bars"></i>';
 			$output             .= '</button>';
 			$output             .= '<div class="floating-menu-nav-main collapse">';
 				$output         .= '<nav class="wrapper-spy">';

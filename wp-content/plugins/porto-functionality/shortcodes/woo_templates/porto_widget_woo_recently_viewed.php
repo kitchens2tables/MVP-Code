@@ -14,6 +14,13 @@ extract(
 	)
 );
 
+if ( ! $title ) {
+	if ( ! $atts ) {
+		$atts = array();
+	}
+	$atts['title'] = '';
+}
+
 $el_class = porto_shortcode_extract_class( $el_class );
 
 $output = '<div class="vc_widget_woo_recently_viewed_products wpb_content_element' . esc_attr( $el_class ) . '"';

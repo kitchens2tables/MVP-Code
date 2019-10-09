@@ -58,12 +58,11 @@ if ( ! class_exists( 'Porto_Woocommerce_Swatches' ) ) :
 
 		public function porto_load_swatches() {
 			if ( current_user_can( 'manage_options' ) && wp_verify_nonce( wp_unslash( $_POST['wpnonce'] ), 'porto_swatch_nonce' ) && $this->product_data_tab ) {
-				echo porto_filter_output( $this->product_data_tab->render_product_tab_content( $_POST['product_id'] ) );
+				echo porto_filter_output( $this->product_data_tab->render_product_tab_content( (int) $_POST['product_id'] ) );
 				die();
 			}
 		}
 	}
 endif;
 
-global $porto_settings;
 $GLOBALS['woocommerce_swatches'] = new Porto_Woocommerce_Swatches();

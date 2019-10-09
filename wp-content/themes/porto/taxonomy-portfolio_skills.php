@@ -11,13 +11,13 @@ $portfolio_layout = $porto_settings['portfolio-layout'];
 $portfolio_columns = '';
 $portfolio_view    = '';
 if ( 'grid' == $portfolio_layout || 'masonry' == $portfolio_layout ) {
-	$portfolio_columns = (int) $porto_settings['portfolio-grid-columns'];
+	$portfolio_columns = $porto_settings['portfolio-grid-columns'];
 	$portfolio_view    = $porto_settings['portfolio-grid-view'];
 }
 
 ?>
 
-<div id="content" role="main" class="<?php echo porto_is_wide_layout() ? 'm-t-lg m-b-xl' . ( porto_get_wrapper_type() !== 'boxed' ? ' m-r-md m-l-md' : '' ) : ''; ?>">
+<div id="content" role="main">
 
 	<?php if ( category_description() ) : ?>
 		<div class="page-content">
@@ -61,7 +61,7 @@ if ( 'grid' == $portfolio_layout || 'masonry' == $portfolio_layout ) {
 
 			<?php else : ?>
 
-			<div class="portfolios-container clearfix<?php echo 'grid' == $portfolio_layout || 'masonry' == $portfolio_layout ? ' portfolio-row portfolio-row-' . $portfolio_columns : '', ' ' . esc_attr( $portfolio_view ); ?>">
+			<div class="portfolios-container clearfix<?php echo 'grid' == $portfolio_layout || 'masonry' == $portfolio_layout ? ' portfolio-row portfolio-row-' . ( (int) $portfolio_columns ) : '', ' ' . esc_attr( $portfolio_view ); ?>">
 
 			<?php endif; ?>
 

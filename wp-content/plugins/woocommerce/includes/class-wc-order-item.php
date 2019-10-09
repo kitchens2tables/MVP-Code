@@ -38,7 +38,7 @@ class WC_Order_Item extends WC_Data implements ArrayAccess {
 
 	/**
 	 * Meta type. This should match up with
-	 * the types available at https://codex.wordpress.org/Function_Reference/add_metadata.
+	 * the types available at https://developer.wordpress.org/reference/functions/add_metadata/.
 	 * WP defines 'post', 'user', 'comment', and 'term'.
 	 *
 	 * @var string
@@ -85,7 +85,7 @@ class WC_Order_Item extends WC_Data implements ArrayAccess {
 	 */
 	public function apply_changes() {
 		if ( function_exists( 'array_replace' ) ) {
-			$this->data = array_replace( $this->data, $this->changes ); // phpcs:ignore PHPCompatibility.PHP.NewFunctions.array_replaceFound
+			$this->data = array_replace( $this->data, $this->changes ); // phpcs:ignore PHPCompatibility.FunctionUse.NewFunctions.array_replaceFound
 		} else { // PHP 5.2 compatibility.
 			foreach ( $this->changes as $key => $change ) {
 				$this->data[ $key ] = $change;
@@ -257,65 +257,17 @@ class WC_Order_Item extends WC_Data implements ArrayAccess {
 	public function get_formatted_meta_data( $hideprefix = '_', $include_all = false ) {
 		$formatted_meta    = array();
 		$meta_data         = $this->get_meta_data();
-		
-	
-		
 		$hideprefix_length = ! empty( $hideprefix ) ? strlen( $hideprefix ) : 0;
 		$product           = is_callable( array( $this, 'get_product' ) ) ? $this->get_product() : false;
 		$order_item_name   = $this->get_name();
 
-$meta->key=true;
-$meta->value=true;
 		foreach ( $meta_data as $meta ) {
-		    
-		    
-			if ( empty( $meta->id ) || '' === $meta->value || ! is_scalar( $meta->value ) || ( $hideprefix_length && substr( $meta->key, 1, $hideprefix_length ) === $hideprefix ) ) {
-			    
-				continue; 
+			if ( empty( $meta->id ) || '' === $meta->value || ! is_scalar( $meta->value ) || ( $hideprefix_length && substr( $meta->key, 0, $hideprefix_length ) === $hideprefix ) ) {
+				continue;
 			}
 
-
-
-if($meta->key==='_reduced_stock')
-{
-$meta->key=false;
-$meta->value=false;
-}
-
-elseif($meta->key==='_vendor_id')
-{
-
-
-      $meta->key='Sold By:';
-	     $meta->value   = rawurldecode( (string) $meta->value );
-			
-			$a= get_user_meta($meta->value , 'first_name', true);
-			$b = get_user_meta($meta->value, 'last_name', true);
-			$meta->value=$a.' '.$b;
-		
-
-         }
-
-
-
-	else{
-
-		   $meta->key     = rawurldecode( (string) $meta->key );
-		    $meta->value   = rawurldecode( (string) $meta->value );
-	  }
-			 
-           
-
-
-
-			   
-
-	
-			
-
-
-
-
+			$meta->key     = rawurldecode( (string) $meta->key );
+			$meta->value   = rawurldecode( (string) $meta->value );
 			$attribute_key = str_replace( 'attribute_', '', $meta->key );
 			$display_key   = wc_attribute_label( $attribute_key, $product );
 			$display_value = wp_kses_post( $meta->value );
@@ -340,8 +292,8 @@ elseif($meta->key==='_vendor_id')
 			);
 		}
 
-		return apply_filters( 'woocommerce_order_item_get_formatted_meta_data', $formatted_meta, $this );}
-	
+		return apply_filters( 'woocommerce_order_item_get_formatted_meta_data', $formatted_meta, $this );
+	}
 
 	/*
 	|--------------------------------------------------------------------------

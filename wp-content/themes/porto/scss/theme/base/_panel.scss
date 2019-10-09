@@ -106,42 +106,6 @@
             padding: 5px 6px;
             text-decoration: none;
         }
-
-        .tip {
-            color: #fff;
-            display: inline-block;
-            font-size: 9px;
-            font-style: normal;
-            line-height: 1;
-            padding: 2px;
-            position: relative;
-            margin-#{$left}: 10px;
-            vertical-align: middle;
-
-            &.hot {
-                background-color: #eb2771;
-
-                .tip-arrow:before {
-                    color: #eb2771;
-                }
-            }
-
-            .tip-arrow:before {
-                display: inline-block;
-                font-family: "Elusive-Icons";
-                font-size: 5px;
-                font-style: normal;
-                position: absolute;
-                width: 4px;
-                height: 6px;
-                margin: auto;
-                content: if-ltr($el-var-caret-left, $el-var-caret-right);
-                #{$left}: -4px;
-                text-align: $right;
-                top: 0;
-                bottom: 0;
-            }
-        }
     }
 
     .share-links {
@@ -168,22 +132,21 @@
     bottom: 0;
     font-size: .9em;
     #{$left}: 0;
-    overflow-x: hidden;
-    overflow-y: scroll;
+    overflow: hidden auto;
     z-index: 9001;
     background-color: #1d1e20;
     color: #fff;
     -webkit-overflow-scrolling: touch;
-    @include transform(translate(if-ltr(-260px, 260px)));
-    @include transition(transform .2s ease-in-out 0s);
+    transform: translate(if-ltr(-260px, 260px));
+    @include transition(transform .2s ease-in-out);
 
     &.panel-left  {
         #{$left}: 0;
         #{$right}: auto;
         @if $rtl == 1 {
-            @include transform(translate(260px));
+            transform: translate(260px);
         } @else {
-            @include transform(translate(-260px));
+            transform: translate(-260px);
         }
     }
 
@@ -191,9 +154,9 @@
         #{$right}: 0;
         #{$left}: auto;
         @if $rtl == 1 {
-            @include transform(translate(-260px));
+            transform: translate(-260px);
         } @else {
-            @include transform(translate(260px));
+            transform: translate(260px);
         }
     }
 
@@ -244,7 +207,7 @@
         z-index: 8999;
         min-height: 100vh;
         opacity: .35;
-        @include transition(opacity .2s ease-in-out 0s);
+        @include transition(opacity .2s ease-in-out);
     }
 }
 
@@ -255,16 +218,16 @@ html.panel-opened {
         }
 
         #side-nav-panel {
-            @include transition(transform .3s ease-in-out 0s);
+            @include transition(transform .3s ease-in-out);
             z-index: 9001;
-            @include transform(translate(0px));
+            transform: translate(0px);
         }
 
         #side-nav-panel-close {
             margin-#{$left}: 0;
-            @include transition(transform .3s ease-in-out 0s, margin ease-in-out 0s);
+            @include transition(transform .3s ease-in-out, margin ease-in-out);
             z-index: 9000;
-            @include transform(translate(0px));
+            transform: translate(0px);
 
             &.panel-left {
                 margin-#{$left}: 0;
@@ -338,42 +301,6 @@ html.panel-opened {
             padding: 5px 6px;
             text-decoration: none;
         }
-
-        .tip {
-            color: #fff;
-            display: inline-block;
-            font-size: 9px;
-            font-style: normal;
-            line-height: 1;
-            padding: 2px;
-            position: relative;
-            margin-#{$left}: 10px;
-            vertical-align: middle;
-
-            &.hot {
-                background-color: #eb2771;
-
-                .tip-arrow:before {
-                    color: #eb2771;
-                }
-            }
-
-            .tip-arrow:before {
-                display: inline-block;
-                font-family: "Elusive-Icons";
-                font-size: 5px;
-                font-style: normal;
-                position: absolute;
-                width: 4px;
-                height: 6px;
-                margin: auto;
-                content: if-ltr($el-var-caret-left, $el-var-caret-right);
-                #{$left}: -4px;
-                text-align: $right;
-                top: 0;
-                bottom: 0;
-            }
-        }
     }
 
     .share-links {
@@ -381,6 +308,11 @@ html.panel-opened {
         margin: 15px 0;
         padding: 0 5px;
         text-align: center;
+    }
+    .switcher-wrap {
+        ul {
+            margin-#{$left}: 0;
+        }
     }
 }
 @media (max-width: 991px) {

@@ -204,6 +204,21 @@ $output .= '<div class="featured-box ' . esc_attr( ( 'custom' != $skin ? 'featur
 $output .= '<div class="box-content" style="' . ( ( $border_radius ) ? 'border-radius:' . esc_attr( $border_radius ) . 'px;' : '' ) .
 	( $border_top_color ? 'border-top-color:' . esc_attr( $border_top_color ) . ';' : '' ) . ( $border_top_width ? 'border-top-width:' . esc_attr( $border_top_width ) . 'px;' : '' ) . '">';
 if ( $icon_class ) {
+	if ( 'custom' != $skin ) {
+		if ( in_array( $box_style, array( 'featured-boxes-style-3', 'featured-boxes-style-4', 'featured-boxes-style-5', 'featured-boxes-style-6', 'featured-boxes-style-8' ) ) ) {
+			$icon_class .= ' text-color-' . $skin;
+		}
+		if ( in_array( $box_style, array( 'featured-boxes-style-3', 'featured-boxes-style-4' ) ) ) {
+			$icon_class .= ' border-color-' . $skin;
+		}
+	} else {
+		if ( in_array( $box_style, array( 'featured-boxes-style-3', 'featured-boxes-style-4', 'featured-boxes-style-5', 'featured-boxes-style-6', 'featured-boxes-style-7', 'featured-boxes-style-8' ) ) ) {
+			$icon_class .= ' text-color-primary';
+		}
+		if ( in_array( $box_style, array( 'featured-boxes-style-3', 'featured-boxes-style-4' ) ) ) {
+			$icon_class .= ' border-color-primary';
+		}
+	}
 	$output .= '<i class="icon-featured ' . esc_attr( $icon_class ) . '">';
 	if ( 'icon-image' == $icon_class && $icon_image ) {
 		$icon_image = preg_replace( '/[^\d]/', '', $icon_image );

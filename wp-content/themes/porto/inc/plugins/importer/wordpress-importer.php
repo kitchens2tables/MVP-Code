@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: WordPress Importer
-Plugin URI: http://wordpress.org/extend/plugins/wordpress-importer/
+Plugin URI: http://wordpress.org/plugins/wordpress-importer/
 Description: Import posts, pages, comments, custom fields, categories, tags and more from a WordPress export file.
 Author: wordpressdotorg
 Author URI: http://wordpress.org/
@@ -28,7 +28,7 @@ if ( ! class_exists( 'WP_Importer' ) ) {
 }
 
 // include WXR file parsers
-require dirname( __FILE__ ) . '/parsers.php';
+require PORTO_PLUGINS . '/importer/parsers.php';
 
 /**
  * WordPress Importer class for managing the import process of a WXR file
@@ -113,7 +113,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 			if ( 'import_start' == $process ) {
 				global $wpdb;
 				// register product attributes
-				$demo        = ( isset( $_POST['demo'] ) && $_POST['demo'] ) ? $_POST['demo'] : 'landing';
+				$demo        = ( isset( $_POST['demo'] ) && $_POST['demo'] ) ? sanitize_text_field( $_POST['demo'] ) : 'landing';
 				$extra_demos = Porto_Theme_Setup_Wizard::get_instance()->porto_extra_demos();
 				if ( ! in_array( $demo, $extra_demos ) && function_exists( 'wc_get_attribute_taxonomies' ) ) {
 					$attribute_names  = array( 'Color', 'Size' );
@@ -159,7 +159,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 						$charset_collate .= " COLLATE {$wpdb->collate}";
 					}
 
-					if ( ! $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) == $table_name ) {
+					if ( ! $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ) ) == $table_name ) {
 						$sql .= "CREATE TABLE {$table_name} (
 							meta_id bigint(20) NOT NULL AUTO_INCREMENT,
 							{$taxonomy}_id bigint(20) NOT NULL default 0,
@@ -515,6 +515,21 @@ if ( class_exists( 'WP_Importer' ) ) {
 					if ( isset( $cat['term_id'] ) ) {
 						$this->processed_terms[ intval( $cat['term_id'] ) ] = (int) $term_id;
 					}
+
+					$tax_meta_array = get_metadata( 'category', $term_id );
+					if ( $tax_meta_array && is_array( $tax_meta_array ) ) {
+						foreach ( $tax_meta_array as $old_meta_key => $old_meta_value ) {
+							delete_metadata( 'category', $term_id, $old_meta_key );
+						}
+					}
+					if ( ! empty( $cat['tax_meta'] ) ) {
+						foreach ( $cat['tax_meta'] as $meta ) {
+							$key   = $meta['key'];
+							$value = $meta['value'];
+							update_metadata( 'category', $term_id, $key, $value );
+						}
+					}
+
 					continue;
 				}
 
@@ -631,6 +646,21 @@ if ( class_exists( 'WP_Importer' ) ) {
 					if ( isset( $term['term_id'] ) ) {
 						$this->processed_terms[ intval( $term['term_id'] ) ] = (int) $term_id;
 					}
+
+					$tax_meta_array = get_metadata( $term['term_taxonomy'], $term_id );
+					if ( $tax_meta_array && is_array( $tax_meta_array ) ) {
+						foreach ( $tax_meta_array as $old_meta_key => $old_meta_value ) {
+							delete_metadata( $term['term_taxonomy'], $term_id, $old_meta_key );
+						}
+					}
+					if ( ! empty( $term['tax_meta'] ) ) {
+						foreach ( $term['tax_meta'] as $meta ) {
+							$key   = $meta['key'];
+							$value = $meta['value'];
+							update_metadata( $term['term_taxonomy'], $term_id, $key, $value );
+						}
+					}
+
 					continue;
 				}
 
@@ -875,13 +905,18 @@ if ( class_exists( 'WP_Importer' ) ) {
 							delete_post_meta( $post_id, $key );
 						}
 
-						$meta_fields = porto_ct_default_view_meta_fields();
-						foreach ( $meta_fields as $key => $value ) {
-							delete_post_meta( $post_id, $key );
+						if ( function_exists( 'porto_ct_default_view_meta_fields' ) ) {
+							$meta_fields = porto_ct_default_view_meta_fields();
+							foreach ( $meta_fields as $key => $value ) {
+								delete_post_meta( $post_id, $key );
+							}
 						}
-						$meta_fields = porto_ct_default_skin_meta_fields();
-						foreach ( $meta_fields as $key => $value ) {
-							delete_post_meta( $post_id, $key );
+
+						if ( function_exists( 'porto_ct_default_skin_meta_fields' ) ) {
+							$meta_fields = porto_ct_default_skin_meta_fields();
+							foreach ( $meta_fields as $key => $value ) {
+								delete_post_meta( $post_id, $key );
+							}
 						}
 					}
 				} else {
@@ -1070,6 +1105,12 @@ if ( class_exists( 'WP_Importer' ) ) {
 				$post['postmeta'] = apply_filters( 'wp_import_post_meta', $post['postmeta'], $post_id, $post );
 
 				// add/update post meta
+				if ( 'page' == $post['post_type'] ) {
+					if ( $post_exists ) {
+						delete_post_meta( $post_id, 'porto_imported_date' );
+					}
+					add_post_meta( $post_id, 'porto_imported_date', current_time( 'mysql' ) );
+				}
 				if ( ! empty( $post['postmeta'] ) ) {
 					foreach ( $post['postmeta'] as $meta ) {
 						$key   = apply_filters( 'import_post_meta_key', $meta['key'], $post_id, $post );
@@ -1179,7 +1220,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 				$_menu_item_classes = implode( ' ', $_menu_item_classes );
 			}
 
-			if ( isset( $_menu_item_url ) && ( 'http://sw-themes.com/porto_dummy/portfolio' == $_menu_item_url || 'http://sw-themes.com/porto_dummy/portfolio/' == $_menu_item_url || 'http://sw-themes.com/porto_dummy/member' == $_menu_item_url || 'http://sw-themes.com/porto_dummy/member/' == $_menu_item_url ) ) {
+			if ( isset( $_menu_item_url ) && strpos( $_menu_item_url, 'http://sw-themes.com/porto_dummy' ) === 0 ) {
 				$_menu_item_url = str_replace( 'http://sw-themes.com/porto_dummy', get_site_url(), $_menu_item_url );
 			}
 

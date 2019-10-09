@@ -1,0 +1,9 @@
+2019-09-13T15:04:05+00:00 CRITICAL Uncaught ArgumentCountError: Too few arguments to function porto_woocommerce_get_catalog_ordering_args(), 1 passed in /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php on line 286 and exactly 3 expected in /var/www/html/kitchens2tables/wp-content/themes/porto/inc/functions/woocommerce.php:2089
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(286): porto_woocommerce_get_catalog_ordering_args(Array)
+#1 /var/www/html/kitchens2tables/wp-includes/plugin.php(203): WP_Hook->apply_filters(Array, Array)
+#2 /var/www/html/kitchens2tables/wp-content/plugins/woocommerce/includes/class-wc-query.php(505): apply_filters('woocommerce_get...', Array)
+#3 /var/www/html/kitchens2tables/wp-content/plugins/woocommerce/includes/class-wc-query.php(386): WC_Query->get_catalog_ordering_args()
+#4 /var/www/html/kitchens2tables/wp-content/plugins/woocommerce/includes/class-wc-query.php(339): WC_Query->product_query(Object(WP_Query))
+#5 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(286): W in /var/www/html/kitchens2tables/wp-content/themes/porto/inc/functions/woocommerce.php on line 2089
+

@@ -2,8 +2,6 @@
 global $porto_settings;
 
 $breadcrumbs = $porto_settings['show-breadcrumbs'] ? porto_get_meta_value( 'breadcrumbs', true ) : false;
-
-
 $page_title  = $porto_settings['show-pagetitle'] ? porto_get_meta_value( 'page_title', true ) : false;
 
 if ( ( is_front_page() && is_home() ) || is_front_page() ) {
@@ -19,20 +17,13 @@ if ( isset( $is_shortcode ) ) {
 	$hide_title  = false;
 	$breadcrumbs = true;
 }
-
 ?>
 <div class="container<?php echo ! $hide_title ? '' : ' hide-title'; ?>">
 	<div class="row">
 		<div class="col-lg-12">
 			<?php if ( $breadcrumbs ) : ?>
 				<div class="breadcrumbs-wrap text-center<?php echo ! $sub_title ? '' : ' breadcrumbs-with-subtitle'; ?>">
-					<?php  echo porto_breadcrumbs();
-					
-					 
-				
-					
-					
-					?>
+					<?php echo porto_breadcrumbs(); ?>
 				</div>
 			<?php endif; ?>
 			<div class="text-center<?php echo ! $hide_title ? '' : ' d-none'; ?>">

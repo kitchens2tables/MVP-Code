@@ -19,7 +19,7 @@
 
         &:after {
             content: "";
-            @include transition (all 0.3s);
+            @include transition (all .3s);
             bottom: 0;
             color: #FFF;
             #{$left}: 0;
@@ -33,7 +33,7 @@
     }
 
     .thumb-info-action-icon {
-        @include transition (all 0.3s);
+        @include transition (all .3s);
         border-radius: corner-values(0 0 0 4px);
         display: inline-block;
         font-size: 25px;
@@ -57,7 +57,7 @@
                 margin: auto;
                 top: 0; bottom: 0; left: 0; right: 0;
                 border-radius: 0;
-                @include transform(none !important);
+                transform: none !important;
             }
         }
         &.thumb-info-plus {
@@ -67,8 +67,11 @@
     }
 
     .thumb-info-inner {
-        @include transition (all 0.3s);
+        @include transition (all .3s);
         display: block;
+        font: inherit;
+        color: inherit;
+        margin-bottom: 0;
         em {
             display: block;
             font-size: 0.8em;
@@ -78,8 +81,8 @@
     }
 
     .thumb-info-title {
-        @include transition (all 0.3s);
-        background: rgba(33, 37, 41, 0.8);
+        @include transition (all .3s);
+        background: rgba(33, 37, 41, .8);
         bottom: 13%;
         color: #fff;
         font-size: 17px;
@@ -119,7 +122,7 @@
     }
 
     img {
-        @include transition (all 0.3s ease);
+        @include transition (all .3s);
         position: relative;
         width: 100%;
     }
@@ -136,7 +139,7 @@
         text-align: center;
         width: 30px;
         opacity: 0;
-        @include transition(all 0.1s);
+        @include transition(all .1s);
         line-height: 30px;
         font-size: 14px;
         z-index: 2;
@@ -156,7 +159,7 @@
             background: #000;
         }
         img {
-            @include transform(scale(1.1, 1.1));
+            transform: scale(1.1, 1.1);
         }
         .zoom {
             opacity: 1;
@@ -173,14 +176,14 @@
             @include transition(none);
         }
         &:hover img {
-            @include transform(scale(1, 1));
+            transform: scale(1, 1);
         }
     }
 
     &.thumb-info-lighten {
         .thumb-info-wrapper {
             &:after {
-                background: rgba(23, 23, 23, 0.25);
+                background: rgba(23, 23, 23, .25);
             }
         }
     }
@@ -212,7 +215,7 @@
             padding-top: 5px;
         }
         .thumb-info-action-icon {
-            @include transition (all 0.1s ease);
+            @include transition (all .1s);
             display: inline-block;
             position: relative;
             z-index: 2;
@@ -228,7 +231,7 @@
             font-size: 14px;
 
             &:hover {
-                @include transform(scale(1.15, 1.15));
+                transform: scale(1.15, 1.15);
             }
         }
         &:hover {
@@ -296,14 +299,14 @@
                 opacity: 1;
             }
             img {
-                @include transform(sacle(1.1));
+                transform: sacle(1.1);
             }
         }
     }
 
     &.thumb-info-bottom-info-dark {
         .thumb-info-title {
-            @include background(linear-gradient(to top, rgba(23, 23, 23, 0.8) 0, transparent 100%) repeat scroll 0 0 rgba(0, 0, 0, 0));
+            @include background(linear-gradient(to top, rgba(23, 23, 23, .8) 0, transparent 100%) repeat scroll 0 0 rgba(0, 0, 0, 0));
             color: #FFF;
             a, a:hover, a:focus { color: inherit; }
         }
@@ -311,12 +314,12 @@
 
     &.thumb-info-push-hor {
         img {
-            @include transform(translatex(-18px));
+            transform: translatex(-18px);
             width: calc(100% + 19px);
             max-width: none;
         }
         &:hover img {
-            @include transform(translatex(0));
+            transform: translatex(0);
         }
     }
 
@@ -430,11 +433,32 @@
     }
 
     &.thumb-info-box-shadow {
-        box-shadow: 10px 10px 74px -15px rgba(0, 0, 0, 0.1);
-        @include transition(all 0.3s ease);
+        box-shadow: 10px 10px 74px -15px rgba(0, 0, 0, .1);
+        @include transition(all .3s);
 
         &:hover {
-            box-shadow: 10px 10px 74px 0 rgba(0, 0, 0, 0.1);
+            box-shadow: 10px 10px 74px 0 rgba(0, 0, 0, .1);
+        }
+    }
+
+    &.thumb-info-left-no-bg {
+        .thumb-info-title,
+        .thumb-info-type {
+            background: none;
+        }
+        .thumb-info-title {
+            bottom: 0;
+            padding: 1.5rem;
+            color: $color-dark;
+        }
+        .thumb-info-type {
+            padding: 0;
+            margin: 0;
+            opacity: .6;
+        }
+        .thumb-info-inner {
+            font-weight: 700;
+            font-size: 1.2em;
         }
     }
 }
@@ -561,7 +585,7 @@
                 margin: auto;
                 top: 0; bottom: 0; left: 0; right: 0;
                 border-radius: 0;
-                @include transform(none !important);
+                transform: none !important;
             }
         }
     }
@@ -580,13 +604,13 @@
     top: -15px;
     left: 50%;
     z-index: 3;
-    @include transform(translatex(-51%));
+    transform: translateX(-51%);
   }
   .thumb-info-icon {
     display: inline-block;
     padding: 5px 11px;
     border-radius: 20px;
-	@include transition (all 0.3s ease);
+    @include transition (all .3s);
     &.love {
       margin-#{$left}: 0.2em;
     }
@@ -612,137 +636,137 @@
 /* Thumb Info Plus */
 
 .thumb-info-plus {
-	&:before {
-		opacity: 1;
-		transition: auto;
-		content: '';
-		display: block;
-		position: absolute;
-		width: 100%;
-		top: 50%;
-		left: 50%;
-		border-top: 1px solid #FFF;
-		@include transform(translate3d(-50%, -50%, 0));
-	}
-	&:after {
-		opacity: 1;
-		transition: auto;
-		content: '';
-		display: block;
-		position: absolute;
-		width: 100%;
-		top: 50%;
-		left: 50%;
-		border-top: 1px solid #FFF;
-		@include transform(translate3d(-50%, -50%, 0));
-		@include transform(translate3d(-50%, -50%, 0) rotate(0deg));
-	}
+    &:before {
+        opacity: 1;
+        transition: auto;
+        content: '';
+        display: block;
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        left: 50%;
+        border-top: 1px solid #FFF;
+        @include transform(translate3d(-50%, -50%, 0));
+    }
+    &:after {
+        opacity: 1;
+        transition: auto;
+        content: '';
+        display: block;
+        position: absolute;
+        width: 100%;
+        top: 50%;
+        left: 50%;
+        border-top: 1px solid #FFF;
+        @include transform(translate3d(-50%, -50%, 0));
+        @include transform(translate3d(-50%, -50%, 0) rotate(0deg));
+    }
 }
 .thumb-info {
-	.thumb-info-plus {
-		opacity: 0;
-		position: absolute;
-		width: 10%;
-		top: 50%;
-		left: 50%;
-		z-index: 2;
-		@include transform(translate3d(-50%, -50%, 0));
-		@include transition (all 0.3s ease);
-	}
-	&:hover {
-		.thumb-info-plus {
-			opacity: 1;
-			width: 30%;
-			&::after {
-				@include transform(translate3d(-50%, -50%, 0) rotate(90deg));
-			}
-		}
-	}
+    .thumb-info-plus {
+        opacity: 0;
+        position: absolute;
+        width: 10%;
+        top: 50%;
+        left: 50%;
+        z-index: 2;
+        @include transform(translate3d(-50%, -50%, 0));
+        @include transition (all .3s);
+    }
+    &:hover {
+        .thumb-info-plus {
+            opacity: 1;
+            width: 30%;
+            &::after {
+                @include transform(translate3d(-50%, -50%, 0) rotate(90deg));
+            }
+        }
+    }
 }
 
 /* Thumb Info Plus Parallax */
 
 .portfolio-parallax {
-	.thumb-info-plus {
-		opacity: 0;
-		position: absolute;
-		width: 10%;
-		top: 50%;
-		left: 50%;
-		z-index: 2;
-		@include transform(translate3d(-50%, -50%, 0));
-		@include transition (all 0.3s ease);
-		width: 2%;
-	}
-	&:hover {
-		.thumb-info-plus {
-			&::after {
-				@include transform(translate3d(-50%, -50%, 0) rotate(90deg));
-			}
-			opacity: 1;
-			width: 8%;
-		}
-	}
+    .thumb-info-plus {
+        opacity: 0;
+        position: absolute;
+        width: 10%;
+        top: 50%;
+        left: 50%;
+        z-index: 2;
+        @include transform(translate3d(-50%, -50%, 0));
+        @include transition (all .3s);
+        width: 2%;
+    }
+    &:hover {
+        .thumb-info-plus {
+            &::after {
+                @include transform(translate3d(-50%, -50%, 0) rotate(90deg));
+            }
+            opacity: 1;
+            width: 8%;
+        }
+    }
 }
 .portfolio-parallax.hidden-plus {
-	.thumb-info-plus {
-		display: none;
-	}
+    .thumb-info-plus {
+        display: none;
+    }
 }
 
 .thumb-info.thumb-info-bottom-info.alternate-info-hide:hover img{
-       @include transform(scale(1.1, 1.1));
+    transform: scale(1.1, 1.1);
 }
 /* Slow Zoom */
 .thumb-info-slow-zoom {
-	&:hover {
-		img {
+    &:hover {
+        img {
             @include transform(translate3d(0, 3%, 0) scale(1.3) !important);
-		}
-		box-shadow: 0 0 59px -16px rgba(0, 0, 0, 0.4);
-	}
-	img {
+        }
+        box-shadow: 0 0 59px -16px rgba(0, 0, 0, 0.4);
+    }
+    img {
         @include transform(translate3d(-2%, -2%, 0) scale(1.2));
-        @include transition(all 5s ease);
-	}
-	transition: box-shadow 300ms ease 0s;
-	.thumb-info-plus {
-		display: none;
-	}
+        @include transition(all 5s);
+    }
+    transition: box-shadow .3s;
+    .thumb-info-plus {
+        display: none;
+    }
 }
 .portfolio-stripes {
-	.owl-item {
-		.portfolio-item {
-			.thumb-info.thumb-info-slow-zoom {
-				&:hover {
-					.thumb-info-wrapper {
-						.background-image {
-                             @include transform(translate3d(0, 3%, 0) scale(1.3) !important);
-							box-shadow: none;
-						}
-					}
-				}
-				.thumb-info-wrapper {
-					.background-image {
+    .owl-item {
+        .portfolio-item {
+            .thumb-info.thumb-info-slow-zoom {
+                &:hover {
+                    .thumb-info-wrapper {
+                        .background-image {
+                            @include transform(translate3d(0, 3%, 0) scale(1.3) !important);
+                            box-shadow: none;
+                        }
+                    }
+                }
+                .thumb-info-wrapper {
+                    .background-image {
                         @include transform(translate3d(-2%, -2%, 0) scale(1.2) !important);
-                        @include transition(all 5s ease);
-					}
-				}
-			}
-			.thumb-info-slow-zoom {
-				&:hover {
-					.thumb-info-wrapper {
-						&::after {
-							opacity: 0;
-						}
-						&:before {
-							bottom: -41px;
-						}
-					}
-				}
-			}
-		}
-	}
+                        @include transition(all 5s);
+                    }
+                }
+            }
+            .thumb-info-slow-zoom {
+                &:hover {
+                    .thumb-info-wrapper {
+                        &::after {
+                            opacity: 0;
+                        }
+                        &:before {
+                            bottom: -41px;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 
@@ -758,13 +782,13 @@
             font-size: 11px;
         }
     }
-	
-	.portfolio-parallax {
-		&:hover {
-			.thumb-info-plus {
-				width: 20%;
-			}
-		}
-	}
+    
+    .portfolio-parallax {
+        &:hover {
+            .thumb-info-plus {
+                width: 20%;
+            }
+        }
+    }
 
 }

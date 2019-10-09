@@ -130,7 +130,9 @@ function porto_load_carousel_shortcode() {
 					'param_name' => 'nav_pos',
 					'value'      => array(
 						__( 'Middle', 'porto-functionality' ) => '',
-						__( 'Top', 'porto-functionality' )    => 'show-nav-title',
+						__( 'Middle Inside', 'porto-functionality' ) => 'nav-pos-inside',
+						__( 'Middle Outside', 'porto-functionality' ) => 'nav-pos-outside',
+						__( 'Top', 'porto-functionality' ) => 'show-nav-title',
 						__( 'Bottom', 'porto-functionality' ) => 'nav-bottom',
 					),
 					'dependency' => array(
@@ -146,7 +148,7 @@ function porto_load_carousel_shortcode() {
 					'value'      => porto_sh_commons( 'carousel_nav_types' ),
 					'dependency' => array(
 						'element' => 'nav_pos',
-						'value'   => array( '', 'nav-bottom' ),
+						'value'   => array( '', 'nav-pos-inside', 'nav-pos-outside', 'nav-bottom' ),
 					),
 					'group'      => __( 'Navigation', 'porto-functionality' ),
 				),

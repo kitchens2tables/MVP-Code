@@ -42,7 +42,6 @@
             i {
                 font-size: 1.2em;
                 color: #1f222b;
-                font-weight: bold;
             }
         }
     }
@@ -64,5 +63,8 @@
         hr.solid {
             display: none;
         }
+    }
+    .thumb-info-wrapper {
+        margin-bottom: 25px;
     }
 }

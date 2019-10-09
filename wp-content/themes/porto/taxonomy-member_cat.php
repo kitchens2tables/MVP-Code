@@ -10,7 +10,7 @@ $member_options = get_metadata( $term->taxonomy, $term->term_id, 'member_options
 
 ?>
 
-<div id="content" role="main" class="<?php echo porto_is_wide_layout() ? 'm-t-lg m-b-xl' . ( porto_get_wrapper_type() !== 'boxed' ? ' m-r-md m-l-md' : '' ) : ''; ?>">
+<div id="content" role="main">
 
 	<?php if ( category_description() ) : ?>
 		<div class="page-content">

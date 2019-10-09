@@ -81,15 +81,16 @@ tick_sep_size="desktop:17px;"]'
 		<span class="custom-event-infos">
 			<ul>
 				<?php if ( isset( $event_start_time ) && $event_start_time ) : ?>
-					<li> <i class="fa fa-clock-o"></i> <?php echo esc_html( $event_start_time ); ?> </li>
+					<li> <i class="far fa-clock"></i> <?php echo esc_html( $event_start_time ); ?> </li>
 				<?php endif; ?>
 				<?php if ( isset( $event_location ) && $event_location ) : ?>
-					<li class="text-uppercase"> <i class="fa fa-map-marker"></i> <?php echo porto_strip_script_tags( $event_location ); ?></li>
+					<li class="text-uppercase"> <i class="fas fa-map-marker-alt"></i> <?php echo porto_strip_script_tags( $event_location ); ?></li>
 				<?php endif; ?>
 			</ul>
 		</span>
 
 		<span class="thumb-info-caption-text">
+			<span class="event-date d-none"><?php echo date_i18n( get_option( 'date_format' ), strtotime( $event_start_date ) ); ?></span>
 			<h4 class="font-weight-bold mb-sm"> <a href="<?php the_permalink(); ?>" class="text-decoration-none custom-secondary-font text-color-dark"> <?php the_title(); ?> </a> </h4>
 			<?php
 			if ( $porto_settings['event-excerpt'] ) {
@@ -98,6 +99,10 @@ tick_sep_size="desktop:17px;"]'
 				porto_the_content();
 			}
 			?>
+			<?php if ( isset( $porto_settings['event-readmore'] ) && $porto_settings['event-readmore'] ) : ?>
+				<?php /* translators: $1: Event Singular Name */ ?>
+				<div><a class="read-more" href="<?php the_permalink(); ?>"><?php printf( esc_html__( 'View %s' ), $porto_settings['event-singular-name'] ? $porto_settings['event-singular-name'] : 'Event' ); ?></a></div>
+			<?php endif; ?>
 		</span>
 	</span>
 </article>

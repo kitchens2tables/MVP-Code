@@ -1,8 +1,0 @@
-2019-07-10T08:47:38+00:00 CRITICAL Cannot redeclare um_add_submit_button_to_register() (previously declared in /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/um-actions-register.php:479) in /var/www/html/kitchens2tables/wp-content/themes/porto-child/functions.php on line 1577
-
-2019-07-10T08:47:42+00:00 CRITICAL Cannot redeclare um_add_submit_button_to_register() (previously declared in /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/um-actions-register.php:479) in /var/www/html/kitchens2tables/wp-content/themes/porto-child/functions.php on line 1577
-
-2019-07-10T08:47:45+00:00 CRITICAL Cannot redeclare um_add_submit_button_to_register() (previously declared in /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/um-actions-register.php:479) in /var/www/html/kitchens2tables/wp-content/themes/porto-child/functions.php on line 1577
-
-2019-07-10T08:48:43+00:00 CRITICAL Cannot redeclare um_add_submit_button_to_register() (previously declared in /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/um-actions-register.php:479) in /var/www/html/kitchens2tables/wp-content/themes/porto-child/functions.php on line 1577
-

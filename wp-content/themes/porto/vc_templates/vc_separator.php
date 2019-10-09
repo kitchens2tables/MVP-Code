@@ -139,7 +139,7 @@ $f_rand       = false;
 if ( ! $style && ( $color != $default_color || 'align_center' != $align ) ) {
 	$inline_style .= 'background-image: -webkit-linear-gradient(left' . ( ( 'align_center' == $align || 'align_right' == $align ) ? ', transparent' : '' ) . ', ' . esc_attr( $color ) .
 	( ( 'align_center' == $align || 'align_left' == $align ) ? ', transparent' : '' ) .
-	'); background-image: linear-gradient(to right' . ( ( 'align_center' == $align || 'align_right' == $align ) ? ', transparent' : '' ) . ', ' . $color .
+	'); background-image: linear-gradient(to right' . ( ( 'align_center' == $align || 'align_right' == $align ) ? ', transparent' : '' ) . ', ' . esc_attr( $color ) .
 	( ( 'align_center' == $align || 'align_left' == $align ) ? ', transparent' : '' ) . ');';
 } elseif ( 'solid' == $style && $color != $default_color ) {
 	$inline_style .= 'background-color:' . esc_attr( $color ) . ';';
@@ -190,6 +190,9 @@ if ( $border_width ) {
 	} else {
 		$inline_style .= 'height:' . esc_attr( $border_width ) . 'px;';
 	}
+}
+if ( ( $icon_class || 'small' != $type ) && $el_width ) {
+	$inline_style .= 'width:' . esc_attr( $el_width ) . '%;';
 }
 
 if ( $inline_style ) {
@@ -254,10 +257,10 @@ endif;
 		<?php
 	endif;
 
-	echo '<div class="divider ' . esc_attr( $css_class ) . ( $el_width ? ' separator-line-' . esc_attr( $el_width ) : '' ) . '"' . $inline_style . '>';
+	echo '<div class="divider ' . esc_attr( $css_class ) . '"' . $inline_style . '>';
 
 	if ( $icon_class ) {
-		echo '<i class="' . $icon_class . '">';
+		echo '<i class="' . esc_attr( $icon_class ) . '">';
 		if ( 'icon-image' == $icon_class && $icon_image ) {
 			$icon_image = preg_replace( '/[^\d]/', '', $icon_image );
 			$image_url  = wp_get_attachment_url( $icon_image );
@@ -275,7 +278,7 @@ endif;
 	if ( 'small' == $type ) {
 		echo '<div class="divider divider-small ' . esc_attr( $css_class ) . ' ' . ( $align ? ( 'align_left' == $align ? '' : str_replace( 'align_', 'divider-small-', $align ) ) : 'divider-small-center' ) . '">' . '<hr ' . $inline_style . '>' . '</div>';
 	} else {
-		echo '<hr class="separator-line ' . esc_attr( $css_class ) . ( $el_width ? ' separator-line-' . $el_width : '' ) . '"' . $inline_style . '>';
+		echo '<hr class="separator-line ' . esc_attr( $css_class ) . '"' . $inline_style . '>';
 	}
 }
 

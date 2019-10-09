@@ -13,10 +13,18 @@ if ( is_category() ) {
 	$post_options = get_metadata( $term->taxonomy, $term->term_id, 'post_options', true ) == 'post_options' ? true : false;
 
 	$post_layout = $post_options ? get_metadata( $term->taxonomy, $term->term_id, 'post_layout', true ) : $post_layout;
+
+	if ( 'grid' == $post_layout || 'masonry' == $post_layout ) {
+		global $porto_blog_columns;
+		$grid_columns = get_metadata( $term->taxonomy, $term->term_id, 'post_grid_columns', true );
+		if ( $grid_columns ) {
+			$porto_blog_columns = $grid_columns;
+		}
+	}
 }
 ?>
 
-<div id="content" role="main" class="<?php echo porto_is_wide_layout() ? 'm-t-lg m-b-xl' . ( porto_get_wrapper_type() !== 'boxed' ? ' m-r-md m-l-md' : '' ) : ''; ?>">
+<div id="content" role="main">
 
 	<?php if ( have_posts() ) : ?>
 

@@ -115,7 +115,7 @@ global $porto_settings, $porto_layout;
                                             
                                         else
                                         {
-                                            echo  loginlogout();
+                                           // echo  loginlogout();
                                         }
                                     ?>
                                     

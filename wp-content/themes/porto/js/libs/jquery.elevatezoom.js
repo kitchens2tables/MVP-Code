@@ -26,7 +26,7 @@ if ( typeof Object.create !== 'function' ) {
                 self.elem = elem;
                 self.$elem = $( elem );
 
-                self.imageSrc = self.$elem.data("zoom-image") ? self.$elem.data("zoom-image") : ( self.$elem.data("original") ? self.$elem.data("original") : ( self.$elem.attr("href") ? self.$elem.attr("href") : self.$elem.attr("src") ) );
+                self.imageSrc = self.$elem.data("zoom-image") ? self.$elem.data("zoom-image") : ( self.$elem.attr("href") ? self.$elem.attr("href") : ( self.$elem.data("original") ? self.$elem.data("original") : self.$elem.attr("src") ) );
                 self.options = $.extend( {}, $.fn.elevateZoom.options, options );
 
                 //TINT OVERRIDE SETTINGS

@@ -73,7 +73,7 @@ if ( 'list' == $display_type ) {
 	echo '<ul class="porto_shortcodes_product_filter filter-item-list">';
 	foreach ( $terms as $term ) {
 		$option_is_set = in_array( $term->slug, $current_values, true );
-		$color_value   = get_woocommerce_term_meta( $term->term_id, 'color_value' );
+		$color_value   = get_term_meta( $term->term_id, 'color_value', true );
 		$attrs         = '';
 		if ( $color_value ) {
 			$attrs = ' class="filter-color" style="background-color: ' . esc_attr( $color_value ) . '"';
@@ -81,7 +81,7 @@ if ( 'list' == $display_type ) {
 			$attrs = ' class="filter-item"';
 		}
 
-		echo '<li' . ( $option_is_set ? ' class="chosen"' : '' ) . '><a href="' . esc_url( get_term_link( $term ) ) . '"' . $attrs . ' data-slug="' . esc_attr( urldecode( $term->slug ) ) . '" title="' . esc_html( $term->name ) . '">' . esc_html( $term->name ) . '</a></li>';
+		echo '<li' . ( $option_is_set ? ' class="chosen"' : '' ) . '><a href="' . esc_url( get_term_link( $term ) ) . '"' . $attrs . ' data-slug="' . esc_attr( urldecode( $term->slug ) ) . '" title="' . esc_attr( $term->name ) . '">' . esc_html( $term->name ) . '</a></li>';
 	}
 	echo '</ul>';
 } else {

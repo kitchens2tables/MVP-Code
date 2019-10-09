@@ -25,6 +25,7 @@ $grid-gutter-width:           <?php echo (int) $b['grid-gutter-width']; ?>px !de
 
 
 $primary:       <?php echo esc_html( $b['skin-color'] ); ?> !default;
+$secondary:     <?php echo esc_html( $b['secondary-color'] ); ?> !default;
 $success:       #47a447 !default;
 $info:          #5bc0de !default;
 $warning:       #ed9c28 !default;

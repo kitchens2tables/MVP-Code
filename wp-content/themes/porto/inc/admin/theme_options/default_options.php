@@ -13,7 +13,7 @@
 	"show-content-type-skin":true,
 	"show-category-skin":true,
 	"logo":{
-		"url": "<?php echo porto_uri; ?>/images/logo/logo_black.png"
+		"url": "<?php echo PORTO_URI; ?>/images/logo/logo_black.png"
 	},
 	"logo-overlay":{
 		"url": ""
@@ -27,19 +27,19 @@
 	"logo-width-mobile":"110",
 	"logo-width-sticky":"80",
 	"favicon":{
-		"url": "<?php echo porto_uri; ?>/images/logo/favicon.ico"
+		"url": "<?php echo PORTO_URI; ?>/images/logo/favicon.ico"
 	},
 	"icon-iphone":{
-		"url": "<?php echo porto_uri; ?>/images/logo/apple-touch-icon.png"
+		"url": "<?php echo PORTO_URI; ?>/images/logo/apple-touch-icon.png"
 	},
 	"icon-iphone-retina":{
-		"url": "<?php echo porto_uri; ?>/images/logo/apple-touch-icon_120x120.png"
+		"url": "<?php echo PORTO_URI; ?>/images/logo/apple-touch-icon_120x120.png"
 	},
 	"icon-ipad":{
-		"url": "<?php echo porto_uri; ?>/images/logo/apple-touch-icon_76x76.png"
+		"url": "<?php echo PORTO_URI; ?>/images/logo/apple-touch-icon_76x76.png"
 	},
 	"icon-ipad-retina":{
-		"url": "<?php echo porto_uri; ?>/images/logo/apple-touch-icon_152x152.png"
+		"url": "<?php echo PORTO_URI; ?>/images/logo/apple-touch-icon_152x152.png"
 	},
 	"js-code":"jQuery(document).ready(function(){\n\n});",
 	"theme-type":"",
@@ -60,7 +60,7 @@
 	"css-type":"",
 	"color-dark":"#1d2127",
 	"container-width":"1140",
-	"grid-gutter-width":"20",
+	"grid-gutter-width":"30",
 	"border-radius":true,
 	"thumb-padding":false,
 	"google-webfont-loader": true,
@@ -99,16 +99,16 @@
 		"font-family":"Open Sans",
 		"font-size":"36px",
 		"line-height":"44px",
-		"letter-spacing":"0"
+		"letter-spacing":""
 	},
 	"h2-font":{
 		"color":"#212529",
 		"google":true,
-		"font-weight":"300",
+		"font-weight":"400",
 		"font-family":"Open Sans",
 		"font-size":"30px",
 		"line-height":"40px",
-		"letter-spacing":"0"
+		"letter-spacing":""
 	},
 	"h3-font":{
 		"color":"#212529",
@@ -117,7 +117,7 @@
 		"font-family":"Open Sans",
 		"font-size":"25px",
 		"line-height":"32px",
-		"letter-spacing":"0"
+		"letter-spacing":""
 	},
 	"h4-font":{
 		"color":"#212529",
@@ -126,16 +126,16 @@
 		"font-family":"Open Sans",
 		"font-size":"20px",
 		"line-height":"27px",
-		"letter-spacing":"0"
+		"letter-spacing":""
 	},
 	"h5-font":{
 		"color":"#212529",
 		"google":true,
-		"font-weight":"600",
+		"font-weight":"400",
 		"font-family":"Open Sans",
 		"font-size":"14px",
 		"line-height":"18px",
-		"letter-spacing":"0"
+		"letter-spacing":""
 	},
 	"h6-font":{
 		"color":"#212529",
@@ -144,7 +144,7 @@
 		"font-family":"Open Sans",
 		"font-size":"14px",
 		"line-height":"18px",
-		"letter-spacing":"0"
+		"letter-spacing":""
 	},
 	"menu-font":{
 		"google":true,
@@ -213,7 +213,7 @@
 	"header-top-font-size":"",
 	"header-top-bottom-border":{
 		"border-color":"#ededed",
-		"border-top":"1px"
+		"border-top":"0px"
 	},
 	"header-top-text-color":"#777777",
 	"header-top-link-color":{
@@ -295,13 +295,11 @@
 	},
 	"breadcrumbs-bottom-border":{
 		"border-color":"#cccccc",
-		"border-top":"5px"
+		"border-top":""
 	},
 	"breadcrumbs-padding":{
 		"padding-top":15,
-		"padding-bottom":15,
-		"padding-left":15,
-		"padding-right":15
+		"padding-bottom":15
 	},
 	"breadcrumbs-text-color":"#ffffff",
 	"breadcrumbs-link-color":"#ffffff",
@@ -353,10 +351,11 @@
 	"searchform-popup-border-color":"#cccccc",
 	"searchform-text-color":"#555555",
 	"searchform-hover-color":"#333333",
+	"shop-add-links-color":"#333333",
+	"shop-add-links-bg-color":"#ffffff",
+	"shop-add-links-border-color":"#dddddd",
 	"wishlist-color":"#e36159",
-	"wishlist-color-inverse":"#ffffff",
-	"quickview-color":"#2baab1",
-	"quickview-color-inverse":"#ffffff",
+	"wishlist-color-inverse":"",
 	"hot-color":"#62b959",
 	"hot-color-inverse":"#ffffff",
 	"sale-color":"#e27c7c",
@@ -440,7 +439,7 @@
 	"footer-copyright-pos":"left",
 	"footer-payments":false,
 	"footer-payments-image":{
-		"url": "<?php echo porto_uri; ?>/images/payments.png"
+		"url": "<?php echo PORTO_URI; ?>/images/payments.png"
 	},
 	"footer-payments-link":"",
 	"show-footer-tooltip":false,
@@ -470,6 +469,7 @@
 
 	"blog-excerpt-type":"text",
 	"post-single-layout":"right-sidebar",
+	"post-title-style":"without-icon",
 	"post-content-layout":"large",
 	"post-share":true,
 	"post-author":true,
@@ -532,10 +532,13 @@
 	"product-cols":"3",
 	"product-cols-mobile":"2",
 	"category-image-hover":true,
-	"category-addlinks-pos":"outimage",
+	"category-addlinks-pos":"",
 
-	"add-to-cart-notification":"",
+	"add-to-cart-notification":"2",
 	"category-hover":true,
+	"product-categories":true,
+	"product-review":true,
+	"product-price":true,
 	"product-wishlist":true,
 	"product-quickview":true,
 	"product-quickview-label":"",

@@ -29,7 +29,7 @@ article {
     a {
         display: inline-block;
     }
-    .fa {
+    i {
         font-size: 2.5em;
     }
 }
@@ -55,7 +55,7 @@ article {
         .thumb-info-caption {
             display: block;
             padding: 0;
-            @include transition(all 0.3s ease);
+            @include transition(all .3s);
         }
         .thumb-info-caption-title {
             position: relative;
@@ -76,7 +76,7 @@ article {
             #{$right}: 15px;
             top: 50%;
             font-size: 1.9em;
-            @include transform(translateY(-50%));
+            transform: translateY(-50%);
         }
     }
     &.member-item-4 {

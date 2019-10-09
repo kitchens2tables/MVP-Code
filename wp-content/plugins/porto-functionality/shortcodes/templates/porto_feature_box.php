@@ -60,6 +60,9 @@ $output .= '>';
 $output .= '<div class="feature-box' . esc_attr( ( 'custom' != $skin ? ' feature-box-' . $skin : '' ) . ( $box_style ? ' ' . $box_style : '' ) . ( $box_dir ? ' ' . $box_dir : '' ) ) . '">';
 
 if ( $icon_class ) {
+	if ( $box_style && 'custom' != $skin ) {
+		$icon_class .= ' text-color-' . $skin;
+	}
 	$output .= '<div class="feature-box-icon' . ( 'custom' != $skin ? ' feature-box-icon-' . esc_attr( $skin ) : '' ) . '"' . $icon_circle_style . '><i class="' . esc_attr( $icon_class ) . '" style="font-size:' . (float) $icon_size . 'px">';
 	if ( 'icon-image' == $icon_class && $icon_image ) {
 		$icon_image = preg_replace( '/[^\d]/', '', $icon_image );

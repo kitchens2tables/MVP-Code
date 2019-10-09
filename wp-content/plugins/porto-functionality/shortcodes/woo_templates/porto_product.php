@@ -8,7 +8,9 @@ extract(
 			'view'               => 'grid',
 			'column_width'       => '',
 			'id'                 => '',
+			'use_simple'         => '',
 			'addlinks_pos'       => '',
+			'image_size'         => '',
 			'animation_type'     => '',
 			'animation_duration' => 1000,
 			'animation_delay'    => 0,
@@ -33,7 +35,7 @@ if ( $animation_type ) {
 $output .= '>';
 
 if ( $title ) {
-	$output .= '<h2 class="section-title">' . $title . '</h2>';
+	$output .= '<h2 class="section-title">' . wp_kses_post( $title ) . '</h2>';
 }
 
 global $porto_woocommerce_loop;
@@ -42,8 +44,22 @@ $porto_woocommerce_loop['view']         = $view;
 $porto_woocommerce_loop['columns']      = 1;
 $porto_woocommerce_loop['column_width'] = $column_width;
 $porto_woocommerce_loop['addlinks_pos'] = $addlinks_pos;
-$output                                .= do_shortcode( '[product id="' . $id . '" columns="1"]' );
-
+if ( $image_size ) {
+	$porto_woocommerce_loop['image_size'] = $image_size;
+}
+if ( $use_simple ) {
+	if ( ! isset( $porto_settings['product-review'] ) || $porto_settings['product-review'] ) {
+		remove_action( 'woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_rating', 5 );
+	}
+	$porto_woocommerce_loop['use_simple_layout'] = true;
+}
+$output .= do_shortcode( '[product id="' . $id . '" columns="1"]' );
+if ( $image_size ) {
+	unset( $porto_woocommerce_loop['image_size'] );
+}
+if ( $use_simple && ( ! isset( $porto_settings['product-review'] ) || $porto_settings['product-review'] ) ) {
+	add_action( 'woocommerce_after_shop_loop_item_title', 'woocommerce_template_loop_rating', 5 );
+}
 $output .= '</div>';
 
 echo porto_filter_output( $output );

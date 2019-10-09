@@ -2,7 +2,7 @@
 /**
  * The template for displaying product content in the single-product.php template
  *
- * @version     3.4.0
+ * @version     3.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,9 +19,9 @@ if ( post_password_required() ) {
 	return;
 }
 
-global $porto_layout, $porto_settings, $porto_product_layout;
+global $porto_layout, $porto_settings, $porto_product_layout, $product;
 
-$post_class = join( ' ', wc_get_product_class() );
+$post_class = join( ' ', wc_get_product_class( '', $product ) );
 
 $post_class .= ' product-layout-' . esc_attr( $porto_product_layout );
 
@@ -47,7 +47,7 @@ if ( 'default' == $porto_product_layout || 'sticky_info' == $porto_product_layou
 }
 ?>
 
-<div id="product-<?php the_ID(); ?>" class="<?php echo esc_attr( $post_class ); ?>" itemscope itemtype="http://schema.org/Product">
+<div id="product-<?php the_ID(); ?>" class="<?php echo esc_attr( $post_class ); ?>">
 
 	<div class="product-summary-wrap">
 	<?php if ( 'extended' !== $porto_product_layout ) : ?>
@@ -140,8 +140,6 @@ if ( 'default' == $porto_product_layout || 'sticky_info' == $porto_product_layou
 		 */
 		do_action( 'woocommerce_after_single_product_summary' );
 	?>
-
-	<meta itemprop="url" content="<?php the_permalink(); ?>" />
 
 </div><!-- #product-<?php the_ID(); ?> -->
 

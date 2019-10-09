@@ -12,12 +12,15 @@ class Porto_Importer_API {
 	protected $path_demo = '';
 
 	protected $url = array(
-		'changelog'       => 'https://www.portotheme.com/activation/porto_wp/download/changelog.php',
-		'theme_version'   => 'https://www.portotheme.com/activation/porto_wp/download/theme_version.php',
-		'theme'           => 'https://www.portotheme.com/activation/porto_wp/download/theme.php',
-		'plugins_version' => 'https://www.portotheme.com/activation/porto_wp/download/plugins_version.php',
-		'plugins'         => 'https://www.portotheme.com/activation/porto_wp/download/plugins.php',
-		'demos'           => 'https://www.portotheme.com/activation/porto_wp/download/demos.php',
+		'changelog'        => 'https://www.portotheme.com/activation/porto_wp/download/changelog.php',
+		'theme_version'    => 'https://www.portotheme.com/activation/porto_wp/download/theme_version.php',
+		'theme'            => 'https://www.portotheme.com/activation/porto_wp/download/theme.php',
+		'plugins_version'  => 'https://www.portotheme.com/activation/porto_wp/download/plugins_version.php',
+		'plugins'          => 'https://www.portotheme.com/activation/porto_wp/download/plugins.php',
+		'demos'            => 'https://www.portotheme.com/activation/porto_wp/download/demos.php',
+		'blocks'           => 'https://www.portotheme.com/activation/porto_wp/download/blocks.php',
+		'block_categories' => 'https://www.portotheme.com/activation/porto_wp/download/block_categories.php',
+		'blocks_content'   => 'https://www.portotheme.com/activation/porto_wp/download/block_content.php',
 	);
 
 	public function __construct( $demo = false ) {
@@ -27,7 +30,11 @@ class Porto_Importer_API {
 			$this->path_tmp = wp_normalize_path( $upload_dir['basedir'] . '/porto_tmp_dir' );
 			$this->makedir();
 		}
-		$this->code = Porto()->get_purchase_code();
+		if ( function_exists( 'Porto' ) ) {
+			$this->code = Porto()->get_purchase_code();
+		} else {
+			$this->code = get_option( 'envato_purchase_code_9207399' );
+		}
 	}
 
 	public function get_url( $id ) {
@@ -113,15 +120,12 @@ class Porto_Importer_API {
 		} else {
 			$domain = parse_url( site_url(), PHP_URL_HOST );
 		}
-		$args      = array(
+		$args = array(
 			'code'   => $this->code,
 			'domain' => $domain,
 		);
-		$whitelist = array(
-			'127.0.0.1',
-			'::1',
-		);
-		if ( in_array( $_SERVER['REMOTE_ADDR'], $whitelist ) ) {
+
+		if ( $this->is_localhost() ) {
 			$args['local'] = 'true';
 		}
 		if ( $ish && Porto()->is_envato_hosted() ) {
@@ -208,5 +212,20 @@ class Porto_Importer_API {
 			return false;
 		}
 		return $response['version'];
+	}
+
+	public function is_localhost() {
+		if ( current_user_can( 'manage_options' ) ) {
+			$current_sessions = wp_get_all_sessions();
+			$whitelist        = array(
+				'127.0.0.1',
+				'localhost',
+				'::1',
+			);
+			if ( isset( $current_sessions[0] ) && isset( $current_sessions[0]['ip'] ) && in_array( $current_sessions[0]['ip'], $whitelist ) ) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -56,7 +56,7 @@ if ( ! empty( $tabs ) || ! empty( $custom_tabs_title ) || $global_tab_title ) : 
 
 	<script>
 		jQuery(document).ready(function($) {
-			var $tabs = $('.woocommerce-tabs-<?php echo esc_attr( $rand ); ?>');
+			var $tabs = $('.woocommerce-tabs-<?php echo esc_js( $rand ); ?>');
 
 			$tabs.easyResponsiveTabs({
 				type: 'default', //Types: default, vertical, accordion

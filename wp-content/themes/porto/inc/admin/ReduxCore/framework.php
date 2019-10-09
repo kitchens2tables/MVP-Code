@@ -22,8 +22,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 if ( ! class_exists( 'ReduxFrameworkInstances' ) ) {
 	// Instance Container
-	require_once dirname( __FILE__ ) . '/inc/class.redux_instances.php';
-	require_once dirname( __FILE__ ) . '/inc/lib.redux_instances.php';
+	require_once PORTO_ADMIN . '/ReduxCore/inc/class.redux_instances.php';
+	require_once PORTO_ADMIN . '/ReduxCore/inc/lib.redux_instances.php';
 }
 
 if ( class_exists( 'ReduxFrameworkInstances' ) ) {
@@ -34,26 +34,26 @@ if ( class_exists( 'ReduxFrameworkInstances' ) ) {
 if ( ! class_exists( 'ReduxFramework' ) ) {
 
 	// Redux CDN class
-	require_once dirname( __FILE__ ) . '/inc/class.redux_cdn.php';
+	require_once PORTO_ADMIN . '/ReduxCore/inc/class.redux_cdn.php';
 
 	// Redux API class  :)
-	require_once dirname( __FILE__ ) . '/inc/class.redux_api.php';
+	require_once PORTO_ADMIN . '/ReduxCore/inc/class.redux_api.php';
 
 	// General helper functions
-	require_once dirname( __FILE__ ) . '/inc/class.redux_helpers.php';
+	require_once PORTO_ADMIN . '/ReduxCore/inc/class.redux_helpers.php';
 
 	// General functions
-	require_once dirname( __FILE__ ) . '/inc/class.redux_functions.php';
-	require_once dirname( __FILE__ ) . '/inc/class.p.php';
+	require_once PORTO_ADMIN . '/ReduxCore/inc/class.redux_functions.php';
+	require_once PORTO_ADMIN . '/ReduxCore/inc/class.p.php';
 
-	require_once dirname( __FILE__ ) . '/inc/class.thirdparty.fixes.php';
+	require_once PORTO_ADMIN . '/ReduxCore/inc/class.thirdparty.fixes.php';
 
-	require_once dirname( __FILE__ ) . '/inc/class.redux_filesystem.php';
+	require_once PORTO_ADMIN . '/ReduxCore/inc/class.redux_filesystem.php';
 
-	require_once dirname( __FILE__ ) . '/inc/class.redux_admin_notices.php';
+	require_once PORTO_ADMIN . '/ReduxCore/inc/class.redux_admin_notices.php';
 
 	// ThemeCheck checks
-	require_once dirname( __FILE__ ) . '/inc/themecheck/class.redux_themecheck.php';
+	require_once PORTO_ADMIN . '/ReduxCore/inc/themecheck/class.redux_themecheck.php';
 
 	/**
 	 * Main ReduxFramework class
@@ -76,7 +76,7 @@ if ( ! class_exists( 'ReduxFramework' ) ) {
 		public static $_as_plugin = false;
 
 		public static function init() {
-			$dir = Redux_Helpers::cleanFilePath( dirname( __FILE__ ) );
+			$dir = Redux_Helpers::cleanFilePath( PORTO_ADMIN . '/ReduxCore' );
 
 			// Windows-proof constants: replace backward by forward slashes. Thanks to: @peterbouwmeester
 			self::$_dir           = trailingslashit( $dir );
@@ -360,9 +360,6 @@ if ( ! class_exists( 'ReduxFramework' ) ) {
 					add_action( 'admin_enqueue_scripts', array( $this, '_enqueue_output' ), 150 );
 				}
 
-				add_action( 'wp_print_scripts', array( $this, 'vc_fixes' ), 100 );
-				add_action( 'admin_enqueue_scripts', array( $this, 'vc_fixes' ), 100 );
-
 				if ( $this->args['database'] == 'network' && $this->args['network_admin'] ) {
 					add_action(
 						'network_admin_edit_redux_' . $this->args['opt_name'],
@@ -513,14 +510,6 @@ if ( ! class_exists( 'ReduxFramework' ) ) {
 			);
 		}
 
-		// Fix conflicts with Visual Composer.
-		public function vc_fixes() {
-			if ( redux_helpers::isFieldInUse( $this, 'ace_editor' ) ) {
-				wp_dequeue_script( 'wpb_ace' );
-				wp_deregister_script( 'wpb_ace' );
-			}
-		}
-
 		public function network_admin_bar( $wp_admin_bar ) {
 
 			$args = array(
@@ -603,7 +592,7 @@ if ( ! class_exists( 'ReduxFramework' ) ) {
 
 			if ( ! $loaded ) {
 				$locale = apply_filters( 'plugin_locale', get_locale(), 'redux-framework' );
-				$mofile = dirname( __FILE__ ) . '/languages/redux-framework-' . $locale . '.mo';
+				$mofile = PORTO_ADMIN . '/ReduxCore/languages/redux-framework-' . $locale . '.mo';
 				load_textdomain( 'redux-framework', $mofile );
 			}
 		}
@@ -1527,7 +1516,7 @@ if ( ! class_exists( 'ReduxFramework' ) ) {
 
 							(function() {
 								var wf = document.createElement( 'script' );
-								wf.src = '<?php echo porto_js; ?>/libs/webfont.js';
+								wf.src = '<?php echo PORTO_JS; ?>/libs/webfont.js';
 								wf.type = 'text/javascript';
 								wf.async = 'true';
 								var s = document.getElementsByTagName( 'script' )[0];
@@ -2284,7 +2273,7 @@ if ( ! class_exists( 'ReduxFramework' ) ) {
 		 * @return      void
 		 */
 		private function _register_extensions() {
-			$path    = dirname( __FILE__ ) . '/inc/extensions/';
+			$path    = PORTO_ADMIN . '/ReduxCore/inc/extensions/';
 			$folders = scandir( $path, 1 );
 
 			/**

@@ -14,6 +14,10 @@ extract(
 	)
 );
 
+if ( ! $title ) {
+	$atts['title'] = '';
+}
+
 $el_class = porto_shortcode_extract_class( $el_class );
 
 $output = '<div class="vc_widget_woo_top_rated_products wpb_content_element' . esc_attr( $el_class ) . '"';

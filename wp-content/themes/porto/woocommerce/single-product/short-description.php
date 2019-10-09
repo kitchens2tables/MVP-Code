@@ -19,5 +19,5 @@ if ( ! $short_description ) {
 ?>
 
 <div class="description woocommerce-product-details__short-description">
-	<?php echo force_balance_tags( $short_description ); // WPCS: XSS ok. ?>
+	<?php echo ! $short_description ? '' : $short_description; // WPCS: XSS ok. ?>
 </div>

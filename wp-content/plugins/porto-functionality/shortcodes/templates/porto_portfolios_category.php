@@ -106,7 +106,7 @@ switch ( $category_layout ) {
 			)
 		);
 
-		$output     .= '<div class="portfolio-' . $category_layout . ' ' . esc_attr( $el_class ) . '">';
+		$output     .= '<div class="portfolio-' . esc_attr( $category_layout ) . ' ' . esc_attr( $el_class ) . '">';
 			$output .= '<div class="porto-carousel owl-carousel owl-theme nav-center custom-carousel-arrows-style m-none" data-plugin-options=\'' . json_encode( $carousel_options ) . '\'>';
 
 		foreach ( $cats as $cat ) {
@@ -138,7 +138,7 @@ switch ( $category_layout ) {
 					$output         .= '<span class="thumb-info-icons position-style-1 text-color-light">';
 						$output     .= '<span class="thumb-info-icon pictures background-color-primary">';
 							$output .= $term_count;
-							$output .= '<i class="fa fa-picture-o"></i>';
+							$output .= '<i class="far fa-image"></i>';
 						$output     .= '</span>';
 					$output         .= '</span>';
 				}
@@ -197,7 +197,7 @@ switch ( $category_layout ) {
 					$output         .= '<span class="thumb-info-icons position-style-3 text-color-light">';
 						$output     .= '<span class="thumb-info-icon pictures background-color-primary">';
 							$output .= $term_count;
-							$output .= '<i class="fa fa-picture-o"></i>';
+							$output .= '<i class="far fa-image"></i>';
 						$output     .= '</span>';
 					$output         .= '</span>';
 				}

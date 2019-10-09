@@ -48,7 +48,7 @@
 				background: $dot-background;
 				display: block;
 				-webkit-backface-visibility: visible;
-				transition: opacity 200ms ease;
+				transition: opacity .2s;
 				border-radius: $dot-rounded;
 			}
 

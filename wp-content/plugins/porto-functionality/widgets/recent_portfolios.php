@@ -103,7 +103,7 @@ class Porto_Recent_Portfolios_Widget extends WP_Widget {
 					?>
 				</div>
 			</div>
-			<a class="btn-flat pt-right btn-xs view-more" href="<?php echo get_post_type_archive_link( 'portfolio' ); ?>"><?php esc_html_e( 'View More', 'porto-functionality' ); ?> <i class="fa fa-arrow-<?php echo is_rtl() ? 'left' : 'right'; ?>"></i></a>
+			<a class="btn-flat pt-right btn-xs view-more" href="<?php echo get_post_type_archive_link( 'portfolio' ); ?>"><?php esc_html_e( 'View More', 'porto-functionality' ); ?> <i class="fas fa-arrow-<?php echo is_rtl() ? 'left' : 'right'; ?>"></i></a>
 			<?php
 
 			echo porto_filter_output( $after_widget );

@@ -37,6 +37,7 @@ class Porto_Header_Builder {
 			'mini-cart'         => __( 'Mini Cart', 'porto' ),
 			'menu-icon'         => __( '☰ Mobile Menu Icon', 'porto' ),
 			'main-menu'         => __( 'Main Menu', 'porto' ),
+			'main-toggle-menu'  => __( 'Main Toggle Menu', 'porto' ),
 			'secondary-menu'    => __( 'Secondary Menu', 'porto' ),
 			'nav-top'           => __( 'Top Menu', 'porto' ),
 			'menu-block'        => __( 'Custom Menu', 'porto' ),
@@ -232,7 +233,7 @@ class Porto_Header_Builder {
 			if ( strpos( $key, '_side_' ) !== false ) {
 				$img_class = 'side';
 			}
-			$preset_img_html .= '<img src="' . porto_options_uri . '/header_builder_presets/' . $preset['img'] . '"' . ( $img_class ? ' class="' . $img_class . '"' : '' ) . ' alt="' . esc_attr( $preset['title'] ) . '" data-preset="' . $key . '" />';
+			$preset_img_html .= '<img src="' . esc_url( PORTO_OPTIONS_URI . '/header_builder_presets/' . $preset['img'] ) . '"' . ( $img_class ? ' class="' . $img_class . '"' : '' ) . ' alt="' . esc_attr( $preset['title'] ) . '" data-preset="' . esc_attr( $key ) . '" />';
 		}
 		$preset_img_html .= '</div>';
 
@@ -243,7 +244,7 @@ class Porto_Header_Builder {
 				'transport'         => $this->transport,
 				'capability'        => 'edit_theme_options',
 				'type'              => 'option',
-				'sanitize_callback' => 'sanitize_title',
+				'sanitize_callback' => 'sanitize_text_field',
 			)
 		);
 		$wp_customize->add_control(
@@ -282,7 +283,7 @@ class Porto_Header_Builder {
 				'transport'         => $this->transport,
 				'capability'        => 'edit_theme_options',
 				'type'              => 'option',
-				'sanitize_callback' => 'sanitize_title',
+				'sanitize_callback' => 'sanitize_text_field',
 			)
 		);
 		$wp_customize->add_control(
@@ -307,7 +308,7 @@ class Porto_Header_Builder {
 				'transport'         => $this->transport,
 				'capability'        => 'edit_theme_options',
 				'type'              => 'option',
-				'sanitize_callback' => 'sanitize_title',
+				'sanitize_callback' => 'sanitize_text_field',
 			)
 		);
 		$wp_customize->add_control(
@@ -343,6 +344,25 @@ class Porto_Header_Builder {
 					'section'  => 'porto_header_layouts',
 					'settings' => 'porto_header_builder[side_header_toggle_logo]',
 				)
+			)
+		);
+		$wp_customize->add_setting(
+			'porto_header_builder[side_header_disable_overlay]',
+			array(
+				'default'           => '',
+				'transport'         => $this->transport,
+				'capability'        => 'edit_theme_options',
+				'type'              => 'option',
+				'sanitize_callback' => 'sanitize_text_field',
+			)
+		);
+		$wp_customize->add_control(
+			'porto_header_layouts_side_header_disable_overlay',
+			array(
+				'type'     => 'checkbox',
+				'label'    => __( 'Disable Overlay', 'porto' ),
+				'section'  => 'porto_header_layouts',
+				'settings' => 'porto_header_builder[side_header_disable_overlay]',
 			)
 		);
 		$wp_customize->add_setting(
@@ -407,6 +427,15 @@ class Porto_Header_Builder {
 			array(
 				'type'     => 'textarea',
 				'label'    => __( 'HTML', 'porto' ),
+				'section'  => 'porto_header_layouts',
+				'settings' => array(),
+			)
+		);
+		$wp_customize->add_control(
+			'porto_header_layouts_el_class',
+			array(
+				'type'     => 'text',
+				'label'    => __( 'Custom CSS Class', 'porto' ),
 				'section'  => 'porto_header_layouts',
 				'settings' => array(),
 			)
@@ -481,7 +510,7 @@ class Porto_Header_Builder {
 		}
 
 		// selective refresh
-		$settings = array( 'porto_header_builder[selected_layout]', 'porto_header_layouts_delete', 'porto_header_builder[type]', 'porto_header_builder[side_header_toggle]', 'porto_header_builder[side_header_toggle_logo]', 'porto_header_builder[side_header_toggle_desc]' );
+		$settings = array( 'porto_header_builder[selected_layout]', 'porto_header_layouts_delete', 'porto_header_builder[type]', 'porto_header_builder[side_header_toggle]', 'porto_header_builder[side_header_toggle_logo]', 'porto_header_builder[side_header_disable_overlay]', 'porto_header_builder[side_header_toggle_desc]' );
 
 		$header_elements = array(
 			'top_left',
@@ -586,6 +615,9 @@ class Porto_Header_Builder {
 					}
 					if ( isset( $current_header['side_header_toggle_logo'] ) ) {
 						$header_layouts[ $current_header['selected_layout'] ]['side_header_toggle_logo'] = $current_header['side_header_toggle_logo'];
+					}
+					if ( isset( $current_header['side_header_disable_overlay'] ) ) {
+						$header_layouts[ $current_header['selected_layout'] ]['side_header_disable_overlay'] = $current_header['side_header_disable_overlay'];
 					}
 					if ( isset( $current_header['side_header_toggle_desc'] ) ) {
 						$header_layouts[ $current_header['selected_layout'] ]['side_header_toggle_desc'] = $current_header['side_header_toggle_desc'];
@@ -789,7 +821,7 @@ class Porto_Header_Builder {
 						}
 					});
 
-					$('#customize-control-porto_header_layouts_block_element, #customize-control-porto_header_layouts_html_element, #customize-control-porto_header_layouts_save_html_button').hide();
+					$('#customize-control-porto_header_layouts_block_element, #customize-control-porto_header_layouts_html_element, #customize-control-porto_header_layouts_el_class, #customize-control-porto_header_layouts_save_html_button').hide();
 
 					var sideHeaderOptions = ['porto_header_layouts_side_header_toggle', 'porto_header_layouts_side_header_toggle_logo', 'porto_header_layouts_side_header_toggle_desc', 'porto_header_layouts_side_header_width'],
 						sideHeaderToggleOptions = ['porto_header_layouts_side_header_toggle_logo', 'porto_header_layouts_side_header_toggle_desc'];
@@ -824,6 +856,11 @@ class Porto_Header_Builder {
 							for (var i in sideHeaderToggleOptions) {
 								wp.customize.control(sideHeaderToggleOptions[i]).container.hide();
 							}
+						}
+						if ('top' == $(this).val()) {
+							wp.customize.control('porto_header_layouts_side_header_disable_overlay').container.show();
+						} else {
+							wp.customize.control('porto_header_layouts_side_header_disable_overlay').container.hide();
 						}
 					});
 				});

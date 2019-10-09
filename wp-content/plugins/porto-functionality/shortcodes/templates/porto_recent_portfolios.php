@@ -36,6 +36,8 @@ extract(
 	)
 );
 
+wp_enqueue_script( 'isotope' );
+
 $carousel_class         = '';
 $options                = array();
 $options['themeConfig'] = true;
@@ -94,7 +96,7 @@ $posts = new WP_Query( $args );
 if ( $posts->have_posts() ) {
 	$el_class = porto_shortcode_extract_class( $el_class );
 
-	$output = '<div class="porto-recent-portfolios ' . $view . ' wpb_content_element ' . esc_attr( $el_class ) . '"';
+	$output = '<div class="porto-recent-portfolios ' . esc_attr( $view ) . ' wpb_content_element ' . esc_attr( $el_class ) . '"';
 	if ( $animation_type ) {
 		$output .= ' data-appear-animation="' . esc_attr( $animation_type ) . '"';
 		if ( $animation_delay ) {

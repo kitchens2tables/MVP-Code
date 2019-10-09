@@ -22,7 +22,7 @@ extract(
 			'icon_border_spacing'      => '50',
 			'icon_link'                => '',
 			'icon_animation'           => '',
-			'animation_type',
+			'animation_type'           => '',
 			'counter_title'            => '',
 			'counter_value'            => '1250',
 			'counter_sep'              => ',',
@@ -62,7 +62,7 @@ extract(
 	)
 );
 
-wp_enqueue_script( 'porto_shortcodes_countup_js' );
+wp_enqueue_script( 'countup' );
 wp_enqueue_script( 'porto_shortcodes_countup_loader_js' );
 
 switch ( $icon_type ) {
@@ -85,7 +85,7 @@ if ( $className ) {
 $css_stat_counter = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, vc_shortcode_custom_css_class( $css_stat_counter, ' ' ), 'stat_counter', $atts );
 $css_stat_counter = esc_attr( $css_stat_counter );
 $class            = $title_style = $desc_style = $suf_pref_style = '';
-$stats_icon       = do_shortcode( '[porto_icon icon_type="' . esc_attr( $icon_type ) . '" icon="' . esc_attr( $icon ) . '" icon_img="' . esc_attr( $icon_img ) . '" img_width="' . esc_attr( $img_width ) . '" icon_size="' . esc_attr( $icon_size ) . '" icon_color="' . esc_attr( $icon_color ) . '" icon_style="' . esc_attr( $icon_style ) . '" icon_color_bg="' . esc_attr( $icon_color_bg ) . '" icon_color_border="' . esc_attr( $icon_color_border ) . '"  icon_border_style="' . esc_attr( $icon_border_style ) . '" icon_border_size="' . esc_attr( $icon_border_size ) . '" icon_border_radius="' . esc_attr( $icon_border_radius ) . '" icon_border_spacing="' . esc_attr( $icon_border_spacing ) . '" icon_link="' . esc_attr( $icon_link ) . '" icon_animation="' . esc_attr( $icon_animation ) . '"]' );
+$stats_icon       = do_shortcode( '[porto_icon icon_type="' . $icon_type . '" icon="' . $icon . '" icon_img="' . $icon_img . '" img_width="' . $img_width . '" icon_size="' . $icon_size . '" icon_color="' . $icon_color . '" icon_style="' . $icon_style . '" icon_color_bg="' . $icon_color_bg . '" icon_color_border="' . $icon_color_border . '"  icon_border_style="' . $icon_border_style . '" icon_border_size="' . $icon_border_size . '" icon_border_radius="' . $icon_border_radius . '" icon_border_spacing="' . $icon_border_spacing . '" icon_link="' . $icon_link . '" icon_animation="' . $icon_animation . '"]' );
 
 /* title */
 if ( ( ! isset( $atts['title_use_theme_fonts'] ) || 'yes' !== $atts['title_use_theme_fonts'] ) && $title_google_font ) {
@@ -224,11 +224,11 @@ if ( 'right' !== $icon_position ) {
 }
 	$output .= '<div class="stats-desc">';
 if ( '' !== $counter_prefix ) {
-	$output .= '<div class="counter_prefix mycust" style="' . esc_attr( $counter_font ) . ' ' . esc_attr( $suf_pref_style ) . '">' . $counter_prefix . '</div>';
+	$output .= '<div class="counter_prefix mycust" style="' . esc_attr( $counter_font ) . ' ' . esc_attr( $suf_pref_style ) . '">' . wp_kses_post( $counter_prefix ) . '</div>';
 }
 		$output .= '<div id="' . esc_attr( $id ) . '" data-id="' . esc_attr( $id ) . '" class="stats-number" style="' . esc_attr( $counter_font ) . ' ' . esc_attr( $desc_style ) . '" data-speed="' . esc_attr( $speed ) . '" data-counter-value="' . esc_attr( $counter_value ) . '" data-separator="' . esc_attr( $counter_sep ) . '" data-decimal="' . esc_attr( $counter_decimal ) . '">0</div>';
 if ( '' !== $counter_suffix ) {
-	$output .= '<div class="counter_suffix mycust" style="' . esc_attr( $counter_font ) . ' ' . esc_attr( $suf_pref_style ) . '">' . $counter_suffix . '</div>';
+	$output .= '<div class="counter_suffix mycust" style="' . esc_attr( $counter_font ) . ' ' . esc_attr( $suf_pref_style ) . '">' . wp_kses_post( $counter_suffix ) . '</div>';
 }
 		$output .= '<div class="stats-text" style="' . esc_attr( $title_style ) . '">' . porto_strip_script_tags( $counter_title ) . '</div>';
 	$output     .= '</div>';
@@ -247,7 +247,7 @@ if ( ! isset( $porto_shortcode_counter_use ) || ! $porto_shortcode_counter_use )
 	jQuery(document).ready(function($) {
 		if (typeof countUp == "undefined") {
 			var c = document.createElement("script");
-			c.src = "<?php echo wp_scripts()->registered['porto_shortcodes_countup_js']->src; ?>";
+			c.src = "<?php echo wp_scripts()->registered['countup']->src; ?>";
 			if (!$('script[src="' + c.src + '"]').length) {
 				document.getElementsByTagName("body")[0].appendChild(c);
 			}

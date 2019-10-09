@@ -39,12 +39,47 @@ function porto_load_portfolios_shortcode() {
 					'admin_label' => true,
 				),
 				array(
+					'type'       => 'dropdown',
+					'heading'    => __( 'Grid Layout', 'porto-functionality' ),
+					'param_name' => 'grid_layout',
+					'dependency' => array(
+						'element' => 'portfolio_layout',
+						'value'   => array( 'creative' ),
+					),
+					'std'        => '1',
+					'value'      => porto_sh_commons( 'masonry_layouts' ),
+				),
+				array(
+					'type'       => 'textfield',
+					'heading'    => __( 'Grid Height', 'porto-functionality' ),
+					'param_name' => 'grid_height',
+					'dependency' => array(
+						'element' => 'portfolio_layout',
+						'value'   => array( 'creative' ),
+					),
+					'suffix'     => '',
+					'std'        => '600px',
+				),
+				array(
+					'type'       => 'dropdown',
+					'heading'    => __( 'Masonry Layout', 'porto-functionality' ),
+					'param_name' => 'masonry_layout',
+					'dependency' => array(
+						'element' => 'portfolio_layout',
+						'value'   => array( 'masonry-creative' ),
+					),
+					'std'        => '1',
+					'value'      => array(
+						'1' => '1',
+					),
+				),
+				array(
 					'type'       => 'porto_animation_type',
 					'heading'    => __( 'Content Animation', 'porto-functionality' ),
 					'param_name' => 'content_animation',
 					'dependency' => array(
 						'element' => 'portfolio_layout',
-						'value'   => array( 'large' ),
+						'value'   => array( 'large', 'fullscreen' ),
 					),
 				),
 				array(
@@ -64,7 +99,7 @@ function porto_load_portfolios_shortcode() {
 					'param_name' => 'view',
 					'dependency' => array(
 						'element' => 'portfolio_layout',
-						'value'   => array( 'grid', 'masonry' ),
+						'value'   => array( 'grid', 'masonry', 'timeline', 'creative', 'masonry-creative' ),
 					),
 					'std'        => 'classic',
 					'value'      => porto_sh_commons( 'portfolio_grid_view' ),
@@ -75,12 +110,13 @@ function porto_load_portfolios_shortcode() {
 					'param_name' => 'info_view',
 					'dependency' => array(
 						'element' => 'portfolio_layout',
-						'value'   => array( 'grid', 'masonry', 'timeline' ),
+						'value'   => array( 'grid', 'masonry', 'timeline', 'creative', 'masonry-creative' ),
 					),
 					'std'        => '',
 					'value'      => array(
 						__( 'Standard', 'porto-functionality' )  => '',
 						__( 'Left Info', 'porto-functionality' ) => 'left-info',
+						__( 'Left Info & No bg', 'porto-functionality' ) => 'left-info-no-bg',
 						__( 'Centered Info', 'porto-functionality' ) => 'centered-info',
 						__( 'Bottom Info', 'porto-functionality' ) => 'bottom-info',
 						__( 'Bottom Info Dark', 'porto-functionality' ) => 'bottom-info-dark',
@@ -89,12 +125,45 @@ function porto_load_portfolios_shortcode() {
 					),
 				),
 				array(
+					'type'       => 'colorpicker',
+					'class'      => '',
+					'heading'    => __( 'Info Color', 'porto-functionality' ),
+					'param_name' => 'info_color',
+					'value'      => '',
+					'dependency' => array(
+						'element' => 'info_view',
+						'value'   => array( 'left-info-no-bg' ),
+					),
+				),
+				array(
+					'type'        => 'textfield',
+					'heading'     => __( 'Portfolio Indexes to use custom info color', 'porto-functionality' ),
+					'param_name'  => 'custom_portfolios',
+					'std'         => '',
+					'description' => __( 'comma separated list of portfolio indexes', 'porto-functionality' ),
+					'dependency'  => array(
+						'element' => 'info_view',
+						'value'   => array( 'left-info-no-bg' ),
+					),
+				),
+				array(
+					'type'       => 'colorpicker',
+					'class'      => '',
+					'heading'    => __( 'Info Color for custom portfolios', 'porto-functionality' ),
+					'param_name' => 'info_color2',
+					'value'      => '',
+					'dependency' => array(
+						'element'   => 'custom_portfolios',
+						'not_empty' => true,
+					),
+				),
+				array(
 					'type'       => 'dropdown',
 					'heading'    => __( 'Info View Type Style', 'porto-functionality' ),
 					'param_name' => 'info_view_type_style',
 					'dependency' => array(
 						'element' => 'portfolio_layout',
-						'value'   => array( 'grid', 'masonry', 'timeline' ),
+						'value'   => array( 'grid', 'masonry', 'timeline', 'creative', 'masonry-creative' ),
 					),
 					'std'        => '',
 					'value'      => array(
@@ -105,11 +174,11 @@ function porto_load_portfolios_shortcode() {
 					),
 				),
 				array(
-					'type'        => 'textfield',
-					'heading'     => __( 'Image Size', 'porto-functionality' ),
-					'param_name'  => 'image_size',
-					'std'         => '',
-					'description' => __( 'Enter image size (Example: "thumbnail", "medium", "large", "full" or other sizes defined by theme). Alternatively enter size in pixels (Example: 200x100 (Width x Height)).', 'js_composer' ),
+					'type'       => 'dropdown',
+					'heading'    => __( 'Image Size', 'porto-functionality' ),
+					'param_name' => 'image_size',
+					'value'      => porto_sh_commons( 'image_sizes' ),
+					'std'        => '',
 				),
 				array(
 					'type'       => 'dropdown',
@@ -201,6 +270,11 @@ function porto_load_portfolios_shortcode() {
 					'heading'    => __( 'Portfolios Count', 'porto-functionality' ),
 					'param_name' => 'number',
 					'value'      => '8',
+				),
+				array(
+					'type'       => 'textfield',
+					'heading'    => __( 'Excerpt Length', 'porto-functionality' ),
+					'param_name' => 'excerpt_length',
 				),
 				array(
 					'type'       => 'dropdown',

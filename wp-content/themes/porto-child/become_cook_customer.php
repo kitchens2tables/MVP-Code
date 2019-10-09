@@ -24,14 +24,14 @@ get_header(); ?>
 						<input type="text" class="form-control" value="<?php echo $userdata->data->user_login; ?>" readonly> </div>
 					<div class="row">
 						<div class="form-group col-md-6 mb-4">
-							<label for="First Name">First Name</label>
+							<label for="First Name">First Name*</label>
 							<input type="text" id="first_name" class="form-control" value="<?php echo get_user_meta($userdata->ID, 'first_name', true);?>"> </div>
 						<div class="form-group col-md-6 mb-4">
-							<label for="Last Name">Last Name</label>
+							<label for="Last Name">Last Name*</label>
 							<input type="text" id="last_name" class="form-control" value="<?php echo get_user_meta($userdata->ID, 'last_name', true);?>"> </div>
 					</div>
 					<div class="form-group mb-4">
-						<label for="E-mail Address">E-mail Address</label>
+						<label for="E-mail Address">E-mail Address*</label>
 						<input type="text" id="email_address" class="form-control" value="<?php echo $userdata->data->user_email; ?>"> </div>
 					<div class="form-group mb-4">
 						<label for="Address Line 1">Address Line 1</label>
@@ -57,7 +57,7 @@ get_header(); ?>
 						<input type="text" id="license_info" class="form-control" value="<?php echo get_user_meta($userdata->ID, 'License_Info', true);?>"> 
                                         </div>
                                         <div class="form-group mb-4">
-						<label for="Address Line 2">About your self</label>
+						<label for="Address Line 2">About your self*</label>
 						<textarea type="text" id="description" class="form-control" ><?php echo get_user_meta($userdata->ID, 'description', true);?></textarea>
 					</div>
                                         <span id="BCCfeedback" ></span>
@@ -96,10 +96,10 @@ get_header(); ?>
                                 {
                                     jQuery("#BCCfeedback").html('<div class="alert alert-warning alert-dismissible fade show" role="alert"><strong>Error!</strong> Email Id can not be left blank.<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
                                 }
-                                else if(license_info=='')
-                                {
-                                    jQuery("#BCCfeedback").html('<div class="alert alert-warning alert-dismissible fade show" role="alert"><strong>Error!</strong> License Info can not be left blank.<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-                                }
+                             //   else if(license_info=='')
+                             //   {
+                                   // jQuery("#BCCfeedback").html('<div class="alert alert-warning alert-dismissible fade show" role="alert"><strong>Error!</strong> License Info can not be left blank.<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+                              //  }
                                 else if(description=='')
                                 {
                                     jQuery("#BCCfeedback").html('<div class="alert alert-warning alert-dismissible fade show" role="alert"><strong>Error!</strong> Bio Info can not be left blank.<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');

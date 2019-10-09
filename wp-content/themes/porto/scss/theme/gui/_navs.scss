@@ -32,7 +32,7 @@ ul {
                 &:before {
                     content: "\f054";
                     display: inline-block;
-                    font-family: FontAwesome;
+                    font-family: 'Font Awesome 5 Free'; font-weight: 900; -webkit-font-smoothing: antialiased;
                     position: absolute;
                     top: 9px;
                     #{$left}: 9px;
@@ -116,7 +116,6 @@ ul {
         }
     }
     &.nav-pills-justify {
-        display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
         > li {

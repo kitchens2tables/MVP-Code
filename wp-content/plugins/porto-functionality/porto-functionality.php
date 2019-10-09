@@ -3,7 +3,7 @@
 Plugin Name: Porto Theme - Functionality
 Plugin URI: http://themeforest.net/user/p-themes
 Description: Adds functionality such as Shortcodes, Post Types and Widgets to Porto Theme
-Version: 1.3.0
+Version: 1.4
 Author: P-Themes
 Author URI: http://themeforest.net/user/p-themes
 License: GPL2
@@ -29,7 +29,11 @@ class Porto_Functionality {
 	public function __construct() {
 
 		// Load text domain
-		add_action( 'plugins_loaded', array( $this, 'loadTextDomain' ) );
+		add_action( 'plugins_loaded', array( $this, 'load' ) );
+
+		add_action( 'init', array( $this, 'init' ) );
+
+		add_action( 'redux/page/porto_settings/enqueue', array( $this, 'fix_redux_styles' ) );
 
 		$active_plugins = get_option( 'active_plugins', array() );
 		if ( is_multisite() ) {
@@ -40,49 +44,104 @@ class Porto_Functionality {
 					in_array( 'porto-shortcodes/porto-shortcodes.php', $active_plugins ) ||
 					in_array( 'porto-widgets/porto-widgets.php', $active_plugins ) );
 		if ( $porto_old_plugins ) {
-			add_action( 'admin_notices', array( $this, 'removeOldPluginsNotice' ) );
-			add_action( 'network_admin_notices', array( $this, 'removeOldPluginsNotice' ) );
+			add_action( 'admin_notices', array( $this, 'notice_to_remove_old_plugins' ) );
+			add_action( 'network_admin_notices', array( $this, 'notice_to_remove_old_plugins' ) );
 		}
 
 		// define contants
-		$this->defineConstants( $active_plugins );
+		$this->define_constants( $active_plugins );
 
 		// add shortcodes
 		if ( ! in_array( 'porto-shortcodes/porto-shortcodes.php', $active_plugins ) ) {
-			$this->loadShortcodes();
+			$this->load_shortcodes();
 		}
 
 		// add porto content types
 		if ( ! in_array( 'porto-content-types/porto-content-types.php', $active_plugins ) ) {
-			$this->loadContentTypes();
+			$this->load_content_types();
 		}
 
-		// load porto widgets
-		if ( ! in_array( 'porto-widgets/porto-widgets.php', $active_plugins ) ) {
-			$this->loadWidgets();
-		}
-		include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
-		if ( is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
-			$this->loadWoocommerceWidgets();
-		}
+		// add meta library
+		require_once( PORTO_META_BOXES_PATH . 'lib/meta_values.php' );
+		require_once( PORTO_META_BOXES_PATH . 'lib/meta_fields.php' );
 	}
 
 	// load plugin text domain
-	function loadTextDomain() {
+	public function load() {
 		load_plugin_textdomain( 'porto-functionality', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+
+		// load porto widgets
+		$this->load_widgets();
+		if ( class_exists( 'Woocommerce' ) ) {
+			$this->load_woocommerce_widgets();
+		}
 
 		// add metaboxes
 		require_once( PORTO_META_BOXES_PATH . 'meta_boxes.php' );
 	}
 
-	function removeOldPluginsNotice() {
+	public function init() {
+		// add async attribute
+		add_filter( 'script_loader_tag', array( $this, 'script_add_async_attribute' ), 10, 2 );
+
+		// fix yith woocommerce ajax navigation issue
+		add_filter( 'the_post', array( $this, 'woocommerce_yith_ajax_filter' ), 16, 2 );
+
+		if ( class_exists( 'WC_Vendors' ) ) {
+			global $porto_settings;
+			if ( isset( $porto_settings['porto_wcvendors_product_tab'] ) && $porto_settings['porto_wcvendors_product_tab'] ) {
+				remove_filter( 'woocommerce_product_tabs', array( 'WCV_Vendor_Shop', 'seller_info_tab' ) );
+			}
+		}
+
+		add_filter( 'dynamic_sidebar_params', array( $this, 'add_classes_to_subscription_widget' ) );
+	}
+
+	public function woocommerce_yith_ajax_filter( $posts, $query = false ) {
+		if ( defined( 'YITH_WCAN' ) ) {
+			remove_filter( 'the_posts', array( YITH_WCAN()->frontend, 'the_posts' ), 15 );
+		}
+		return $posts;
+	}
+
+	public function script_add_async_attribute( $tag, $handle ) {
+		// add script handles to the array below
+		$scripts_to_async = array( 'jquery-magnific-popup', 'modernizr', 'porto-theme-async', 'jquery-flipshow', 'porto_shortcodes_flipshow_loader_js' );
+		if ( in_array( $handle, $scripts_to_async ) ) {
+			return str_replace( ' src', ' async="async" src', $tag );
+		}
+		return $tag;
+	}
+
+	public function add_classes_to_subscription_widget( $params ) {
+		if ( __( 'MailPoet Subscription Form', 'wysija-newsletters' ) == $params[0]['widget_name'] || 'MailPoet Subscription Form' == $params[0]['widget_name'] ) {
+			$params[0]['before_widget'] = $params[0]['before_widget'] . '<div class="box-content">';
+			$params[0]['after_widget']  = '</div>' . $params[0]['after_widget'];
+		}
+		return $params;
+	}
+
+	public function notice_to_remove_old_plugins() {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
-		echo '<div class="error"><p>' . __( '<b>Important:</b> Please deactivate Porto Shortcodes, Porto Content Types and Porto Widgets plugins from old Porto 3.x version.', 'porto-functionality' ) . '</p></div>';
+		/* translators: opening and closing bold tags */
+		echo '<div class="error"><p>' . sprintf( esc_html__( '%1$sImportant:%2$s Please deactivate Porto Shortcodes, Porto Content Types and Porto Widgets plugins from old Porto 3.x version.', 'porto-functionality' ), '<b>', '</b>' ) . '</p></div>';
 	}
 
-	protected function defineConstants( $active_plugins ) {
+	public function fix_redux_styles() {
+		// *****************************************************************
+		// Select2 JS
+		// *****************************************************************
+		// JWp6 plugin giving us problems.  They need to update.
+		if ( wp_script_is( 'jquerySelect2' ) ) {
+			wp_deregister_script( 'jquerySelect2' );
+			wp_dequeue_script( 'jquerySelect2' );
+			wp_dequeue_style( 'jquerySelect2Style' );
+		}
+	}
+
+	protected function define_constants( $active_plugins ) {
 
 		define( 'PORTO_META_BOXES_PATH', dirname( __FILE__ ) . '/meta_boxes/' );
 		if ( ! in_array( 'porto-shortcodes/porto-shortcodes.php', $active_plugins ) ) {
@@ -103,24 +162,24 @@ class Porto_Functionality {
 	}
 
 	// Load Shortcodes
-	function loadShortcodes() {
+	protected function load_shortcodes() {
 		require_once( PORTO_SHORTCODES_PATH . '../porto-shortcodes.php' );
 	}
 
 	// Load Content Types
-	function loadContentTypes() {
+	protected function load_content_types() {
 		require_once( PORTO_CONTENT_TYPES_PATH . 'porto-content-types.php' );
 	}
 
 	// Load widgets
-	function loadWidgets() {
+	protected function load_widgets() {
 		foreach ( $this->widgets as $widget ) {
 			require_once( PORTO_WIDGETS_PATH . $widget . '.php' );
 		}
 	}
 
 	// Load Woocommerce widgets
-	function loadWoocommerceWidgets() {
+	protected function load_woocommerce_widgets() {
 		foreach ( $this->woo_widgets as $widget ) {
 			require_once( PORTO_WIDGETS_PATH . $widget . '.php' );
 		}

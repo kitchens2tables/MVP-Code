@@ -224,7 +224,7 @@ function porto_show_meta_field( $meta_field ) {
 			<h3><?php echo esc_html( $title ); ?></h3>
 			<div class="metainner">
 				<div class="box-option">
-					<textarea id="<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>"><?php echo wp_kses_post( $meta_value ); ?></textarea>
+					<textarea id="<?php echo esc_attr( $name ); ?>" name="<?php echo esc_attr( $name ); ?>"><?php echo $meta_value; ?></textarea>
 				</div>
 				<div class="box-info"><label for="<?php echo esc_attr( $name ); ?>"><?php echo wp_kses_post( $desc ); ?></label></div>
 			</div>
@@ -352,6 +352,11 @@ function porto_save_meta_value( $post_id, $meta_fields ) {
 			$data = implode( ',', $data );
 		}
 
+		$data = preg_replace( '/<script([^>]*)>/s', '', $data );
+		$data = preg_replace( '/<style([^>]*)>/s', '', $data );
+		$data = str_replace( '</script>', '', $data );
+		$data = str_replace( '</style>', '', $data );
+
 		if ( $data ) {
 			update_post_meta( $post_id, $name, $data );
 		} elseif ( ! $data && $meta_value ) {
@@ -430,7 +435,7 @@ function porto_edit_tax_meta_field( $tag = '', $taxonomy, $meta_field, $woocomme
 	$meta_value = '';
 	if ( $tag ) {
 		if ( $woocommerce ) {
-			$meta_value = get_woocommerce_term_meta( $tag->term_id, $name );
+			$meta_value = get_term_meta( $tag->term_id, $name, true );
 		} else {
 			$meta_value = get_metadata( $taxonomy, $tag->term_id, $name, true );
 		}
@@ -680,14 +685,14 @@ function porto_save_tax_meta_values( $term_id, $taxonomy, $meta_fields, $woocomm
 		);
 
 		if ( $woocommerce ) {
-			$meta_value = get_woocommerce_term_meta( $term_id, $name );
+			$meta_value = get_term_meta( $term_id, $name, true );
 		} else {
 			$meta_value = get_metadata( $taxonomy, $term_id, $name, true );
 		}
 
 		if ( ! isset( $_POST[ $name ] ) ) {
 			if ( $woocommerce ) {
-				delete_woocommerce_term_meta( $term_id, $name );
+				delete_term_meta( $term_id, $name );
 			} else {
 				delete_metadata( $taxonomy, $term_id, $name );
 			}
@@ -702,13 +707,13 @@ function porto_save_tax_meta_values( $term_id, $taxonomy, $meta_fields, $woocomm
 
 		if ( $data ) {
 			if ( $woocommerce ) {
-				update_woocommerce_term_meta( $term_id, $name, $data );
+				update_term_meta( $term_id, $name, $data );
 			} else {
 				update_metadata( $taxonomy, $term_id, $name, $data );
 			}
 		} elseif ( ! $data && $meta_value ) {
 			if ( $woocommerce ) {
-				delete_woocommerce_term_meta( $term_id, $name );
+				delete_term_meta( $term_id, $name );
 			} else {
 				delete_metadata( $taxonomy, $term_id, $name );
 			}
@@ -754,7 +759,7 @@ function porto_delete_tax_meta_values( $term_id, $taxonomy, $meta_fields ) {
 function porto_create_tax_meta_table( $taxonomy ) {
 	global $wpdb;
 
-	$table_name = $wpdb->prefix . $taxonomy . 'meta';
+	$table_name = esc_sql( $wpdb->prefix . $taxonomy . 'meta' );
 
 	if ( get_option( 'porto_created_table_' . $taxonomy, false ) == false ) {
 		if ( ! empty( $wpdb->charset ) ) {
@@ -764,7 +769,7 @@ function porto_create_tax_meta_table( $taxonomy ) {
 			$charset_collate .= " COLLATE {$wpdb->collate}";
 		}
 
-		if ( ! $wpdb->get_var( "SHOW TABLES LIKE '$table_name'" ) == $table_name ) {
+		if ( ! $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $table_name ) ) == $table_name ) {
 			$sql = "CREATE TABLE {$table_name} (
 			meta_id bigint(20) NOT NULL AUTO_INCREMENT,
 			{$taxonomy}_id bigint(20) NOT NULL default 0,

@@ -51,7 +51,7 @@ if ( $id || $name ) {
 			wp_enqueue_script( 'googleapis' );
 		}
 		if ( stripos( $post_content, '[porto_concept ' ) ) {
-			wp_enqueue_style( 'porto_shortcodes_flipshow' );
+			wp_enqueue_style( 'jquery-flipshow' );
 		}
 
 
@@ -425,7 +425,7 @@ if ( $id || $name ) {
 			$output .= '</style>';
 		}
 
-		$output .= '<div class="porto-block ' . esc_attr( $el_class ) . '"';
+		$output .= '<div class="porto-block' . ( $el_class ? ' ' . esc_attr( $el_class ) : '' ) . '"';
 		if ( $animation_type ) {
 			$output .= ' data-appear-animation="' . esc_attr( $animation_type ) . '"';
 			if ( $animation_delay ) {

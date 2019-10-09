@@ -291,7 +291,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						array(
 							'id'      => 'general_theme_layout',
 							'type'    => 'raw',
-							'content' => '<img style="max-width: 100%;" src="' . porto_options_uri . '/layouts/theme_layout.jpg" alt="Porto Theme Layout" />',
+							'content' => '<img style="max-width: 100%;" src="' . PORTO_OPTIONS_URI . '/layouts/theme_layout.jpg" alt="Porto Theme Layout" />',
 						),
 					),
 				),
@@ -375,7 +375,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'readonly' => false,
 							'title'    => __( 'Logo', 'porto' ),
 							'default'  => array(
-								'url' => porto_uri . '/images/logo/logo_black.png',
+								'url' => PORTO_URI . '/images/logo/logo_black.png',
 							),
 						),
 						array(
@@ -474,7 +474,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'readonly' => false,
 							'title'    => __( 'Favicon', 'porto' ),
 							'default'  => array(
-								'url' => porto_uri . '/images/logo/favicon.ico',
+								'url' => PORTO_URI . '/images/logo/favicon.ico',
 							),
 						),
 						array(
@@ -485,7 +485,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'title'    => __( 'Apple iPhone Icon', 'porto' ),
 							'desc'     => __( 'Icon for Apple iPhone (60px X 60px)', 'porto' ),
 							'default'  => array(
-								'url' => porto_uri . '/images/logo/apple-touch-icon.png',
+								'url' => PORTO_URI . '/images/logo/apple-touch-icon.png',
 							),
 						),
 						array(
@@ -496,7 +496,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'title'    => __( 'Apple iPhone Retina Icon', 'porto' ),
 							'desc'     => __( 'Icon for Apple iPhone Retina (120px X 120px)', 'porto' ),
 							'default'  => array(
-								'url' => porto_uri . '/images/logo/apple-touch-icon_120x120.png',
+								'url' => PORTO_URI . '/images/logo/apple-touch-icon_120x120.png',
 							),
 						),
 						array(
@@ -507,7 +507,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'title'    => __( 'Apple iPad Icon', 'porto' ),
 							'desc'     => __( 'Icon for Apple iPad (76px X 76px)', 'porto' ),
 							'default'  => array(
-								'url' => porto_uri . '/images/logo/apple-touch-icon_76x76.png',
+								'url' => PORTO_URI . '/images/logo/apple-touch-icon_76x76.png',
 							),
 						),
 						array(
@@ -518,7 +518,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'title'    => __( 'Apple iPad Retina Icon', 'porto' ),
 							'desc'     => __( 'Icon for Apple iPad Retina (152px X 152px)', 'porto' ),
 							'default'  => array(
-								'url' => porto_uri . '/images/logo/apple-touch-icon_152x152.png',
+								'url' => PORTO_URI . '/images/logo/apple-touch-icon_152x152.png',
 							),
 						),
 					),
@@ -681,6 +681,14 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'compiler' => true,
 					),
 					array(
+						'id'       => 'placeholder-color',
+						'type'     => 'color',
+						'title'    => __( 'Placeholder Image Background Color', 'porto' ),
+						'default'  => '#f4f4f4',
+						'validate' => 'color',
+						'compiler' => true,
+					),
+					array(
 						'id'       => 'social-color',
 						'type'     => 'button_set',
 						'title'    => __( 'Social Links Color', 'porto' ),
@@ -723,7 +731,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'type'     => 'text',
 						'title'    => __( 'Container Max Width (px)', 'porto' ),
 						'subtitle' => '960 - 1920',
-						'default'  => '1170',
+						'default'  => '1140',
 						'compiler' => true,
 					),
 					array(
@@ -733,6 +741,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'options'  => array(
 							'16' => '16px',
 							'20' => '20px',
+							'24' => '24px',
 							'30' => '30px',
 						),
 						'default'  => '30',
@@ -890,7 +899,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'font-family'    => 'Open Sans',
 							'font-size'      => '36px',
 							'line-height'    => '44px',
-							'letter-spacing' => '0',
+							'letter-spacing' => '',
 						),
 					),
 					array(
@@ -905,11 +914,11 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'default'        => array(
 							'color'          => '#212529',
 							'google'         => true,
-							'font-weight'    => '300',
+							'font-weight'    => '400',
 							'font-family'    => 'Open Sans',
 							'font-size'      => '30px',
 							'line-height'    => '40px',
-							'letter-spacing' => '0',
+							'letter-spacing' => '',
 
 						),
 					),
@@ -929,7 +938,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'font-family'    => 'Open Sans',
 							'font-size'      => '25px',
 							'line-height'    => '32px',
-							'letter-spacing' => '0',
+							'letter-spacing' => '',
 						),
 					),
 					array(
@@ -948,7 +957,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'font-family'    => 'Open Sans',
 							'font-size'      => '20px',
 							'line-height'    => '27px',
-							'letter-spacing' => '0',
+							'letter-spacing' => '',
 						),
 					),
 					array(
@@ -963,11 +972,11 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'default'        => array(
 							'color'          => '#212529',
 							'google'         => true,
-							'font-weight'    => '600',
+							'font-weight'    => '400',
 							'font-family'    => 'Open Sans',
 							'font-size'      => '14px',
 							'line-height'    => '18px',
-							'letter-spacing' => '0',
+							'letter-spacing' => '',
 						),
 					),
 					array(
@@ -986,7 +995,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'font-family'    => 'Open Sans',
 							'font-size'      => '14px',
 							'line-height'    => '18px',
-							'letter-spacing' => '0',
+							'letter-spacing' => '',
 						),
 					),
 					array(
@@ -1060,7 +1069,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 					),
 					array(
 						'title'          => esc_html__( 'Custom Font 1', 'porto' ),
-						'desc'           => esc_html__( 'You can use this font in some shortcodes such as heading and icon box.', 'porto' ),
+						'desc'           => esc_html__( 'You can use this font in some shortcodes such as heading and icon box. Please use "custom-font1" css class to use this font.', 'porto' ),
 						'id'             => 'custom1-font',
 						'type'           => 'typography',
 						'google'         => true,
@@ -1078,7 +1087,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 					),
 					array(
 						'title'          => esc_html__( 'Custom Font 2', 'porto' ),
-						'desc'           => esc_html__( 'You can use this font in some shortcodes such as heading and icon box.', 'porto' ),
+						'desc'           => esc_html__( 'You can use this font in some shortcodes such as heading and icon box. Please use "custom-font2" css class to use this font.', 'porto' ),
 						'id'             => 'custom2-font',
 						'type'           => 'typography',
 						'google'         => true,
@@ -1096,7 +1105,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 					),
 					array(
 						'title'          => esc_html__( 'Custom Font 3', 'porto' ),
-						'desc'           => esc_html__( 'You can use this font in some shortcodes such as heading and icon box.', 'porto' ),
+						'desc'           => esc_html__( 'You can use this font in some shortcodes such as heading and icon box. Please use "custom-font3" css class to use this font.', 'porto' ),
 						'id'             => 'custom3-font',
 						'type'           => 'typography',
 						'google'         => true,
@@ -1405,14 +1414,6 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'padding-top'    => '',
 							'padding-bottom' => '',
 						),
-						'output'  => array(
-							'#header .header-main .header-left',
-							'#header .header-main .header-center',
-							'#header .header-main .header-right',
-							'.fixed-header #header .header-main .header-left',
-							'.fixed-header #header .header-main .header-right',
-							'.fixed-header #header .header-main .header-center',
-						),
 					),
 					array(
 						'id'      => 'header-main-padding-mobile',
@@ -1460,7 +1461,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'id'      => 'sticky-header-bg-gradient',
 						'type'    => 'switch',
 						'title'   => __( 'Background Gradient', 'porto' ),
-						'default' => true,
+						'default' => false,
 						'on'      => __( 'Yes', 'porto' ),
 						'off'     => __( 'No', 'porto' ),
 					),
@@ -1685,7 +1686,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'hover'   => '',
 						),
 						'output'  => array(
-							'#header .header-bottom a',
+							'#header .header-bottom a:not(.btn)',
 						),
 					),
 					array(
@@ -2157,12 +2158,12 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'type'        => 'spacing',
 						'mode'        => 'padding',
 						'title'       => __( 'Content Padding', 'porto' ),
-						'description' => __( 'default: 15 15 15 15', 'porto' ),
+						'description' => __( 'default: 15 15', 'porto' ),
+						'left'        => false,
+						'right'       => false,
 						'default'     => array(
 							'padding-top'    => 15,
 							'padding-bottom' => 15,
-							'padding-left'   => 15,
-							'padding-right'  => 15,
 						),
 					),
 					array(
@@ -2685,7 +2686,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 					array(
 						'id'       => 'searchform-hover-color',
 						'type'     => 'color',
-						'title'    => __( 'Hover Color', 'porto' ),
+						'title'    => __( 'Button Text Color', 'porto' ),
 						'default'  => '#333333',
 						'validate' => 'color',
 					),
@@ -2836,45 +2837,41 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 				'transport'  => 'postMessage',
 				'fields'     => array(
 					array(
-						'id'       => 'wishlist-color',
+						'id'       => 'shop-add-links-color',
 						'type'     => 'color',
-						'title'    => __( 'Wishlist Color', 'porto' ),
-						'default'  => '#302e2a',
+						'title'    => 'Add Links Color',
+						'subtitle' => __( 'Add to cart, Wishlist and Quick View Color on archive page', 'porto' ),
+						'default'  => '#333333',
 						'validate' => 'color',
 					),
 					array(
-						'id'       => 'wishlist-border-color',
+						'id'       => 'shop-add-links-bg-color',
 						'type'     => 'color',
-						'title'    => __( 'Wishlist Border Color', 'porto' ),
-						'default'  => '#d8d8d6',
+						'title'    => 'Add Links Background Color',
+						'subtitle' => __( 'Add to cart, Wishlist and Quick View Background Color on archive page', 'porto' ),
+						'default'  => '#ffffff',
+						'validate' => 'color',
+					),
+					array(
+						'id'       => 'shop-add-links-border-color',
+						'type'     => 'color',
+						'title'    => 'Add Links Border Color',
+						'subtitle' => __( 'Add to cart, Wishlist and Quick View Border Color on archive page', 'porto' ),
+						'default'  => '#dddddd',
+						'validate' => 'color',
+					),
+					array(
+						'id'       => 'wishlist-color',
+						'type'     => 'color',
+						'title'    => __( 'Wishlist Color on product page', 'porto' ),
+						'default'  => '#302e2a',
 						'validate' => 'color',
 					),
 					array(
 						'id'       => 'wishlist-color-inverse',
 						'type'     => 'color',
-						'title'    => __( 'Wishlist Inverse Color', 'porto' ),
-						'default'  => '#ffffff',
-						'validate' => 'color',
-					),
-					array(
-						'id'       => 'quickview-color',
-						'type'     => 'color',
-						'title'    => __( 'Quick View Color', 'porto' ),
-						'default'  => '#302e2a',
-						'validate' => 'color',
-					),
-					array(
-						'id'       => 'quickview-border-color',
-						'type'     => 'color',
-						'title'    => __( 'Quick View Border Color', 'porto' ),
-						'default'  => '#d8d8d6',
-						'validate' => 'color',
-					),
-					array(
-						'id'       => 'quickview-color-inverse',
-						'type'     => 'color',
-						'title'    => __( 'Quick View Inverse Color', 'porto' ),
-						'default'  => '#ffffff',
+						'title'    => __( 'Wishlist Hover Color on product page', 'porto' ),
+						'default'  => '',
 						'validate' => 'color',
 					),
 					array(
@@ -3061,7 +3058,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'id'      => 'header-contact-info',
 							'type'    => 'textarea',
 							'title'   => __( 'Contact Info', 'porto' ),
-							'default' => "<ul class=\"nav nav-pills nav-top\">\r\n\t<li class=\"d-none d-sm-block\">\r\n\t\t<a href=\"#\" target=\"_blank\"><i class=\"fa fa-angle-right\"></i>About Us</a> \r\n\t</li>\r\n\t<li class=\"d-none d-sm-block\">\r\n\t\t<a href=\"#\" target=\"_blank\"><i class=\"fa fa-angle-right\"></i>Contact Us</a> \r\n\t</li>\r\n\t<li class=\"phone nav-item-left-border nav-item-right-border\">\r\n\t\t<span><i class=\"fa fa-phone\"></i>(123) 456-7890</span>\r\n\t</li>\r\n</ul>\r\n",
+							'default' => "<ul class=\"nav nav-pills nav-top\">\r\n\t<li class=\"d-none d-sm-block\">\r\n\t\t<a href=\"#\" target=\"_blank\"><i class=\"fas fa-angle-right\"></i>About Us</a> \r\n\t</li>\r\n\t<li class=\"d-none d-sm-block\">\r\n\t\t<a href=\"#\" target=\"_blank\"><i class=\"fas fa-angle-right\"></i>Contact Us</a> \r\n\t</li>\r\n\t<li class=\"phone nav-item-left-border nav-item-right-border\">\r\n\t\t<span><i class=\"fas fa-phone\"></i>(123) 456-7890</span>\r\n\t</li>\r\n</ul>\r\n",
 						),
 						array(
 							'id'      => 'header-copyright',
@@ -3420,7 +3417,9 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'options'  => array(
 							'simple'   => __( 'Popup 1', 'porto' ),
 							'large'    => __( 'Popup 2', 'porto' ),
+							'reveal'   => __( 'Reveal', 'porto' ),
 							'advanced' => __( 'Form', 'porto' ),
+							'overlay'  => __( 'Overlay Popup', 'porto' ),
 						),
 						'default'  => $search_layout_default,
 					),
@@ -3453,6 +3452,16 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'title'    => __( 'Show Categories', 'porto' ),
 						'required' => array( 'search-type', 'equals', array( 'post', 'product' ) ),
 						'default'  => false,
+						'on'       => __( 'Yes', 'porto' ),
+						'off'      => __( 'No', 'porto' ),
+					),
+					array(
+						'id'       => 'search-cats-mobile',
+						'type'     => 'switch',
+						'title'    => __( 'Show Categories on Mobile', 'porto' ),
+						'desc'     => __( 'This option works for only real mobile devices.', 'porto' ),
+						'required' => array( 'search-cats', 'equals', true ),
+						'default'  => true,
 						'on'       => __( 'Yes', 'porto' ),
 						'off'      => __( 'No', 'porto' ),
 					),
@@ -3538,7 +3547,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'type'     => 'switch',
 						'title'    => __( 'Show Logo', 'porto' ),
 						'required' => array( 'enable-sticky-header', 'equals', true ),
-						'default'  => false,
+						'default'  => true,
 						'on'       => __( 'Yes', 'porto' ),
 						'off'      => __( 'No', 'porto' ),
 					),
@@ -3603,6 +3612,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'options' => array(
 							''     => __( 'Default', 'porto' ),
 							'side' => __( 'Side Navigation', 'porto' ),
+							'none' => __( 'None', 'porto' ),
 						),
 						'default' => '',
 					),
@@ -3617,6 +3627,16 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						),
 						'default'   => '',
 						'required'  => array( 'mobile-panel-type', 'equals', array( 'side' ) ),
+						'transport' => 'postMessage',
+					),
+					array(
+						'id'        => 'mobile-panel-add-switcher',
+						'type'      => 'switch',
+						'title'     => __( 'Add View, Currency Switcher', 'porto' ),
+						'required'  => array( 'mobile-panel-type', 'equals', array( 'side' ) ),
+						'default'   => false,
+						'on'        => __( 'Yes', 'porto' ),
+						'off'       => __( 'No', 'porto' ),
 						'transport' => 'postMessage',
 					),
 				),
@@ -3655,6 +3675,15 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'off'     => __( 'No', 'porto' ),
 						),
 						array(
+							'id'      => 'submenu-arrow',
+							'type'    => 'switch',
+							'title'   => __( 'Show Sub Menu Arrow', 'porto' ),
+							'desc'    => __( 'Show top arrow to the sub menu.', 'porto' ),
+							'default' => false,
+							'on'      => __( 'Yes', 'porto' ),
+							'off'     => __( 'No', 'porto' ),
+						),
+						array(
 							'id'      => 'menu-type',
 							'type'    => 'button_set',
 							'title'   => __( 'Main Menu Type', 'porto' ),
@@ -3664,6 +3693,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 								'menu-flat menu-flat-border' => __( 'Flat & Border', 'porto' ),
 								'menu-hover-line' => __( 'Top Border on hover', 'porto' ),
 								'menu-hover-line menu-hover-underline' => __( 'Thick Underline on hover', 'porto' ),
+								'overlay'         => __( 'Popup', 'porto' ),
 							),
 							'default' => '',
 						),
@@ -3710,6 +3740,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 								''          => __( 'Normal', 'porto' ),
 								'accordion' => __( 'Accordion Menu', 'porto' ),
 								'slide'     => __( 'Horizontal Slide Menu', 'porto' ),
+								'columns'   => __( 'Horizontal Columns', 'porto' ),
 							),
 							'default'   => '',
 							'transport' => 'refresh',
@@ -3768,7 +3799,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						array(
 							'id'     => '1',
 							'type'   => 'info',
-							'title'  => __( 'If header type is 9', 'porto' ),
+							'title'  => __( 'If header type is 9 or header builder', 'porto' ),
 							'notice' => false,
 						),
 						array(
@@ -3796,7 +3827,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'id'      => 'menu-block',
 							'type'    => 'textarea',
 							'title'   => __( 'Menu Custom Content', 'porto' ),
-							'desc'    => __( 'example: &lt;span&gt;Custom Message&lt;/span&gt;&lt;a href="#"&gt;Special Offer!&lt;/a&gt;&lt;a href="#"&gt;Buy this Theme!&lt;em class="tip hot"&gt;HOT&lt;i class="tip-arrow"&gt;&lt;/i&gt;&lt;/em&gt;&lt;/a&gt;', 'porto' ),
+							'desc'    => __( 'example: &lt;span&gt;Custom Message&lt;/span&gt;&lt;a href="#"&gt;Special Offer!&lt;/a&gt;&lt;a href="#"&gt;Buy this Theme!&lt;em class="tip hot"&gt;HOT&lt;/em&gt;&lt;/a&gt;', 'porto' ),
 							'default' => '',
 						),
 					),
@@ -3881,6 +3912,15 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'id'       => 'breadcrumbs-blog-link',
 							'type'     => 'switch',
 							'title'    => __( 'Show Blog Link', 'porto' ),
+							'default'  => true,
+							'required' => array( 'show-breadcrumbs', 'equals', '1' ),
+							'on'       => __( 'Yes', 'porto' ),
+							'off'      => __( 'No', 'porto' ),
+						),
+						array(
+							'id'       => 'breadcrumbs-shop-link',
+							'type'     => 'switch',
+							'title'    => __( 'Show Shop Link', 'porto' ),
 							'default'  => true,
 							'required' => array( 'show-breadcrumbs', 'equals', '1' ),
 							'on'       => __( 'Yes', 'porto' ),
@@ -3999,13 +4039,21 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'default'  => '',
 						),
 						array(
+							'id'      => 'footer-reveal',
+							'type'    => 'switch',
+							'title'   => __( 'Show Reveal Effect', 'porto' ),
+							'default' => false,
+							'on'      => __( 'Yes', 'porto' ),
+							'off'     => __( 'No', 'porto' ),
+						),
+						array(
 							'id'       => 'footer-logo',
 							'type'     => 'media',
 							'url'      => true,
 							'readonly' => false,
 							'title'    => __( 'Footer Logo', 'porto' ),
 							'default'  => array(
-								'url' => porto_uri . '/images/logo/logo_footer.png',
+								'url' => PORTO_URI . '/images/logo/logo_footer.png',
 							),
 						),
 						array(
@@ -4048,7 +4096,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'title'    => __( 'Payments Image', 'porto' ),
 							'required' => array( 'footer-payments', 'equals', '1' ),
 							'default'  => array(
-								'url' => porto_uri . '/images/payments.png',
+								'url' => PORTO_URI . '/images/payments.png',
 							),
 						),
 						array(
@@ -4218,39 +4266,39 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'options' => array(
 							'full'        => array(
 								'alt' => __( 'Full', 'porto' ),
-								'img' => porto_options_uri . '/images/post_archive_style_1.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/post_archive_style_1.jpg',
 							),
 							'large'       => array(
 								'alt' => __( 'Large', 'porto' ),
-								'img' => porto_options_uri . '/images/post_archive_style_2.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/post_archive_style_2.jpg',
 							),
 							'large-alt'   => array(
 								'alt' => __( 'Large Alt', 'porto' ),
-								'img' => porto_options_uri . '/images/post_archive_style_3.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/post_archive_style_3.jpg',
 							),
 							'medium'      => array(
 								'alt' => __( 'Medium', 'porto' ),
-								'img' => porto_options_uri . '/images/post_archive_style_4.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/post_archive_style_4.jpg',
 							),
 							'grid'        => array(
 								'alt' => __( 'Grid', 'porto' ),
-								'img' => porto_options_uri . '/images/post_archive_style_grid.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/post_archive_style_grid.jpg',
 							),
 							'masonry'     => array(
 								'alt' => __( 'Masonry', 'porto' ),
-								'img' => porto_options_uri . '/images/post_archive_style_5.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/post_archive_style_5.jpg',
 							),
 							'timeline'    => array(
 								'alt' => __( 'Timeline', 'porto' ),
-								'img' => porto_options_uri . '/images/post_archive_style_6.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/post_archive_style_6.jpg',
 							),
 							'medium-alt'  => array(
 								'alt' => __( 'Medium Alternate', 'porto' ),
-								'img' => porto_options_uri . '/images/post_archive_style_7.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/post_archive_style_7.jpg',
 							),
 							'woocommerce' => array(
 								'alt' => __( 'Woocommerce', 'porto' ),
-								'img' => porto_options_uri . '/images/post_archive_style_woocommerce.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/post_archive_style_woocommerce.jpg',
 							),
 						),
 						'default' => 'full',
@@ -4262,6 +4310,8 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'required' => array( 'post-layout', 'equals', array( 'grid', 'timeline', 'masonry' ) ),
 						'options'  => array(
 							'default'    => __( 'Default', 'porto' ),
+							'date'       => __( 'Default - Date on Image', 'porto' ),
+							'author'     => __( 'Default - Author Picture', 'porto' ),
 							'related'    => __( 'Post Carousel Style', 'porto' ),
 							'hover_info' => __( 'Hover Info', 'porto' ),
 							'no_margin'  => __( 'No Margin & Hover Info', 'porto' ),
@@ -4335,14 +4385,27 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'type'     => 'text',
 						'required' => array( 'blog-excerpt', 'equals', true ),
 						'title'    => __( 'Excerpt Length', 'porto' ),
-						'desc'     => __( 'The number of words', 'porto' ),
 						'default'  => '50',
+					),
+					array(
+						'id'       => 'blog-excerpt-base',
+						'type'     => 'button_set',
+						'required' => array( 'blog-excerpt', 'equals', true ),
+						'title'    => __( 'Basis for Excerpt Length', 'porto' ),
+						'subtitle' => __( 'Excerpt length is based on words or characters?' ),
+						'desc'     => __( 'This works for other post types too.', 'porto' ),
+						'options'  => array(
+							'words'      => __( 'Words', 'porto' ),
+							'characters' => __( 'Characters', 'porto' ),
+						),
+						'default'  => 'words',
 					),
 					array(
 						'id'       => 'blog-excerpt-type',
 						'type'     => 'button_set',
 						'required' => array( 'blog-excerpt', 'equals', true ),
 						'title'    => __( 'Excerpt Type', 'porto' ),
+						'desc'     => __( 'This works for other post types too.', 'porto' ),
 						'options'  => array(
 							'text' => __( 'Text', 'porto' ),
 							'html' => __( 'HTML', 'porto' ),
@@ -4471,30 +4534,38 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'options' => array(
 							'full'        => array(
 								'alt' => __( 'Full', 'porto' ),
-								'img' => porto_options_uri . '/images/post_single_style_1.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/post_single_style_1.jpg',
 							),
 							'large'       => array(
 								'alt' => __( 'Large', 'porto' ),
-								'img' => porto_options_uri . '/images/post_single_style_2.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/post_single_style_2.jpg',
 							),
 							'large-alt'   => array(
 								'alt' => __( 'Large Alt', 'porto' ),
-								'img' => porto_options_uri . '/images/post_single_style_3.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/post_single_style_3.jpg',
 							),
 							'medium'      => array(
 								'alt' => __( 'Medium', 'porto' ),
-								'img' => porto_options_uri . '/images/post_single_style_4.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/post_single_style_4.jpg',
 							),
 							'full-alt'    => array(
 								'alt' => __( 'Full Alt', 'porto' ),
-								'img' => porto_options_uri . '/images/post_single_style_5.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/post_single_style_5.jpg',
 							),
 							'woocommerce' => array(
 								'alt' => __( 'Woocommerce', 'porto' ),
-								'img' => porto_options_uri . '/images/post_archive_style_woocommerce.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/post_archive_style_woocommerce.jpg',
 							),
 						),
 						'default' => 'full',
+					),
+					array(
+						'id'        => 'post-replace-pos',
+						'type'      => 'switch',
+						'title'     => __( 'Replace the position of title and meta', 'porto' ),
+						'default'   => false,
+						'required'  => array( 'post-content-layout', 'equals', array( 'large-alt', 'full-alt' ) ),
+						'transport' => 'postMessage',
 					),
 					array(
 						'id'          => 'post-title-style',
@@ -4505,7 +4576,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							''             => __( 'With Icon', 'porto' ),
 							'without-icon' => __( 'Without Icon', 'porto' ),
 						),
-						'default'     => '',
+						'default'     => 'without-icon',
 					),
 					array(
 						'id'        => 'post-slideshow',
@@ -4642,27 +4713,27 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'options' => array(
 							''        => array(
 								'alt' => __( 'With Read More Link', 'porto' ),
-								'img' => porto_options_uri . '/images/post_style_1.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/post_style_1.jpg',
 							),
 							'style-2' => array(
 								'alt' => __( 'With Post Meta', 'porto' ),
-								'img' => porto_options_uri . '/images/post_style_2.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/post_style_2.jpg',
 							),
 							'style-3' => array(
 								'alt' => __( 'With Read More Button Link', 'porto' ),
-								'img' => porto_options_uri . '/images/post_style_3.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/post_style_3.jpg',
 							),
 							'style-4' => array(
 								'alt' => __( 'With Side Image', 'porto' ),
-								'img' => porto_options_uri . '/images/post_style_4.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/post_style_4.jpg',
 							),
 							'style-5' => array(
 								'alt' => __( 'With Categories', 'porto' ),
-								'img' => porto_options_uri . '/images/post_style_5.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/post_style_5.jpg',
 							),
 							'style-6' => array(
 								'alt' => __( 'Simple', 'porto' ),
-								'img' => porto_options_uri . '/images/post_style_6.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/post_style_6.jpg',
 							),
 						),
 						'default' => '',
@@ -4859,6 +4930,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 								'client_link' => __( 'Client URL(Link)', 'porto' ),
 								'author_name' => __( 'Author Name', 'porto' ),
 								'author_role' => __( 'Author Role', 'porto' ),
+								'excerpt'     => __( 'Excerpt', 'porto' ),
 							),
 							'default'     => 'cats',
 						),
@@ -4973,27 +5045,27 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'options' => array(
 							'grid'     => array(
 								'alt' => __( 'Grid', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_archive_style_1.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_archive_style_1.jpg',
 							),
 							'masonry'  => array(
 								'alt' => __( 'Masonry', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_archive_style_2.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_archive_style_2.jpg',
 							),
 							'timeline' => array(
 								'alt' => __( 'Timeline', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_archive_style_3.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_archive_style_3.jpg',
 							),
 							'medium'   => array(
 								'alt' => __( 'Medium', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_archive_style_4.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_archive_style_4.jpg',
 							),
 							'large'    => array(
 								'alt' => __( 'Large', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_archive_style_5.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_archive_style_5.jpg',
 							),
 							'full'     => array(
 								'alt' => __( 'Full', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_archive_style_6.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_archive_style_6.jpg',
 							),
 						),
 						'default' => 'grid',
@@ -5029,15 +5101,15 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'options'  => array(
 							'default'  => array(
 								'alt' => __( 'Default', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_archive_view_1.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_archive_view_1.jpg',
 							),
 							'full'     => array(
 								'alt' => __( 'No Margin', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_archive_view_2.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_archive_view_2.jpg',
 							),
 							'outimage' => array(
 								'alt' => __( 'Out of Image', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_archive_view_3.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_archive_view_3.jpg',
 							),
 						),
 						'default'  => 'default',
@@ -5051,27 +5123,27 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'options'  => array(
 							''                 => array(
 								'alt' => __( 'Left Info', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_info_view_1.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_info_view_1.jpg',
 							),
 							'centered-info'    => array(
 								'alt' => __( 'Centered Info', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_info_view_2.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_info_view_2.jpg',
 							),
 							'bottom-info'      => array(
 								'alt' => __( 'Bottom Info', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_info_view_3.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_info_view_3.jpg',
 							),
 							'bottom-info-dark' => array(
 								'alt' => __( 'Bottom Info Dark', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_info_view_4.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_info_view_4.jpg',
 							),
 							'hide-info-hover'  => array(
 								'alt' => __( 'Hide Info Hover', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_info_view_5.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_info_view_5.jpg',
 							),
 							'plus-icon'        => array(
 								'alt' => __( 'Plus Icon', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_info_view_6.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_info_view_6.jpg',
 							),
 						),
 						'default'  => '',
@@ -5274,43 +5346,43 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'options' => array(
 							'medium'      => array(
 								'alt' => __( 'Medium Slider', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_single_style_1.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_single_style_1.jpg',
 							),
 							'large'       => array(
 								'alt' => __( 'Large Slider', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_single_style_2.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_single_style_2.jpg',
 							),
 							'full'        => array(
 								'alt' => __( 'Full Slider', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_single_style_3.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_single_style_3.jpg',
 							),
 							'gallery'     => array(
 								'alt' => __( 'Gallery', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_single_style_4.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_single_style_4.jpg',
 							),
 							'carousel'    => array(
 								'alt' => __( 'Carousel', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_single_style_5.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_single_style_5.jpg',
 							),
 							'medias'      => array(
 								'alt' => __( 'Medias', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_single_style_6.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_single_style_6.jpg',
 							),
 							'full-video'  => array(
 								'alt' => __( 'Full Width Video', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_single_style_7.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_single_style_7.jpg',
 							),
 							'masonry'     => array(
 								'alt' => __( 'Masonry Images', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_single_style_8.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_single_style_8.jpg',
 							),
 							'full-images' => array(
 								'alt' => __( 'Full Images', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_single_style_9.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_single_style_9.jpg',
 							),
 							'extended'    => array(
 								'alt' => __( 'Extended', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_single_style_10.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_single_style_10.jpg',
 							),
 						),
 						'default' => 'medium',
@@ -5323,11 +5395,11 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'options'  => array(
 							'without-thumbs' => array(
 								'alt' => __( 'Without Thumbs', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_slideshow_1.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_slideshow_1.jpg',
 							),
 							'with-thumbs'    => array(
 								'alt' => __( 'With Thumbs', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_slideshow_2.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_slideshow_2.jpg',
 							),
 						),
 						'default'  => 'without-thumbs',
@@ -5421,15 +5493,15 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'options' => array(
 							''         => array(
 								'alt' => __( 'Default', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_archive_view_1.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_archive_view_1.jpg',
 							),
 							'full'     => array(
 								'alt' => __( 'No Margin', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_archive_view_2.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_archive_view_2.jpg',
 							),
 							'outimage' => array(
 								'alt' => __( 'Out of Image', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_archive_view_3.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_archive_view_3.jpg',
 							),
 						),
 						'default' => '',
@@ -5441,23 +5513,23 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'options' => array(
 							''                 => array(
 								'alt' => __( 'Left Info', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_info_view_1.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_info_view_1.jpg',
 							),
 							'centered-info'    => array(
 								'alt' => __( 'Centered Info', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_info_view_2.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_info_view_2.jpg',
 							),
 							'bottom-info'      => array(
 								'alt' => __( 'Bottom Info', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_info_view_3.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_info_view_3.jpg',
 							),
 							'bottom-info-dark' => array(
 								'alt' => __( 'Bottom Info Dark', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_info_view_4.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_info_view_4.jpg',
 							),
 							'hide-info-hover'  => array(
 								'alt' => __( 'Hide Info Hover', 'porto' ),
-								'img' => porto_options_uri . '/images/portfolio_info_view_5.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/portfolio_info_view_5.jpg',
 							),
 						),
 						'default' => '',
@@ -5600,7 +5672,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'id'      => 'event-excerpt',
 							'type'    => 'switch',
 							'title'   => __( 'Show Excerpt', 'porto' ),
-							'desc'    => __( 'If yes, will be show the excerpt in archive layout. If no, will be show the content.', 'porto' ),
+							'desc'    => __( 'If yes, will show the excerpt in archive layout. If no, will be show the content.', 'porto' ),
 							'default' => true,
 							'on'      => __( 'Yes', 'porto' ),
 							'off'     => __( 'No', 'porto' ),
@@ -5612,6 +5684,14 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'title'    => __( 'Excerpt Length', 'porto' ),
 							'desc'     => __( 'The number of words', 'porto' ),
 							'default'  => '80',
+						),
+						array(
+							'id'      => 'event-readmore',
+							'type'    => 'switch',
+							'title'   => __( 'Show Read More button', 'porto' ),
+							'default' => false,
+							'on'      => __( 'Yes', 'porto' ),
+							'off'     => __( 'No', 'porto' ),
 						),
 					),
 				),
@@ -5837,15 +5917,15 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'options' => array(
 								''  => array(
 									'alt' => __( 'Type 1', 'porto' ),
-									'img' => porto_options_uri . '/images/member_archive_view_1.jpg',
+									'img' => PORTO_OPTIONS_URI . '/images/member_archive_view_1.jpg',
 								),
 								'2' => array(
 									'alt' => __( 'Type 2', 'porto' ),
-									'img' => porto_options_uri . '/images/member_archive_view_2.jpg',
+									'img' => PORTO_OPTIONS_URI . '/images/member_archive_view_2.jpg',
 								),
 								'3' => array(
 									'alt' => __( 'Type 3', 'porto' ),
-									'img' => porto_options_uri . '/images/member_archive_view_3.jpg',
+									'img' => PORTO_OPTIONS_URI . '/images/member_archive_view_3.jpg',
 								),
 							),
 						),
@@ -6428,11 +6508,11 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'options'   => array(
 							''  => array(
 								'alt' => __( 'Type 1', 'porto' ),
-								'img' => porto_options_uri . '/images/product_cat_view_1.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/product_cat_view_1.jpg',
 							),
 							'2' => array(
 								'alt' => __( 'Type 2', 'porto' ),
-								'img' => porto_options_uri . '/images/product_cat_view_2.jpg',
+								'img' => PORTO_OPTIONS_URI . '/images/product_cat_view_2.jpg',
 							),
 						),
 						'transport' => 'postMessage',
@@ -6473,39 +6553,51 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 					array(
 						'id'        => 'category-addlinks-pos',
 						'type'      => 'image_select',
-						'title'     => __( 'Add Links Position', 'porto' ),
+						'title'     => __( 'Product Layout', 'porto' ),
 						'desc'      => __( 'Select position of add to cart, add to wishlist, quickview.', 'porto' ),
 						'options'   => array(
-							'outimage'               => array(
-								'alt' => __( 'Out of Image 1', 'porto' ),
-								'img' => porto_options_uri . '/images/product_addlinks_style.jpg',
+							'default'              => array(
+								'title' => __( 'Default', 'porto' ),
+								'img'   => PORTO_OPTIONS_URI . '/product_layouts/product_layout_default.jpg',
 							),
-							'outimage2'              => array(
-								'alt' => __( 'Out of Image 2', 'porto' ),
-								'img' => porto_options_uri . '/images/product_addlinks_style_1.jpg',
+							'onhover'              => array(
+								'title' => __( 'Default - Show Links on Hover', 'porto' ),
+								'img'   => PORTO_OPTIONS_URI . '/product_layouts/product_layout_default.jpg',
 							),
-							'onimage'                => array(
-								'alt' => __( 'On Image', 'porto' ),
-								'img' => porto_options_uri . '/images/product_addlinks_style_2.jpg',
+							'outimage_aq_onimage'  => array(
+								'title' => __( 'Add to Cart, Quick View On Image', 'porto' ),
+								'img'   => PORTO_OPTIONS_URI . '/product_layouts/product_layout_outimage_aq_onimage.jpg',
 							),
-							'wq_onimage'             => array(
-								'alt' => __( 'Wishlist, Quick View On Image', 'porto' ),
-								'img' => porto_options_uri . '/images/product_addlinks_style_3.jpg',
+							'outimage_aq_onimage2' => array(
+								'title' => __( 'Add to Cart, Quick View On Image with Padding', 'porto' ),
+								'img'   => PORTO_OPTIONS_URI . '/product_layouts/product_layout_outimage_aq_onimage2.jpg',
 							),
-							'outimage_q_onimage'     => array(
-								'alt' => __( 'Out of Image, Quick View On Image', 'porto' ),
-								'img' => porto_options_uri . '/images/product_addlinks_style_4.jpg',
+							'awq_onimage'          => array(
+								'title' => __( 'Link On Image', 'porto' ),
+								'img'   => PORTO_OPTIONS_URI . '/product_layouts/product_layout_awq_onimage.jpg',
 							),
-							'outimage_q_onimage_alt' => array(
-								'alt' => __( 'Out of Image, Quick View On Image Alt', 'porto' ),
-								'img' => porto_options_uri . '/images/product_addlinks_style_5.jpg',
+							'outimage'             => array(
+								'title' => __( 'Out of Image', 'porto' ),
+								'img'   => PORTO_OPTIONS_URI . '/product_layouts/product_layout_outimage.jpg',
 							),
-							'quantity'               => array(
-								'alt' => __( 'On Image, Show Quantity Input', 'porto' ),
-								'img' => porto_options_uri . '/images/product_addlinks_style_6.png',
+							'onimage'              => array(
+								'title' => __( 'On Image', 'porto' ),
+								'img'   => PORTO_OPTIONS_URI . '/product_layouts/product_layout_onimage.jpg',
+							),
+							'onimage2'             => array(
+								'title' => __( 'On Image with Overlay 1', 'porto' ),
+								'img'   => PORTO_OPTIONS_URI . '/product_layouts/product_layout_onimage2.jpg',
+							),
+							'onimage3'             => array(
+								'title' => __( 'On Image with Overlay 2', 'porto' ),
+								'img'   => PORTO_OPTIONS_URI . '/product_layouts/product_layout_onimage3.jpg',
+							),
+							'quantity'             => array(
+								'title' => __( 'Show Quantity Input', 'porto' ),
+								'img'   => PORTO_OPTIONS_URI . '/product_layouts/product_layout_quantity_input.jpg',
 							),
 						),
-						'default'   => 'outimage',
+						'default'   => 'default',
 						'transport' => 'postMessage',
 					),
 					array(
@@ -6516,7 +6608,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							''  => __( 'Style 1', 'porto' ),
 							'2' => __( 'Style 2', 'porto' ),
 						),
-						'default'   => '',
+						'default'   => '2',
 						'transport' => 'postMessage',
 					),
 					array(
@@ -6533,6 +6625,43 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'type'      => 'switch',
 						'title'     => __( 'Show Color / Image swatch', 'porto' ),
 						'subtitle'  => __( 'This is available for only variable product', 'porto' ),
+						'default'   => false,
+						'on'        => __( 'Yes', 'porto' ),
+						'off'       => __( 'No', 'porto' ),
+						'transport' => 'postMessage',
+					),
+					array(
+						'id'        => 'product-categories',
+						'type'      => 'switch',
+						'title'     => __( 'Show Categories', 'porto' ),
+						'default'   => true,
+						'on'        => __( 'Yes', 'porto' ),
+						'off'       => __( 'No', 'porto' ),
+						'transport' => 'postMessage',
+					),
+					array(
+						'id'        => 'product-review',
+						'type'      => 'switch',
+						'title'     => __( 'Show Reviews', 'porto' ),
+						'default'   => true,
+						'on'        => __( 'Yes', 'porto' ),
+						'off'       => __( 'No', 'porto' ),
+						'transport' => 'postMessage',
+					),
+					array(
+						'id'        => 'product-price',
+						'type'      => 'switch',
+						'title'     => __( 'Show Price', 'porto' ),
+						'default'   => true,
+						'on'        => __( 'Yes', 'porto' ),
+						'off'       => __( 'No', 'porto' ),
+						'transport' => 'postMessage',
+					),
+					array(
+						'id'        => 'product-desc',
+						'type'      => 'switch',
+						'title'     => __( 'Show Description', 'porto' ),
+						'subtitle'  => __( 'This works for only Grid view.', 'porto' ),
 						'default'   => false,
 						'on'        => __( 'Yes', 'porto' ),
 						'off'       => __( 'No', 'porto' ),
@@ -6587,39 +6716,39 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'options'   => array(
 							'default'                => array(
 								'title' => __( 'Default', 'porto' ),
-								'img'   => porto_options_uri . '/products/default.jpg',
+								'img'   => PORTO_OPTIONS_URI . '/products/default.jpg',
 							),
 							'extended'               => array(
 								'title' => __( 'Extended', 'porto' ),
-								'img'   => porto_options_uri . '/products/extended.jpg',
+								'img'   => PORTO_OPTIONS_URI . '/products/extended.jpg',
 							),
 							'full_width'             => array(
 								'title' => __( 'Full Width', 'porto' ),
-								'img'   => porto_options_uri . '/products/full_width.jpg',
+								'img'   => PORTO_OPTIONS_URI . '/products/full_width.jpg',
 							),
 							'grid'                   => array(
 								'title' => __( 'Grid Images', 'porto' ),
-								'img'   => porto_options_uri . '/products/grid.jpg',
+								'img'   => PORTO_OPTIONS_URI . '/products/grid.jpg',
 							),
 							'sticky_info'            => array(
 								'title' => __( 'Sticky Info', 'porto' ),
-								'img'   => porto_options_uri . '/products/sticky_info.jpg',
+								'img'   => PORTO_OPTIONS_URI . '/products/sticky_info.jpg',
 							),
 							'sticky_both_info'       => array(
 								'title' => __( 'Sticky Left & Right Info', 'porto' ),
-								'img'   => porto_options_uri . '/products/sticky_info_both.jpg',
+								'img'   => PORTO_OPTIONS_URI . '/products/sticky_info_both.jpg',
 							),
 							'transparent'            => array(
 								'title' => __( 'Transparent Images', 'porto' ),
-								'img'   => porto_options_uri . '/products/transparent.jpg',
+								'img'   => PORTO_OPTIONS_URI . '/products/transparent.jpg',
 							),
 							'centered_vertical_zoom' => array(
 								'title' => __( 'Centered Vertical Zoom', 'porto' ),
-								'img'   => porto_options_uri . '/products/centered_vertical_zoom.jpg',
+								'img'   => PORTO_OPTIONS_URI . '/products/centered_vertical_zoom.jpg',
 							),
 							'left_sidebar'           => array(
 								'title' => __( 'Left Sidebar', 'porto' ),
-								'img'   => porto_options_uri . '/products/left_sidebar.jpg',
+								'img'   => PORTO_OPTIONS_URI . '/products/left_sidebar.jpg',
 							),
 						),
 						'default'   => 'default',
@@ -6635,10 +6764,14 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 					),*/
 					array(
 						'id'        => 'product-sticky-addcart',
-						'type'      => 'switch',
+						'type'      => 'button_set',
 						'title'     => __( 'Sticky add to cart section', 'porto' ),
-						'on'        => __( 'Yes', 'porto' ),
-						'off'       => __( 'No', 'porto' ),
+						'options'   => array(
+							''       => __( 'None', 'porto' ),
+							'top'    => __( 'At the Top', 'porto' ),
+							'bottom' => __( 'At the Bottom', 'porto' ),
+						),
+						'default'   => '',
 						'transport' => 'refresh',
 					),
 					array(
@@ -6687,7 +6820,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'default' => array( 'sku', 'cats', 'tags', '-' ),
 					),
 					array(
-						'title'    => __( 'Variation Selection Mode', 'porto' ),
+						'title'    => __( 'Variation(Attribute) Selection Mode', 'porto' ),
 						'subtitle' => __( 'This is used in variable product page.', 'porto' ),
 						'id'       => 'product_variation_display_mode',
 						'type'     => 'button_set',
@@ -6696,6 +6829,14 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 							'button' => __( 'Image / Color swatch', 'porto' ),
 							'select' => __( 'Select Box', 'porto' ),
 						),
+					),
+					array(
+						'id'      => 'product-attr-desc',
+						'type'    => 'switch',
+						'title'   => __( 'Show Description of Selected Attribute', 'porto' ),
+						'default' => false,
+						'on'      => __( 'Yes', 'porto' ),
+						'off'     => __( 'No', 'porto' ),
 					),
 					array(
 						'id'      => 'product-tab-title',
@@ -6770,6 +6911,13 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 						'default' => true,
 						'on'      => __( 'Yes', 'porto' ),
 						'off'     => __( 'No', 'porto' ),
+					),
+					array(
+						'id'        => 'product-content_bottom',
+						'type'      => 'text',
+						'title'     => __( 'Content Bottom', 'porto' ),
+						'desc'      => __( 'Please input comma separated block slug names. You can create a block in <strong>Blocks/Add New</strong>.', 'porto' ),
+						'transport' => 'refresh',
 					),
 				),
 			);
@@ -7487,7 +7635,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 			$this->args = array(
 				'opt_name'                  => 'porto_settings',
 				'display_name'              => $theme->get( 'Name' ) . ' ' . $menu_title . '<a class="porto-theme-link" href="' . esc_url( admin_url( 'admin.php?page=porto' ) ) . '">Welcome</a><a class="porto-theme-link" href="' . esc_url( admin_url( 'admin.php?page=porto' ) ) . '">Theme License</a><a class="porto-theme-link" href="' . esc_url( admin_url( 'admin.php?page=porto-changelog' ) ) . '">Change Log</a>' . $customize_options_link . '<a class="porto-theme-link" href="' . esc_url( admin_url( 'admin.php?page=porto-setup-wizard' ) ) . '">Setup Wizard</a><a class="porto-theme-link porto-theme-link-last" href="' . esc_url( admin_url( 'admin.php?page=porto-speed-optimize-wizard' ) ) . '">Speed Optimize Wizard</a>' . $new_options_link,
-				'display_version'           => __( 'Theme Version: ', 'porto' ) . porto_version,
+				'display_version'           => __( 'Theme Version: ', 'porto' ) . PORTO_VERSION,
 				'menu_type'                 => 'submenu',
 				'allow_sub_menu'            => true,
 				'menu_title'                => $menu_title,

@@ -1,5 +1,6 @@
 /* Ultimate Carousel */
 jQuery(document).ready(function($) {
+    'use strict';
     $('.porto-carousel-wrapper').each(function (i, carousel) {
         var gutter = $(carousel).data('gutter');
         var id = $(carousel).attr('id');
@@ -13,21 +14,22 @@ jQuery(document).ready(function($) {
         event.preventDefault();
 
         $('.porto-carousel-wrapper .porto-item-wrap.slick-active').each(function (index, el) {
-            $this = $(this);
+            var $this = $(this);
             $this.addClass($this.data('animation'));
         });
     });
 
     $('.porto-carousel-wrapper').on('beforeChange', function (event, slick, currentSlide) {
-        $inViewPort = $("[data-slick-index='" + currentSlide + "']");
+        var $inViewPort = $("[data-slick-index='" + currentSlide + "']");
         $inViewPort.siblings().removeClass($inViewPort.data('animation'));
     });
 
     $('.porto-carousel-wrapper').on('afterChange', function (event, slick, currentSlide, nextSlide) {
-        slidesScrolled = slick.options.slidesToScroll;
-        slidesToShow = slick.options.slidesToShow;
-        centerMode = slick.options.centerMode;
-        windowWidth = jQuery( window ).width();
+        var $inViewPort,
+            slidesScrolled = slick.options.slidesToScroll,
+            slidesToShow = slick.options.slidesToShow,
+            centerMode = slick.options.centerMode,
+            windowWidth = jQuery( window ).width();
         if ( windowWidth < 1025 ) {
             slidesToShow = slick.options.responsive[0].settings.slidesToShow;
         }
@@ -38,14 +40,13 @@ jQuery(document).ready(function($) {
             slidesToShow = slick.options.responsive[2].settings.slidesToShow;
         }
 
-        $currentParent = slick.$slider[0].parentElement.id;
-
-        slideToAnimate = currentSlide + slidesToShow - 1;
+        var $currentParent = slick.$slider[0].parentElement.id,
+            slideToAnimate = currentSlide + slidesToShow - 1;
 
         if (slidesScrolled == 1) {
 
             if ( centerMode == true ) {
-                animate = slideToAnimate - 2;
+                var animate = slideToAnimate - 2;
                 $inViewPort = $( '#' + $currentParent + " [data-slick-index='" + animate + "']");
                 $inViewPort.addClass($inViewPort.data('animation'));
             } else {

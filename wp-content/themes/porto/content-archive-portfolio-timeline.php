@@ -174,7 +174,7 @@ if ( $count ) :
 					<span class="thumb-info-icons position-style-2 text-color-light">
 						<span class="thumb-info-icon pictures background-color-primary">
 							<?php echo function_exists( 'porto_get_featured_images' ) ? count( porto_get_featured_images() ) : 0; ?>
-							<i class="fa fa-picture-o"></i>
+							<i class="far fa-image"></i>
 						</span>
 					</span>
 				<?php endif; ?>
@@ -232,7 +232,7 @@ if ( $count ) :
 								<span class="thumb-info-action-icon thumb-info-action-icon-primary"><i class="fa <?php echo ! $ajax_attr ? 'fa-link' : 'fa-plus-square'; ?>"></i></span>
 							<?php endif; ?>
 							<?php if ( $portfolio_show_zoom ) : ?>
-								<span class="thumb-info-action-icon thumb-info-action-icon-light thumb-info-zoom" data-src="<?php echo esc_attr( json_encode( $zoom_src ) ); ?>" data-title="<?php echo esc_attr( json_encode( $zoom_title ) ); ?>"><i class="fa fa-search-plus"></i></span>
+								<span class="thumb-info-action-icon thumb-info-action-icon-light thumb-info-zoom" data-src="<?php echo esc_attr( json_encode( $zoom_src ) ); ?>" data-title="<?php echo esc_attr( json_encode( $zoom_title ) ); ?>"><i class="fas fa-search-plus"></i></span>
 							<?php endif; ?>
 						</span>
 					<?php endif; ?>

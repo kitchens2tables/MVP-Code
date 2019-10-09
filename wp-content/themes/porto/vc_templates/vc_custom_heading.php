@@ -29,9 +29,18 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @var $this WPBakeryShortCode_VC_Custom_heading
  */
 
-$source = $link = $google_fonts = $font_container = $el_id = $el_class = $css = $css_animation = $font_container_data = $google_fonts_data = array();
+$source = $link = $google_fonts = $font_container = $el_id = $el_class = $css = $font_container_data = $google_fonts_data = array();
 
-$text = '';
+$text               = '';
+$css_animation      = '';
+$animation_type     = '';
+$animation_delay    = '';
+$animation_duration = '';
+
+$floating_start_pos  = '';
+$floating_speed      = '';
+$floating_transition = 'yes';
+$floating_horizontal = '';
 // This is needed to extract $font_container_data and $google_fonts_data
 extract( $this->getAttributes( $atts ) );
 
@@ -78,6 +87,14 @@ if ( in_array( $text_align_left, $styles ) ) {
 	$key        = array_search( $text_align_right, $styles );
 	unset( $styles[ $key ] );
 }
+
+if ( isset( $font_weight ) && $font_weight ) {
+	if ( empty( $styles ) ) {
+		$styles = array();
+	}
+	$styles[] = 'font-weight:' . ( (int) $font_weight );
+}
+
 if ( ! empty( $styles ) ) {
 	$new_styles = array();
 	foreach ( $styles as $inline_style ) {
@@ -93,13 +110,39 @@ if ( ! empty( $styles ) ) {
 	$style = '';
 }
 
+if ( $el_id ) {
+	$style .= ' id="' . esc_attr( $el_id ) . '"';
+}
+if ( $animation_type ) {
+	$style .= ' data-appear-animation="' . esc_attr( $animation_type ) . '"';
+	if ( $animation_delay ) {
+		$style .= ' data-appear-animation-delay="' . esc_attr( $animation_delay ) . '"';
+	}
+	if ( $animation_duration && 1000 != $animation_duration ) {
+		$style .= ' data-appear-animation-duration="' . esc_attr( $animation_duration ) . '"';
+	}
+} elseif ( $floating_start_pos && $floating_speed ) {
+	$floating_options = array( 'startPos' => $floating_start_pos, 'speed' => $floating_speed );
+	if ( $floating_transition ) {
+		$floating_options['transition'] = true;
+	} else {
+		$floating_options['transition'] = false;
+	}
+	if ( $floating_horizontal ) {
+		$floating_options['horizontal'] = true;
+	} else {
+		$floating_options['horizontal'] = false;
+	}
+	$style .= ' data-plugin-float-element data-plugin-options="' . esc_attr( json_encode( $floating_options ) ) . '"';
+}
+
 if ( 'post_title' === $source ) {
 	$text = get_the_title( get_the_ID() );
 }
 
 if ( ! empty( $link ) ) {
 	$link = vc_build_link( $link );
-	$text = '<a href="' . esc_attr( $link['url'] ) . '"' . ( $link['target'] ? ' target="' . esc_attr( $link['target'] ) . '"' : '' ) . ( $link['title'] ? ' title="' . esc_attr( $link['title'] ) . '"' : '' ) . '>' . wp_specialchars_decode( $text ) . '</a>';
+	$text = '<a href="' . esc_url( $link['url'] ) . '"' . ( $link['target'] ? ' target="' . esc_attr( $link['target'] ) . '"' : '' ) . ( $link['title'] ? ' title="' . esc_attr( $link['title'] ) . '"' : '' ) . '>' . wp_specialchars_decode( $text ) . '</a>';
 }
 
 $output = '';
@@ -143,7 +186,7 @@ if ( apply_filters( 'vc_custom_heading_template_use_wrapper', false ) || $show_b
 	if ( $text_transform ) {
 		$heading_class .= ' ' . $text_transform;
 	}
-	$output .= '<' . esc_html( $font_container_data['values']['tag'] ) . ' ' . $style . ( $heading_class ? ' class="' . esc_attr( $heading_class ) . '"' : '' ) . '>';
+	$output .= '<' . esc_html( $font_container_data['values']['tag'] ) . ' ' . trim( $style ) . ( $heading_class ? ' class="' . esc_attr( $heading_class ) . '"' : '' ) . '>';
 	$output .= force_balance_tags( wp_specialchars_decode( $text ) );
 	$output .= '</' . $font_container_data['values']['tag'] . '>';
 	$output .= '</div>';

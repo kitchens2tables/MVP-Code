@@ -2,7 +2,7 @@
 /**
  * The template to display the reviewers star rating in reviews
  *
- * @version 3.1.0
+ * @version 3.6.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -12,13 +12,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 global $comment;
 $rating = intval( get_comment_meta( $comment->comment_ID, 'rating', true ) );
 
-if ( $rating && 'yes' === get_option( 'woocommerce_enable_review_rating' ) ) { ?>
+if ( $rating && ( ( function_exists( 'wc_review_ratings_enabled' ) && wc_review_ratings_enabled() ) || ( ! function_exists( 'wc_review_ratings_enabled' ) && 'yes' === get_option( 'woocommerce_enable_review_rating' ) ) ) ) { ?>
 
-	<div itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating" class="star-rating" title="<?php echo esc_attr( $rating ); ?>">
-		<span style="width:<?php echo ( esc_attr( $rating ) / 5 ) * 100; ?>%">
+	<div class="star-rating" title="<?php echo esc_attr( $rating ); ?>">
+		<span style="width:<?php echo (float) $rating / 5 * 100; ?>%">
 			<?php
 			/* translators: %s: Rating value */
-			printf( esc_html__( '%s out of 5', 'woocommerce' ), '<strong itemprop="ratingValue">' . $rating . '</strong>' );
+			printf( esc_html__( '%s out of 5', 'woocommerce' ), '<strong>' . $rating . '</strong>' );
 			?>
 		</span>
 	</div>

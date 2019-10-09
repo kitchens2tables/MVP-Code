@@ -66,7 +66,7 @@ global $porto_settings;
 					<div class="woocommerce-FormRow form-row clearfix">
 						<?php wp_nonce_field( 'woocommerce-register', 'woocommerce-register-nonce' ); ?>
 
-						<a href="<?php echo esc_url( get_permalink( wc_get_page_id( 'myaccount' ) ) ); ?>" class="pull-left"><i class="fa fa-angle-double-left"></i> <?php esc_html_e( 'Back', 'porto' ); ?></a>
+						<a href="<?php echo esc_url( get_permalink( wc_get_page_id( 'myaccount' ) ) ); ?>" class="pull-left"><i class="fas fa-angle-double-left"></i> <?php esc_html_e( 'Back', 'porto' ); ?></a>
 						<input type="submit" class="woocommerce-Button button pull-right" name="register" value="<?php esc_attr_e( 'Submit', 'porto' ); ?>" />
 					</div>
 

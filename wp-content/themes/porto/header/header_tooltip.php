@@ -6,9 +6,9 @@ $tooltip_content = do_shortcode( apply_filters( 'porto_header_tooltip', $tooltip
 if ( $tooltip_content ) :
 	?>
 <div class="porto-tooltip">
-	<span class="tooltip-icon"><i class="fa fa-exclamation"></i></span>
+	<span class="tooltip-icon"><i class="fas fa-exclamation"></i></span>
 	<div class="tooltip-popup">
-		<span class="tooltip-close"><i class="fa fa-close"></i></span>
+		<span class="tooltip-close"><i class="fas fa-times"></i></span>
 		<div class="content">
 			<?php echo porto_strip_script_tags( $tooltip_content ); ?>
 		</div>

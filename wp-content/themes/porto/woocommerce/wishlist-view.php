@@ -18,10 +18,10 @@
 		if ( ! empty( $page_title ) ) :
 			?>
 			<div class="wishlist-title<?php echo 1 == $wishlist_meta['is_default'] || ! $is_user_owner ? '' : ' wishlist-title-with-form'; ?>">
-				<?php echo apply_filters( 'yith_wcwl_wishlist_title', '<h2>' . $page_title . '</h2>' ); ?>
+				<?php echo apply_filters( 'yith_wcwl_wishlist_title', '<h2>' . esc_html( $page_title ) . '</h2>' ); ?>
 				<?php if ( 1 != $wishlist_meta['is_default'] && $is_user_owner ) : ?>
 					<a class="btn button show-title-form">
-						<?php echo apply_filters( 'yith_wcwl_edit_title_icon', '<i class="fa fa-pencil"></i>' ); ?>
+						<?php echo apply_filters( 'yith_wcwl_edit_title_icon', '<i class="fas fa-pencil-alt"></i>' ); ?>
 						<?php esc_html_e( 'Edit title', 'porto' ); ?>
 					</a>
 				<?php endif; ?>
@@ -30,11 +30,11 @@
 				<div class="hidden-title-form">
 					<input type="text" value="<?php echo esc_attr( $page_title ); ?>" name="wishlist_name"/>
 					<button>
-						<?php echo apply_filters( 'yith_wcwl_save_wishlist_title_icon', '<i class="fa fa-check"></i>' ); ?>
+						<?php echo apply_filters( 'yith_wcwl_save_wishlist_title_icon', '<i class="fas fa-check"></i>' ); ?>
 						<?php esc_html_e( 'Save', 'porto' ); ?>
 					</button>
 					<a class="hide-title-form btn button">
-						<?php echo apply_filters( 'yith_wcwl_cancel_wishlist_title_icon', '<i class="fa fa-remove"></i>' ); ?>
+						<?php echo apply_filters( 'yith_wcwl_cancel_wishlist_title_icon', '<i class="fas fa-times"></i>' ); ?>
 						<?php esc_html_e( 'Cancel', 'porto' ); ?>
 					</a>
 				</div>
@@ -115,7 +115,7 @@
 
 							<td class="product-thumbnail">
 								<a href="<?php echo esc_url( get_permalink( apply_filters( 'woocommerce_in_cart_product', $item['prod_id'] ) ) ); ?>">
-									<?php echo esc_url( $product->get_image() ); ?>
+									<?php echo wp_kses_post( $product->get_image() ); ?>
 								</a>
 							</td>
 
@@ -223,7 +223,7 @@
 						?>
 						<td colspan="<?php echo ! $is_user_owner && 2 == $wishlist_meta['wishlist_privacy'] || ! $share_enabled ? '6' : '2'; ?>">
 							<a href="<?php echo esc_url( $ask_estimate_url ); ?>" class="btn button ask-an-estimate-button">
-								<?php echo apply_filters( 'yith_wcwl_ask_an_estimate_icon', '<i class="fa fa-shopping-cart"></i>' ); ?>
+								<?php echo apply_filters( 'yith_wcwl_ask_an_estimate_icon', '<i class="fas fa-shopping-cart"></i>' ); ?>
 								<?php esc_html_e( 'Ask for an estimate', 'porto' ); ?>
 							</a>
 						</td>

@@ -5,10 +5,8 @@
  * @version     2.0.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 ?>
 
-<p class="woocommerce-info"><?php esc_html_e( 'No products were found matching your selection.', 'porto' ); ?></p>
+<p class="woocommerce-info"><?php esc_html_e( 'No products were found matching your selection.', 'woocommerce' ); ?></p>

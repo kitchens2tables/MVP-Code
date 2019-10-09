@@ -26,11 +26,11 @@
             font-family: inherit;
             font-size: inherit;
 
-            > .fa {
+            > i {
                 width: 18px;
                 text-align: center;
             }
-            > .fa,
+            > i,
             > .avatar {
                 margin-#{$right}: 5px;
             }
@@ -74,7 +74,7 @@
         height: 25px;
         cursor: pointer;
         text-align: center;
-        font-family: "FontAwesome";
+        font-family: 'Font Awesome 5 Free'; font-weight: 900; -webkit-font-smoothing: antialiased;
         line-height: 25px;
         vertical-align: top;
         @include transition($transition);
@@ -86,39 +86,5 @@
 
     .open > .arrow:before {
         content: $fa-var-minus;
-    }
-
-    .tip {
-        color: #fff;
-        display: inline-block;
-        font-size: 9px;
-        line-height: 1;
-        padding: 2px;
-        position: relative;
-        margin-#{$left}: 10px;
-        vertical-align: middle;
-
-        &.hot {
-            background-color: #eb2771;
-
-            .tip-arrow:before {
-                color: #eb2771;
-            }
-        }
-
-        .tip-arrow:before {
-            display: inline-block;
-            font-family: "Elusive-Icons";
-            font-size: 5px;
-            position: absolute;
-            width: 4px;
-            height: 6px;
-            margin: auto;
-            #{$left}: -4px;
-            text-align: $right;
-            content: if-ltr($el-var-caret-left, $el-var-caret-right);
-            top: 0;
-            bottom: 0;
-        }
     }
 }

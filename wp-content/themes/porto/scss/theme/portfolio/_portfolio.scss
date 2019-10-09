@@ -47,7 +47,7 @@ article {
     a {
         display: inline-block;
     }
-    .fa {
+    i {
         font-size: 1.7em;
     }
     .portfolio-nav,
@@ -56,12 +56,13 @@ article {
     }
     .portfolio-nav {
         text-align: $right;
+        white-space: nowrap;
     }
     .portfolio-nav a {
         width: 50%;
         max-width: 27px;
     }
-    .portfolio-nav-all .fa {
+    .portfolio-nav-all i {
         font-size: 2em;
         margin-#{$left}: 1px;
     }
@@ -126,7 +127,7 @@ h5.portfolio-details-title {
                 text-decoration: none;
                 color: #b1b1b1;
             }
-            .fa,
+            i,
             .post-views-icon.dashicons {
                 margin-#{$right}: 4px !important;
                 font-size: 1em !important;
@@ -239,10 +240,9 @@ ul {
         }
     }
     .row > & {
-        display: -webkit-flex;
         display: -ms-flexbox;
         display: flex;
-        -webkit-flex-wrap: wrap; -ms-flex-wrap: wrap; flex-wrap: wrap;
+        -ms-flex-wrap: wrap; flex-wrap: wrap;
     }
 }
 .portfolio-item {
@@ -259,7 +259,7 @@ ul {
             }
             .portfolio-like {
                 i:before {
-                    content: "\f08a";
+                    font-weight: 400;
                 }
             }
         }
@@ -480,41 +480,6 @@ ul {
         }
     }
 
-    .column2 & {
-        .portfolio-col-4 {
-            @media #{$screen-medium} {
-                width: 50%;
-                &.w2 {
-                    width: 100%;
-                }
-            }
-            @media #{$screen-small} {
-                width: 100%;
-            }
-        }
-
-        .portfolio-col-5,
-        .portfolio-col-6 {
-            width: 20%;
-            &.w2 {
-                width: 40%;
-            }
-
-            @media #{$screen-medium} {
-                width: 33.3333%;
-                &.w2 {
-                    width: 66.6666%;
-                }
-            }
-            @media #{$screen-small} {
-                width: 50%;
-                &.w2 {
-                    width: 100%;
-                }
-            }
-        }
-    }
-
     &.full {
         margin: 0;
 
@@ -708,7 +673,7 @@ ul {
                         background-size: cover;
                         width: 100%;
                         height: 100%;
-                        @include transition (all 0.3s ease);
+                        @include transition (all .3s);
                     }
                 }
             }
@@ -716,7 +681,7 @@ ul {
                 &:hover {
                     .thumb-info-wrapper {
                         .background-image {
-                            @include transform(scale(1.1, 1.1));
+                            transform: scale(1.1, 1.1);
                         }
                     }
                 }
@@ -751,7 +716,7 @@ ul {
         right: 0;
         bottom: 0;
         left: 0;
-        @include transition (all 300ms ease);
+        @include transition (all .3s);
     }
     h2 {
         bottom: 7%;
@@ -774,7 +739,7 @@ ul {
 html.gecko {
     .thumb-info {
         z-index: 1;
-        @include transform(unset);
+        transform: unset;
     }
 }
 
@@ -872,6 +837,49 @@ html.gecko {
         }
         > .portfolio-row {
             opacity: 1;
+        }
+    }
+}
+
+.portfolio-fullscreen {
+    .portfolio-item {
+        height: 100vh;
+        background-repeat: no-repeat;
+        background-size: cover;
+        position: relative;
+    }
+    .portfolio-meta {
+        position: absolute;
+        bottom: 50px;
+        #{$left}: 0;
+        padding: 30px 50px 30px 20px;
+        background: rgba(33, 37, 41, .9);
+        min-width: 25%;
+        max-width: 75%;
+    }
+    .portfolio-title {
+        margin-bottom: 10px;
+        font-size: 1.5em;
+        font-weight: 700;
+        color: #fff;
+    }
+    .portfolio-cat {
+        font-size: .9em;
+        color: rgba(255, 255, 255, .6);
+        text-transform: uppercase;
+    }
+    .btn-view-more {
+        text-decoration: none;
+        font-size: .9em;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #fff;
+        i {
+            margin-#{$left}: 5px;
+            transition: margin-#{$left} .25s;
+        }
+        &:hover i {
+            margin-#{$left}: 8px;
         }
     }
 }

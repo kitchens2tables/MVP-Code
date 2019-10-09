@@ -33,7 +33,7 @@ class Less_Autoloader {
 			return;
 		}
 
-		self::$libDir = dirname( __FILE__ );
+		self::$libDir = PORTO_ADMIN . '/lessphp/lib/Less';
 
 		if ( false === spl_autoload_register( array( 'Less_Autoloader', 'loadClass' ) ) ) {
 			throw new Exception( 'Unable to register Less_Autoloader::loadClass as an autoloading method.' );

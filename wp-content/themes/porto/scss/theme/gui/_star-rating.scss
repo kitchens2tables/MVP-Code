@@ -1,15 +1,16 @@
 
 .star-rating {
+    display: block;
     cursor: pointer;
     float: none;
     position: relative;
-    font-family: 'FontAwesome';
+    font-family: 'Font Awesome 5 Free'; font-weight: 900; -webkit-font-smoothing: antialiased;
     font-size: 11px;
     height: 1em;
     line-height: 1em;
     overflow: hidden;
     position: relative;
-    width: 5.1em;
+    width: 6em;
     letter-spacing: .1em;
     text-align: $left;
     white-space: nowrap;

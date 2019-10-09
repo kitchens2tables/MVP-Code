@@ -3,7 +3,6 @@
     margin: 0;
     padding: 0;
     list-style: none;
-    @include clearfix;
 
     li.menu-item {
         display: block;
@@ -22,11 +21,11 @@
             font-family: inherit;
             font-size: inherit;
 
-            > .fa {
+            > [class*=' fa-'] {
                 width: 18px;
                 text-align: center;
             }
-            > .fa,
+            > [class*=' fa-'],
             > .avatar {
                 /*display: none;*/
                 margin-#{$right}: 5px;
@@ -107,11 +106,18 @@
         padding: 0;
         list-style: none;
     }
+}
 
+.mega-menu {
+    @include clearfix;
+}
+
+.mega-menu, .sidebar-menu, .accordion-menu, .menu-custom-block {
     .tip {
         color: #fff;
         display: inline-block;
         font-size: 9px;
+        font-style: normal;
         line-height: 1;
         padding: 2px;
         position: relative;
@@ -121,25 +127,39 @@
 
         &.hot {
             background-color: #eb2771;
-
-            .tip-arrow:before {
-                color: #eb2771;
-            }
+            border-color: #eb2771;
         }
 
-        .tip-arrow:before {
-            display: inline-block;
-            font-family: "Elusive-Icons";
-            font-size: 5px;
+        &:before {
+            content: '';
             position: absolute;
-            width: 4px;
-            height: 6px;
-            margin: auto;
-            content: if-ltr($el-var-caret-left, $el-var-caret-right);
-            #{$left}: -4px;
-            text-align: $right;
-            top: 0;
-            bottom: 0;
+            #{$left}: -3px;
+            top: 50%;
+            margin-top: -2px;
+            border-#{$right}: 3px solid;
+            border-top: 2px solid transparent;
+            border-bottom: 2px solid transparent;
+            border-#{$right}-color: inherit;
+        }
+    }
+}
+
+#header .menu-custom-block,
+.mega-menu > li.menu-item > a {
+    .tip {
+        position: absolute;
+        top: -14px;
+        #{$right}: 10px;
+
+        &:before {
+            content: '';
+            top: auto;
+            bottom: -3px;
+            #{$left}: 2px;
+            border-color: transparent;
+            border-top-color: inherit;
+            border-style: solid;
+            border-width: 3px 2px 0 2px;
         }
     }
 }
@@ -170,23 +190,12 @@
             line-height: 20px;
             padding: 9px 12px 8px;
 
-            > .fa {
+            > i {
                 width: auto;
             }
 
             .tip {
-                position: absolute;
                 top: -9px;
-                #{$right}: 10px;
-
-                .tip-arrow:before {
-                    content: $el-var-caret-down;
-                    #{$left}: 2px;
-                    bottom: -3px;
-                    top: auto;
-                    width: auto;
-                    height: auto;
-                }
             }
 
             > .thumb-info-preview {
@@ -248,12 +257,12 @@
             #{$left}: 0;
 
             > .inner {
-                padding: 25px 15px 10px;
+                padding: 10px;
 
                 > ul.sub-menu {
                     max-width: 100%;
                     @include display-flex;
-                    -webkit-flex-wrap: wrap; -ms-flex-wrap: wrap; flex-wrap: wrap;
+                    -ms-flex-wrap: wrap; flex-wrap: wrap;
 
                     > .menu-block-item {
                         margin-bottom: -20px;
@@ -273,7 +282,7 @@
             }
 
             li.sub {
-                padding: 0 10px 10px;
+                padding: 15px 15px 10px;
 
                 > a {
                     font-size: 1em;
@@ -350,11 +359,11 @@
             > a {
                 &:before {
                     /*content: if-ltr($fa-var-caret-right, $fa-var-caret-left);*/
-                    content: if-ltr($fa-var-angle-right, $fa-var-angle-left);
+                    content: if-ltr($fa-var-chevron-right, $fa-var-chevron-left);
                     float: $right;
                     margin-#{$right}: -1px;
-                    font-family: "FontAwesome";
-                    font-weight: normal;
+                    font-family: 'Font Awesome 5 Free'; font-weight: 900; -webkit-font-smoothing: antialiased;
+                    font-size: .5rem;
                     opacity: .7;
                     transition: margin-#{$right} .2s;
                 }
@@ -382,7 +391,7 @@
 
             li.menu-item-has-children {
                 > a:before {
-                    content: $fa-var-angle-right;
+                    content: $fa-var-chevron-right;
                 }
             }
             li.menu-item {
@@ -422,7 +431,7 @@
             li.menu-item-has-children {
                 > a {
                     &:before {
-                        content: $fa-var-angle-left;
+                        content: $fa-var-chevron-left;
                     }
                 }
             }
@@ -602,9 +611,20 @@
     }
 }
 .mega-menu.menu-hover-underline {
-    > li.menu-item > a:before {
-        top: 50%;
-        margin-top: 15px;
-        width: auto;
+    > li.menu-item {
+        > a:before {
+            top: 50%;
+            margin-top: 15px;
+            width: auto;
+            #{$left}: 0;
+            #{$right}: 15px;
+            transition: cubic-bezier(0.55, 0, 0.1, 1) $right .3s;
+        }
+    }
+    > li.menu-item.active,
+    > li.menu-item:hover {
+        > a:before {
+            #{$right}: 0;
+        }
     }
 }

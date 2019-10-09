@@ -106,3 +106,27 @@
         max-width: 80%;
     }
 }
+
+.grid-creative {
+    .portfolio-item,
+    .thumb-info {
+        &,
+        .thumb-info-wrapper,
+        .post-image {
+            height: 100%;
+        }
+    }
+    .thumb-info img,
+    li.product-col .product-image img {
+        object-fit: cover;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        height: 100%;
+        padding: 0;
+    }
+    > article.post {
+        width: 100%;
+    }
+}

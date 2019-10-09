@@ -1,11 +1,10 @@
 .filter-item-list,
 .single_variation_wrap .variations_button,
 .single-product form.cart:not(.variations_form),
-.single-product .product-summary-wrap .product-share,
-.single-product .related .products-slider .owl-dots {
-    display: -webkit-flex; display: -ms-flexbox; display: flex;
-    -webkit-flex-wrap: wrap; -ms-flex-wrap: wrap; flex-wrap: wrap;
-    -webkit-align-items: center; -ms-align-items: center; align-items: center; -ms-flex-align: center;
+.single-product .product-summary-wrap .product-share {
+    display: -ms-flexbox; display: flex;
+    -ms-flex-wrap: wrap; flex-wrap: wrap;
+    -ms-align-items: center; align-items: center; -ms-flex-align: center;
 }
 
 .product_title {
@@ -191,7 +190,6 @@
     color: #bdbdbd;
     margin-bottom: 1.4286em;
     margin-top: 0;
-    > * { vertical-align: middle; }
     .star-rating {
         font-size: 1.2857em;
         display: inline-block;
@@ -224,18 +222,17 @@
 .product-summary-wrap {
     .summary-before,
     .summary {
-        margin-bottom: 3em;
+        margin-bottom: 2rem;
+    }
+    .description {
+        margin-bottom: 1em;
+        p:last-child {
+            margin-bottom: 0;
+        }
     }
     .summary {
         @media #{$screen-medium} {
             margin-#{$right}: 0;
-        }
-    }
-    .description {
-        font-size: 1.1429em;
-        margin-bottom: 1em;
-        p {
-            margin-bottom: 0;
         }
     }
     .cart {
@@ -251,6 +248,7 @@
         text-shadow: none;
         overflow: hidden;
         margin: side-values(0 4px 5px 0);
+        -webkit-font-smoothing: antialiased;
         @media #{$screen-normal} {
             padding: 0 1.4286em;
         }
@@ -261,14 +259,13 @@
             display: inline-block;
             content: "\e87f";
             font-family: "Porto";
-            margin-#{$right}: 8px;
+            margin-#{$right}: 4px;
             vertical-align: middle;
-            position: relative;
-            top: -1px;
+            font-size: 1.125rem;
         }
         &.readmore {
             &:before {
-                content: $fa-var-sign-in;
+                content: $fa-var-sign-in-alt;
             }
         }
     }
@@ -458,6 +455,7 @@ div.products {
 }
 
 .summary-before {
+    position: relative;
     @media #{$screen-normal} {
         /*max-width: 462px;*/
         margin-left: auto;
@@ -465,31 +463,30 @@ div.products {
     }
 
     .labels {
-        position: relative;
+        position: absolute;
         line-height: 1;
         color: $color-white;
         font-weight: $font-weight-bold;
         text-transform: uppercase;
         margin: 0;
         z-index: 10;
+        top: .8em;
+        #{$left}: .8em;
 
         .onhot,
         .onsale {
-            position: absolute;
-            z-index: 1;
-            top: .8em;
             font-size: .8571em;
             padding: .5833em .6333em;
+            margin-bottom: 5px;
+            display: block;
         }
 
         .onhot {
             background: $hot-bg;
-            #{$left}: .8em;
         }
 
         .onsale {
             background: $sale-bg;
-            #{$right}: .8em;
         }
     }
 }
@@ -511,7 +508,7 @@ div.products {
         text-align: center;
         width: 30px;
         opacity: 0;
-        @include transition(all 0.1s);
+        @include transition(all .1s);
         z-index: 1000;
         i {
             font-size: 14px;
@@ -569,11 +566,11 @@ div.products {
 
     .thumb-nav {
         opacity: 0;
-        @include transition(opacity 0.3s ease 0s);
+        @include transition(opacity .3s);
         top: 50%;
         position: absolute;
         margin-top: -20px;
-        width: 100%;
+        width: 100% !important;
         .thumb-prev, .thumb-next {
             cursor: pointer;
             display: inline-block;
@@ -582,29 +579,28 @@ div.products {
             width: 30px;
             height: 30px;
             text-align: center;
-            text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, .25);
             margin: 5px;
             padding: 4px 7px;
             @include user-select(none);
+            &:before {
+                font-family: 'Font Awesome 5 Free'; font-weight: 900; -webkit-font-smoothing: antialiased;
+                position: relative;
+                top: 0;
+            }
         }
         .thumb-prev {
             #{$left}: -5px;
             &:before {
-                font-family: FontAwesome;
                 content: if-ltr($fa-var-chevron-left, $fa-var-chevron-right);
-                position: relative;
                 #{$left}: -1px;
-                top: 0;
             }
         }
         .thumb-next {
             #{$right}: -5px;
             &:before {
-                font-family: FontAwesome;
                 content: if-ltr($fa-var-chevron-right, $fa-var-chevron-left);
-                position: relative;
                 #{$left}: 1px;
-                top: 0;
             }
         }
     }
@@ -618,12 +614,12 @@ div.products {
         cursor: pointer;
 
         img {
-            @include transition(opacity 0.3s ease 0s);
+            @include transition(opacity .3s);
         }
     }
     .img-thumbnail {
         border: 1px solid transparent;
-        transition: border-color 0.2s ease;
+        transition: border-color .2s;
     }
 }
 
@@ -726,7 +722,7 @@ h2.resp-accordion {
             font-size: 14px;
             font-weight: 400;
             letter-spacing: 0.005em;
-            line-height: 27px;
+            line-height: 1.9;
         }
     }
     .resp-tabs-list {
@@ -841,9 +837,7 @@ h2.resp-accordion {
         }
         .description {
             p {
-                color: #7b858a;
-                font-size: 14px;
-                line-height: 27px;
+                line-height: 1.9;
             }
         }
         .price {
@@ -900,9 +894,10 @@ h2.resp-accordion {
         }
         .add_to_wishlist,
         .yith-wcwl-wishlistexistsbrowse a, .yith-wcwl-wishlistaddedbrowse a {
-            text-indent: -9999960px !important;
+            text-indent: -9999px !important;
             pointer-events: none;
             height: 43px !important;
+            width: 43px;
             line-height: 41px !important;
             &:before {
                 pointer-events: all;
@@ -912,7 +907,6 @@ h2.resp-accordion {
                 font-size: 21px !important;
                 height: 43px;
                 border-color: #d8d8d6 !important;
-                color: #302e2a !important;
             }
             &:hover {
                 &:before {
@@ -977,55 +971,13 @@ h2.resp-accordion {
         }
     }
 
-    ul.product_list_widget li .product-image,
-    .widget ul.product_list_widget li .product-image {
+    ul.product_list_widget li .product-image {
         width: 75px;
-        margin-#{$left}: -90px;
+        -ms-flex: 0 0 75px; flex: 0 0 75px;
+        margin-#{$right}: 15px;
     }
-    ul.product_list_widget li,
-    .widget ul.product_list_widget li {
-        padding-#{$left}: 90px;
-    }
-
-    .related {
-        .slider-title {
-            line-height: 22px;
-            padding-bottom: 10px;
-            margin-bottom: 24px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-        }
-        .products-slider {
-            .owl-dots {
-                position: absolute;
-                #{$right}: 5px;
-                top: -62px;
-                margin-top: 0 !important;
-                height: 32px;
-
-                &.disabled {
-                    display: none;
-                }
-            }
-            .owl-dot {
-                span {
-                    position: relative;
-                    width: 14px;
-                    height: 14px;
-                    border: 2px solid rgba(0,0,0,0.2);
-                    background: none;
-                    margin: 5px 3px;
-                    border-radius: 7px;
-                }
-                &:hover, &.active {
-                    span {
-                        border-color: #05131c; background: none;
-                        &:after {
-                            content: ''; position: absolute; left: 3px; bottom: 3px; right: 3px; top: 3px; border-radius: 10px; background: #05131c;
-                        }
-                    }
-                }
-            }
-        }
+    ul.product_list_widget li .product-details {
+        max-width: calc(100% - 90px);
     }
 }
 
@@ -1070,7 +1022,7 @@ h2.resp-accordion {
     .chosen, .active {
         .filter-color:before {
             content: '\f00c';
-            font-family: FontAwesome;
+            font-family: 'Font Awesome 5 Free'; font-weight: 900; -webkit-font-smoothing: antialiased;
             text-indent: 0;
             position: absolute;
             left: 0;
@@ -1135,7 +1087,6 @@ h2.resp-accordion {
 }
 
 .porto-related-products {
-    padding: 50px 0 30px;
     .container-fluid {
         padding-left: 20px;
         padding-right: 20px;

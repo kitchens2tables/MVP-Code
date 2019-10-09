@@ -60,7 +60,7 @@ if ( ! $show_icon ) {
 $output .= '<section class="' . esc_attr( $css_class ) . '">';
 $output .= '<label>';
 if ( $icon_class ) {
-	$output .= '<i class="' . $icon_class . '">';
+	$output .= '<i class="' . esc_attr( $icon_class ) . '">';
 	if ( 'icon-image' == $icon_class && $icon_image ) {
 		$icon_image = preg_replace( '/[^\d]/', '', $icon_image );
 		$image_url  = wp_get_attachment_url( $icon_image );

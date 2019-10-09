@@ -59,7 +59,7 @@ if ( 'transparent' == $view ) {
 	if ( $author_url ) {
 		$output .= '</a>';
 	}
-	$output .= '<span' . ( $role_company_color ? ' style="color:' . esc_attr( $role_company_color ) . '"' : '' ) . '>' . esc_html( $role ) . ( ( $role && $company ) ? ' - ' : '' ) . esc_html( $company ) . '</span>';
+	$output .= '<span' . ( $role_company_color ? ' style="color:' . esc_attr( $role_company_color ) . '"' : '' ) . '>' . wp_kses_post( $role ) . ( ( $role && $company ) ? ' - ' : '' ) . esc_html( $company ) . '</span>';
 	$output .= '</p></div></div>';
 } elseif ( 'simple' == $view ) {
 	$output .= '<div class="testimonial testimonial-style-6 testimonial-with-quotes' . ( 'white' == $color ? ' testimonial-light' : '' ) . '"><blockquote' . ( $quote_color ? ' style="color:' . esc_attr( $quote_color ) . '"' : '' ) . '><p>' . do_shortcode( $content ? $content : $quote ) . '</p></blockquote><div class="testimonial-author"><p>';
@@ -70,7 +70,7 @@ if ( 'transparent' == $view ) {
 	if ( $author_url ) {
 		$output .= '</a>';
 	}
-	$output .= '<span' . ( $role_company_color ? ' style="color:' . esc_attr( $role_company_color ) . '"' : '' ) . '>' . esc_html( $role ) . ( ( $role && $company ) ? ' - ' : '' ) . esc_html( $company ) . '</span></p>';
+	$output .= '<span' . ( $role_company_color ? ' style="color:' . esc_attr( $role_company_color ) . '"' : '' ) . '>' . wp_kses_post( $role ) . ( ( $role && $company ) ? ' - ' : '' ) . esc_html( $company ) . '</span></p>';
 	$output .= '</div></div>';
 } elseif ( 'advance' == $view ) {
 		$output           .= '<div class="row m-b-md p-b-md">';
@@ -91,7 +91,7 @@ if ( 'transparent' == $view ) {
 	if ( $author_url ) {
 		$output .= '<a href="' . esc_url( $author_url ) . '">';
 	}
-								$output .= '<strong' . ( $name_color ? ' style="color:' . esc_attr( $name_color ) . '"' : '' ) . '>' . $name . '</strong><span' . ( $role_company_color ? ' style="color:' . esc_attr( $role_company_color ) . '"' : '' ) . '>' . esc_html( $role ) . ( ( $role && $company ) ? ' - ' : '' ) . esc_html( $company ) . '</span>';
+								$output .= '<strong' . ( $name_color ? ' style="color:' . esc_attr( $name_color ) . '"' : '' ) . '>' . esc_html( $name ) . '</strong><span' . ( $role_company_color ? ' style="color:' . esc_attr( $role_company_color ) . '"' : '' ) . '>' . wp_kses_post( $role ) . ( ( $role && $company ) ? ' - ' : '' ) . esc_html( $company ) . '</span>';
 	if ( $author_url ) {
 		$output .= '</a>';
 	}
@@ -136,7 +136,7 @@ if ( 'transparent' == $view ) {
 	if ( $author_url ) {
 		$output .= '</a>';
 	}
-	$output .= '<span' . ( $role_company_color ? ' style="color:' . esc_attr( $role_company_color ) . '"' : '' ) . '>' . esc_html( $role ) . ( ( $role && $company ) ? ' - ' : '' ) . esc_html( $company ) . '</span></p>';
+	$output .= '<span' . ( $role_company_color ? ' style="color:' . esc_attr( $role_company_color ) . '"' : '' ) . '>' . wp_kses_post( $role ) . ( ( $role && $company ) ? ' - ' : '' ) . esc_html( $company ) . '</span></p>';
 	$output .= '</div>';
 
 	if ( 'default2' === $view ) {

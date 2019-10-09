@@ -4,7 +4,7 @@
 }
 
 .progress {
-  display: -webkit-flex; display: -ms-flexbox; display: flex;
+  display: -ms-flexbox; display: flex;
   height: $progress-height;
   overflow: hidden; // force rounded corners by cropping it
   font-size: $progress-font-size;
@@ -14,10 +14,10 @@
 }
 
 .progress-bar {
-  display: -webkit-flex; display: -ms-flexbox; display: flex;
-  -webkit-flex-wrap: wrap; -ms-flex-wrap: wrap; flex-wrap: wrap;
-  -webkit-flex-direction: column; -ms-flex-direction: column; flex-direction: column;
-  -webkit-justify-content: center; -ms-flex-pack: center; justify-content: center;
+  display: -ms-flexbox; display: flex;
+  -ms-flex-wrap: wrap; flex-wrap: wrap;
+  -ms-flex-direction: column; flex-direction: column;
+  -ms-flex-pack: center; justify-content: center;
   color: $progress-bar-color;
   text-align: center;
   white-space: nowrap;

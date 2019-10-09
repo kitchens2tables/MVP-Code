@@ -14,17 +14,14 @@ if ( 'grid' == $portfolio_layout || 'masonry' == $portfolio_layout ) {
 	$portfolio_view    = $porto_settings['portfolio-grid-view'];
 }
 
-$portfolio_columns = (int) $portfolio_columns;
+$portfolio_columns = $portfolio_columns;
 
 ?>
 <div id="content" role="main" class="<?php
 if ( 'widewidth' === $porto_layout && ( 'grid' == $portfolio_layout || 'masonry' == $portfolio_layout ) && 'full' == $portfolio_view ) {
 	if ( 'content' === $porto_settings['portfolio-cat-sort-pos'] ) {
-		echo 'm-t-lg';}
-} elseif ( porto_is_wide_layout( $porto_layout ) ) {
-	echo 'm-t-lg m-b-xl';
-	if ( porto_get_wrapper_type() !== 'boxed' ) {
-		echo ' m-r-md m-l-md';}
+		echo 'm-t-lg';
+	}
 }
 ?>">
 
@@ -146,7 +143,7 @@ if ( 'widewidth' === $porto_layout && ( 'grid' == $portfolio_layout || 'masonry'
 
 			<?php else : ?>
 
-			<div class="clearfix portfolio-row portfolios-container<?php echo 'grid' == $portfolio_layout || 'masonry' == $portfolio_layout ? ' portfolio-row-' . $portfolio_columns . ' ' . $portfolio_view : ''; ?>">
+			<div class="clearfix portfolio-row portfolios-container<?php echo 'grid' == $portfolio_layout || 'masonry' == $portfolio_layout ? esc_attr( ' portfolio-row-' . $portfolio_columns . ' ' . $portfolio_view ) : ''; ?>">
 
 			<?php endif; ?>
 

@@ -181,6 +181,9 @@ function porto_load_interactive_banner_shortcode() {
 					'group'            => __( 'Design ', 'porto-functionality' ),
 					'edit_field_class' => 'vc_col-sm-12 vc_column no-vc-background no-vc-border creative_link_css_editor',
 				),
+				$animation_type,
+				$animation_duration,
+				$animation_delay,
 			),
 		)
 	);

@@ -5,9 +5,9 @@ $header_type = porto_get_header_type();
 ?>
 <div class="panel-overlay"></div>
 <div id="side-nav-panel" class="<?php echo ( isset( $porto_settings['mobile-panel-pos'] ) && $porto_settings['mobile-panel-pos'] ) ? $porto_settings['mobile-panel-pos'] : ''; ?>">
-	<a href="#" class="side-nav-panel-close"><i class="fa fa-close"></i></a>
+	<a href="#" class="side-nav-panel-close"><i class="fas fa-times"></i></a>
 	<?php
-	if ( '7' == $header_type || '8' == $header_type ) {
+	if ( '7' == $header_type || '8' == $header_type || ( isset( $porto_settings['mobile-panel-add-switcher'] ) && $porto_settings['mobile-panel-add-switcher'] ) ) {
 		// show currency and view switcher
 		$switcher  = '';
 		$switcher .= porto_mobile_currency_switcher();
@@ -19,7 +19,7 @@ $header_type = porto_get_header_type();
 	}
 
 	// show top navigation and mobile menu
-	$menu = porto_mobile_menu( '19' == $header_type );
+	$menu = porto_mobile_menu( '19' == $header_type || empty( $header_type ) );
 
 	if ( $menu ) {
 		echo '<div class="menu-wrap">' . $menu . '</div>';

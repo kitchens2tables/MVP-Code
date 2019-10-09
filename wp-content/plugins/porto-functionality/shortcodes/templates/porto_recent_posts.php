@@ -135,6 +135,7 @@ if ( $posts->have_posts() ) {
 		<div class="post-carousel porto-carousel owl-carousel<?php echo esc_attr( $carousel_class ); ?>" data-plugin-options="<?php echo esc_attr( $options ); ?>">
 			<?php
 			$i = 0;
+			$tag_closed = true;
 			while ( $posts->have_posts() ) {
 				$posts->the_post();
 				global $previousday;
@@ -142,6 +143,7 @@ if ( $posts->have_posts() ) {
 
 				if ( 0 == $i % $items_row ) {
 					echo '<div class="post-slide' . ( $items_row > 1 ? ' no-single' : '' ) . '">';
+					$tag_closed = false;
 				}
 
 				if ( $show_image ) {
@@ -152,8 +154,12 @@ if ( $posts->have_posts() ) {
 
 				if ( $i % $items_row == $items_row - 1 ) {
 					echo '</div>';
+					$tag_closed = true;
 				}
 				$i++;
+			}
+			if ( ! $tag_closed ) {
+				echo '</div>';
 			}
 			?>
 		</div>

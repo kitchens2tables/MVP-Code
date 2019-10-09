@@ -28,13 +28,21 @@ if ( ! class_exists( 'Porto_Live_Search' ) ) :
 		}
 
 		public function add_script() {
-			wp_enqueue_script( 'porto-live-search', porto_lib_uri . '/live-search/live-search.js', false, porto_version, true );
+			wp_enqueue_script( 'porto-live-search', PORTO_LIB_URI . '/live-search/live-search.js', false, PORTO_VERSION, true );
+			wp_localize_script(
+				'porto-live-search',
+				'porto_live_search',
+				array(
+					'nonce' => wp_create_nonce( 'porto-live-search-nonce' ),
+				)
+			);
 		}
 
 		public function ajax_search() {
+			check_ajax_referer( 'porto-live-search-nonce', 'nonce' );
 			global $porto_settings;
 
-			$query  = apply_filters( 'porto_ajax_search_query', $_REQUEST['query'] );
+			$query  = apply_filters( 'porto_ajax_search_query', sanitize_text_field( $_REQUEST['query'] ) );
 			$posts  = array();
 			$result = array();
 			$args   = array(
@@ -61,7 +69,7 @@ if ( ! class_exists( 'Porto_Live_Search' ) ) :
 					$posts = array_merge( $posts, $this->search_posts( $args, $query ) );
 				}
 			} else {
-				$posts = $this->search_posts( $args, $query, array( esc_attr( $_REQUEST['post_type'] ) ) );
+				$posts = $this->search_posts( $args, $query, array( sanitize_text_field( $_REQUEST['post_type'] ) ) );
 			}
 
 			foreach ( $posts as $post ) {
@@ -110,10 +118,10 @@ if ( ! class_exists( 'Porto_Live_Search' ) ) :
 
 			switch ( $search_type ) {
 				case 'product':
-					$args['s'] = apply_filters( 'porto_ajax_search_products_query', $_REQUEST['query'] );
+					$args['s'] = apply_filters( 'porto_ajax_search_products_query', sanitize_text_field( $_REQUEST['query'] ) );
 					break;
 				case 'sku':
-					$query                = apply_filters( 'porto_ajax_search_products_by_sku_query', $_REQUEST['query'] );
+					$query                = apply_filters( 'porto_ajax_search_products_by_sku_query', sanitize_text_field( $_REQUEST['query'] ) );
 					$args['s']            = '';
 					$args['post_type']    = array( 'product', 'product_variation' );
 					$args['meta_query'][] = array(
@@ -123,7 +131,7 @@ if ( ! class_exists( 'Porto_Live_Search' ) ) :
 					break;
 				case 'tag':
 					$args['s']           = '';
-					$args['product_tag'] = apply_filters( 'porto_ajax_search_products_by_tag_query', $_REQUEST['query'] );
+					$args['product_tag'] = apply_filters( 'porto_ajax_search_products_by_tag_query', sanitize_text_field( $_REQUEST['query'] ) );
 					break;
 			}
 
@@ -140,16 +148,16 @@ if ( ! class_exists( 'Porto_Live_Search' ) ) :
 					$args['tax_query'][] = array(
 						'taxonomy' => 'product_cat',
 						'field'    => 'slug',
-						'terms'    => esc_attr( $_REQUEST['cat'] ),
+						'terms'    => sanitize_text_field( $_REQUEST['cat'] ),
 					);
 				} elseif ( 'post' == $porto_settings['search-type'] ) {
-					$args['category'] = esc_attr( $_REQUEST['cat'] );
+					$args['category'] = sanitize_text_field( $_REQUEST['cat'] );
 				} elseif ( 'portfolio' == $porto_settings['search-type'] ) {
 					$args['tax_query']   = array();
 					$args['tax_query'][] = array(
 						'taxonomy' => 'portfolio_cat',
 						'field'    => 'slug',
-						'terms'    => esc_attr( $_REQUEST['cat'] ),
+						'terms'    => sanitize_text_field( $_REQUEST['cat'] ),
 					);
 				}
 			}

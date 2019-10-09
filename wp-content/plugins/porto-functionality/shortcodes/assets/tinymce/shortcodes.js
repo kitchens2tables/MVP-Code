@@ -1,5 +1,5 @@
 (function() {
-
+    'use strict';
     tinymce.create('tinymce.plugins.ShortcodeMce', {
         init : function(ed, url){
             tinymce.plugins.ShortcodeMce.theurl = url;

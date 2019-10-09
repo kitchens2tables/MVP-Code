@@ -46,7 +46,6 @@
             margin-top: -0.9em;
             padding: 0;
             cursor: pointer;
-            font-family: "FontAwesome";
             text-align: center;
             @include transition($transition);
 
@@ -107,7 +106,7 @@
                 width: 24px;
                 height: 24px;
                 line-height: 23px;
-                font-family: "FontAwesome";
+                font-family: 'Font Awesome 5 Free'; font-weight: 900; -webkit-font-smoothing: antialiased;
 
                 &:before {
                     content: $fa-var-plus-square;
@@ -261,7 +260,7 @@
             a {
                 margin-#{$right}: .8571em;
                 &:before {
-                    font-family: "FontAwesome";
+                    font-family: 'Font Awesome 5 Free'; font-weight: 900; -webkit-font-smoothing: antialiased;
                     content: $fa-var-times-circle;
                     margin-#{$right}: .3571em;
                     display: inline-block;
@@ -304,8 +303,8 @@
                     background-image: none;
                     position: relative;
                     &:before {
-                        content: $fa-var-close;
-                        font-family: "FontAwesome";
+                        content: $fa-var-times;
+                        font-family: 'Font Awesome 5 Free'; font-weight: 900; -webkit-font-smoothing: antialiased;
                         font-size: 0.9em;
                         position: absolute;
                         top: 0.1em;
@@ -366,19 +365,17 @@
 }
 
 // Woocommerce products widget
-ul.product_list_widget,
-.widget ul.product_list_widget {
+ul.product_list_widget {
     list-style: none outside;
     padding: 0;
     margin: 0;
     border-width: 0 !important;
     li {
+        @include display-flex;
+        -ms-flex-align: center; align-items: center;
         border-width: 0;
         position: relative;
-        padding: side-values(.5714em 0 .5714em 104px);
-        margin: 0;
-        list-style: none;
-        @include clearfix;
+        padding: .5714em 0;
 
         &:first-child {
             padding-top: 0;
@@ -389,10 +386,11 @@ ul.product_list_widget,
         }
 
         .product-image {
-            float: $left;
             width: 84px;
+            -ms-flex: 0 0 84px;
+            flex: 0 0 84px;
             padding: 0;
-            margin-#{$left}: -104px;
+            margin-#{$right}: 20px;
 
             img {
                 width: 100%;
@@ -445,12 +443,18 @@ ul.product_list_widget,
 
         .product-details {
             position: relative;
-            padding-top: 3px;
+            -ms-flex: 1; flex: 1;
+            max-width: calc(100% - 104px);
             a {
                 display: block;
                 text-decoration: none;
                 font-size: 1.0769em;
                 letter-spacing: 0.005em;
+                line-height: 1.8;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                margin-bottom: 4px;
             }
             .amount {
                 font-size: 1.1538em;
@@ -538,6 +542,10 @@ ul.product_list_widget,
     }
 }
 
+.widget .product_list_widget li {
+    padding: .5714em 0;
+}
+
 ul.cart_list{
     li {
         &.empty {
@@ -573,17 +581,17 @@ ul.cart_list{
     }
 }
 
-.widget_recent_reviews,
-.widget.widget_recent_reviews {
+.widget_recent_reviews {
     .product_list_widget {
-        @include clearfix;
         margin-top: -.5714em;
         margin-bottom: -.5714em;
+        @include display-flex;
+        -ms-flex-wrap: wrap; flex-wrap: wrap;
         li {
-            width: 49%;
+            width: 50%;
+            flex: 0 0 50%;
             padding: .5714em 1%;
-            float: $left;
-            padding-#{$left}: 0;
+            display: block;
             text-align: center;
             &:first-child {
                 padding-top: .5714em;
@@ -592,15 +600,12 @@ ul.cart_list{
                 padding-bottom: .5714em;
             }
             a {
-                float: none;
                 display: block;
                 position: relative;
             }
             img {
                 width: 96px;
-                height: auto;
                 border: none;
-                padding: 0;
                 display: block;
                 margin: 0 auto 10px;
             }
@@ -609,10 +614,6 @@ ul.cart_list{
             }
             .reviewer {
                 font-size: .8571em;
-            }
-
-            &:nth-child(2n+1) {
-                clear: both;
             }
         }
     }
@@ -687,8 +688,8 @@ ul.cart_list{
             height: 25px;
             text-decoration: none;
             &:before {
-                content: $fa-var-close;
-                font-family: "FontAwesome";
+                content: $fa-var-times;
+                font-family: 'Font Awesome 5 Free'; font-weight: 900;
             }
         }
     }
@@ -797,6 +798,17 @@ ul.cart_list{
 
 /* rating filter */
 .widget_rating_filter {
+    > ul {
+        padding-top: 1rem;
+        li {
+            line-height: 1;
+            margin-bottom: .75rem;
+            a {
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+        }
+    }
     .star-rating {
         display: block;
         float: $left;

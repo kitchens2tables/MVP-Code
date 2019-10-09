@@ -210,7 +210,7 @@ function porto_load_ultimate_carousel_shortcode() {
 					'class'      => '',
 					'heading'    => __( "Select icon for 'Next Arrow'", 'porto-functionality' ),
 					'param_name' => 'next_icon',
-					'value'      => 'fa fa-chevron-left',
+					'value'      => 'fas fa-chevron-left',
 					'dependency' => array(
 						'element' => 'icon_type',
 						'value'   => 'fontawesome',
@@ -222,7 +222,7 @@ function porto_load_ultimate_carousel_shortcode() {
 					'class'      => '',
 					'heading'    => __( "Select icon for 'Previous Arrow'", 'porto-functionality' ),
 					'param_name' => 'prev_icon',
-					'value'      => 'fa fa-chevron-right',
+					'value'      => 'fas fa-chevron-right',
 					'dependency' => array(
 						'element' => 'icon_type',
 						'value'   => 'fontawesome',
@@ -337,7 +337,7 @@ function porto_load_ultimate_carousel_shortcode() {
 					'class'      => '',
 					'heading'    => __( "Select icon for 'Navigation Dots'", 'porto-functionality' ),
 					'param_name' => 'dots_icon',
-					'value'      => 'fa fa-circle-o',
+					'value'      => 'far fa-circle',
 					'dependency' => array(
 						'element' => 'dots_icon_type',
 						'value'   => 'fontawesome',
@@ -425,6 +425,12 @@ function porto_load_ultimate_carousel_shortcode() {
 
 	if ( class_exists( 'WPBakeryShortCodesContainer' ) ) {
 		class WPBakeryShortCode_porto_ultimate_carousel extends WPBakeryShortCodesContainer {
+			protected $controls_list = array(
+				'add',
+				'edit',
+				'clone',
+				'delete',
+			);
 		}
 	}
 }

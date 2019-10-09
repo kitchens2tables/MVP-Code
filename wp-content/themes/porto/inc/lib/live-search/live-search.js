@@ -14,7 +14,7 @@ jQuery(document).ready(function($) {
         var $this = $(this),
             appendTo = $this.find('.live-search-list'),
             searchCats = $this.find('#cat'),
-            serviceUrl = theme.ajax_url + '?action=porto_ajax_search_posts';
+            serviceUrl = theme.ajax_url + '?action=porto_ajax_search_posts&nonce=' + porto_live_search.nonce;
 
         if (searchCats.length && searchCats.val() && searchCats.val() != '0') {
             serviceUrl += '&cat=' + searchCats.val();

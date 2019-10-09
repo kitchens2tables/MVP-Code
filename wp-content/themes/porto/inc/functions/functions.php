@@ -5,15 +5,15 @@
  * @package Porto
  */
 
-require_once( porto_functions . '/general.php' );
-require_once( porto_functions . '/shortcodes.php' );
-require_once( porto_functions . '/widgets.php' );
-require_once( porto_functions . '/post.php' );
+require_once( PORTO_FUNCTIONS . '/general.php' );
+require_once( PORTO_FUNCTIONS . '/shortcodes.php' );
+require_once( PORTO_FUNCTIONS . '/widgets.php' );
+require_once( PORTO_FUNCTIONS . '/post.php' );
 if ( class_exists( 'WooCommerce' ) ) {
-	require_once( porto_functions . '/woocommerce.php' );
+	require_once( PORTO_FUNCTIONS . '/woocommerce.php' );
 }
 
-require_once( porto_functions . '/layout.php' );
-require_once( porto_functions . '/html_block.php' );
+require_once( PORTO_FUNCTIONS . '/layout.php' );
+require_once( PORTO_FUNCTIONS . '/html_block.php' );
 
-require_once( porto_functions . '/class-dynamic-style.php' );
+require_once( PORTO_FUNCTIONS . '/class-dynamic-style.php' );

@@ -82,7 +82,7 @@ if ( ! class_exists( 'reduxCoreEnqueue' ) ) {
 			// *****************************************************************
 			wp_register_style(
 				'select2-css',
-				porto_js . '/admin/select2.min.css',
+				PORTO_JS . '/admin/select2.min.css',
 				array(),
 				'3.5.2', // $this->timestamp,
 				'all'
@@ -205,19 +205,9 @@ if ( ! class_exists( 'reduxCoreEnqueue' ) ) {
 				true
 			);
 
-			// *****************************************************************
-			// Select2 JS
-			// *****************************************************************
-			// JWp6 plugin giving us problems.  They need to update.
-			if ( wp_script_is( 'jquerySelect2' ) ) {
-				wp_deregister_script( 'jquerySelect2' );
-				wp_dequeue_script( 'jquerySelect2' );
-				wp_dequeue_style( 'jquerySelect2Style' );
-			}
-
 			wp_register_script(
 				'select2-js',
-				porto_js . '/admin/select2' . $this->min . '.js',
+				PORTO_JS . '/admin/select2' . $this->min . '.js',
 				array( 'jquery', 'redux-select2-sortable-js' ),
 				'3.5.2',
 				true
@@ -283,7 +273,7 @@ if ( ! class_exists( 'reduxCoreEnqueue' ) ) {
 
 			wp_enqueue_script(
 				'webfontloader',
-				porto_js . '/libs/webfont.js',
+				PORTO_JS . '/libs/webfont.js',
 				array( 'jquery' ),
 				'1.6.26',
 				true

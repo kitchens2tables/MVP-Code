@@ -9,7 +9,7 @@ global $porto_settings;
 			<div class="row">
 				<div class="col-lg-6 offset-lg-1">
 					<div class="page-not-found-main">
-						<h2 class="entry-title"><?php esc_html_e( '404', 'porto' ); ?> <i class="fa fa-file"></i></h2>
+						<h2 class="entry-title"><?php esc_html_e( '404', 'porto' ); ?> <i class="fas fa-file"></i></h2>
 						<p><?php _e( "We're sorry, but the page you were looking for doesn't exist.", 'porto' ); ?></p>
 					</div>
 				</div>

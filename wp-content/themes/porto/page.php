@@ -32,7 +32,7 @@ $featured_images = porto_get_featured_images();
 											<div class="img-thumbnail">
 												<img class="owl-lazy img-responsive" width="<?php echo esc_attr( $attachment['width'] ); ?>" height="<?php echo esc_attr( $attachment['height'] ); ?>" data-src="<?php echo esc_url( $attachment['src'] ); ?>" alt="<?php echo esc_attr( $attachment['alt'] ); ?>" />
 												<?php if ( $porto_settings['page-zoom'] ) : ?>
-													<span class="zoom" data-src="<?php echo esc_attr( $attachment['src'] ); ?>" data-title="<?php echo esc_attr( $attachment['caption'] ); ?>"><i class="fa fa-search"></i></span>
+													<span class="zoom" data-src="<?php echo esc_attr( $attachment['src'] ); ?>" data-title="<?php echo esc_attr( $attachment['caption'] ); ?>"><i class="fas fa-search"></i></span>
 												<?php endif; ?>
 											</div>
 										</div>
@@ -69,7 +69,7 @@ $featured_images = porto_get_featured_images();
 				</div>
 			</article>
 
-			<div class="<?php echo 'wide-left-sidebar' == $porto_layout || 'wide-right-sidebar' == $porto_layout || 'wide-both-sidebar' == $porto_layout ? 'm-t-lg m-b-xl m-r-md m-l-md' : ''; ?>">
+			<div class="<?php echo 'wide-left-sidebar' == $porto_layout || 'wide-right-sidebar' == $porto_layout || 'wide-both-sidebar' == $porto_layout ? 'm-t-lg m-b-xl' : ''; ?>">
 			<?php
 			$share = porto_get_meta_value( 'page_share' );
 			if ( $porto_settings['share-enable'] && 'no' !== $share && ( 'yes' === $share || ( 'yes' !== $share && $porto_settings['page-share'] ) ) && ( isset( $porto_settings['page-share-pos'] ) && ! $porto_settings['page-share-pos'] ) ) :
@@ -78,7 +78,7 @@ $featured_images = porto_get_featured_images();
 					<?php if ( 'without-icon' == $porto_settings['post-title-style'] ) : ?>
 
 					<?php else : ?>
-						<h3><i class="fa fa-share"></i><?php esc_html_e( 'Share this post', 'porto' ); ?></h3>
+						<h3><i class="fas fa-share"></i><?php esc_html_e( 'Share this post', 'porto' ); ?></h3>
 					<?php endif; ?>
 					<?php get_template_part( 'share' ); ?>
 				</div>

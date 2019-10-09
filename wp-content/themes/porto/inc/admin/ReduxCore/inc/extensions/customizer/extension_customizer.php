@@ -84,7 +84,7 @@ if ( ! class_exists( 'ReduxFramework_extension_customizer' ) ) {
 			}
 
 			if ( empty( $this->_extension_dir ) ) {
-				$this->_extension_dir = apply_filters( 'redux/extension/customizer/dir', trailingslashit( str_replace( '\\', '/', dirname( __FILE__ ) ) ) );
+				$this->_extension_dir = apply_filters( 'redux/extension/customizer/dir', trailingslashit( str_replace( '\\', '/', PORTO_ADMIN . '/ReduxCore/inc/extensions/customizer' ) ) );
 				$this->_extension_url = apply_filters( 'redux/extension/customizer/url', site_url( str_replace( trailingslashit( str_replace( '\\', '/', ABSPATH ) ), '', $this->_extension_dir ) ) );
 			}
 
@@ -260,26 +260,26 @@ if ( ! class_exists( 'ReduxFramework_extension_customizer' ) ) {
 		public function _register_customizer_controls( $wp_customize ) {
 
 			if ( ! class_exists( 'Redux_Customizer_Section' ) ) {
-				require_once dirname( __FILE__ ) . '/inc/customizer_section.php';
+				require_once PORTO_ADMIN . '/ReduxCore/inc/extensions/customizer/inc/customizer_section.php';
 				if ( method_exists( $wp_customize, 'register_section_type' ) ) {
 					$wp_customize->register_section_type( 'Redux_Customizer_Section' );
 				}
 			}
 			if ( ! class_exists( 'Redux_Customizer_Panel' ) ) {
-				require_once dirname( __FILE__ ) . '/inc/customizer_panel.php';
+				require_once PORTO_ADMIN . '/ReduxCore/inc/extensions/customizer/inc/customizer_panel.php';
 				if ( method_exists( $wp_customize, 'register_panel_type' ) ) {
 					$wp_customize->register_panel_type( 'Redux_Customizer_Panel' );
 				}
 			}
 			if ( ! class_exists( 'Redux_Customizer_Control' ) ) {
-				require_once dirname( __FILE__ ) . '/inc/customizer_control.php';
+				require_once PORTO_ADMIN . '/ReduxCore/inc/extensions/customizer/inc/customizer_control.php';
 			}
 			if ( ! class_exists( 'Redux_Customizer_Active_Callback' ) ) {
-				require_once dirname( __FILE__ ) . '/inc/customizer_active_callback.php';
+				require_once PORTO_ADMIN . '/ReduxCore/inc/extensions/customizer/inc/customizer_active_callback.php';
 			}
 
-			require_once dirname( __FILE__ ) . '/inc/customizer_fields.php';
-			require_once dirname( __FILE__ ) . '/inc/customizer_devs.php';
+			require_once PORTO_ADMIN . '/ReduxCore/inc/extensions/customizer/inc/customizer_fields.php';
+			require_once PORTO_ADMIN . '/ReduxCore/inc/extensions/customizer/inc/customizer_devs.php';
 
 			global $porto_settings;
 

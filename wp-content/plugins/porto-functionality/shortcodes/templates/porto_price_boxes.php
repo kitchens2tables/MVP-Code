@@ -34,7 +34,7 @@ if ( 'sm' === $size ) {
 }
 
 if ( $style ) {
-	$el_class .= ' pricing-table-' . esc_attr( $style );
+	$el_class .= ' pricing-table-' . $style;
 }
 
 $output = '<div class="porto-price-boxes pricing-table ' . esc_attr( $el_class ) . '"';

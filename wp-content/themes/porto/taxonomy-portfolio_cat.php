@@ -24,7 +24,7 @@ $porto_portfolio_thumb_bg    = $portfolio_options ? get_metadata( $term->taxonom
 $porto_portfolio_thumb_image = $portfolio_options ? get_metadata( $term->taxonomy, $term->term_id, 'portfolio_archive_thumb_image', true ) : $porto_settings['portfolio-archive-thumb-image'];
 ?>
 
-<div id="content" role="main" class="<?php echo porto_is_wide_layout( $porto_layout ) ? 'm-t-lg m-b-xl' . ( porto_get_wrapper_type() !== 'boxed' ? ' m-r-md m-l-md' : '' ) : ''; ?>">
+<div id="content" role="main">
 
 	<?php if ( category_description() ) : ?>
 		<div class="page-content">

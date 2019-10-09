@@ -1,6 +1,6 @@
 .breadcrumb {
-  display: -webkit-flex; display: -ms-flexbox; display: flex;
-  -webkit-flex-wrap: wrap; -ms-flex-wrap: wrap; flex-wrap: wrap;
+  display: -ms-flexbox; display: flex;
+  -ms-flex-wrap: wrap; flex-wrap: wrap;
   padding: $breadcrumb-padding-y $breadcrumb-padding-x;
   margin-bottom: $breadcrumb-margin-bottom;
   list-style: none;

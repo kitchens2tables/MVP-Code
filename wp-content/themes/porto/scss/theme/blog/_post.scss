@@ -108,7 +108,7 @@ article {
             }
             i,
             .post-views-icon.dashicons {
-                margin-#{$right}: 3px !important;
+                margin-#{$right}: 6px !important;
                 font-size: 1em !important;
                 height: 1em;
                 line-height: 1;
@@ -120,8 +120,20 @@ article {
         .post-image {
             position: relative;
             margin-bottom: 15px;
+            /*img {
+                width: auto;
+            }*/
+            .owl-lazy:not(.owl-lazy-loaded), .porto-lazyload:not(.lazy-load-loaded) {
+                width: 100%;
+            }
             &.single {
                 margin-bottom: 30px;
+            }
+            .post-date {
+                position: absolute;
+                #{$right}: 0;
+                top: 10px;
+                z-index: 2;
             }
         }
 
@@ -249,9 +261,9 @@ article.portfolio .comment-respond {
   height: 100%;
   max-height: 41px;
   overflow: hidden;
-  padding: 11px 6px 32px;
+  padding: 0 6px 41px;
   text-align: center;
-  transition: max-height 400ms ease 0s;
+  transition: max-height 400ms;
   width: 42px;
   &:hover {
     height: 100%;
@@ -286,6 +298,7 @@ article.post-title-simple .post-share-advance.post-block.post-share {
   }
   .share-links a:first-child {
     opacity: 0;
+    margin-top: 12px;
   }
   &:hover .share-links a:first-child {
     opacity: 0.5;
@@ -308,11 +321,9 @@ article.post-title-simple .post-share-advance.post-block.post-share {
   }
   .share-links {
     a {
-      background: transparent none repeat scroll 0 0;
       margin-#{$right}: 0;
       opacity: 0.5;
       &:hover {
-        background: transparent;
         opacity: 1;
       }
     }
@@ -597,6 +608,9 @@ article {
             margin-#{$right}: 5px;
         }
     }
+    .meta-date {
+        display: none;
+    }
 }
 
 .post-carousel {
@@ -608,7 +622,8 @@ article {
 }
 
 .post-item-small {
-    padding: 15px 0;
+    padding-top: 15px;
+    padding-bottom: 15px;
     line-height: 20px;
     @include clearfix();
 
@@ -627,6 +642,10 @@ article {
     }
     .post-date {
         font-size: .8em;
+    }
+
+    h5 {
+        margin-bottom: 0;
     }
 }
 
@@ -660,4 +679,75 @@ article {
     .post-date {
         margin-#{$left}: -60px;
     }
+}
+
+.blog-posts {
+    .blog-post-item {
+        .post-item-title {
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: .5rem;
+            > a {
+                color: inherit;
+                text-decoration: none;
+            }
+        }
+        h4 {
+            font-size: 1.2em;
+        }
+        .post-date {
+            font-size: .8em;
+        }
+        .post-image {
+            margin-bottom: .5rem;
+        }
+        .meta-cats {
+            font-size: .6em;
+            text-transform: uppercase;
+            font-weight: 600;
+            display: block;
+            a {
+                color: #fff;
+                text-decoration: none;
+                display: inline-block;
+                padding: 0 .8em;
+                border-radius: 2px;
+                margin: side-values(0 .6em .6em 0);
+            }
+        }
+    }
+    .post-item-list {
+        @media (min-width: 576px) {
+            display: -ms-flexbox; display: flex;
+            -ms-flex-align: center; align-items: center;
+            .post-image {
+                max-width: 34%;
+                -ms-flex: 0 0 34%;
+                flex: 0 0 34%;
+                margin-bottom: 0;
+            }
+            .post-item-content {
+                 -ms-flex: 0 0 66%;
+                flex: 0 0 66%;
+                max-width: 66%;
+                padding-#{$left}: 4%;
+            }
+        }
+    }
+    .post-item-grid {
+        margin-bottom: 1rem;
+    }
+    .post-item-small {
+        .post-image {
+            margin-bottom: 0;
+        }
+        .post-item-title {
+            font-weight: 400;
+            margin-top: .4em;
+        }
+    }
+}
+
+.post-date > time {
+    display: none;
 }

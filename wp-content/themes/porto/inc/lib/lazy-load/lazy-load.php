@@ -14,6 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 // generate placeholders
 if ( ! function_exists( 'porto_generate_placeholder' ) ) :
 	function porto_generate_placeholder( $image_size, $placeholder_width = 100 ) {
+		global $porto_settings;
 
 		if ( preg_match_all( '/(\d+)x(\d+)/', $image_size, $sizes ) ) {
 			$width  = isset( $sizes[1][0] ) ? $sizes[1][0] : '1';
@@ -30,7 +31,7 @@ if ( ! function_exists( 'porto_generate_placeholder' ) ) :
 		}
 
 		if ( $width === $height || ( '1' === $width && '1' === $height ) ) {
-			return array( porto_uri . '/images/lazy.png', $width, $height );
+			return array( PORTO_URI . '/images/lazy' . ( isset( $porto_settings['css-type'] ) && 'dark' == $porto_settings['css-type'] ? '-dark' : '' ) . '.png', $width, $height );
 		}
 
 		$upload_dir         = wp_upload_dir();
@@ -47,9 +48,16 @@ if ( ! function_exists( 'porto_generate_placeholder' ) ) :
 
 		$im = @imagecreatetruecolor( $placeholder_width, $placeholder_height );
 		if ( ! $im ) {
-			return array( porto_uri . '/images/lazy.png', $width, $height );
+			return array( PORTO_URI . '/images/lazy' . ( isset( $porto_settings['css-type'] ) && 'dark' == $porto_settings['css-type'] ? '-dark' : '' ) . '.png', $width, $height );
 		}
-		$bgc = @imagecolorallocate( $im, 245, 245, 245 );
+		if ( isset( $porto_settings['placeholder-color'] ) && '#f4f4f4' != $porto_settings['placeholder-color'] ) {
+			require_once( PORTO_LIB . '/lib/color-lib.php' );
+			$porto_color_lib = PortoColorLib::getInstance();
+			$rgbColors       = $porto_color_lib->hexToRGB( $porto_settings['placeholder-color'], false );
+			$bgc             = @imagecolorallocate( $im, $rgbColors[0], $rgbColors[1], $rgbColors[2] );
+		} else {
+			$bgc = @imagecolorallocate( $im, 244, 244, 244 );
+		}
 		@imagefilledrectangle( $im, 0, 0, $placeholder_width, $placeholder_height, $bgc );
 		@imagejpeg( $im, $placeholder_path, 40 );
 		@imagedestroy( $im );
@@ -75,6 +83,8 @@ if ( ! class_exists( 'Porto_LazyLoad_Images' ) ) :
 			add_filter( 'woocommerce_single_product_image_html', array( __CLASS__, 'add_image_placeholders' ), 9999 );
 			add_filter( 'porto_lazy_load_images', array( __CLASS__, 'add_image_placeholders' ), 9999 );
 			add_filter( 'woocommerce_single_product_image_thumbnail_html', array( __CLASS__, 'add_image_placeholders' ), 9999 );
+
+			wp_enqueue_script( 'jquery-lazyload' );
 		}
 		static function add_scripts() {
 
@@ -95,14 +105,15 @@ if ( ! class_exists( 'Porto_LazyLoad_Images' ) ) :
 			$search  = array();
 			$replace = array();
 
+			global $porto_settings;
 			$i = 0;
 			foreach ( $matches[0] as $img_html ) {
 
-				if ( ! preg_match( "/src=['\"]data:image/is", $img_html ) ) {
-					$lazy_image = get_template_directory_uri() . '/images/lazy.png';
+				if ( ! preg_match( "/src=['\"]data:image/is", $img_html ) && strpos( $img_html, 'rev-slidebg' ) === false ) {
+					$lazy_image = get_template_directory_uri() . '/images/lazy' . ( isset( $porto_settings['css-type'] ) && 'dark' == $porto_settings['css-type'] ? '-dark' : '' ) . '.png';
 
 					$i++;
-					// replace the src and add the data-src
+					// replace the src and add the data-original
 					$replace_html = '';
 
 					if ( preg_match( '/width=["\']/i', $img_html ) && preg_match( '/height=["\']/i', $img_html ) ) {

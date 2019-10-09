@@ -2,7 +2,7 @@
 /**
  * Cart Page
  *
- * @version     3.5.0
+ * @version     3.7.0
  */
 
 defined( 'ABSPATH' ) || exit;

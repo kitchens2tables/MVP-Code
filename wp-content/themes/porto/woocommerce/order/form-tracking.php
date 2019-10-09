@@ -2,7 +2,7 @@
 /**
  * Order tracking form
  *
- * @version 3.4.0
+ * @version 3.6.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ global $post;
 
 <div class="row">
 	<div class="col-lg-6 offset-lg-3">
-		<form action="<?php echo esc_url( get_permalink( $post->ID ) ); ?>" method="post" class="track_order featured-box featured-box-primary align-left mt-0">
+		<form action="<?php echo esc_url( get_permalink( $post->ID ) ); ?>" method="post" class="woocommerce-form woocommerce-form-track-order track_order featured-box featured-box-primary align-left mt-0">
 			<div class="box-content">
 				<p><?php esc_html_e( 'To track your order please enter your Order ID in the box below and press the "Track" button. This was given to you on your receipt and in the confirmation email you should have received.', 'porto' ); ?></p>
 

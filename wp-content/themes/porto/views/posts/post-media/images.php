@@ -29,9 +29,9 @@ $carousel_options['nav'] = true;
 				<a href="<?php echo esc_url( apply_filters( 'the_permalink', get_permalink() ) ); ?>">
 			<?php endif; ?>
 					<div class="img-thumbnail">
-						<img class="owl-lazy img-responsive" src="<?php echo esc_url( $placeholder[0] ); ?>" width="<?php echo esc_attr( $attachment_large['width'] ); ?>" height="<?php echo esc_attr( $attachment_large['height'] ); ?>" data-src="<?php echo esc_url( $attachment_large['src'] ); ?>" alt="<?php echo esc_attr( $attachment_large['alt'] ); ?>" />
+						<?php echo wp_get_attachment_image( $featured_image['attachment_id'], ( isset( $image_size ) ? $image_size : 'blog-large' ), false, array( 'class' => 'owl-lazy img-responsive' ) ); ?>
 						<?php if ( $porto_settings['post-zoom'] ) { ?>
-							<span class="zoom" data-src="<?php echo esc_url( $attachment['src'] ); ?>" data-title="<?php echo esc_attr( $attachment_large['caption'] ); ?>"><i class="fa fa-search"></i></span>
+							<span class="zoom" data-src="<?php echo esc_url( $attachment['src'] ); ?>" data-title="<?php echo esc_attr( $attachment_large['caption'] ); ?>"><i class="fas fa-search"></i></span>
 						<?php } ?>
 					</div>
 				<?php if ( is_single() ) : ?>
@@ -43,5 +43,10 @@ $carousel_options['nav'] = true;
 		</div>
 		<?php if ( is_single() && 'advance' === $porto_settings['post-share-position'] ) : ?>
 			<?php get_template_part( 'views/posts/single/share' ); ?>
+		<?php endif; ?>
+
+		<?php if ( isset( $extra_html ) ) : ?>
+			<?php // @codingStandardsIgnoreLine ?>
+			<?php echo porto_filter_output( $extra_html ); ?>
 		<?php endif; ?>
 	</div>

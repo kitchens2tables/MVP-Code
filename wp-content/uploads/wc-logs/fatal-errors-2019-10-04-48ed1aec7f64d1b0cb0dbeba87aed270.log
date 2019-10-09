@@ -1,0 +1,170 @@
+2019-10-04T06:51:37+00:00 CRITICAL Uncaught Error: Call to a member function get_products() on bool in /var/www/html/kitchens2tables/wp-content/themes/porto-child/input_menus.php:36
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/class-functions.php(504): include()
+#1 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(288): um_account_content_hook_menus(NULL)
+#2 /var/www/html/kitchens2tables/wp-includes/plugin.php(203): WP_Hook->apply_filters(NULL, Array)
+#3 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-account.php(683): apply_filters('um_account_cont...', NULL, Array)
+#4 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-account.php(71): um\core\Account->get_tab_fields('mytab', Array)
+#5 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-account.php(227): um\core\Account->init_tabs(Array)
+#6 /var/www/html/kitchens2tables/wp-includes/shortcodes.php(319): um\core\Account->ultimatemember_ac in /var/www/html/kitchens2tables/wp-content/themes/porto-child/input_menus.php on line 36
+
+2019-10-04T07:12:01+00:00 CRITICAL Uncaught Error: Call to a member function get_products() on bool in /var/www/html/kitchens2tables/wp-content/themes/porto-child/input_menus.php:36
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/class-functions.php(504): include()
+#1 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(288): um_account_content_hook_menus(NULL)
+#2 /var/www/html/kitchens2tables/wp-includes/plugin.php(203): WP_Hook->apply_filters(NULL, Array)
+#3 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-account.php(683): apply_filters('um_account_cont...', NULL, Array)
+#4 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-account.php(71): um\core\Account->get_tab_fields('mytab', Array)
+#5 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-account.php(227): um\core\Account->init_tabs(Array)
+#6 /var/www/html/kitchens2tables/wp-includes/shortcodes.php(319): um\core\Account->ultimatemember_ac in /var/www/html/kitchens2tables/wp-content/themes/porto-child/input_menus.php on line 36
+
+2019-10-04T07:30:23+00:00 CRITICAL Uncaught Error: Call to a member function get_products() on bool in /var/www/html/kitchens2tables/wp-content/themes/porto-child/input_menus.php:36
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/class-functions.php(504): include()
+#1 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(288): um_account_content_hook_menus(NULL)
+#2 /var/www/html/kitchens2tables/wp-includes/plugin.php(203): WP_Hook->apply_filters(NULL, Array)
+#3 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-account.php(683): apply_filters('um_account_cont...', NULL, Array)
+#4 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-account.php(71): um\core\Account->get_tab_fields('mytab', Array)
+#5 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-account.php(227): um\core\Account->init_tabs(Array)
+#6 /var/www/html/kitchens2tables/wp-includes/shortcodes.php(319): um\core\Account->ultimatemember_ac in /var/www/html/kitchens2tables/wp-content/themes/porto-child/input_menus.php on line 36
+
+2019-10-04T13:20:30+00:00 CRITICAL Uncaught Error: Call to undefined function wcmp_get_vendor_review_info() in /var/www/html/kitchens2tables/wp-content/themes/porto-child/ultimate-member/templates/members-grid.php:122
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/um-actions-members.php(338): include()
+#1 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(286): um_members_directory_display(Array)
+#2 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#3 /var/www/html/kitchens2tables/wp-includes/plugin.php(453): WP_Hook->do_action(Array)
+#4 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/templates/members.php(67): do_action('um_members_dire...', Array)
+#5 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-shortcodes.php(285): include('/var/www/html/k...')
+#6 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-shortcodes.php(837): um\core\Shortcodes->load_temp in /var/www/html/kitchens2tables/wp-content/themes/porto-child/ultimate-member/templates/members-grid.php on line 122
+
+2019-10-04T13:20:40+00:00 CRITICAL Uncaught Error: Call to undefined function wcmp_get_vendor_review_info() in /var/www/html/kitchens2tables/wp-content/themes/porto-child/ultimate-member/templates/members-grid.php:122
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/um-actions-members.php(338): include()
+#1 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(286): um_members_directory_display(Array)
+#2 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#3 /var/www/html/kitchens2tables/wp-includes/plugin.php(453): WP_Hook->do_action(Array)
+#4 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/templates/members.php(67): do_action('um_members_dire...', Array)
+#5 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-shortcodes.php(285): include('/var/www/html/k...')
+#6 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-shortcodes.php(837): um\core\Shortcodes->load_temp in /var/www/html/kitchens2tables/wp-content/themes/porto-child/ultimate-member/templates/members-grid.php on line 122
+
+2019-10-04T13:21:10+00:00 CRITICAL Uncaught Error: Call to undefined function wcmp_get_vendor_review_info() in /var/www/html/kitchens2tables/wp-content/themes/porto-child/ultimate-member/templates/members-grid.php:122
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/um-actions-members.php(338): include()
+#1 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(286): um_members_directory_display(Array)
+#2 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#3 /var/www/html/kitchens2tables/wp-includes/plugin.php(453): WP_Hook->do_action(Array)
+#4 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/templates/members.php(67): do_action('um_members_dire...', Array)
+#5 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-shortcodes.php(285): include('/var/www/html/k...')
+#6 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-shortcodes.php(837): um\core\Shortcodes->load_temp in /var/www/html/kitchens2tables/wp-content/themes/porto-child/ultimate-member/templates/members-grid.php on line 122
+
+2019-10-04T13:21:22+00:00 CRITICAL Uncaught Error: Call to undefined function get_current_vendor_id() in /var/www/html/kitchens2tables/wp-content/themes/porto-child/account/input_menus.php:67
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-includes/template.php(690): require()
+#1 /var/www/html/kitchens2tables/wp-includes/template.php(647): load_template('/var/www/html/k...', false)
+#2 /var/www/html/kitchens2tables/wp-includes/general-template.php(155): locate_template(Array, true, false)
+#3 /var/www/html/kitchens2tables/wp-content/themes/porto-child/chef_account.php(52): get_template_part('account/input_m...')
+#4 /var/www/html/kitchens2tables/wp-includes/template-loader.php(74): include('/var/www/html/k...')
+#5 /var/www/html/kitchens2tables/wp-blog-header.php(19): require_once('/var/www/html/k...')
+#6 /var/www/html/kitchens2tables/index.php(17): require('/var/www/html/k...')
+#7 {main}
+  thrown in /var/www/html/kitchens2tables/wp-content/themes/porto-child/account/input_menus.php on line 67
+
+2019-10-04T13:21:34+00:00 CRITICAL Uncaught Error: Call to undefined function wcmp_get_vendor_review_info() in /var/www/html/kitchens2tables/wp-content/themes/porto-child/ultimate-member/templates/members-grid.php:122
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/um-actions-members.php(338): include()
+#1 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(286): um_members_directory_display(Array)
+#2 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#3 /var/www/html/kitchens2tables/wp-includes/plugin.php(453): WP_Hook->do_action(Array)
+#4 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/templates/members.php(67): do_action('um_members_dire...', Array)
+#5 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-shortcodes.php(285): include('/var/www/html/k...')
+#6 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-shortcodes.php(837): um\core\Shortcodes->load_temp in /var/www/html/kitchens2tables/wp-content/themes/porto-child/ultimate-member/templates/members-grid.php on line 122
+
+2019-10-04T13:21:49+00:00 CRITICAL Uncaught Error: Call to undefined function get_current_vendor_id() in /var/www/html/kitchens2tables/wp-content/themes/porto-child/account/input_menus.php:67
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-includes/template.php(690): require()
+#1 /var/www/html/kitchens2tables/wp-includes/template.php(647): load_template('/var/www/html/k...', false)
+#2 /var/www/html/kitchens2tables/wp-includes/general-template.php(155): locate_template(Array, true, false)
+#3 /var/www/html/kitchens2tables/wp-content/themes/porto-child/chef_account.php(52): get_template_part('account/input_m...')
+#4 /var/www/html/kitchens2tables/wp-includes/template-loader.php(74): include('/var/www/html/k...')
+#5 /var/www/html/kitchens2tables/wp-blog-header.php(19): require_once('/var/www/html/k...')
+#6 /var/www/html/kitchens2tables/index.php(17): require('/var/www/html/k...')
+#7 {main}
+  thrown in /var/www/html/kitchens2tables/wp-content/themes/porto-child/account/input_menus.php on line 67
+
+2019-10-04T13:21:58+00:00 CRITICAL Uncaught Error: Call to undefined function get_current_vendor_id() in /var/www/html/kitchens2tables/wp-content/themes/porto-child/account/input_menus.php:67
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-includes/template.php(690): require()
+#1 /var/www/html/kitchens2tables/wp-includes/template.php(647): load_template('/var/www/html/k...', false)
+#2 /var/www/html/kitchens2tables/wp-includes/general-template.php(155): locate_template(Array, true, false)
+#3 /var/www/html/kitchens2tables/wp-content/themes/porto-child/chef_account.php(52): get_template_part('account/input_m...')
+#4 /var/www/html/kitchens2tables/wp-includes/template-loader.php(74): include('/var/www/html/k...')
+#5 /var/www/html/kitchens2tables/wp-blog-header.php(19): require_once('/var/www/html/k...')
+#6 /var/www/html/kitchens2tables/index.php(17): require('/var/www/html/k...')
+#7 {main}
+  thrown in /var/www/html/kitchens2tables/wp-content/themes/porto-child/account/input_menus.php on line 67
+
+2019-10-04T13:22:06+00:00 CRITICAL Uncaught Error: Call to undefined function wcmp_get_vendor_review_info() in /var/www/html/kitchens2tables/wp-content/themes/porto-child/ultimate-member/templates/members-grid.php:122
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/um-actions-members.php(338): include()
+#1 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(286): um_members_directory_display(Array)
+#2 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#3 /var/www/html/kitchens2tables/wp-includes/plugin.php(453): WP_Hook->do_action(Array)
+#4 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/templates/members.php(67): do_action('um_members_dire...', Array)
+#5 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-shortcodes.php(285): include('/var/www/html/k...')
+#6 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-shortcodes.php(837): um\core\Shortcodes->load_temp in /var/www/html/kitchens2tables/wp-content/themes/porto-child/ultimate-member/templates/members-grid.php on line 122
+
+2019-10-04T13:22:17+00:00 CRITICAL Uncaught Error: Call to undefined function get_current_vendor_id() in /var/www/html/kitchens2tables/wp-content/themes/porto-child/account/input_menus.php:67
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-includes/template.php(690): require()
+#1 /var/www/html/kitchens2tables/wp-includes/template.php(647): load_template('/var/www/html/k...', false)
+#2 /var/www/html/kitchens2tables/wp-includes/general-template.php(155): locate_template(Array, true, false)
+#3 /var/www/html/kitchens2tables/wp-content/themes/porto-child/chef_account.php(52): get_template_part('account/input_m...')
+#4 /var/www/html/kitchens2tables/wp-includes/template-loader.php(74): include('/var/www/html/k...')
+#5 /var/www/html/kitchens2tables/wp-blog-header.php(19): require_once('/var/www/html/k...')
+#6 /var/www/html/kitchens2tables/index.php(17): require('/var/www/html/k...')
+#7 {main}
+  thrown in /var/www/html/kitchens2tables/wp-content/themes/porto-child/account/input_menus.php on line 67
+
+2019-10-04T13:23:56+00:00 CRITICAL Uncaught Error: Call to undefined function wcmp_get_vendor_review_info() in /var/www/html/kitchens2tables/wp-content/themes/porto-child/ultimate-member/templates/members-grid.php:122
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/um-actions-members.php(338): include()
+#1 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(286): um_members_directory_display(Array)
+#2 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#3 /var/www/html/kitchens2tables/wp-includes/plugin.php(453): WP_Hook->do_action(Array)
+#4 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/templates/members.php(67): do_action('um_members_dire...', Array)
+#5 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-shortcodes.php(285): include('/var/www/html/k...')
+#6 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-shortcodes.php(837): um\core\Shortcodes->load_temp in /var/www/html/kitchens2tables/wp-content/themes/porto-child/ultimate-member/templates/members-grid.php on line 122
+
+2019-10-04T13:24:07+00:00 CRITICAL Uncaught Error: Call to undefined function vc_manager() in /var/www/html/kitchens2tables/wp-content/themes/porto/inc/functions/class-dynamic-style.php:176
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(286): Porto_Dynamic_Style->init_vc_custom_styles('')
+#1 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters(NULL, Array)
+#2 /var/www/html/kitchens2tables/wp-includes/plugin.php(453): WP_Hook->do_action(Array)
+#3 /var/www/html/kitchens2tables/wp-includes/script-loader.php(2231): do_action('wp_enqueue_scri...')
+#4 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(286): wp_enqueue_scripts('')
+#5 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters(NULL, Array)
+#6 /var/www/html/kitchens2tables/wp-includes/plugin.php(453): WP_Hook->do_action(Array)
+#7 /var/www/html/kitchens2tables/wp-includes/general-template.php(2614): do_action('wp_head')
+#8 /var/www/html/kitchens2tables/wp-content/themes/porto/head.php( in /var/www/html/kitchens2tables/wp-content/themes/porto/inc/functions/class-dynamic-style.php on line 176
+
+2019-10-04T13:24:17+00:00 CRITICAL Uncaught Error: Call to undefined function wcmp_get_vendor_review_info() in /var/www/html/kitchens2tables/wp-content/themes/porto-child/ultimate-member/templates/members-grid.php:122
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/um-actions-members.php(338): include()
+#1 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(286): um_members_directory_display(Array)
+#2 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#3 /var/www/html/kitchens2tables/wp-includes/plugin.php(453): WP_Hook->do_action(Array)
+#4 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/templates/members.php(67): do_action('um_members_dire...', Array)
+#5 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-shortcodes.php(285): include('/var/www/html/k...')
+#6 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-shortcodes.php(837): um\core\Shortcodes->load_temp in /var/www/html/kitchens2tables/wp-content/themes/porto-child/ultimate-member/templates/members-grid.php on line 122
+
+2019-10-04T13:24:30+00:00 CRITICAL Uncaught Error: Call to undefined function wcmp_get_vendor_review_info() in /var/www/html/kitchens2tables/wp-content/themes/porto-child/ultimate-member/templates/members-grid.php:122
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/um-actions-members.php(338): include()
+#1 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(286): um_members_directory_display(Array)
+#2 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(310): WP_Hook->apply_filters('', Array)
+#3 /var/www/html/kitchens2tables/wp-includes/plugin.php(453): WP_Hook->do_action(Array)
+#4 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/templates/members.php(67): do_action('um_members_dire...', Array)
+#5 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-shortcodes.php(285): include('/var/www/html/k...')
+#6 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-shortcodes.php(837): um\core\Shortcodes->load_temp in /var/www/html/kitchens2tables/wp-content/themes/porto-child/ultimate-member/templates/members-grid.php on line 122
+

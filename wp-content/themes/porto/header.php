@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
-	<meta charset="utf-8">
+	<meta charset="<?php bloginfo( 'charset' ); ?>">
 	<!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
 	<link rel="profile" href="http://gmpg.org/xfn/11" />
@@ -76,7 +76,8 @@ if ( ( is_front_page() && is_home() ) || is_front_page() ) {
 
 	do_action( 'porto_before_wrapper' );
 ?>
-       	<div class="page-wrapper<?php echo ! $header_is_side ? '' : ' side-nav', isset( $porto_settings['header-side-position'] ) && $porto_settings['header-side-position'] ? ' side-nav-right' : ''; ?>"><!-- page wrapper -->
+
+	<div class="page-wrapper<?php echo ! $header_is_side ? '' : ' side-nav', isset( $porto_settings['header-side-position'] ) && $porto_settings['header-side-position'] ? ' side-nav-right' : ''; ?>"><!-- page wrapper -->
 
 		<?php
 		if ( 'before_header' == $porto_banner_pos ) {
@@ -104,7 +105,7 @@ if ( ( is_front_page() && is_home() ) || is_front_page() ) {
 
 		<?php if ( porto_get_meta_value( 'header', true ) && 'hide' != $porto_settings['header-view'] ) : ?>
 			<!-- header wrapper -->
-			<div class="<?php echo $header_wrapper_class_escaped; ?>">
+			<div class="<?php echo esc_attr( $header_wrapper_class_escaped ); ?>">
 				<?php if ( porto_get_wrapper_type() != 'boxed' && 'boxed' == $porto_settings['header-wrapper'] ) : ?>
 				<div id="header-boxed">
 				<?php endif; ?>
@@ -117,6 +118,10 @@ if ( ( is_front_page() && is_home() ) || is_front_page() ) {
 				<?php endif; ?>
 			</div>
 			<!-- end header wrapper -->
+		<?php endif; ?>
+
+		<?php if ( 'side' == porto_get_header_type() ) : ?>
+			<div class="content-wrapper">
 		<?php endif; ?>
 
 		<?php
@@ -220,4 +225,3 @@ if ( ( is_front_page() && is_home() ) || is_front_page() ) {
 				<?php endif;
 				do_action( 'porto_after_content_inner_top' );
 			?>
- 

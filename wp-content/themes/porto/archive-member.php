@@ -6,7 +6,7 @@
 	$member_columns  = $porto_settings['member-columns'];
 ?>
 
-<div id="content" role="main" class="<?php echo porto_is_wide_layout( $porto_layout ) ? 'm-t-lg m-b-xl' : '' , 'boxed' != porto_get_wrapper_type() ? ' m-r-md m-l-md' : ''; ?>">
+<div id="content" role="main">
 
 	<?php if ( ! is_search() && 'content' == $porto_settings['member-cat-sort-pos'] && $porto_settings['member-title'] ) : ?>
 		<?php

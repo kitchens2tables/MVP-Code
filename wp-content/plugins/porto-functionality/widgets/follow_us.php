@@ -75,7 +75,7 @@ class Porto_Follow_Us_Widget extends WP_Widget {
 			<?php
 			if ( $follow_before ) :
 				?>
-				<?php echo wpautop( do_shortcode( $follow_before ) ); ?><?php endif; ?>
+				<?php echo do_shortcode( $follow_before ); ?><?php endif; ?>
 			<?php
 			if ( $facebook ) :
 				?>
@@ -188,7 +188,7 @@ class Porto_Follow_Us_Widget extends WP_Widget {
 			<?php
 			if ( $follow_after ) :
 				?>
-				<?php echo wpautop( do_shortcode( $follow_after ) ); ?>
+				<?php echo do_shortcode( $follow_after ); ?>
 			<?php endif; ?>
 		</div>
 

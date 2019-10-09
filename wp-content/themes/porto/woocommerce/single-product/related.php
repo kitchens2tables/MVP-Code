@@ -61,6 +61,7 @@ if ( $products->have_posts() ) : ?>
 					$porto_woocommerce_loop['view']       = 'products-slider';
 					$porto_woocommerce_loop['navigation'] = false;
 					$porto_woocommerce_loop['pagination'] = true;
+					$porto_woocommerce_loop['el_class']   = 'show-dots-title-right';
 
 					woocommerce_product_loop_start();
 					?>

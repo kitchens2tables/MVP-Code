@@ -22,8 +22,10 @@ $dir: ltr !default;
 @import "plugins/directional";
 @import "plugins/skin";
 
-@import "plugins/fontawesome/font-awesome";
-@import "plugins/elusive-icon/elusive-icons";
+@import "plugins/fontawesome/fontawesome";
+@import "plugins/fontawesome/brands";
+@import "plugins/fontawesome/regular";
+@import "plugins/fontawesome/solid";
 @import "plugins/owlcarousel/owl.animate";
 @import "plugins/owlcarousel/owl.autoheight";
 @import "plugins/owlcarousel/owl.carousel";
@@ -34,3 +36,5 @@ $dir: ltr !default;
 @import "plugins/Simple-Line-Icons/Simple-Line-Icons";
 @import "plugins/magnific-popup/main";
 @import "plugins/jquery.selectric/selectric";
+@import "theme/porto-font/porto-font";
+@import "plugins/jquery.scrollbar/jquery.scrollbar";

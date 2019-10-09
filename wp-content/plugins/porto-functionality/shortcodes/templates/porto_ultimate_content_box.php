@@ -17,7 +17,9 @@ extract(
 			'box_border_color2' => '',
 			'box_shadow'        => '',
 			'box_shadow_color'  => '',
+			'content_pos'       => '',
 			'link'              => '',
+			'link_class'        => '',
 			'hover_box_shadow'  => '',
 			'min_height'        => '',
 			'padding'           => '',
@@ -43,7 +45,7 @@ if ( $bg_type ) {
 			break;
 		case 'bg_image':
 			if ( $bg_img ) {
-				$img    = wp_get_attachment_image_src( $bg_img, 'large' );
+				$img    = wp_get_attachment_image_src( $bg_img, 'full' );
 				$style .= "background-image:url('" . esc_url( $img[0] ) . "');";
 				$style .= 'background-size: ' . esc_attr( $bg_size ) . ';';
 				$style .= 'background-repeat: ' . esc_attr( $bg_repeat ) . ';';
@@ -58,7 +60,7 @@ if ( $bg_type ) {
 /*  box shadow  */
 if ( $box_shadow ) {
 	$data = porto_get_box_shadow( $box_shadow, 'css' );
-	if ( strpos( $data, 'none' ) !== false ) {
+	if ( strpos( $data, 'none' ) !== false || strpos( $data, ':;' ) !== false ) {
 		$style .= 'box-shadow: none;';
 	} else {
 		$style .= $data;
@@ -67,19 +69,19 @@ if ( $box_shadow ) {
 
 /*  box shadow on hover */
 if ( $hover_box_shadow ) {
-
 	$data = porto_get_box_shadow( $hover_box_shadow, 'data' );
-
-	if ( strpos( $data, 'none' ) !== false ) {
-		$data = 'none';
-	}
-	if ( strpos( $data, 'inherit' ) !== false ) {
-		if ( $box_shadow ) {
-			$data = porto_get_box_shadow( $box_shadow, 'data' );
+	if ( $data ) {
+		if ( strpos( $data, 'none' ) !== false || strpos( $data, ':;' ) !== false ) {
+			$data = 'none';
 		}
-	}
+		if ( strpos( $data, 'inherit' ) !== false ) {
+			if ( $box_shadow ) {
+				$data = porto_get_box_shadow( $box_shadow, 'data' );
+			}
+		}
 
-	$hover .= ' data-hover_box_shadow="' . esc_attr( $data ) . '" ';
+		$hover .= ' data-hover_box_shadow="' . esc_attr( $data ) . '" ';
+	}
 }
 
 /* border */
@@ -105,15 +107,23 @@ if ( $box_border_style && $border ) {
 
 /* link */
 if ( $link ) {
-	$href       = vc_build_link( $link );
-	$url        = ( isset( $href['url'] ) && '' !== $href['url'] ) ? $href['url'] : '';
-	$target     = ( isset( $href['target'] ) && '' !== $href['target'] ) ? "target='" . esc_attr( trim( $href['target'] ) ) . "'" : '';
-	$link_title = ( isset( $href['title'] ) && '' !== $href['title'] ) ? "title='" . esc_attr( $href['title'] ) . "'" : '';
-	$rel        = ( isset( $href['rel'] ) && '' !== $href['rel'] ) ? "rel='" . esc_attr( $href['rel'] ) . "'" : '';
+	$href = vc_build_link( $link );
+	$url  = ( isset( $href['url'] ) && '' !== $href['url'] ) ? $href['url'] : '';
+	if ( $url ) {
+		$target     = ( isset( $href['target'] ) && '' !== $href['target'] ) ? "target='" . esc_attr( trim( $href['target'] ) ) . "'" : '';
+		$link_title = ( isset( $href['title'] ) && '' !== $href['title'] ) ? "title='" . esc_attr( $href['title'] ) . "'" : '';
+		$rel        = ( isset( $href['rel'] ) && '' !== $href['rel'] ) ? "rel='" . esc_attr( $href['rel'] ) . "'" : '';
+	} else {
+		$link = '';
+	}
 }
 
 if ( $min_height ) {
-	$style .= 'min-height:' . esc_attr( $min_height ) . 'px;';
+	$unit = trim( preg_replace( '/[0-9]/', '', $min_height ) );
+	if ( ! $unit ) {
+		$min_height .= 'px';
+	}
+	$style .= 'min-height:' . esc_attr( $min_height ) . ';';
 }
 if ( $padding ) {
 	$style .= esc_attr( $padding );
@@ -124,9 +134,9 @@ if ( $margin ) {
 
 $output = '<div class="porto-ultimate-content-box-container ' . esc_attr( $el_class ) . '" >';
 if ( $link ) {
-	$output .= '<a class="porto-ultimate-content-box-anchor" href="' . esc_url( $url ) . '" ' . $link_title . ' ' . $target . ' ' . $rel . '>';
+	$output .= '<a class="porto-ultimate-content-box-anchor' . ( $link_class ? ' ' . esc_attr( $link_class ) : '' ) . '" href="' . esc_url( $url ) . '" ' . $link_title . ' ' . $target . ' ' . $rel . '>';
 }
-	$output .= '<div class="porto-ultimate-content-box ' . esc_attr( $content_box_design_style ) . '" style="' . esc_attr( $style ) . '" ' . $hover . ' ' . $data_attr . '>';
+	$output .= '<div class="porto-ultimate-content-box' . ( $content_box_design_style ? ' ' . esc_attr( trim( $content_box_design_style ) ) : '' ) . ( $content_pos ? ' has-content-pos justify-content-' . esc_attr( $content_pos ) : '' ) . '" style="' . esc_attr( $style ) . '" ' . $hover . ' ' . $data_attr . '>';
 	$output .= do_shortcode( $content );
 	$output .= '</div>';
 if ( $link ) {

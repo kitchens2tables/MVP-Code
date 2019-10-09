@@ -16,8 +16,14 @@ extract(
 			'product_orderby'  => 'date',
 			'product_order'    => 'desc',
 			'addlinks_pos'     => '',
+			'image_size'       => '',
 			'navigation'       => 1,
+			'nav_pos'          => '',
+			'nav_pos2'         => '',
+			'nav_type'         => '',
+			'show_nav_hover'   => false,
 			'pagination'       => 0,
+			'dots_pos'         => '',
 			'el_class'         => '',
 		),
 		$atts
@@ -98,6 +104,35 @@ if ( $show_products ) {
 	$porto_woocommerce_loop['pagination']   = $pagination;
 	$porto_woocommerce_loop['navigation']   = $navigation;
 	$porto_woocommerce_loop['addlinks_pos'] = $addlinks_pos;
+	if ( $image_size ) {
+		$porto_woocommerce_loop['image_size'] = $image_size;
+	}
+
+	$wrapper_class = '';
+	if ( $navigation ) {
+		if ( $nav_pos ) {
+			$wrapper_class .= ' ' . $nav_pos;
+		}
+		if ( ( empty( $nav_pos ) || 'nav-center-images-only' == $nav_pos ) && $nav_pos2 ) {
+			$wrapper_class .= ' ' . $nav_pos2;
+		}
+		if ( $nav_type ) {
+			$wrapper_class .= ' ' . $nav_type;
+		} else {
+			$wrapper_class .= ' show-nav-middle';
+		}
+		if ( $show_nav_hover ) {
+			$wrapper_class .= ' show-nav-hover';
+		}
+	}
+
+	if ( $pagination && $dots_pos ) {
+		$wrapper_class .= ' ' . $dots_pos;
+	}
+
+	if ( $wrapper_class ) {
+		$porto_woocommerce_loop['el_class'] = $wrapper_class;
+	}
 }
 
 $output          = '';
@@ -121,7 +156,7 @@ foreach ( $terms as $term_cat ) {
 	$name         = $term_cat->name;
 	$slug         = $term_cat->slug;
 	$output      .= '<li><a class="nav-link ' . esc_attr( $slug ) . '" href="' . ( $show_products ? '#category-' . esc_attr( $term_cat->slug ) : esc_url( get_term_link( $id, 'product_cat' ) ) ) . '" data-cat_id="' . esc_attr( $slug ) . '">';
-	$thumbnail_id = get_woocommerce_term_meta( $term_cat->term_id, 'thumbnail_id', true );
+	$thumbnail_id = get_term_meta( $term_cat->term_id, 'thumbnail_id', true );
 	$image        = wp_get_attachment_image_src( $thumbnail_id );
 	if ( $thumbnail_id && $image ) {
 		$output .= '<span class="category-icon"><img src="' . esc_url( $image[0] ) . '" alt="' . esc_html( $name ) . '" width="' . esc_attr( $image[1] ) . '" height="' . $image[2] . '" /></span>';
@@ -139,7 +174,24 @@ if ( $show_products && ! empty( $terms ) ) {
 			$output .= '<input type="hidden" name="order" value="' . esc_attr( $product_order ) . '" >';
 			$output .= '<input type="hidden" name="columns" value="' . esc_attr( $columns ) . '" >';
 			$output .= '<input type="hidden" name="view" value="' . esc_attr( $view ) . '" >';
-		$output     .= '</form>';
+			$output .= '<input type="hidden" name="navigation" value="' . esc_attr( $navigation ) . '" >';
+			if ( $nav_pos ) {
+				$output .= '<input type="hidden" name="nav_pos" value="' . esc_attr( $nav_pos ) . '" >';
+			}
+			if ( $nav_pos2 ) {
+				$output .= '<input type="hidden" name="nav_pos2" value="' . esc_attr( $nav_pos2 ) . '" >';
+			}
+			if ( $nav_type ) {
+				$output .= '<input type="hidden" name="nav_type" value="' . esc_attr( $nav_type ) . '" >';
+			}
+			if ( $show_nav_hover ) {
+				$output .= '<input type="hidden" name="show_nav_hover" value="' . esc_attr( $show_nav_hover ) . '" >';
+			}
+			$output .= '<input type="hidden" name="pagination" value="' . esc_attr( $pagination ) . '" >';
+			if ( $dots_pos ) {
+				$output .= '<input type="hidden" name="dots_pos" value="' . esc_attr( $dots_pos ) . '" >';
+			}
+		$output .= '</form>';
 
 		$is_first = true;
 	foreach ( $terms as $term_cat ) {
@@ -186,5 +238,9 @@ if ( $show_products && ! empty( $terms ) ) {
 }
 
 $output .= '</div>';
+
+if ( $show_products && $image_size ) {
+	unset( $porto_woocommerce_loop['image_size'] );
+}
 
 echo porto_filter_output( $output );

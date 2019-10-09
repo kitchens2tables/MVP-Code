@@ -133,13 +133,13 @@ function porto_page_sub_title() {
 				$page_id   = 0;
 				switch ( $post_type ) {
 					case 'portfolio':
-						$page_id = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['portfolio-archive-page'] ) && $porto_settings['portfolio-archive-page'] ) ? esc_attr( $porto_settings['portfolio-archive-page'] ) : 0 );
+						$page_id = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['portfolio-archive-page'] ) && $porto_settings['portfolio-archive-page'] ) ? $porto_settings['portfolio-archive-page'] : 0 );
 						break;
 					case 'member':
-						$page_id = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['member-archive-page'] ) && $porto_settings['member-archive-page'] ) ? esc_attr( $porto_settings['member-archive-page'] ) : 0 );
+						$page_id = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['member-archive-page'] ) && $porto_settings['member-archive-page'] ) ? $porto_settings['member-archive-page'] : 0 );
 						break;
 					case 'faq':
-						$page_id = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['faq-archive-page'] ) && $porto_settings['faq-archive-page'] ) ? esc_attr( $porto_settings['faq-archive-page'] ) : 0 );
+						$page_id = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['faq-archive-page'] ) && $porto_settings['faq-archive-page'] ) ? $porto_settings['faq-archive-page'] : 0 );
 						break;
 				}
 				if ( $page_id && ( $post = get_post( $page_id ) ) ) {
@@ -271,13 +271,13 @@ function porto_title_archive_name( $post_type = null ) {
 			}
 			break;
 		case 'portfolio':
-			$page_id = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['portfolio-archive-page'] ) && $porto_settings['portfolio-archive-page'] ) ? esc_attr( $porto_settings['portfolio-archive-page'] ) : 0 );
+			$page_id = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['portfolio-archive-page'] ) && $porto_settings['portfolio-archive-page'] ) ? $porto_settings['portfolio-archive-page'] : 0 );
 			break;
 		case 'member':
-			$page_id = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['member-archive-page'] ) && $porto_settings['member-archive-page'] ) ? esc_attr( $porto_settings['member-archive-page'] ) : 0 );
+			$page_id = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['member-archive-page'] ) && $porto_settings['member-archive-page'] ) ? $porto_settings['member-archive-page'] : 0 );
 			break;
 		case 'faq':
-			$page_id = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['faq-archive-page'] ) && $porto_settings['faq-archive-page'] ) ? esc_attr( $porto_settings['faq-archive-page'] ) : 0 );
+			$page_id = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['faq-archive-page'] ) && $porto_settings['faq-archive-page'] ) ? $porto_settings['faq-archive-page'] : 0 );
 			break;
 	}
 

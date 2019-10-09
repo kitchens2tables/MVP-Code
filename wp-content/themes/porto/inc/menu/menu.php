@@ -42,7 +42,7 @@ function porto_update_custom_nav_fields( $menu_id, $menu_item_db_id, $args ) {
 				$value = $args[ 'menu-item-' . $key ];
 			}
 		} else {
-			$value = $_POST[ 'menu-item-' . $key ][ $menu_item_db_id ];
+			$value = sanitize_text_field( $_POST[ 'menu-item-' . $key ][ $menu_item_db_id ] );
 		}
 
 		if ( $value ) {
@@ -197,7 +197,7 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 		<label for="edit-menu-item-url-<?php echo esc_attr( $item_id ); ?>">
 			<?php echo 'URL'; ?><br />
 			<input type="text" id="edit-menu-item-url-<?php echo esc_attr( $item_id ); ?>" class="widefat code edit-menu-item-url"
-				<?php if ( esc_attr( $item->url ) ) : ?>
+				<?php if ( $item->url ) : ?>
 					name="menu-item-url[<?php echo esc_attr( $item_id ); ?>]"
 				<?php endif; ?>
 					data-name="menu-item-url[<?php echo esc_attr( $item_id ); ?>]"
@@ -209,7 +209,7 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 		<label for="edit-menu-item-title-<?php echo esc_attr( $item_id ); ?>">
 			<?php echo 'Navigation Label'; ?><br />
 			<input type="text" id="edit-menu-item-title-<?php echo esc_attr( $item_id ); ?>" class="widefat edit-menu-item-title"
-				<?php if ( esc_attr( $item->title ) ) : ?>
+				<?php if ( $item->title ) : ?>
 					name="menu-item-title[<?php echo esc_attr( $item_id ); ?>]"
 				<?php endif; ?>
 					data-name="menu-item-title[<?php echo esc_attr( $item_id ); ?>]"
@@ -234,13 +234,13 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 		<label for="edit-menu-item-icon-<?php echo esc_attr( $item_id ); ?>">
 			<?php echo 'Font Awesome Icon Class'; ?><br />
 			<input type="text" id="edit-menu-item-icon-<?php echo esc_attr( $item_id ); ?>" class="widefat code edit-menu-item-icon"
-				<?php if ( esc_attr( $item->icon ) ) : ?>
+				<?php if ( $item->icon ) : ?>
 					name="menu-item-icon[<?php echo esc_attr( $item_id ); ?>]"
 				<?php endif; ?>
 					data-name="menu-item-icon[<?php echo esc_attr( $item_id ); ?>]"
 					value="<?php echo esc_attr( $item->icon ); ?>" />
 			<?php /* translators: $1: opening A tag which has link to the FontAwesome icons page $2: closing A tag */ ?>
-			<span><?php printf( esc_html__( 'Input font awesome icon or icon class. You can see %1$sFont Awesome Icons in here%2$s. For example: fa-users', 'porto' ), '<a target="_blank" href="http://fortawesome.github.io/Font-Awesome/icons/">', '</a>' ); ?></span>
+			<span><?php printf( esc_html__( 'Input font awesome icon or icon class. You can see %1$sFont Awesome Icons in here%2$s. For example: fas fa-user', 'porto' ), '<a target="_blank" href="http://fortawesome.github.io/Font-Awesome/icons/">', '</a>' ); ?></span>
 		</label>
 	</p>
 	<p class="description">
@@ -282,20 +282,20 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 			<label for="edit-menu-item-type-menu-<?php echo esc_attr( $item_id ); ?>">
 				<?php echo 'Menu Type'; ?><br />
 				<select id="edit-menu-item-type-menu-<?php echo esc_attr( $item_id ); ?>"
-					<?php if ( esc_attr( $item->popup_type ) ) : ?>
+					<?php if ( $item->popup_type ) : ?>
 						name="menu-item-popup_type[<?php echo esc_attr( $item_id ); ?>]"
 					<?php endif; ?>
 					data-name="menu-item-popup_type[<?php echo esc_attr( $item_id ); ?>]"
 					>
 					<option value="" 
 					<?php
-					if ( esc_attr( $item->popup_type ) == '' ) {
+					if ( '' == $item->popup_type ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Narrow'; ?></option>
 					<option value="wide" 
 					<?php
-					if ( esc_attr( $item->popup_type ) == 'wide' ) {
+					if ( 'wide' == $item->popup_type ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Wide'; ?></option>
@@ -306,32 +306,32 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 			<label for="edit-menu-item-popup_pos-<?php echo esc_attr( $item_id ); ?>">
 				<?php echo 'Popup Position'; ?><br />
 				<select id="edit-menu-item-popup_pos-<?php echo esc_attr( $item_id ); ?>"
-					<?php if ( esc_attr( $item->popup_pos ) ) : ?>
+					<?php if ( $item->popup_pos ) : ?>
 						name="menu-item-popup_pos[<?php echo esc_attr( $item_id ); ?>]"
 					<?php endif; ?>
 					data-name="menu-item-popup_pos[<?php echo esc_attr( $item_id ); ?>]"
 				>
 					<option value="pos-left" 
 					<?php
-					if ( esc_attr( $item->popup_pos ) == 'pos-left' ) {
+					if ( 'pos-left' == $item->popup_pos ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Left'; ?></option>
 					<option value="pos-right" 
 					<?php
-					if ( esc_attr( $item->popup_pos ) == 'pos-right' ) {
+					if ( 'pos-right' == $item->popup_pos ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Right'; ?></option>
 					<option value="" 
 					<?php
-					if ( esc_attr( $item->popup_pos ) == '' ) {
+					if ( '' == $item->popup_pos ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Justify (only wide)'; ?></option>
 					<option value="pos-center" 
 					<?php
-					if ( esc_attr( $item->popup_pos ) == 'pos-center' ) {
+					if ( 'pos-center' == $item->popup_pos ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Center (only wide)'; ?></option>
@@ -350,37 +350,37 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 					>
 					<option value="" 
 					<?php
-					if ( esc_attr( $item->popup_cols ) == '' ) {
+					if ( '' == $item->popup_cols ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Select'; ?></option>
 					<option value="col-4" 
 					<?php
-					if ( esc_attr( $item->popup_cols ) == 'col-4' ) {
+					if ( 'col-4' == $item->popup_cols ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo '4 Columns'; ?></option>
 					<option value="col-3" 
 					<?php
-					if ( esc_attr( $item->popup_cols ) == 'col-3' ) {
+					if ( 'col-3' == $item->popup_cols ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo '3 Columns'; ?></option>
 					<option value="col-2" 
 					<?php
-					if ( esc_attr( $item->popup_cols ) == 'col-2' ) {
+					if ( 'col-2' == $item->popup_cols ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo '2 Columns'; ?></option>
 					<option value="col-5" 
 					<?php
-					if ( esc_attr( $item->popup_cols ) == 'col-5' ) {
+					if ( 'col-5' == $item->popup_cols ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo '5 Columns'; ?></option>
 					<option value="col-6" 
 					<?php
-					if ( esc_attr( $item->popup_cols ) == 'col-6' ) {
+					if ( 'col-6' == $item->popup_cols ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo '6 Columns'; ?></option>
@@ -391,7 +391,7 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 			<label for="edit-menu-item-popup_max_width-<?php echo esc_attr( $item_id ); ?>">
 				<?php echo 'Popup Max Width (only wide)'; ?><br />
 				<input type="text" id="edit-menu-item-popup_max_width-<?php echo esc_attr( $item_id ); ?>" class="widefat code edit-menu-item-popup_max_width"
-					<?php if ( esc_attr( $item->popup_max_width ) ) : ?>
+					<?php if ( $item->popup_max_width ) : ?>
 						name="menu-item-popup_max_width[<?php echo esc_attr( $item_id ); ?>]"
 					<?php endif; ?>
 						data-name="menu-item-popup_max_width[<?php echo esc_attr( $item_id ); ?>]"
@@ -406,7 +406,7 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 			<label for="edit-menu-item-cols-<?php echo esc_attr( $item_id ); ?>">
 				<?php echo 'Columns (only wide)'; ?><br />
 				<input type="text" id="edit-menu-item-cols-<?php echo esc_attr( $item_id ); ?>" class="widefat code edit-menu-item-cols"
-					<?php if ( esc_attr( $item->cols ) ) : ?>
+					<?php if ( $item->cols ) : ?>
 						name="menu-item-cols[<?php echo esc_attr( $item_id ); ?>]"
 					<?php endif; ?>
 						data-name="menu-item-cols[<?php echo esc_attr( $item_id ); ?>]"
@@ -418,7 +418,7 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 			<label for="edit-menu-item-block-<?php echo esc_attr( $item_id ); ?>">
 				<?php echo 'Block Name'; ?><br />
 				<input type="text" id="edit-menu-item-poup_block-<?php echo esc_attr( $item_id ); ?>" class="widefat edit-menu-item-block"
-					<?php if ( esc_attr( $item->block ) ) : ?>
+					<?php if ( $item->block ) : ?>
 						name="menu-item-block[<?php echo esc_attr( $item_id ); ?>]"
 					<?php endif; ?>
 						data-name="menu-item-block[<?php echo esc_attr( $item_id ); ?>]"
@@ -432,7 +432,7 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 			<label for="edit-menu-item-popup_bg_image-<?php echo esc_attr( $item_id ); ?>">
 				<?php echo 'Background Image (only wide)'; ?><br />
 				<input type="text" id="edit-menu-item-popup_bg_image-<?php echo esc_attr( $item_id ); ?>" class="widefat code edit-menu-item-popup_bg_image"
-					<?php if ( esc_attr( $item->popup_bg_image ) ) : ?>
+					<?php if ( $item->popup_bg_image ) : ?>
 						name="menu-item-popup_bg_image[<?php echo esc_attr( $item_id ); ?>]"
 					<?php endif; ?>
 						data-name="menu-item-popup_bg_image[<?php echo esc_attr( $item_id ); ?>]"
@@ -453,67 +453,61 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 					>
 					<option value="" 
 					<?php
-					if ( esc_attr( $item->popup_bg_pos ) == '' ) {
+					if ( '' == $item->popup_bg_pos ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Select'; ?></option>
 					<option value="left top" 
 					<?php
-					if ( esc_attr( $item->popup_bg_pos ) == 'left top' ) {
+					if ( 'left top' == $item->popup_bg_pos ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Left Top'; ?></option>
 					<option value="left center" 
 					<?php
-					if ( esc_attr( $item->popup_bg_pos ) == 'left center' ) {
-						echo 'selected="selected"';}
-					?>
-					><?php echo 'Left Center'; ?></option>
-					<option value="left center" 
-					<?php
-					if ( esc_attr( $item->popup_bg_pos ) == 'left center' ) {
+					if ( 'left center' == $item->popup_bg_pos ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Left Center'; ?></option>
 					<option value="left bottom" 
 					<?php
-					if ( esc_attr( $item->popup_bg_pos ) == 'left bottom' ) {
+					if ( 'left bottom' == $item->popup_bg_pos ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Left Bottom'; ?></option>
 					<option value="center top" 
 					<?php
-					if ( esc_attr( $item->popup_bg_pos ) == 'center top' ) {
+					if ( 'center top' == $item->popup_bg_pos ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Center Top'; ?></option>
 					<option value="center center" 
 					<?php
-					if ( esc_attr( $item->popup_bg_pos ) == 'center center' ) {
+					if ( 'center center' == $item->popup_bg_pos ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Center Center'; ?></option>
 					<option value="center bottom" 
 					<?php
-					if ( esc_attr( $item->popup_bg_pos ) == 'center bottom' ) {
+					if ( 'center bottom' == $item->popup_bg_pos ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Center Bottom'; ?></option>
 					<option value="right top" 
 					<?php
-					if ( esc_attr( $item->popup_bg_pos ) == 'right top' ) {
+					if ( 'right top' == $item->popup_bg_pos ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Right Top'; ?></option>
 					<option value="right center" 
 					<?php
-					if ( esc_attr( $item->popup_bg_pos ) == 'right center' ) {
+					if ( 'right center' == $item->popup_bg_pos ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Right Center'; ?></option>
 					<option value="right bottom" 
 					<?php
-					if ( esc_attr( $item->popup_bg_pos ) == 'right bottom' ) {
+					if ( 'right bottom' == $item->popup_bg_pos ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Right Bottom'; ?></option>
@@ -532,37 +526,37 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 					>
 					<option value="" 
 					<?php
-					if ( esc_attr( $item->popup_bg_repeat ) == '' ) {
+					if ( '' == $item->popup_bg_repeat ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Select'; ?></option>
 					<option value="no-repeat" 
 					<?php
-					if ( esc_attr( $item->popup_bg_repeat ) == 'no-repeat' ) {
+					if ( 'no-repeat' == $item->popup_bg_repeat ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'No Repeat'; ?></option>
 					<option value="repeat" 
 					<?php
-					if ( esc_attr( $item->popup_bg_repeat ) == 'repeat' ) {
+					if ( 'repeat' == $item->popup_bg_repeat ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Repeat All'; ?></option>
 					<option value="repeat-x" 
 					<?php
-					if ( esc_attr( $item->popup_bg_repeat ) == 'repeat-x' ) {
+					if ( 'repeat-x' == $item->popup_bg_repeat ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Repeat Horizontally'; ?></option>
 					<option value="repeat-y" 
 					<?php
-					if ( esc_attr( $item->popup_bg_repeat ) == 'repeat-y' ) {
+					if ( 'repeat-y' == $item->popup_bg_repeat ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Repeat Vertically'; ?></option>
 					<option value="inherit" 
 					<?php
-					if ( esc_attr( $item->popup_bg_repeat ) == 'inherit' ) {
+					if ( 'inherit' == $item->popup_bg_repeat ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Inherit'; ?></option>
@@ -580,25 +574,25 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 					>
 					<option value="" 
 					<?php
-					if ( esc_attr( $item->popup_bg_size ) == '' ) {
+					if ( '' == $item->popup_bg_size ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Select'; ?></option>
 					<option value="inherit" 
 					<?php
-					if ( esc_attr( $item->popup_bg_size ) == 'inherit' ) {
+					if ( 'inherit' == $item->popup_bg_size ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Inherit'; ?></option>
 					<option value="cover" 
 					<?php
-					if ( esc_attr( $item->popup_bg_size ) == 'cover' ) {
+					if ( 'cover' == $item->popup_bg_size ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Cover'; ?></option>
 					<option value="contain" 
 					<?php
-					if ( esc_attr( $item->popup_bg_size ) == 'contain' ) {
+					if ( 'contain' == $item->popup_bg_size ) {
 						echo 'selected="selected"';}
 					?>
 					><?php echo 'Contain'; ?></option>
@@ -609,7 +603,7 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 			<label for="edit-menu-item-popup_style-<?php echo esc_attr( $item_id ); ?>">
 				<?php echo 'Custom Styles (only wide)'; ?><br />
 				<textarea id="edit-menu-item-popup_style-<?php echo esc_attr( $item_id ); ?>" class="widefat edit-menu-item-popup_style" rows="3" cols="20"
-					<?php if ( esc_html( $item->popup_style ) ) : ?>
+					<?php if ( $item->popup_style ) : ?>
 						name="menu-item-popup_style[<?php echo esc_attr( $item_id ); ?>]"
 					<?php endif; ?>
 						data-name="menu-item-popup_style[<?php echo esc_attr( $item_id ); ?>]"
@@ -622,7 +616,7 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 		<label for="edit-menu-item-preview-<?php echo esc_attr( $item_id ); ?>">
 			<?php echo 'Preview Image (default size: 182 x 136)'; ?><br />
 			<input type="text" id="edit-menu-item-preview-<?php echo esc_attr( $item_id ); ?>" class="widefat code edit-menu-item-preview"
-				<?php if ( esc_attr( $item->preview ) ) : ?>
+				<?php if ( $item->preview ) : ?>
 					name="menu-item-preview[<?php echo esc_attr( $item_id ); ?>]"
 				<?php endif; ?>
 					data-name="menu-item-preview[<?php echo esc_attr( $item_id ); ?>]"
@@ -647,7 +641,7 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 		<label for="edit-menu-item-tip_label-<?php echo esc_attr( $item_id ); ?>">
 			<?php echo 'Tip Label'; ?><br />
 			<input type="text" id="edit-menu-item-tip_label-<?php echo esc_attr( $item_id ); ?>" class="widefat code edit-menu-item-tip_label"
-				<?php if ( esc_attr( $item->tip_label ) ) : ?>
+				<?php if ( $item->tip_label ) : ?>
 					name="menu-item-tip_label[<?php echo esc_attr( $item_id ); ?>]"
 				<?php endif; ?>
 					data-name="menu-item-tip_label[<?php echo esc_attr( $item_id ); ?>]"
@@ -658,7 +652,7 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 		<label for="edit-menu-item-tip_color-<?php echo esc_attr( $item_id ); ?>">
 			<?php echo 'Tip Text Color'; ?><br />
 			<input type="text" id="edit-menu-item-tip_color-<?php echo esc_attr( $item_id ); ?>" class="widefat code edit-menu-item-tip_color"
-				<?php if ( esc_attr( $item->tip_color ) ) : ?>
+				<?php if ( $item->tip_color ) : ?>
 					name="menu-item-tip_color[<?php echo esc_attr( $item_id ); ?>]"
 				<?php endif; ?>
 					data-name="menu-item-tip_color[<?php echo esc_attr( $item_id ); ?>]"
@@ -669,7 +663,7 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 		<label for="edit-menu-item-tip_bg-<?php echo esc_attr( $item_id ); ?>">
 			<?php echo 'Tip BG Color'; ?><br />
 			<input type="text" id="edit-menu-item-tip_bg-<?php echo esc_attr( $item_id ); ?>" class="widefat code edit-menu-item-tip_bg"
-				<?php if ( esc_attr( $item->tip_bg ) ) : ?>
+				<?php if ( $item->tip_bg ) : ?>
 					name="menu-item-tip_bg[<?php echo esc_attr( $item_id ); ?>]"
 				<?php endif; ?>
 					data-name="menu-item-tip_bg[<?php echo esc_attr( $item_id ); ?>]"
@@ -684,7 +678,7 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 		<label for="edit-menu-item-attr-title-<?php echo esc_attr( $item_id ); ?>">
 			<?php echo 'Title Attribute'; ?><br />
 			<input type="text" id="edit-menu-item-attr-title-<?php echo esc_attr( $item_id ); ?>" class="widefat edit-menu-item-attr-title"
-				<?php if ( esc_attr( $item->post_excerpt ) ) : ?>
+				<?php if ( $item->post_excerpt ) : ?>
 					name="menu-item-attr-title[<?php echo esc_attr( $item_id ); ?>]"
 				<?php endif; ?>
 					data-name="menu-item-attr-title[<?php echo esc_attr( $item_id ); ?>]"
@@ -695,7 +689,7 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 		<label for="edit-menu-item-classes-<?php echo esc_attr( $item_id ); ?>">
 			<?php echo 'CSS Classes (optional)'; ?><br />
 			<input type="text" id="edit-menu-item-classes-<?php echo esc_attr( $item_id ); ?>" class="widefat code edit-menu-item-classes"
-				<?php if ( esc_attr( implode( ' ', $item->classes ) ) ) : ?>
+				<?php if ( implode( ' ', $item->classes ) ) : ?>
 					name="menu-item-classes[<?php echo esc_attr( $item_id ); ?>]"
 				<?php endif; ?>
 					data-name="menu-item-classes[<?php echo esc_attr( $item_id ); ?>]"
@@ -706,7 +700,7 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 		<label for="edit-menu-item-xfn-<?php echo esc_attr( $item_id ); ?>">
 			<?php echo 'Link Relationship (XFN)'; ?><br />
 			<input type="text" id="edit-menu-item-xfn-<?php echo esc_attr( $item_id ); ?>" class="widefat code edit-menu-item-xfn"
-				<?php if ( esc_attr( $item->xfn ) ) : ?>
+				<?php if ( $item->xfn ) : ?>
 					name="menu-item-xfn[<?php echo esc_attr( $item_id ); ?>]"
 				<?php endif; ?>
 					data-name="menu-item-xfn[<?php echo esc_attr( $item_id ); ?>]"
@@ -717,7 +711,7 @@ class Porto_Walker_Nav_Menu_Edit extends Walker_Nav_Menu {
 		<label for="edit-menu-item-description-<?php echo esc_attr( $item_id ); ?>">
 			<?php echo 'Description'; ?><br />
 			<textarea id="edit-menu-item-description-<?php echo esc_attr( $item_id ); ?>" class="widefat edit-menu-item-description" rows="3" cols="20"
-				<?php if ( esc_html( $item->description ) ) : ?>
+				<?php if ( $item->description ) : ?>
 						name="menu-item-description[<?php echo esc_attr( $item_id ); ?>]"
 				<?php endif; ?>
 						data-name="menu-item-description[<?php echo esc_attr( $item_id ); ?>]"
@@ -799,7 +793,7 @@ if ( ! class_exists( 'porto_top_navwalker' ) ) {
 			$indent = str_repeat( "\t", $depth );
 
 			if ( 0 == $depth ) {
-				$out_div = '<div class="popup"><div class="inner" style="' . $args->popup_style . '">';
+				$out_div = '<div class="popup"><div class="inner" style="' . esc_attr( $args->popup_style ) . '">';
 			} else {
 				$out_div = '';
 			}
@@ -891,7 +885,7 @@ if ( ! class_exists( 'porto_top_navwalker' ) ) {
 					$sub_popup_pos    = $item->popup_bg_pos ? ';background-position:' . $item->popup_bg_pos . ';' : '';
 					$sub_popup_repeat = $item->popup_bg_repeat ? ';background-repeat:' . $item->popup_bg_repeat . ';' : '';
 					$sub_popup_size   = $item->popup_bg_size ? ';background-size:' . $item->popup_bg_size . ';' : '';
-					$sub_popup_style  = ' style="' . str_replace( '"', '\'', $item->popup_style ) . $sub_popup_image . $sub_popup_pos . $sub_popup_repeat . $sub_popup_size . '"';
+					$sub_popup_style  = ' style="' . esc_attr( str_replace( '"', '\'', $item->popup_style ) . $sub_popup_image . $sub_popup_pos . $sub_popup_repeat . $sub_popup_size ) . '"';
 				}
 				$cols = (float) $item->cols;
 				if ( $cols <= 0 ) {
@@ -911,7 +905,7 @@ if ( ! class_exists( 'porto_top_navwalker' ) ) {
 			$attributes  = ! empty( $item->attr_title ) ? ' title="' . esc_attr( $item->attr_title ) . '"' : '';
 			$attributes .= ! empty( $item->target ) ? ' target="' . esc_attr( $item->target ) . '"' : '';
 			$attributes .= ! empty( $item->xfn ) ? ' rel="' . esc_attr( $item->xfn ) . '"' : '';
-			$attributes .= ! empty( $item->url ) ? ' href="' . esc_attr( $item->url ) . '"' : '';
+			$attributes .= ! empty( $item->url ) ? ' href="' . esc_url( $item->url ) . '"' : '';
 
 			if ( ( $item->current && 0 == $depth ) || ( $item->current_item_ancestor && 0 == $depth ) ) {
 				$current_a .= ' current';
@@ -929,19 +923,19 @@ if ( ! class_exists( 'porto_top_navwalker' ) ) {
 				} else {
 					$item_output .= '<a class="nolink" href="#">';
 				}
-				$item_output .= $args->link_before . ( $item->icon ? '<i class="fa fa-' . str_replace( 'fa-', '', $item->icon ) . '"></i>' : '' ) . apply_filters( 'the_title', $item->title, $item->ID );
+				$item->icon = trim( $item->icon );
+				$item_output .= $args->link_before . ( $item->icon ? '<i class="' . esc_attr( 0 === strpos( $item->icon, 'fa-' ) ? 'fa ' . $item->icon : $item->icon ) . '"></i>' : '' ) . apply_filters( 'the_title', $item->title, $item->ID );
 				$item_output .= $args->link_after;
 				if ( $item->tip_label ) {
 					$item_style       = '';
-					$item_arrow_style = '';
 					if ( $item->tip_color ) {
 						$item_style .= 'color:' . $item->tip_color . ';';
 					}
 					if ( $item->tip_bg ) {
-						$item_style       .= 'background:' . $item->tip_bg . ';';
-						$item_arrow_style .= 'color:' . $item->tip_bg . ';';
+						$item_style .= 'background:' . $item->tip_bg . ';';
+						$item_style .= 'border-color:' . $item->tip_bg . ';';
 					}
-					$item_output .= '<span class="tip" style="' . $item_style . '"><span class="tip-arrow" style="' . $item_arrow_style . '"></span>' . $item->tip_label . '</span>';
+					$item_output .= '<span class="tip" style="' . esc_attr( $item_style ) . '">' . esc_html( $item->tip_label ) . '</span>';
 				}
 
 				// preview image
@@ -981,7 +975,7 @@ if ( ! class_exists( 'porto_sidebar_navwalker' ) ) {
 			$indent  = str_repeat( "\t", $depth );
 			$out_div = '';
 			if ( 0 == $depth ) {
-				$out_div = '<span class="arrow"></span><div class="popup"><div class="inner" style="' . $args->popup_style . '">';
+				$out_div = '<span class="arrow"></span><div class="popup"><div class="inner" style="' . esc_attr( $args->popup_style ) . '">';
 			} else {
 				$out_div = '<span class="arrow"></span>';
 			}
@@ -1064,7 +1058,7 @@ if ( ! class_exists( 'porto_sidebar_navwalker' ) ) {
 					$sub_popup_pos    = $item->popup_bg_pos ? ';background-position:' . $item->popup_bg_pos . ';' : '';
 					$sub_popup_repeat = $item->popup_bg_repeat ? ';background-repeat:' . $item->popup_bg_repeat . ';' : '';
 					$sub_popup_size   = $item->popup_bg_size ? ';background-size:' . $item->popup_bg_size . ';' : '';
-					$sub_popup_style  = ' style="' . str_replace( '"', '\'', $item->popup_style ) . $sub_popup_image . $sub_popup_pos . $sub_popup_repeat . $sub_popup_size . '"';
+					$sub_popup_style  = ' style="' . esc_attr( str_replace( '"', '\'', $item->popup_style ) . $sub_popup_image . $sub_popup_pos . $sub_popup_repeat . $sub_popup_size ) . '"';
 				}
 				$cols = (float) $item->cols;
 				if ( $cols <= 0 ) {
@@ -1084,7 +1078,7 @@ if ( ! class_exists( 'porto_sidebar_navwalker' ) ) {
 			$attributes  = ! empty( $item->attr_title ) ? ' title="' . esc_attr( $item->attr_title ) . '"' : '';
 			$attributes .= ! empty( $item->target ) ? ' target="' . esc_attr( $item->target ) . '"' : '';
 			$attributes .= ! empty( $item->xfn ) ? ' rel="' . esc_attr( $item->xfn ) . '"' : '';
-			$attributes .= ! empty( $item->url ) ? ' href="' . esc_attr( $item->url ) . '"' : '';
+			$attributes .= ! empty( $item->url ) ? ' href="' . esc_url( $item->url ) . '"' : '';
 
 			if ( ( $item->current && 0 == $depth ) || ( $item->current_item_ancestor && 0 == $depth ) ) {
 				$current_a .= ' current';
@@ -1102,19 +1096,19 @@ if ( ! class_exists( 'porto_sidebar_navwalker' ) ) {
 				} else {
 					$item_output .= '<a class="nolink" href="#">';
 				}
-				$item_output .= $args->link_before . ( $item->icon ? '<i class="fa fa-' . str_replace( 'fa-', '', $item->icon ) . '"></i>' : '' ) . apply_filters( 'the_title', $item->title, $item->ID );
+				$item->icon = trim( $item->icon );
+				$item_output .= $args->link_before . ( $item->icon ? '<i class="' . esc_attr( 0 === strpos( $item->icon, 'fa-' ) ? 'fa ' . $item->icon : $item->icon ) . '"></i>' : '' ) . apply_filters( 'the_title', $item->title, $item->ID );
 				$item_output .= $args->link_after;
 				if ( $item->tip_label ) {
-					$item_style       = '';
-					$item_arrow_style = '';
+					$item_style = '';
 					if ( $item->tip_color ) {
 						$item_style .= 'color:' . $item->tip_color . ';';
 					}
 					if ( $item->tip_bg ) {
-						$item_style       .= 'background:' . $item->tip_bg . ';';
-						$item_arrow_style .= 'color:' . $item->tip_bg . ';';
+						$item_style .= 'background:' . $item->tip_bg . ';';
+						$item_style .= 'border-color:' . $item->tip_bg . ';';
 					}
-					$item_output .= '<span class="tip" style="' . $item_style . '"><span class="tip-arrow" style="' . $item_arrow_style . '"></span>' . $item->tip_label . '</span>';
+					$item_output .= '<span class="tip" style="' . esc_attr( $item_style ) . '">' . esc_html( $item->tip_label ) . '</span>';
 				}
 
 				// preview image
@@ -1201,7 +1195,7 @@ if ( ! class_exists( 'porto_accordion_navwalker' ) ) {
 			}
 
 			// build html
-			$output .= $indent . '<li id="accordion-menu-item-' . $item->ID . '" class="' . $class_names . $active . $sub . '">';
+			$output .= $indent . '<li id="accordion-menu-item-' . esc_attr( $item->ID ) . '" class="' . $class_names . $active . $sub . '">';
 
 			$current_a = '';
 
@@ -1209,7 +1203,7 @@ if ( ! class_exists( 'porto_accordion_navwalker' ) ) {
 			$attributes  = ! empty( $item->attr_title ) ? ' title="' . esc_attr( $item->attr_title ) . '"' : '';
 			$attributes .= ! empty( $item->target ) ? ' target="' . esc_attr( $item->target ) . '"' : '';
 			$attributes .= ! empty( $item->xfn ) ? ' rel="' . esc_attr( $item->xfn ) . '"' : '';
-			$attributes .= ! empty( $item->url ) ? ' href="' . esc_attr( $item->url ) . '"' : '';
+			$attributes .= ! empty( $item->url ) ? ' href="' . esc_url( $item->url ) . '"' : '';
 
 			if ( isset( $porto_settings['mobile-menu-item-nofollow'] ) && $porto_settings['mobile-menu-item-nofollow'] ) {
 				$attributes .= ' rel="nofollow"';
@@ -1228,19 +1222,19 @@ if ( ! class_exists( 'porto_accordion_navwalker' ) ) {
 				} else {
 					$item_output .= '<a class="nolink" href="#">';
 				}
-				$item_output .= $args->link_before . ( $item->icon ? '<i class="fa fa-' . str_replace( 'fa-', '', $item->icon ) . '"></i>' : '' ) . apply_filters( 'the_title', $item->title, $item->ID );
+				$item->icon = trim( $item->icon );
+				$item_output .= $args->link_before . ( $item->icon ? '<i class="' . esc_attr( 0 === strpos( $item->icon, 'fa-' ) ? 'fa ' . $item->icon : $item->icon ) . '"></i>' : '' ) . apply_filters( 'the_title', $item->title, $item->ID );
 				$item_output .= $args->link_after;
 				if ( $item->tip_label ) {
-					$item_style       = '';
-					$item_arrow_style = '';
+					$item_style = '';
 					if ( $item->tip_color ) {
 						$item_style .= 'color:' . $item->tip_color . ';';
 					}
 					if ( $item->tip_bg ) {
-						$item_style       .= 'background:' . $item->tip_bg . ';';
-						$item_arrow_style .= 'color:' . $item->tip_bg . ';';
+						$item_style .= 'background:' .$item->tip_bg . ';';
+						$item_style .= 'border-color:' .$item->tip_bg . ';';
 					}
-					$item_output .= '<span class="tip" style="' . $item_style . '"><span class="tip-arrow" style="' . $item_arrow_style . '"></span>' . $item->tip_label . '</span>';
+					$item_output .= '<span class="tip" style="' . esc_attr( $item_style ) . '">' . esc_html( $item->tip_label ) . '</span>';
 				}
 
 				$item_output .= '</a>';

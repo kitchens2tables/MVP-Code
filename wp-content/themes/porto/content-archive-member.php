@@ -1,10 +1,11 @@
 <?php
 global $post, $porto_settings, $porto_layout, $porto_member_columns, $porto_member_role, $porto_member_view, $porto_member_overview, $porto_member_socials, $porto_member_ajax_load, $porto_member_ajax_modal, $porto_custom_zoom;
-$member_columns = $porto_member_columns ? $porto_member_columns : $porto_settings['member-columns'];
-$post_class     = array();
-$post_class[]   = 'member';
-$member_id      = get_the_ID();
-$item_cats      = get_the_terms( $member_id, 'member_cat' );
+$member_columns    = $porto_member_columns ? $porto_member_columns : $porto_settings['member-columns'];
+$porto_custom_zoom = $porto_custom_zoom ? $porto_custom_zoom : ( empty( $porto_settings['custom-member-zoom'] ) ? 'zoom' : 'no_zoom' );
+$post_class        = array();
+$post_class[]      = 'member';
+$member_id         = get_the_ID();
+$item_cats         = get_the_terms( $member_id, 'member_cat' );
 if ( $item_cats ) {
 	foreach ( $item_cats as $item_cat ) {
 		$post_class[] = urldecode( $item_cat->slug );
@@ -39,12 +40,12 @@ $view_type   = $porto_settings['member-view-type'];
 if ( $porto_member_view && 'classic' != $porto_member_view ) {
 	if ( 'onimage' == $porto_member_view ) {
 		$view_type = 0;
-	}
-	if ( 'outimage' == $porto_member_view ) {
+	} elseif ( 'outimage' == $porto_member_view ) {
 		$view_type = 2;
-	}
-	if ( 'outimage_cat' == $porto_member_view ) {
+	} elseif ( 'outimage_cat' == $porto_member_view ) {
 		$view_type = 3;
+	} elseif ( 'simple' == $porto_member_view ) {
+		$view_type = 4;
 	}
 }
 if ( $view_type ) {
@@ -73,9 +74,9 @@ if ( count( $featured_images ) ) :
 		$attachment_medium = porto_get_attachment( $attachment_id, 'full' == $porto_settings['member-image-size'] ? 'full' : 'member' );
 	}
 	if ( $attachment && $attachment_medium ) :
-		$role  = get_post_meta( $member_id, 'member_role', true );
-		$cats_escaped  = '';
-		$terms = get_the_terms( $member_id, 'member_cat' );
+		$role         = get_post_meta( $member_id, 'member_role', true );
+		$cats_escaped = '';
+		$terms        = get_the_terms( $member_id, 'member_cat' );
 		if ( ! is_wp_error( $terms ) && ! empty( $terms ) ) {
 			$links = array();
 			foreach ( $terms as $term ) {
@@ -134,31 +135,31 @@ if ( count( $featured_images ) ) :
 			endif;
 			if ( $share_email ) :
 				$border_class[]       = 'bodr-email';
-				$share_links_escaped .= '<a href="mailto:' . esc_attr( $share_email ) . '"' . $target . ' data-tooltip data-placement="bottom" title="' . esc_attr__( 'Email', 'porto' ) . '" class="share-email">' . esc_attr( $share_email ) . '</a>';
+				$share_links_escaped .= '<a href="mailto:' . esc_attr( $share_email ) . '"' . $target . ' data-tooltip data-placement="bottom" title="' . esc_attr__( 'Email', 'porto' ) . '" class="share-email">' . esc_html( $share_email ) . '</a>';
 			endif;
 			if ( $share_vk ) :
 				$border_class[]       = 'bodr-vk';
-				$share_links_escaped .= '<a  href="' . esc_url( $share_vk ) . '"' . $target . ' data-tooltip data-placement="bottom" title="' . esc_attr__( 'VK', 'porto' ) . '" class="share-vk">' . esc_html__( 'VK', 'porto' ) . '</a>';
+				$share_links_escaped .= '<a href="' . esc_url( $share_vk ) . '"' . $target . ' data-tooltip data-placement="bottom" title="' . esc_attr__( 'VK', 'porto' ) . '" class="share-vk">' . esc_html__( 'VK', 'porto' ) . '</a>';
 			endif;
 			if ( $share_xing ) :
 				$border_class[]       = 'bodr-xing';
-				$share_links_escaped .= '<a  href="' . esc_url( $share_xing ) . '"' . $target . ' data-tooltip data-placement="bottom" title="' . esc_attr__( 'Xing', 'porto' ) . '" class="share-xing">' . esc_html__( 'Xing', 'porto' ) . '</a>';
+				$share_links_escaped .= '<a href="' . esc_url( $share_xing ) . '"' . $target . ' data-tooltip data-placement="bottom" title="' . esc_attr__( 'Xing', 'porto' ) . '" class="share-xing">' . esc_html__( 'Xing', 'porto' ) . '</a>';
 			endif;
 			if ( $share_tumblr ) :
 				$border_class[]       = 'bodr-tumblr';
-				$share_links_escaped .= '<a  href="' . esc_url( $share_tumblr ) . '"' . $target . ' data-tooltip data-placement="bottom" title="' . esc_attr__( 'Tumblr', 'porto' ) . '" class="share-tumblr">' . esc_html__( 'Tumblr', 'porto' ) . '</a>';
+				$share_links_escaped .= '<a href="' . esc_url( $share_tumblr ) . '"' . $target . ' data-tooltip data-placement="bottom" title="' . esc_attr__( 'Tumblr', 'porto' ) . '" class="share-tumblr">' . esc_html__( 'Tumblr', 'porto' ) . '</a>';
 			endif;
 			if ( $share_reddit ) :
 				$border_class[]       = 'bodr-reddit';
-				$share_links_escaped .= '<a  href="' . esc_url( $share_reddit ) . '"' . $target . ' data-tooltip data-placement="bottom" title="' . esc_attr__( 'Reddit', 'porto' ) . '" class="share-reddit">' . esc_html__( 'Reddit', 'porto' ) . '</a>';
+				$share_links_escaped .= '<a href="' . esc_url( $share_reddit ) . '"' . $target . ' data-tooltip data-placement="bottom" title="' . esc_attr__( 'Reddit', 'porto' ) . '" class="share-reddit">' . esc_html__( 'Reddit', 'porto' ) . '</a>';
 			endif;
 			if ( $share_vimeo ) :
 				$border_class[]       = 'bodr-vimeo';
-				$share_links_escaped .= '<a  href="' . esc_url( $share_vimeo ) . '"' . $target . ' data-tooltip data-placement="bottom" title="' . esc_attr__( 'Vimeo', 'porto' ) . '" class="share-vimeo">' . esc_html__( 'Vimeo', 'porto' ) . '</a>';
+				$share_links_escaped .= '<a href="' . esc_url( $share_vimeo ) . '"' . $target . ' data-tooltip data-placement="bottom" title="' . esc_attr__( 'Vimeo', 'porto' ) . '" class="share-vimeo">' . esc_html__( 'Vimeo', 'porto' ) . '</a>';
 			endif;
 			if ( $share_instagram ) :
 				$border_class[]       = 'bodr-instagram';
-				$share_links_escaped .= '<a  href="' . esc_url( $share_instagram ) . '"' . $target . ' data-tooltip data-placement="bottom" title="' . esc_attr__( 'Instagram', 'porto' ) . '" class="share-instagram">' . esc_html__( 'Instagram', 'porto' ) . '</a>';
+				$share_links_escaped .= '<a href="' . esc_url( $share_instagram ) . '"' . $target . ' data-tooltip data-placement="bottom" title="' . esc_attr__( 'Instagram', 'porto' ) . '" class="share-instagram">' . esc_html__( 'Instagram', 'porto' ) . '</a>';
 			endif;
 			if ( $share_whatsapp ) :
 				$border_class[]       = 'bodr-whatsapp';
@@ -185,7 +186,7 @@ if ( count( $featured_images ) ) :
 						}
 						?>
 						<span class="thumb-member-container <?php echo esc_attr( $bodr_class ); ?>">
-							<a class="text-decoration-none member-image" href="<?php echo ! $show_external_link || ! $member_link ? get_the_permalink() : esc_url( $member_link ); ?>"<?php echo $ajax_attr_escaped; ?>>
+							<a class="text-decoration-none member-image" href="<?php echo ! $show_external_link || ! $member_link ? get_the_permalink() : esc_url( $member_link ); ?>"<?php echo ! $ajax_attr_escaped ? '' : $ajax_attr_escaped; ?>>
 							<img class="img-responsive" width="<?php echo esc_attr( $attachment_medium['width'] ); ?>" height="<?php echo esc_attr( $attachment_medium['height'] ); ?>" src="<?php echo esc_url( $attachment_medium['src'] ); ?>" alt="<?php echo esc_attr( $attachment_medium['alt'] ); ?>" />
 							</a>
 
@@ -194,15 +195,15 @@ if ( count( $featured_images ) ) :
 
 								<div class="share-links post-share-advance member-share-advance">
 									<div class="post-share-advance-bg">
-										<?php echo $share_links_escaped; ?>
-										<i class="fa fa-share-alt"></i>
+										<?php echo porto_filter_output( $share_links_escaped ); ?>
+										<i class="fas fa-share-alt"></i>
 									</div>
 								</div>
 
 								<?php endif; ?>
 							<?php endif; ?>
 						</span>
-						<a class="text-decoration-none member-info-container" href="<?php echo ! $show_external_link || ! $member_link ? get_the_permalink() : esc_url( $member_link ); ?>"<?php echo $ajax_attr_escaped; ?>>
+						<a class="text-decoration-none member-info-container" href="<?php echo ! $show_external_link || ! $member_link ? esc_url( get_the_permalink() ) : esc_url( $member_link ); ?>"<?php echo ! $ajax_attr_escaped ? '' : $ajax_attr_escaped; ?>>
 							<?php if ( ! $view_type ) : ?>
 							<span class="thumb-info-title">
 								<span class="thumb-info-inner<?php echo ( (int) $member_columns > 4 && ( 'fullwidth' == $porto_layout || 'left-sidebar' == $porto_layout || 'right-sidebar' == $porto_layout ) ) ? ' font-size-xs line-height-xs' : ''; ?>"><?php the_title(); ?></span>
@@ -221,14 +222,14 @@ if ( count( $featured_images ) ) :
 							</span>
 							<?php endif; ?>
 						<?php if ( $member_show_zoom ) : ?>
-							<span class="zoom" data-src="<?php echo esc_url( $attachment['src'] ); ?>" data-title="<?php echo esc_attr( $attachment['caption'] ); ?>"><i class="fa fa-search"></i></span>
+							<span class="zoom" data-src="<?php echo esc_url( $attachment['src'] ); ?>" data-title="<?php echo esc_attr( $attachment['caption'] ); ?>"><i class="fas fa-search"></i></span>
 						<?php endif; ?>
 						</a>
 					</span>
 					<!--Thumb info wrapper end-->
 					<!--Thumb info container -->
 					<span class="thumb-info-container"> 
-						<a class="text-decoration-none member-info-container" href="<?php echo ! $show_external_link || ! $member_link ? get_the_permalink() : esc_url( $member_link ); ?>"<?php echo $ajax_attr_escaped; ?>>
+						<a class="text-decoration-none member-info-container" href="<?php echo ! $show_external_link || ! $member_link ? get_the_permalink() : esc_url( $member_link ); ?>"<?php echo ! $ajax_attr_escaped ? '' : $ajax_attr_escaped; ?>>
 						<?php
 						if ( 2 == $view_type ) :
 							$show_info = true;
@@ -243,6 +244,14 @@ if ( count( $featured_images ) ) :
 								?>
 								<p class="m-b-sm color-body"><?php echo wp_kses_post( $role ); ?></p>
 							<?php endif; ?>
+							<?php
+						elseif ( 4 == $view_type ) :
+							$show_info = true;
+							?>
+							<?php if ( $role ) : ?>
+								<p class="m-t-md mb-0 color-primary"><?php echo wp_kses_post( $role ); ?></p>
+							<?php endif; ?>
+								<h4><?php the_title(); ?></h4>
 						<?php endif; ?>
 						<?php
 						if ( 3 == $view_type ) :
@@ -251,12 +260,12 @@ if ( count( $featured_images ) ) :
 							<span class="thumb-info-caption">
 								<span class="thumb-info-caption-title">
 									<?php if ( $cats_escaped ) : ?>
-										<span class="font-weight-light color-body text-md"><?php echo $cats_escaped; ?></span>
+										<span class="font-weight-light color-body text-md"><?php echo porto_filter_output( $cats_escaped ); ?></span>
 									<?php endif; ?>
 									<h4 class="m-b-none text-lg"><?php the_title(); ?></h4>
 									<?php
 									if ( 'yes' == $porto_member_role ) {
-										echo '<p>' . $role . '</p>'; }
+										echo '<p>' . wp_kses_post( $role ) . '</p>'; }
 									?>
 									<i class="view-more Simple-Line-Icons-arrow-right-circle font-weight-semibold"></i>
 								</span>
@@ -282,17 +291,20 @@ if ( count( $featured_images ) ) :
 											$member_overview = implode( ' ', $member_overview );
 										}
 									}
-									echo do_shortcode( wpautop( $member_overview ) );
+									echo do_shortcode( $member_overview );
 									?>
 								</span>
 							<?php endif; ?>
 							<?php
 							// Social Share
 							if ( isset( $social_links_adv_pos ) && ! $social_links_adv_pos ) {
-								echo $share_links_escaped;
+								echo porto_filter_output( $share_links_escaped );
 							}
 							?>
 						</span>
+						<?php endif; ?>
+						<?php if ( 4 == $view_type ) : ?>
+							<a href="<?php the_permalink(); ?>" class="text-color-dark font-weight-bold text-decoration-none font-size-sm view-more"><?php esc_html_e( 'VIEW MORE', 'porto' ); ?> <i class="fas fa-arrow-right ml-1"></i></a>
 						<?php endif; ?>
 					</span>
 				</span>

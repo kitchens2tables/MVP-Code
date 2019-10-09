@@ -29,6 +29,7 @@ function porto_load_schedule_timeline_container_shortcode() {
 					'value'      => array(
 						__( 'Schedule', 'porto-functionality' ) => 'schedule',
 						__( 'History', 'porto-functionality' )  => 'history',
+						__( 'Step', 'porto-functionality' )     => 'step',
 					),
 				),
 				array(
@@ -103,13 +104,22 @@ function porto_load_schedule_timeline_container_shortcode() {
 						'value'   => array( 'schedule' ),
 					),
 				),
+				array(
+					'type'        => 'checkbox',
+					'heading'     => __( 'Is Horizontal?', 'porto-functionality' ),
+					'description' => __( 'Default layout is vertical.', 'porto-functionality' ),
+					'param_name'  => 'is_horizontal',
+					'dependency'  => array(
+						'element' => 'type',
+						'value'   => array( 'step' ),
+					),
+				),
 				$custom_class,
 			),
 		)
 	);
 	if ( ! class_exists( 'WPBakeryShortCode_Porto_Schedule_Timeline_Container' ) ) {
 		class WPBakeryShortCode_Porto_Schedule_Timeline_Container extends WPBakeryShortCodesContainer {
-
 		}
 	}
 }

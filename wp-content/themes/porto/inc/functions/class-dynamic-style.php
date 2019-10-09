@@ -16,6 +16,8 @@ if ( ! class_exists( 'Porto_Dynamic_Style' ) ) :
 
 		protected $mode = null;
 
+		protected $js_composer_internal_styles = '';
+
 		public function __construct() {
 			add_action( 'wp', array( $this, 'init' ) );
 
@@ -24,13 +26,14 @@ if ( ! class_exists( 'Porto_Dynamic_Style' ) ) :
 		}
 
 		public function init() {
+			add_action( 'wp_enqueue_scripts', array( $this, 'init_vc_custom_styles' ), 8 );
+
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_style' ), 990 );
 			if ( 'internal' == $this->get_mode() ) {
 				add_action( 'wp_enqueue_scripts', array( $this, 'output_dynamic_styles' ), 1002 );
 			}
-			if ( ! is_customize_preview() ) {
-				add_action( 'wp_enqueue_scripts', array( $this, 'output_internal_styles' ), 1005 );
-			}
+
+			add_action( 'wp_enqueue_scripts', array( $this, 'output_internal_styles' ), 1005 );
 			add_action( 'wp_head', array( $this, 'output_internal_js' ), 153 );
 			add_action( 'wp_footer', array( $this, 'output_custom_js_body' ) );
 		}
@@ -69,7 +72,7 @@ if ( ! class_exists( 'Porto_Dynamic_Style' ) ) :
 
 				foreach ( $rtl_arr as $rtl_arr_value ) {
 					ob_start();
-					include porto_dir . '/style.php';
+					include PORTO_DIR . '/style.php';
 					$css = ob_get_clean();
 
 					$filename = $style_path . '/dynamic_style' . $rtl_arr_value . '.css';
@@ -85,7 +88,7 @@ if ( ! class_exists( 'Porto_Dynamic_Style' ) ) :
 
 				// compile gutenberg editor style
 				ob_start();
-				include porto_dir . '/style-editor.php';
+				include PORTO_DIR . '/style-editor.php';
 				$css      = ob_get_clean();
 				$filename = $style_path . '/style-editor.css';
 				porto_check_file_write_permission( $filename );
@@ -108,9 +111,15 @@ if ( ! class_exists( 'Porto_Dynamic_Style' ) ) :
 		public function output_dynamic_styles( $output = false ) {
 
 			ob_start();
-			require_once( porto_dir . '/style.php' );
+			require_once( PORTO_DIR . '/style.php' );
 			if ( is_customize_preview() ) {
-				require_once( porto_dir . '/style-internal.php' );
+				if ( $output ) {
+					$this->init_vc_custom_styles();
+					if ( $this->js_composer_internal_styles ) {
+						echo porto_filter_output( $this->js_composer_internal_styles );
+					}
+				}
+				require_once( PORTO_DIR . '/style-internal.php' );
 			}
 			$css = ob_get_clean();
 			if ( $output ) {
@@ -121,13 +130,17 @@ if ( ! class_exists( 'Porto_Dynamic_Style' ) ) :
 		}
 
 		public function output_internal_styles() {
+			if ( $this->js_composer_internal_styles ) {
+				wp_add_inline_style( 'porto-style', $this->js_composer_internal_styles );
+			}
+			if ( ! is_customize_preview() ) {
+				ob_start();
+				require_once( PORTO_DIR . '/style-internal.php' );
+				do_action( 'porto_head_css' );
+				$css = ob_get_clean();
 
-			ob_start();
-			require_once( porto_dir . '/style-internal.php' );
-			do_action( 'porto_head_css' );
-			$css = ob_get_clean();
-
-			wp_add_inline_style( 'porto-style', $this->minify_css( $css ) );
+				wp_add_inline_style( 'porto-style', $this->minify_css( $css ) );
+			}
 		}
 
 		public function output_internal_js() {
@@ -159,6 +172,18 @@ if ( ! class_exists( 'Porto_Dynamic_Style' ) ) :
 			}
 		}
 
+		public function init_vc_custom_styles() {
+			remove_action( 'wp_head', array( vc_manager()->vc(), 'addFrontCss' ), 1000 );
+			remove_action( 'wp_enqueue_scripts', array( vc_manager()->vc(), 'addFrontCss' ) );
+			ob_start();
+			vc_manager()->vc()->addFrontCss();
+			$css = ob_get_clean();
+			$css = porto_strip_tags( $css );
+			if ( $css ) {
+				$this->js_composer_internal_styles = $css;
+			}
+		}
+
 		public function enqueue_style() {
 
 			global $porto_settings_optimize;
@@ -168,9 +193,15 @@ if ( ! class_exists( 'Porto_Dynamic_Style' ) ) :
 				$upload_dir = wp_upload_dir();
 				$css_file   = $upload_dir['basedir'] . '/porto_styles/js_composer.css';
 				if ( file_exists( $css_file ) ) {
+					$inline_styles = wp_styles()->get_data( 'js_composer_front', 'after' );
 					wp_deregister_style( 'js_composer_front' );
 					wp_dequeue_style( 'js_composer_front' );
 					porto_register_style( 'js_composer_front', 'js_composer', false, false );
+					if ( ! empty( $inline_styles ) ) {
+						$inline_styles = implode( "\n", $inline_styles );
+						$this->js_composer_internal_styles = $inline_styles;
+						//wp_add_inline_style( 'js_composer_front', $inline_styles );
+					}
 				}
 			}
 
@@ -178,14 +209,14 @@ if ( ! class_exists( 'Porto_Dynamic_Style' ) ) :
 			if ( is_customize_preview() ) {
 				// config file
 				ob_start();
-				require porto_admin . '/theme_options/config_scss_bootstrap.php';
+				require PORTO_ADMIN . '/theme_options/config_scss_bootstrap.php';
 				$_config_css = ob_get_clean();
 
 				if ( ! class_exists( 'scssc' ) ) {
-					require_once( porto_admin . '/scssphp/scss.inc.php' );
+					require_once( PORTO_ADMIN . '/scssphp/scss.inc.php' );
 				}
 				$scss = new scssc();
-				$scss->setImportPaths( porto_dir . '/scss' );
+				$scss->setImportPaths( PORTO_DIR . '/scss' );
 				$scss->setFormatter( 'scss_formatter_crunched' );
 
 				try {
@@ -203,15 +234,19 @@ if ( ! class_exists( 'Porto_Dynamic_Style' ) ) :
 					echo '' . $scss->compile( $rtl_prefix . '@import "plugins/directional"; ' . $_config_css . ' @import "plugins/bootstrap/bootstrap' . $optimize_suffix . '";' );
 					$css = ob_get_clean();
 
-					wp_add_inline_style( 'js_composer_front', $css );
+					if ( wp_style_is( 'js_composer_front', 'registered' ) ) {
+						wp_add_inline_style( 'js_composer_front', $css );
+					} else {
+						wp_add_inline_style( 'wp-block-library', $css );
+					}
 				} catch ( Exception $e ) {
 				}
 			} else {
-				wp_deregister_style( 'porto-bootstrap' );
+				wp_deregister_style( 'bootstrap' );
 				if ( is_rtl() ) {
-					porto_register_style( 'porto-bootstrap', 'bootstrap_rtl', false, true );
+					porto_register_style( 'bootstrap', 'bootstrap_rtl', false, true );
 				} else {
-					porto_register_style( 'porto-bootstrap', 'bootstrap', false, true );
+					porto_register_style( 'bootstrap', 'bootstrap', false, true );
 				}
 			}
 

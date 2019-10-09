@@ -106,3 +106,9 @@ section.exp-timeline {
 		}
 	}
 }
+
+.vc_porto_experience_timeline_item:after {
+	content: '';
+	display: table;
+	clear: both;
+}

@@ -82,13 +82,13 @@
             position: absolute;
             top: 0;
             #{$left}: 0;
-            font-size: 16px;
+            font-size: 14px;
             text-indent: -9999em;
-            @include transition(all 0.2s ease 0s);
+            @include transition(all .2s);
             text-decoration: none;
 
             &:before {
-                font-family: "Elusive-Icons";
+                font-family: 'Font Awesome 5 Free'; font-weight: 900; -webkit-font-smoothing: antialiased;
                 color: #706f6c;
                 content: "";
                 position: absolute;
@@ -112,7 +112,7 @@
             &:hover,
             &.active {
                 &:before {
-                    content: $el-var-star;
+                    content: $fa-var-star;
                 }
             }
         }
@@ -124,7 +124,7 @@
             &:hover,
             &.active {
                 &:before {
-                    content: $el-var-star$el-var-star;
+                    content: $fa-var-star$fa-var-star;
                 }
             }
         }
@@ -136,7 +136,7 @@
             &:hover,
             &.active {
                 &:before {
-                    content: $el-var-star$el-var-star$el-var-star;
+                    content: $fa-var-star$fa-var-star$fa-var-star;
                 }
             }
         }
@@ -148,19 +148,20 @@
             &:hover,
             &.active {
                 &:before {
-                    content: $el-var-star$el-var-star$el-var-star$el-var-star;
+                    content: $fa-var-star$fa-var-star$fa-var-star$fa-var-star;
                 }
             }
         }
         .star-5 {
             z-index: 6;
             &:before {
-                content: $el-var-star-empty$el-var-star-empty$el-var-star-empty$el-var-star-empty$el-var-star-empty;
+                content: $fa-var-star$fa-var-star$fa-var-star$fa-var-star$fa-var-star;
+                font-weight: 400;
             }
             &:hover,
             &.active {
                 &:before {
-                    content: $el-var-star$el-var-star$el-var-star$el-var-star$el-var-star;
+                    font-weight: 900;
                 }
             }
         }

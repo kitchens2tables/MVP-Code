@@ -2,7 +2,7 @@
 /**
  * Login form
  *
- * @version     3.3.0
+ * @version     3.6.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -14,18 +14,17 @@ if ( is_user_logged_in() ) {
 }
 ?>
 
-<form method="post" class="login global-login" 
-<?php
-if ( $hidden ) {
-	echo 'style="display:none;"';}
-?>
->
+<form method="post" class="login global-login"<?php echo ! $hidden ? '' : ' style="display:none;"'; ?>>
 	<div class="featured-box align-left">
 		<div class="box-content">
 
 			<?php do_action( 'woocommerce_login_form_start' ); ?>
 
-			<?php if ( $message ) echo wpautop( wptexturize( $message ) ); // @codingStandardsIgnoreLine ?>
+			<?php
+			if ( $message ) {
+				echo '<p>' . strip_tags( $message ) . '</p>'; // @codingStandardsIgnoreLine
+			}
+			?>
 
 			<p class="form-row form-row-first">
 				<label for="username"><?php esc_html_e( 'Username or email', 'porto' ); ?> <span class="required">*</span></label>
@@ -45,7 +44,7 @@ if ( $hidden ) {
 				<?php wp_nonce_field( 'woocommerce-login', 'woocommerce-login-nonce' ); ?>
 				<button type="submit" class="button" name="login" value="<?php esc_attr_e( 'Login', 'porto' ); ?>"><?php esc_html_e( 'Login', 'porto' ); ?></button>
 				<input type="hidden" name="redirect" value="<?php echo esc_url( $redirect ); ?>" />
-				<label for="rememberme" class="inline">
+				<label for="rememberme" class="woocommerce-form__label woocommerce-form__label-for-checkbox inline woocommerce-form-login__rememberme">
 					<input name="rememberme" type="checkbox" id="rememberme" value="forever" /> <?php esc_html_e( 'Remember me', 'porto' ); ?>
 				</label>
 			</p>

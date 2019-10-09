@@ -11,8 +11,17 @@
                         result.push(subResult);
                     }
                 } else {
-                    var obj = {};
-                    obj[$this.data('id')] = $this.data('html') ? $this.data('html') : '';
+                    var obj = {}, meta = '';
+                    if ($this.data('html') || $this.data('el_class')) {
+                        meta = {};
+                    }
+                    if ($this.data('html')) {
+                        meta.html = $this.data('html');
+                    }
+                    if (typeof $this.data('el_class') != 'undefined') {
+                        meta.el_class = $this.data('el_class');
+                    }
+                    obj[$this.data('id')] = meta;
                     result.push(obj);
                 }
             });
@@ -37,7 +46,16 @@
                             $obj = $('.porto-' + screen + '-visible span[data-id="' + key + '"]').appendTo($parent);
                         }
                         if (html) {
-                            $obj.data('html', html);
+                            if (typeof html == 'string') {
+                                $obj.data('html', html);
+                            } else {
+                                if (html.html) {
+                                    $obj.data('html', html.html);
+                                }
+                                if (typeof html.el_class != 'undefined') {
+                                    $obj.data('el_class', html.el_class);
+                                }
+                            }
                         }
                     });
                 }
@@ -113,8 +131,9 @@
             $.each(wp.customize.section('porto_header_builder').controls(), function(key, control) {
                 wp.customize.instance(control.settings.default.id).set('');
             });
-            $('.porto-header-builder .header-builder-wrapper .porto-drop-item span:not(.element-infinite)').insertBefore($('.porto-header-builder-list span.element-infinite').first());
-            $('.porto-header-builder .header-builder-wrapper .porto-drop-item').html('');
+            $('.porto-header-builder .header-builder-wrapper .porto-drop-item span:not(.element-infinite)').insertBefore($('.header-wrapper-desktop .porto-header-builder-list span.element-infinite').first());
+            $('.porto-header-builder .header-builder-wrapper .porto-drop-item-mobile span:not(.element-infinite)').insertBefore($('.header-wrapper-mobile .porto-header-builder-list span.element-infinite').first());
+            $('.porto-header-builder .header-builder-wrapper .porto-drop-item, .porto-header-builder .header-builder-wrapper .porto-drop-item-mobile').html('');
             if (response.elements) {
                 $.each(response.elements, function(key, value) {
                     value && wp.customize.instance('porto_header_builder_elements[' + key + ']').set(value);
@@ -173,7 +192,7 @@
         });
 
         $('#customize-control-porto_header_layouts_select select').on('change', function() {
-            $('#customize-control-porto_header_layouts_block_element, #customize-control-porto_header_layouts_html_element, #customize-control-porto_header_layouts_save_html_button').hide();
+            $('#customize-control-porto_header_layouts_block_element, #customize-control-porto_header_layouts_html_element, #customize-control-porto_header_layouts_el_class, #customize-control-porto_header_layouts_save_html_button').hide();
             activeSettingObject = null;
             if ($(this).val()) {
                 var $this = $(this);
@@ -206,7 +225,7 @@
             if ($this.data('id') == 'html') {
                 if (!sameObject || $('#customize-control-porto_header_layouts_html_element').is(':hidden')) {
                     $('#customize-control-porto_header_layouts_block_element').hide();
-                    $('#customize-control-porto_header_layouts_html_element, #customize-control-porto_header_layouts_save_html_button').show();
+                    $('#customize-control-porto_header_layouts_html_element, #customize-control-porto_header_layouts_el_class, #customize-control-porto_header_layouts_save_html_button').show();
                     $('#customize-control-porto_header_layouts_html_element textarea').focus();
                     if ($this.data('html')) {
                         $('#customize-control-porto_header_layouts_html_element textarea').val($this.data('html'));
@@ -214,19 +233,24 @@
                         $('#customize-control-porto_header_layouts_html_element textarea').val('');
                     }
                 } else if ($('#customize-control-porto_header_layouts_html_element').is(':visible')) {
-                    $('#customize-control-porto_header_layouts_block_element, #customize-control-porto_header_layouts_html_element, #customize-control-porto_header_layouts_save_html_button').hide();
+                    $('#customize-control-porto_header_layouts_block_element, #customize-control-porto_header_layouts_html_element, #customize-control-porto_header_layouts_el_class, #customize-control-porto_header_layouts_save_html_button').hide();
                 }
             } else if ($this.data('id') == 'porto_block') {
                 if (!sameObject || $('#customize-control-porto_header_layouts_block_element').is(':hidden')) {
                     $('#customize-control-porto_header_layouts_html_element').hide();
-                    $('#customize-control-porto_header_layouts_block_element, #customize-control-porto_header_layouts_save_html_button').show();
+                    $('#customize-control-porto_header_layouts_block_element, #customize-control-porto_header_layouts_el_class, #customize-control-porto_header_layouts_save_html_button').show();
                     if ($this.data('html')) {
                         $('#customize-control-porto_header_layouts_block_element select :selected').removeAttr('selected');
                         $('#customize-control-porto_header_layouts_block_element select option[value="' + escape( $this.data('html') ) + '"]').attr('selected', 'selected');
                     }
                 } else if ($('#customize-control-porto_header_layouts_block_element').is(':visible')) {
-                    $('#customize-control-porto_header_layouts_block_element, #customize-control-porto_header_layouts_html_element, #customize-control-porto_header_layouts_save_html_button').hide();
+                    $('#customize-control-porto_header_layouts_block_element, #customize-control-porto_header_layouts_html_element, #customize-control-porto_header_layouts_el_class, #customize-control-porto_header_layouts_save_html_button').hide();
                 }
+            }
+            if ($this.data('el_class')) {
+                $('#customize-control-porto_header_layouts_el_class input').val($this.data('el_class'));
+            } else {
+                $('#customize-control-porto_header_layouts_el_class input').val('');
             }
             activeSettingObject = $(this);
         });
@@ -257,8 +281,9 @@
             } else if (activeSettingObject.data('id') == 'porto_block') {
                 activeSettingObject.data('html', $('#customize-control-porto_header_layouts_block_element select').val());
             }
+            activeSettingObject.data('el_class', $('#customize-control-porto_header_layouts_el_class input').val());
             setItem(activeSettingObject.closest('div').data('id'), 'porto-drop-item' + (activeSettingObject.closest('.porto-drop-item-mobile').length ? '-mobile' : ''));
-            $('#customize-control-porto_header_layouts_block_element, #customize-control-porto_header_layouts_html_element, #customize-control-porto_header_layouts_save_html_button').fadeOut();
+            $('#customize-control-porto_header_layouts_block_element, #customize-control-porto_header_layouts_html_element, #customize-control-porto_header_layouts_el_class, #customize-control-porto_header_layouts_save_html_button').fadeOut();
         });
 
         $(document.body).on('initReduxFields', function(e, parentObj) {
@@ -370,7 +395,7 @@
 
         if (typeof $.redux != 'undefined') {
             // add go to old theme options button
-            $('#customize-header-actions').append('<a href="#" class="button button-secondary switch-live-option-panel">Old Option Panel</a>');
+            $('#customize-header-actions').append('<a href="#" class="button button-secondary switch-live-option-panel">Old Panel</a>');
         }
 
         // set default options for header presets

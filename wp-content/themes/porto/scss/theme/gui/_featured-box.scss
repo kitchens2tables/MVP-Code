@@ -31,11 +31,8 @@
 /* Featured Box */
 .featured-box {
     @include box-sizing(border-box);
-    box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.05);
-    margin-bottom: 20px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 20px;
+    box-shadow: 0 2px 4px 0px rgba(0, 0, 0, .05);
+    margin: 20px auto;
     min-height: 100px;
     position: relative;
     text-align: center;
@@ -298,13 +295,13 @@
         top: -7px;
         #{$left}: -7px;
         padding: 7px;
-        @include transition(transform 0.2s, opacity 0.2s);
-        @include transform(scale(1));
+        @include transition(transform .2s, opacity .2s);
+        transform: scale(1);
         opacity: 0;
     }
     &:hover {
         .icon-featured:after {
-            @include transform(scale(.8));
+            transform: scale(.8);
             opacity: 1;
         }
     }
@@ -316,13 +313,13 @@
         #{$left}: -7px;
         padding: 7px;
         box-shadow: 0 0 0 3px #FFF;
-        @include transition(transform 0.2s, opacity 0.2s);
-        @include transform(scale(0.8));
+        @include transition(transform .2s, opacity .2s);
+        transform: scale(0.8);
         opacity: 0;
     }
     &:hover {
         .icon-featured:after {
-            @include transform(scale(0.95));
+            transform: scale(0.95);
             opacity: 1;
         }
     }
@@ -333,15 +330,15 @@
         top: 0;
         #{$left}: 0;
         box-shadow: 0 0 0 10px #FFF;
-        @include transform(scale(0.9));
-        @include transition(transform 0.2s, opacity 0.2s);
+        transform: scale(0.9);
+        @include transition(transform .2s, opacity .2s);
         opacity: 0;
     }
     &:hover {
         .icon-featured {
             color: #FFF !important;
             &:after {
-                @include transform(scale(1));
+                transform: scale(1);
                 opacity: .8;
             }
         }
@@ -350,12 +347,12 @@
 
 .featured-box-effect-4 {
     .icon-featured {
-        @include transform(scale(1));
-        @include transition(transform 0.2s, transform 0.2s);
+        transform: scale(1);
+        @include transition(transform .2s, transform .2s);
     }
     &:hover {
         .icon-featured {
-            @include transform(scale(1.15));
+            transform: scale(1.15);
         }
     }
 }
@@ -363,23 +360,21 @@
 .featured-box-effect-5 {
     .icon-featured {
         overflow: hidden;
-        @include transition(all 0.3s);
+        @include transition(all .3s);
     }
     &:hover {
         .icon-featured {
-            @include animation(toRightFromLeft 0.3s forwards);
+            @include animation(toRightFromLeft .3s forwards);
         }
     }
 }
 
 @keyframes toRightFromLeft {
     49% {
-        -ms-transform: translate(100%);
         transform: translate(100%);
     }
     50% {
         opacity: 0;
-        -ms-transform: translate(-100%);
         transform: translate(-100%);
     }
     51% {
@@ -389,12 +384,12 @@
 
 .featured-box-effect-6 {
     .icon-featured:after {
-        @include transition(all 0.2s, transform 0.2s);
+        @include transition(all .2s);
     }
     &:hover {
         .box-content {
             .icon-featured:after {
-                @include transform(scale(1.1));
+                transform: scale(1.1);
             }
         }
     }
@@ -404,25 +399,25 @@
     .icon-featured:after {
         opacity: 0;
         box-shadow: 3px 3px #d5d5d5;
-        @include transform(rotate(-90deg));
-        @include transition(opacity 0.2s, transform 0.2s);
+        transform: rotate(-90deg);
+        @include transition(opacity .2s, transform .2s);
         #{$left}: 0;
         top: -1px;
     }
     &:hover {
         .icon-featured:after {
             opacity: 1;
-            @include transform(rotate(0deg));
+            transform: rotate(0deg);
         }
     }
     .icon-featured:before {
-        @include transform(scale(0.8));
+        transform: scale(0.8);
         opacity: .7;
-        @include transition(transform 0.2s, opacity 0.2s);
+        @include transition(transform .2s, opacity .2s);
     }
     &:hover {
         .icon-featured:before {
-            @include transform(scale(1));
+            transform: scale(1);
             opacity: 1;
         }
     }
@@ -430,13 +425,12 @@
 
 /* Feature Box */
 .feature-box {
-    display: -webkit-flex;
     display: -ms-flexbox;
     display: flex;
     .feature-box-icon {
-        display: -webkit-inline-flex; display: -ms-inline-flexbox; display: inline-flex;
-        -webkit-align-items: center; -ms-align-items: center; align-items: center; -ms-flex-align: center;
-        -webkit-justify-content: center; -ms-justify-content: center; justify-content: center; -ms-flex-pack: center;
+        display: -ms-inline-flexbox; display: inline-flex;
+        -ms-flex-align: center; align-items: center;
+        -ms-flex-pack: center; justify-content: center;
         background: #CCC;
         border-radius: 100%;
         color: #FFF;
@@ -450,7 +444,7 @@
         min-height: 4.32em;
     }
     .feature-box-info {
-        -webkit-flex: 1; flex: 1; -ms-flex: none;
+        flex: 1; -ms-flex: none;
         padding-#{$left}: 15px;
     }
     .align-items-center .feature-box-icon {
@@ -488,10 +482,10 @@
 /* Style 4 */
 .feature-box {
     &.feature-box-style-4 {
-        -webkit-flex-wrap: wrap; -ms-flex-wrap: wrap; flex-wrap: wrap;
+        -ms-flex-wrap: wrap; flex-wrap: wrap;
         .feature-box-icon {
-            -webkit-flex-basis: 100%; flex-basis: 100%; -ms-flex-preferred-size: 100%;
-            -webkit-justify-content: flex-start; -ms-justify-content: flex-start; justify-content: flex-start; -ms-flex-pack: start;
+            -ms-flex-preferred-size: 100%; flex-basis: 100%;
+            -ms-flex-pack: start; justify-content: flex-start;
             background: transparent;
             padding: 0 0 1.2rem 0;
             i {
@@ -553,7 +547,7 @@
 /* Reverse All Resolutions */
 .feature-box.reverse-allres {
     text-align: $right;
-    -webkit-flex-direction: row-reverse; flex-direction: row-reverse; -ms-flex-direction: row-reverse;
+    -ms-flex-direction: row-reverse; flex-direction: row-reverse;
 }
 
 .feature-box.reverse-allres .feature-box-info {
@@ -562,7 +556,7 @@
 }
 
 .feature-box.reverse-allres.feature-box-style-4 .feature-box-icon {
-    -webkit-justify-content: flex-end; -ms-justify-content: flex-end; justify-content: flex-end; -ms-flex-pack: end;
+    -ms-flex-pack: end; justify-content: flex-end;
 }
 
 .feature-box.reverse-allres.feature-box-style-4 .feature-box-info {
@@ -572,13 +566,13 @@
 @media (min-width: 992px) {
     .feature-box.reverse {
         text-align: $right;
-        -webkit-flex-direction: row-reverse; flex-direction: row-reverse; -ms-flex-direction: row-reverse;
+        -ms-flex-direction: row-reverse; flex-direction: row-reverse;
         .feature-box-info {
             padding-#{$right}: 15px;
             padding-#{$left}: 0;
         }
         .feature-box-icon {
-            -webkit-justify-content: flex-end; -ms-justify-content: flex-end; justify-content: flex-end; -ms-flex-pack: end;
+            -ms-flex-pack: end; justify-content: flex-end;
         }
         &.feature-box-style-2 {
             .feature-box-info {
@@ -611,40 +605,6 @@
         p {
             padding-top: 12px;
             opacity: .8;
-        }
-    }
-}
-
-.porto-sicon-wrapper.featured-icon {
-    .porto-sicon-header h3.porto-sicon-title {
-        font-weight: $font-weight-semibold;
-    }
-
-    .porto-icon {
-        border-radius: 35px;
-        color: #FFF;
-        margin-#{$right}: 10px;
-        height: 35px;
-        position: relative;
-        text-align: center;
-        width: 35px;
-        background: transparent;
-        line-height: 32px;
-        &:after {
-            border-radius: 50%;
-            box-sizing: initial;
-            content: "";
-            display: block;
-            height: 100%;
-            #{$left}: -4px;
-            padding: 1px;
-            position: absolute;
-            top: -4px;
-            width: 100%;
-        }
-
-        i {
-            line-height: 35px;
         }
     }
 }

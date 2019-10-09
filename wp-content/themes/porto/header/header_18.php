@@ -66,7 +66,7 @@ global $porto_settings, $porto_layout;
 			?>
 			</div>
 
-			<div class="header-right"> 
+			<div class="header-right">
 				<div>
 					<div id="main-menu">
 					<?php
@@ -75,39 +75,12 @@ global $porto_settings, $porto_layout;
 					?>
 					</div>
 					<?php // show mobile toggle ?>
-					<a class="mobile-toggle"><i class="fa fa-reorder"></i></a>
+					<a class="mobile-toggle"><i class="fas fa-bars"></i></a>
 					<div class="block-nowrap">
 					<?php
 						// show search form
-						/*echo porto_search_form();*/
-					
-                                                
-                                                // Added for custmization 
-                                                
-                                                $current_user = wp_get_current_user();
-                                           
-                                                                                  
-                                        if ( is_user_logged_in() ) { ?>
-                                                                                        
-                                            
-                                        <span>Welcome  <?php echo $current_user->display_name;?> </span>
-                                        
-                                        <?php if(in_array("dc_vendor", $current_user->roles)) {
-                                            $account_url = SITE_URL().'/account';
-                                        }
-                                        else
-                                        {
-                                            $account_url = SITE_URL().'/my-account';
-                                        }
-                                        ?>
-                                        <a href="<?php echo $account_url; ?>" ><i class="fa fa-user"></i> My Account </a>
-                                        <?php }
-                                    
-                                        echo  loginlogout();
-        
-        
-                                    ?>
-                                            
+						echo porto_search_form();
+					?>
 					</div>
 
 					<?php

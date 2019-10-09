@@ -42,8 +42,8 @@ $porto_woo_version = porto_get_woo_version_number();
 										<tr class="<?php echo esc_attr( apply_filters( 'woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key ) ); ?>">
 											<td class="product-remove">
 												<?php
-													// @codingStandardsIgnoreLine
-													echo apply_filters( 'woocommerce_cart_item_remove_link',
+													echo apply_filters( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+														'woocommerce_cart_item_remove_link',
 														sprintf(
 															'<a href="%s" class="remove remove-product" aria-label="%s" data-product_id="%s" data-product_sku="%s" data-cart_id="%s">&times;</a>',
 															esc_url( function_exists( 'wc_get_cart_remove_url' ) ? wc_get_cart_remove_url( $cart_item_key ) : WC()->cart->get_remove_url( $cart_item_key ) ),
@@ -160,6 +160,9 @@ $porto_woo_version = porto_get_woo_version_number();
 		</div>
 
 		<div class="col-lg-4 col-xl-3">
+
+			<?php do_action( 'woocommerce_before_cart_collaterals' ); ?>
+
 			<div class="cart-collaterals">
 				<?php
 					/**

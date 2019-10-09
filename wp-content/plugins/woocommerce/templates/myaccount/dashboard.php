@@ -13,7 +13,6 @@
  * the readme will list any important changes.
  *
  * @see         https://docs.woocommerce.com/document/template-structure/
- * @author      WooThemes
  * @package     WooCommerce/Templates
  * @version     2.6.0
  */
@@ -28,14 +27,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	printf(
 		__( 'Hello %1$s (not %1$s? <a href="%2$s">Log out</a>)', 'woocommerce' ),
 		'<strong>' . esc_html( $current_user->display_name ) . '</strong>',
-		esc_url( wc_logout_url( wc_get_page_permalink( 'myaccount' ) ) ),
-
+		esc_url( wc_logout_url( wc_get_page_permalink( 'myaccount' ) ) )
 	);
-?>
-
- 
-
-</p>
+?></p>
 
 <p><?php
 	printf(
@@ -44,17 +38,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		esc_url( wc_get_endpoint_url( 'edit-address' ) ),
 		esc_url( wc_get_endpoint_url( 'edit-account' ) )
 	);
-?>
-	
-
-<?php
-
-$Providegeneralfeedback='Provide General Feedback';
-
- echo  '<a class="provide_general_feedback" href='.site_url().'/give-feedback>'. $Providegeneralfeedback.'</a>'; ?>  
-
-
-</p>
+?></p>
 
 <?php
 	/**

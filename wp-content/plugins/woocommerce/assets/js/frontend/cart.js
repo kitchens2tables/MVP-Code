@@ -95,6 +95,9 @@ jQuery( function( $ ) {
 			if ( $notices.length > 0 ) {
 				show_notice( $notices );
 			}
+
+			// Notify plugins that the cart was emptied.
+			$( document.body ).trigger( 'wc_cart_emptied' );
 		} else {
 			// If the checkout is also displayed on this page, trigger update event.
 			if ( $( '.woocommerce-checkout' ).length ) {
@@ -267,7 +270,7 @@ jQuery( function( $ ) {
 			this.update_cart           = this.update_cart.bind( this );
 
 			$( document ).on(
-				'wc_update_cart',
+				'wc_update_cart added_to_cart',
 				function() { cart.update_cart.apply( cart, [].slice.call( arguments, 1 ) ); } );
 			$( document ).on(
 				'click',

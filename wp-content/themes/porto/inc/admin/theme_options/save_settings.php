@@ -11,7 +11,7 @@ add_action( 'redux/options/porto_settings/import', 'porto_save_theme_settings', 
 add_action( 'redux/options/porto_settings/reset', 'porto_save_theme_settings' );
 add_action( 'redux/options/porto_settings/section/reset', 'porto_save_theme_settings' );
 add_action( 'redux/options/porto_settings/import', 'porto_import_theme_settings', 10, 2 );
-add_action( 'redux/options/porto_settings/compiler', 'porto_generate_bootstrap_css_after_options_save', 11, 1 );
+add_action( 'redux/options/porto_settings/compiler', 'porto_generate_bootstrap_css_after_options_save', 11, 3 );
 add_action( 'redux/options/porto_settings/validate', 'porto_restore_empty_theme_options', 10, 3 );
 
 add_filter( 'redux/porto_settings/localize', 'porto_settings_localize_settings', 10, 1 );
@@ -40,128 +40,6 @@ if ( ! function_exists( 'porto_check_file_write_permission' ) ) :
 	}
 endif;
 
-function porto_get_all_shortcode_list() {
-	$shortcode_list    = array();
-	$all_vc_shortcodes = WPBMap::getAllShortCodes();
-	$all_vc_categories = WPBMap::getCategories();
-	if ( ! empty( $all_vc_shortcodes ) ) {
-		foreach ( $all_vc_shortcodes as $key => $s ) {
-			if ( 'vc_row' == $key || 'vc_row_inner' == $key || 'vc_column' == $key || 'vc_column_inner' == $key ) {
-				continue;
-			}
-			$shortcode_list[] = $key;
-		}
-	}
-	return apply_filters( 'porto_all_shortcode_list', $shortcode_list );
-}
-
-function porto_get_used_shortcode_list( $shortcode_list = array(), $return_ids = false, $attrs = array() ) {
-	if ( empty( $shortcode_list ) ) {
-		$shortcode_list = porto_get_all_shortcode_list();
-	}
-	global $wpdb, $porto_settings;
-	$post_contents = $wpdb->get_results( "SELECT ID, post_content, post_excerpt FROM $wpdb->posts WHERE post_type not in ('revision', 'attachment') AND post_status = 'publish' AND (post_content != '' or post_excerpt != '')" );
-
-	$post_meta_contents = $wpdb->get_results( "SELECT post_id as ID, meta_value as post_content FROM $wpdb->postmeta WHERE meta_key in ('video_code', 'member_overview') and meta_value != ''" );
-	$post_contents      = array_merge( $post_contents, $post_meta_contents );
-
-	$sidebars_array = get_option( 'sidebars_widgets' );
-	if ( empty( $post_contents ) || ! is_array( $post_contents ) ) {
-		$post_contents = array();
-	}
-	foreach ( $sidebars_array as $sidebar => $widgets ) {
-		if ( ! empty( $widgets ) && is_array( $widgets ) ) {
-			foreach ( $widgets as $sidebar_widget ) {
-				$widget_type = trim( substr( $sidebar_widget, 0, strrpos( $sidebar_widget, '-' ) ) );
-				if ( ! array_key_exists( $widget_type, $post_contents ) ) {
-					$post_contents[ $widget_type ] = get_option( 'widget_' . $widget_type );
-				}
-			}
-		}
-	}
-
-	$porto_settings_keys = array(
-		'footer-tooltip',
-		'welcome-msg',
-		'header-contact-info',
-		'menu-title',
-		'menu-block',
-		'header-copyright',
-		'post-banner-block',
-		'portfolio-banner-block',
-		'member-banner-block',
-		'event-banner-block',
-	);
-	$custom_tabs_count   = isset( $porto_settings['product-custom-tabs-count'] ) ? (int) $porto_settings['product-custom-tabs-count'] : 2;
-	for ( $index = 1; $index <= $custom_tabs_count; $index++ ) {
-		$porto_settings_keys[] = 'custom_tab_content' . $index;
-	}
-	foreach ( $porto_settings_keys as $key ) {
-		if ( isset( $porto_settings[ $key ] ) ) {
-			$post_contents[] = $porto_settings[ $key ];
-		}
-	}
-
-	$used = array();
-	if ( $return_ids ) {
-		foreach ( $post_contents as $post_content ) {
-			if ( isset( $post_content->ID ) ) {
-				$content = $post_content->post_content;
-				foreach ( $shortcode_list as $shortcode ) {
-					if ( false === strpos( $content, '[' ) && false === strpos( $content, 'wp:porto/porto-' ) ) {
-						continue;
-					}
-					if ( empty( $attrs ) && ! in_array( $post_content->ID, $used ) && ( stripos( $content, '[' . $shortcode . ' ' ) !== false || stripos( $content, 'wp:porto/' . str_replace( '_', '-', $shortcode ) ) !== false ) ) {
-						$used[] = $post_content->ID;
-					} elseif ( ! empty( $attrs ) && ! in_array( $post_content->ID, $used ) ) {
-						$attr_text  = '';
-						$attr_text1 = '';
-						foreach ( $attrs as $key => $value ) {
-							$attr_text = $key . '="' . $value . '"';
-							if ( 'yes' == $value ) {
-								$attr_text1 = '"' . $key . '":true';
-							} else {
-								$attr_text1 = '"' . $key . '":"' . $value . '"';
-							}
-						}
-						if ( preg_match( '/\[' . $shortcode . '\s[^]]*' . $attr_text . '[^]]*\]/', $content ) || preg_match( '/wp:porto\/' . str_replace( '_', '-', $shortcode ) . '\s[^>]*' . $attr_text1 . '[^>]*\>/', $content ) ) {
-							$used[] = $post_content->ID;
-						}
-					}
-				}
-			}
-		}
-	} else {
-		$excerpt_arr = array(
-			'post_content',
-			'post_excerpt',
-		);
-		foreach ( $post_contents as $post_content ) {
-			foreach ( $excerpt_arr as $excerpt_key ) {
-				if ( is_string( $post_content ) && 'post_excerpt' == $excerpt_key ) {
-					break;
-				}
-				if ( ! is_string( $post_content ) && 'post_excerpt' == $excerpt_key && ! isset( $post_content->post_excerpt ) ) {
-					break;
-				}
-				$content = is_string( $post_content ) ? $post_content : ( isset( $post_content->{$excerpt_key} ) ? $post_content->{$excerpt_key} : '' );
-
-				foreach ( $shortcode_list as $shortcode ) {
-					if ( false === strpos( $content, '[' ) && false === strpos( $content, 'wp:porto/porto-' ) ) {
-						continue;
-					}
-					if ( ! in_array( $shortcode, $used ) && ( stripos( $content, '[' . $shortcode . ' ' ) !== false || stripos( $content, 'wp:porto/' . str_replace( '_', '-', $shortcode ) ) !== false ) ) {
-						$used[] = $shortcode;
-					}
-				}
-				$shortcode_list = array_diff( $shortcode_list, $used );
-			}
-		}
-	}
-
-	return apply_filters( 'porto_used_shortcode_list', $used, $return_ids );
-}
-
 function porto_compile_css( $process = null ) {
 
 	if ( ! current_user_can( 'manage_options' ) ) {
@@ -173,7 +51,7 @@ function porto_compile_css( $process = null ) {
 		$porto_settings_optimize = get_option( 'porto_settings_optimize', array() );
 	}
 
-	$template_dir = porto_dir;
+	$template_dir = PORTO_DIR;
 	$upload_dir   = wp_upload_dir();
 	$style_path   = $upload_dir['basedir'] . '/porto_styles';
 	if ( ! file_exists( $style_path ) ) {
@@ -189,7 +67,7 @@ function porto_compile_css( $process = null ) {
 
 		// compile visual composer css file
 		if ( ! class_exists( 'lessc' ) ) {
-			require_once porto_admin . '/lessphp/lessc.inc.php';
+			require_once PORTO_ADMIN . '/lessphp/lessc.inc.php';
 		}
 		ob_start();
 		include $template_dir . '/less/js_composer/less/lib/front.less.php';
@@ -198,26 +76,29 @@ function porto_compile_css( $process = null ) {
 		ob_start();
 		$less = new lessc();
 		$less->setFormatter( 'compressed' );
-		$less->setImportDir( $template_dir . '/less/js_composer/less/lib' );
-		echo '' . $less->compile( '@import "../config/variables.less";' . $_config_css );
-		$_config_css = ob_get_clean();
+		try {
+			$less->setImportDir( $template_dir . '/less/js_composer/less/lib' );
+			echo '' . $less->compile( '@import "../config/variables.less";' . $_config_css );
+			$_config_css = ob_get_clean();
 
-		$filename = $style_path . '/js_composer.css';
-		porto_check_file_write_permission( $filename );
-		$reduxFramework->filesystem->execute(
-			'put_contents',
-			$filename,
-			array(
-				'content' => $_config_css,
-			)
-		);
+			$filename = $style_path . '/js_composer.css';
+			porto_check_file_write_permission( $filename );
+			$reduxFramework->filesystem->execute(
+				'put_contents',
+				$filename,
+				array(
+					'content' => $_config_css,
+				)
+			);
+		} catch ( Exception $e ) {
+		}
 
 		// compile porto shortcodes css file
 		if ( ! class_exists( 'scssc' ) ) {
-			require_once porto_admin . '/scssphp/scss.inc.php';
+			require_once PORTO_ADMIN . '/scssphp/scss.inc.php';
 		}
 		ob_start();
-		require dirname( __FILE__ ) . '/config_scss_shortcodes.php';
+		require PORTO_ADMIN . '/theme_options/config_scss_shortcodes.php';
 		$_config_css = ob_get_clean();
 
 		$scss = new scssc();
@@ -229,7 +110,7 @@ function porto_compile_css( $process = null ) {
 		}
 
 		try {
-			$shortcodes_css = $scss->compile( '$rtl: 0; $dir: ltr !default; $theme_uri: "' . porto_uri . '"; @import "theme/theme-imports";' . $_config_css );
+			$shortcodes_css = $scss->compile( '$rtl: 0; $dir: ltr !default; $theme_uri: "' . PORTO_URI . '"; @import "theme/theme-imports";' . $_config_css );
 			$filename       = $style_path . '/shortcodes.css';
 			porto_check_file_write_permission( $filename );
 			$reduxFramework->filesystem->execute(
@@ -244,7 +125,7 @@ function porto_compile_css( $process = null ) {
 
 		// compile porto shortcodes rtl css file
 		try {
-			$shortcodes_css = $scss->compile( '$rtl: 1; $dir: rtl !default; $theme_uri: "' . porto_uri . '"; @import "theme/theme-imports";' . $_config_css );
+			$shortcodes_css = $scss->compile( '$rtl: 1; $dir: rtl !default; $theme_uri: "' . PORTO_URI . '"; @import "theme/theme-imports";' . $_config_css );
 			$filename       = $style_path . '/shortcodes_rtl.css';
 			porto_check_file_write_permission( $filename );
 			$reduxFramework->filesystem->execute(
@@ -267,11 +148,11 @@ function porto_compile_css( $process = null ) {
 
 		// Compile SCSS files
 		if ( ! class_exists( 'scssc' ) ) {
-			require_once porto_admin . '/scssphp/scss.inc.php';
+			require_once PORTO_ADMIN . '/scssphp/scss.inc.php';
 		}
 		// config file
 		ob_start();
-		require dirname( __FILE__ ) . '/config_scss_bootstrap.php';
+		require PORTO_ADMIN . '/theme_options/config_scss_bootstrap.php';
 		$_config_css = ob_get_clean();
 
 		$scss = new scssc();
@@ -311,11 +192,11 @@ function porto_compile_css( $process = null ) {
 
 		// Compile SCSS files
 		if ( ! class_exists( 'scssc' ) ) {
-			require_once porto_admin . '/scssphp/scss.inc.php';
+			require_once PORTO_ADMIN . '/scssphp/scss.inc.php';
 		}
 		// config file
 		ob_start();
-		require dirname( __FILE__ ) . '/config_scss_bootstrap.php';
+		require PORTO_ADMIN . '/theme_options/config_scss_bootstrap.php';
 		$_config_css = ob_get_clean();
 
 		$scss = new scssc();
@@ -406,7 +287,16 @@ function porto_settings_localize_settings( $args ) {
 
 
 if ( ! function_exists( 'porto_generate_bootstrap_css_after_options_save' ) ) :
-	function porto_generate_bootstrap_css_after_options_save( $options ) {
+	function porto_generate_bootstrap_css_after_options_save( $options, $compilerCSS, $changed_values ) {
+		if ( isset( $changed_values['placeholder-color'] ) ) {
+			$upload_dir = wp_upload_dir();
+			if ( file_exists( $upload_dir['basedir'] . '/porto_placeholders' ) ) {
+				// unlink images
+			}
+			if ( 1 === count( $changed_values ) ) {
+				return;
+			}
+		}
 		porto_compile_css( 'bootstrap_rtl' );
 		porto_compile_css( 'bootstrap' );
 	}
@@ -416,14 +306,14 @@ if ( ! function_exists( 'porto_restore_default_options_for_old_versions' ) ) :
 	function porto_restore_default_options_for_old_versions() {
 		global $porto_settings;
 		if ( ! isset( $porto_settings['search-layout'] ) ) {
-			if ( in_array( $porto_settings['header-type'], array( '2', '3', '7', '8', '18', '19' ) ) ) {
+			if ( isset( $porto_settings['header-type'] ) && in_array( $porto_settings['header-type'], array( '2', '3', '7', '8', '18', '19' ) ) ) {
 				$porto_settings['search-layout'] = 'large';
 			} else {
 				$porto_settings['search-layout'] = 'advanced';
 			}
 		}
 
-		if ( ! isset( $porto_settings['minicart-type'] ) ) {
+		if ( ! isset( $porto_settings['minicart-type'] ) && isset( $porto_settings['header-type'] ) ) {
 			$header_type = (int) $porto_settings['header-type'];
 			if ( ( $header_type >= 1 && $header_type <= 9 ) || 18 == $header_type || 19 == $header_type || ( isset( $porto_settings['header-type-select'] ) && 'header_builder' == $porto_settings['header-type-select'] ) ) {
 				$porto_settings['minicart-type'] = 'minicart-arrow-alt';

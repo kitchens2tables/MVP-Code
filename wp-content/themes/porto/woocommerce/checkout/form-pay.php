@@ -8,7 +8,7 @@
 defined( 'ABSPATH' ) || exit;
 
 $porto_woo_version = porto_get_woo_version_number();
-$totals            = $order->get_order_item_totals();
+$totals            = $order->get_order_item_totals(); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited
 ?>
 
 <div class="featured-box align-left">
@@ -18,9 +18,9 @@ $totals            = $order->get_order_item_totals();
 			<table class="shop_table">
 				<thead>
 					<tr>
-						<th class="product-name"><?php esc_html_e( 'Product', 'porto' ); ?></th>
-						<th class="product-quantity"><?php esc_html_e( 'Qty', 'porto' ); ?></th>
-						<th class="product-total"><?php esc_html_e( 'Totals', 'porto' ); ?></th>
+						<th class="product-name"><?php esc_html_e( 'Product', 'woocommerce' ); ?></th>
+						<th class="product-quantity"><?php esc_html_e( 'Qty', 'woocommerce' ); ?></th>
+						<th class="product-total"><?php esc_html_e( 'Totals', 'woocommerce' ); ?></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -86,7 +86,7 @@ $totals            = $order->get_order_item_totals();
 								<?php
 							}
 						} else {
-							echo '<li>' . esc_html__( 'Sorry, it seems that there are no available payment methods for your location. Please contact us if you require assistance or wish to make alternate arrangements.', 'porto' ) . '</li>';
+							echo '<li>' . esc_html__( 'Sorry, it seems that there are no available payment methods for your location. Please contact us if you require assistance or wish to make alternate arrangements.', 'woocommerce' ) . '</li>';
 						}
 						?>
 					<?php else : ?>
@@ -96,7 +96,7 @@ $totals            = $order->get_order_item_totals();
 								wc_get_template( 'checkout/payment-method.php', array( 'gateway' => $gateway ) );
 							}
 						} else {
-							echo '<li>' . apply_filters( 'woocommerce_no_available_payment_methods_message', __( 'Sorry, it seems that there are no available payment methods for your location. Please contact us if you require assistance or wish to make alternate arrangements.', 'porto' ) ) . '</li>'; // @codingStandardsIgnoreLine
+							echo '<li>' . apply_filters( 'woocommerce_no_available_payment_methods_message', esc_html__( 'Sorry, it seems that there are no available payment methods for your location. Please contact us if you require assistance or wish to make alternate arrangements.', 'woocommerce' ) ) . '</li>'; // @codingStandardsIgnoreLine
 						}
 						?>
 					<?php endif; ?>
@@ -107,7 +107,7 @@ $totals            = $order->get_order_item_totals();
 					<?php if ( version_compare( $porto_woo_version, '2.5', '<' ) ) : ?>
 						<?php wp_nonce_field( 'woocommerce-pay' ); ?>
 						<?php
-						$pay_order_button_text = apply_filters( 'woocommerce_pay_order_button_text', __( 'Pay for order', 'porto' ) );
+						$pay_order_button_text = apply_filters( 'woocommerce_pay_order_button_text', __( 'Pay for order', 'woocommerce' ) );
 
 						echo apply_filters( 'woocommerce_pay_order_button_html', '<button type="submit" class="button alt" id="place_order" value="' . esc_attr( $pay_order_button_text ) . '" data-value="' . esc_attr( $pay_order_button_text ) . '"'. esc_html( $pay_order_button_text ) .'</button>' ); // @codingStandardsIgnoreLine
 						?>

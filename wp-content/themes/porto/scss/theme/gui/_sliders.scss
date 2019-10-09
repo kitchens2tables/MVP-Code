@@ -7,7 +7,7 @@
     font-weight: $font-weight-bold;
     text-transform: uppercase;
     margin-top: 0;
-    margin-bottom: 1.25em;
+    margin-bottom: 1.25rem;
     position: relative;
 
     .line {
@@ -15,7 +15,7 @@
         display: block;
         height: 1px;
         position: relative;
-        bottom: 0.7em;
+        bottom: 0.65em;
         width: 0;
 
         @media #{$screen-small} {
@@ -34,7 +34,7 @@
         .ms-video-btn {
             background: transparent;
             border-radius: 0;
-            font-family: "FontAwesome";
+            font-family: 'Font Awesome 5 Free'; font-weight: 900; -webkit-font-smoothing: antialiased;
             font-size: 2.8571em;
             text-align: center;
             line-height: 1;
@@ -171,7 +171,7 @@
             right: auto !important;
             border-radius: 0 4px 4px 0;
             &:before {
-                font-family: FontAwesome;
+                font-family: 'Font Awesome 5 Free'; font-weight: 900; -webkit-font-smoothing: antialiased;
                 content: "\f053";
                 position: relative;
                 left: -1px;
@@ -183,7 +183,7 @@
             left: auto !important;
             border-radius: 4px 0 0 4px;
             &:before {
-                font-family: FontAwesome;
+                font-family: 'Font Awesome 5 Free'; font-weight: 900; -webkit-font-smoothing: antialiased;
                 content: "\f054";
                 position: relative;
                 left: 2px;

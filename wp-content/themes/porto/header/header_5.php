@@ -55,7 +55,7 @@ global $porto_settings, $porto_layout;
 
 				// show mobile toggle
 				?>
-				<a class="mobile-toggle"><i class="fa fa-reorder"></i></a>
+				<a class="mobile-toggle"><i class="fas fa-bars"></i></a>
 			</div>
 			<div class="header-right">
 				<div>

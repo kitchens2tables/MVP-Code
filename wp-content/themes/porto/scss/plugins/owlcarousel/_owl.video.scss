@@ -23,7 +23,7 @@ $owl-image-path: "../images/" !default;
 		cursor: pointer;
 		z-index: 1;
 		-webkit-backface-visibility: hidden;
-		transition: transform 100ms ease;
+		transition: transform .1s;
 	}
 
 	.owl-video-play-icon:hover {
@@ -41,7 +41,7 @@ $owl-image-path: "../images/" !default;
 		background-position: center center;
 		background-repeat: no-repeat;
 		background-size: contain;
-		transition: opacity 400ms ease;
+		transition: opacity .4s;
 	}
 
 	.owl-video-frame {

@@ -183,9 +183,22 @@ function porto_product_cat_meta_fields() {
 
 	$meta_fields = porto_ct_default_view_meta_fields();
 
-	// Category Image
+	// Cateogry Icon
 	$meta_fields = array_insert_before(
 		'loading_overlay',
+		$meta_fields,
+		'category_icon',
+		array(
+			'name'  => 'category_icon',
+			'title' => __( 'Category Icon', 'porto-functionality' ),
+			'type'  => 'text',
+			'desc'  => __( 'Input font icon class such as "fas fa-user". This field is used for porto product categories element when you select "Media Type" option to "Icon" to display icon instead of category thumbnail.', 'porto-functionality' ),
+		)
+	);
+
+	// Category Image
+	$meta_fields = array_insert_after(
+		'category_icon',
 		$meta_fields,
 		'category_image',
 		array(
@@ -246,7 +259,7 @@ function porto_product_cat_meta_fields() {
 		'addlinks_pos',
 		array(
 			'name'    => 'addlinks_pos',
-			'title'   => __( 'Add Links Position', 'porto-functionality' ),
+			'title'   => __( 'Product Layout', 'porto-functionality' ),
 			'desc'    => __( 'Select position of add to cart, add to wishlist, quickview.', 'porto-functionality' ),
 			'type'    => 'select',
 			'options' => $addlinks_pos,
@@ -341,7 +354,7 @@ function porto_delete_product_attribute_color_values( $term_id, $tt_id, $taxonom
 	if ( $attribute_taxonomies = wc_get_attribute_taxonomies() ) {
 		foreach ( $attribute_taxonomies as $tax ) {
 			if ( 'color' === $tax->attribute_type && $taxonomy === wc_attribute_taxonomy_name( $tax->attribute_name ) ) {
-				delete_woocommerce_term_meta( $term_id, 'color_value' );
+				delete_term_meta( $term_id, 'color_value' );
 			}
 		}
 	}

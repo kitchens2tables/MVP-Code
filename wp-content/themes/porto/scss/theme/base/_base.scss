@@ -13,10 +13,12 @@ body {
     clear: both;
 }
 
-.f-left {
+.f-left,
+.pull-left {
     float: $left;
 }
-.f-right {
+.f-right,
+.pull-right {
     float: $right;
 }
 .f-none {
@@ -44,4 +46,12 @@ body {
 
 a.nolink {
     pointer-events: none;
+}
+
+[data-plugin-sticky] {
+    z-index: 8;
+}
+
+.z-index-1 {
+    z-index: 1;
 }

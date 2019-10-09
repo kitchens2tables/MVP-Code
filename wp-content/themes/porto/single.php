@@ -25,7 +25,7 @@ if ( $options['sm'] < 1 ) {
 $options = json_encode( $options );
 ?>
 
-<div id="content"  role="main" class="<?php echo porto_is_wide_layout( $porto_layout ) ? 'm-t-lg m-b-xl' . ( porto_get_wrapper_type() !== 'boxed' ? ' m-r-md m-l-md' : '' ) : ''; ?>">
+<div id="content" role="main">
 
 	<?php
 	if ( have_posts() ) :
@@ -38,7 +38,7 @@ $options = json_encode( $options );
 			if ( $porto_settings['post-backto-blog'] ) :
 				?>
 				<?php /* translators: %s: Post archive name */ ?>
-			<a class="inline-block m-b-md" href="<?php echo get_post_type_archive_link( 'post' ); ?>"><i class="fa fa-long-arrow-<?php echo ( is_rtl() ? 'right p-r-xs' : 'left p-l-xs' ); ?>"></i> <?php echo sprintf( esc_html__( 'Back to %s', 'porto' ), porto_title_archive_name( 'post' ) ); ?></a><?php endif; ?>
+			<a class="inline-block m-b-md" href="<?php echo get_post_type_archive_link( 'post' ); ?>"><i class="fas fa-long-arrow-alt-<?php echo ( is_rtl() ? 'right p-r-xs' : 'left p-l-xs' ); ?>"></i> <?php echo sprintf( esc_html__( 'Back to %s', 'porto' ), porto_title_archive_name( 'post' ) ); ?></a><?php endif; ?>
 
 			<?php get_template_part( 'content', 'post-' . $post_layout ); ?>
 
@@ -46,7 +46,7 @@ $options = json_encode( $options );
 			if ( $porto_settings['post-backto-blog'] ) :
 				?>
 				<?php /* translators: %s: Post archive name */ ?>
-			<a class="inline-block m-t-md m-b-md" href="<?php echo get_post_type_archive_link( 'post' ); ?>"><i class="fa fa-long-arrow-<?php echo ( is_rtl() ? 'right p-r-xs' : 'left p-l-xs' ); ?>"></i> <?php echo sprintf( esc_html__( 'Back to %s', 'porto' ), porto_title_archive_name( 'post' ) ); ?></a>
+			<a class="inline-block m-t-md m-b-md" href="<?php echo get_post_type_archive_link( 'post' ); ?>"><i class="fas fa-long-arrow-alt-<?php echo ( is_rtl() ? 'right p-r-xs' : 'left p-l-xs' ); ?>"></i> <?php echo sprintf( esc_html__( 'Back to %s', 'porto' ), porto_title_archive_name( 'post' ) ); ?></a>
 				<?php
 			endif;
 

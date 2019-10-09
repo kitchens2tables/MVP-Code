@@ -42,7 +42,7 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 			return self::$instance;
 		}
 
-		private function porto_demo_filters() {
+		public function porto_demo_filters() {
 			return array(
 				'all'       => 'Show All',
 				'onepage'   => 'One Page',
@@ -50,416 +50,623 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 				'portfolio' => 'Portfolio',
 				'shop'      => 'Shop',
 				'classic'   => 'Classic',
+				'blog'      => 'Blog',
 			);
 		}
 
-		private function porto_demo_types() {
+		public function porto_demo_types() {
 			return array(
 				'classic'             => array(
-					'alt'        => 'Main Demo <small>(23 VARIATIONS)</small>',
+					'alt'        => 'Main Demo <small>(29 VARIATIONS)</small>',
 					'slider_cat' => 'classic',
-					'img'        => porto_options_uri . '/demos/classic_original.jpg',
+					'img'        => PORTO_OPTIONS_URI . '/demos/classic_original.jpg',
 					'filter'     => 'all open-classic',
 					'grouped'    => true,
 				),
 				'shop'                => array(
-					'alt'        => 'Shop Demo <small>(20 VARIATIONS)</small>',
+					'alt'        => 'Shop Demo <small>(31 VARIATIONS)</small>',
 					'slider_cat' => 'shop',
-					'img'        => porto_options_uri . '/demos/shop1.jpg',
+					'img'        => PORTO_OPTIONS_URI . '/demos/shop1.jpg',
 					'filter'     => 'all open-shop',
+					'grouped'    => true,
+				),
+				'blog'                => array(
+					'alt'        => 'Blog Demo <small>(5 VARIATIONS)</small>',
+					'slider_cat' => 'blog',
+					'img'        => PORTO_OPTIONS_URI . '/demos/blog1.jpg',
+					'filter'     => 'all open-blog',
 					'grouped'    => true,
 				),
 				'classic-original'    => array(
 					'alt'       => 'Main Demo',
-					'img'       => porto_options_uri . '/demos/classic_original.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/classic_original.jpg',
 					'filter'    => 'classic',
 					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-classic-original.zip', 'media-gallery.zip' ),
 				),
 				'construction'        => array(
 					'alt'       => 'Construction',
-					'img'       => porto_options_uri . '/demos/demo_construction.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/demo_construction.jpg',
 					'filter'    => 'business all',
 					'revslider' => array( 'demo-construction.zip' ),
 				),
 				'hotel'               => array(
 					'alt'       => 'Hotel',
-					'img'       => porto_options_uri . '/demos/demo_hotel.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/demo_hotel.jpg',
 					'filter'    => 'business all',
 					'revslider' => array( 'demo-hotel.zip' ),
 				),
 				'restaurant'          => array(
 					'alt'       => 'Restaurant',
-					'img'       => porto_options_uri . '/demos/demo_restaurant.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/demo_restaurant.jpg',
 					'filter'    => 'business all',
 					'revslider' => array( 'demo-restaurant.zip' ),
 				),
 				'law-firm'            => array(
 					'alt'       => 'Law Firm',
-					'img'       => porto_options_uri . '/demos/demo_law_firm.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/demo_law_firm.jpg',
 					'filter'    => 'business all',
 					'revslider' => array( 'demo-law-firm.zip' ),
 				),
 				'digital-agency'      => array(
 					'alt'       => 'Digital Agency',
-					'img'       => porto_options_uri . '/demos/demo_digital_agency.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/demo_digital_agency.jpg',
 					'filter'    => 'business all',
 					'revslider' => array( 'demo-digital-agency.zip' ),
 				),
 				'medical'             => array(
 					'alt'       => 'Medical',
-					'img'       => porto_options_uri . '/demos/demo_medical.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/demo_medical.jpg',
 					'filter'    => 'business all',
 					'revslider' => array( 'demo-medical.zip' ),
 				),
 				'wedding'             => array(
 					'alt'       => 'Wedding',
-					'img'       => porto_options_uri . '/demos/demo_wedding.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/demo_wedding.jpg',
 					'filter'    => 'business onepage all',
 					'revslider' => array( 'demo-wedding.zip' ),
 				),
 				'photography1'        => array(
 					'alt'       => 'Photography 1',
-					'img'       => porto_options_uri . '/demos/demo_photography_1.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/demo_photography_1.jpg',
 					'filter'    => 'business portfolio all',
 					'revslider' => array( 'Photography1-About-us.zip', 'Photography1-Fullscreen.zip', 'Photography1-Home.zip', 'Photography1-Kenburns.zip' ),
 				),
 				'photography2'        => array(
 					'alt'       => 'Photography 2',
-					'img'       => porto_options_uri . '/demos/demo_photography_2.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/demo_photography_2.jpg',
 					'filter'    => 'business portfolio all',
 					'revslider' => array( 'Photography2-aboutus.zip', 'Photography2-Fullscreen.zip', 'Photography2-Home.zip', 'Photography2-Kenburns.zip' ),
 				),
 				'photography3'        => array(
 					'alt'       => 'Photography 3',
-					'img'       => porto_options_uri . '/demos/demo_photography_3.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/demo_photography_3.jpg',
 					'filter'    => 'business portfolio all',
 					'revslider' => array( 'Photography3-AboutUs.zip', 'Photography3-Fullscreen.zip', 'Photography3-Home.zip', 'Photography3-Home_2.zip', 'Photography3-Kenburns.zip' ),
 				),
 				'business-consulting' => array(
 					'alt'       => 'Business Consulting',
-					'img'       => porto_options_uri . '/demos/demo_busi_cons.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/demo_busi_cons.jpg',
 					'filter'    => 'business all',
 					'revslider' => array( 'home-BC.zip' ),
 				),
 				'gym'                 => array(
 					'alt'       => 'Gym',
-					'img'       => porto_options_uri . '/demos/demo_gym.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/demo_gym.jpg',
 					'filter'    => 'business all',
 					'revslider' => array( 'home-gym.zip' ),
 					'plugins'   => array( 'instagram-slider-widget' ),
 				),
 				'event'               => array(
 					'alt'       => 'Event',
-					'img'       => porto_options_uri . '/demos/demo_event.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/demo_event.jpg',
 					'filter'    => 'business all',
 					'revslider' => array( 'home-event.zip' ),
 				),
 				'resume'              => array(
 					'alt'    => 'Resume',
-					'img'    => porto_options_uri . '/demos/demo_resume.jpg',
+					'img'    => PORTO_OPTIONS_URI . '/demos/demo_resume.jpg',
 					'filter' => 'business onepage portfolio all',
 				),
 				'church'              => array(
 					'alt'       => 'Church',
-					'img'       => porto_options_uri . '/demos/demo_church.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/demo_church.jpg',
 					'filter'    => 'business all',
 					'revslider' => array( 'demo-church.zip' ),
 				),
 				'finance'             => array(
 					'alt'       => 'Finance',
-					'img'       => porto_options_uri . '/demos/demo_finance.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/demo_finance.jpg',
 					'filter'    => 'business all',
 					'revslider' => array( 'home-finance.zip' ),
 				),
 				'agency-one-page'     => array(
 					'alt'       => 'Agency Onepage',
-					'img'       => porto_options_uri . '/demos/agency_onepage.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/agency_onepage.jpg',
 					'filter'    => 'business onepage portfolio all',
 					'revslider' => array( 'agency-onepage.zip' ),
 				),
 				'app-landing'         => array(
 					'alt'    => 'App Landing',
-					'img'    => porto_options_uri . '/demos/demo_applanding.jpg',
+					'img'    => PORTO_OPTIONS_URI . '/demos/demo_applanding.jpg',
 					'filter' => 'business onepage all',
 				),
 				'real-estate'         => array(
 					'alt'       => 'Real Estate',
-					'img'       => porto_options_uri . '/demos/demo_real_estate.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/demo_real_estate.jpg',
 					'filter'    => 'business all',
 					'revslider' => array( 'real-estate-home.zip' ),
 				),
 				'education'           => array(
 					'alt'       => 'Education',
-					'img'       => porto_options_uri . '/demos/demo_education.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/demo_education.jpg',
 					'filter'    => 'business all',
 					'revslider' => array( 'home_education.zip' ),
 				),
+				'insurance'           => array(
+					'alt'       => 'Insurance',
+					'img'       => PORTO_OPTIONS_URI . '/demos/demo_insurance.jpg',
+					'filter'    => 'business all',
+					'revslider' => array( 'home-insurance.zip' ),
+				),
+				'seo'                 => array(
+					'alt'    => 'SEO',
+					'img'    => PORTO_OPTIONS_URI . '/demos/demo_seo.jpg',
+					'filter' => 'business all onepage',
+				),
+				'coffee'              => array(
+					'alt'       => 'Coffee Shop',
+					'img'       => PORTO_OPTIONS_URI . '/demos/demo_coffee.jpg',
+					'filter'    => 'business all onepage',
+					'revslider' => array( 'home-coffee.zip' ),
+				),
+				'sass'                => array(
+					'alt'    => 'Sass',
+					'img'    => PORTO_OPTIONS_URI . '/demos/demo_sass.jpg',
+					'filter' => 'business all onepage',
+				),
+				'architecture'        => array(
+					'alt'       => 'Architecture & Interior Design',
+					'img'       => PORTO_OPTIONS_URI . '/demos/demo_architecture.jpg',
+					'filter'    => 'business all onepage',
+					'revslider' => array( 'home-architecture.zip' ),
+				),
+				'barber'              => array(
+					'alt'       => 'Barber Shop',
+					'img'       => PORTO_OPTIONS_URI . '/demos/demo_barber.jpg',
+					'filter'    => 'business all onepage',
+					'revslider' => array( 'home-barber.zip' ),
+					'plugins'   => array( 'instagram-slider-widget' ),
+				),
+				'band'                => array(
+					'alt'       => 'Band',
+					'img'       => PORTO_OPTIONS_URI . '/demos/demo_band.jpg',
+					'filter'    => 'business all onepage',
+					'revslider' => array( 'home-band.zip' ),
+				),
 				'classic-one-page'    => array(
 					'alt'       => 'Classic One Page',
-					'img'       => porto_options_uri . '/demos/classic_one_page.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/classic_one_page.jpg',
 					'filter'    => 'classic onepage',
 					'revslider' => array( 'home-one-page.zip' ),
 				),
 				'classic-color'       => array(
 					'alt'       => 'Classic Color',
-					'img'       => porto_options_uri . '/demos/classic_color.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/classic_color.jpg',
 					'filter'    => 'classic',
 					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-classic-color.zip', 'media-gallery.zip' ),
 				),
 				'classic-light'       => array(
 					'alt'       => 'Classic Light',
-					'img'       => porto_options_uri . '/demos/classic_light.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/classic_light.jpg',
 					'filter'    => 'classic',
 					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-classic-light.zip', 'media-gallery.zip' ),
 				),
 				'classic-video'       => array(
 					'alt'       => 'Classic Video',
-					'img'       => porto_options_uri . '/demos/classic_video.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/classic_video.jpg',
 					'filter'    => 'classic',
 					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-classic-video.zip', 'media-gallery.zip' ),
 				),
 				'classic-video-light' => array(
 					'alt'       => 'Classic Video Light',
-					'img'       => porto_options_uri . '/demos/classic_video_light.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/classic_video_light.jpg',
 					'filter'    => 'classic',
 					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-classic-video-light.zip', 'media-gallery.zip' ),
 				),
 				'corporate1'          => array(
 					'alt'       => 'Corporate 1',
-					'img'       => porto_options_uri . '/demos/corporate_1.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_1.jpg',
 					'filter'    => 'classic',
 					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate1.zip', 'media-gallery.zip' ),
 				),
 				'corporate2'          => array(
 					'alt'       => 'Corporate 2',
-					'img'       => porto_options_uri . '/demos/corporate_2.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_2.jpg',
 					'filter'    => 'classic',
 					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate2.zip', 'media-gallery.zip' ),
 				),
 				'corporate3'          => array(
 					'alt'       => 'Corporate 3',
-					'img'       => porto_options_uri . '/demos/corporate_3.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_3.jpg',
 					'filter'    => 'classic',
 					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate3.zip', 'media-gallery.zip' ),
 				),
 				'corporate4'          => array(
 					'alt'       => 'Corporate 4',
-					'img'       => porto_options_uri . '/demos/corporate_4.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_4.jpg',
 					'filter'    => 'classic',
 					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate4.zip', 'media-gallery.zip' ),
 				),
 				'corporate5'          => array(
 					'alt'       => 'Corporate 5',
-					'img'       => porto_options_uri . '/demos/corporate_5.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_5.jpg',
 					'filter'    => 'classic',
 					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate5.zip', 'media-gallery.zip' ),
 				),
 				'corporate6'          => array(
 					'alt'       => 'Corporate 6',
-					'img'       => porto_options_uri . '/demos/corporate_6.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_6.jpg',
 					'filter'    => 'classic',
 					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate6.zip', 'media-gallery.zip' ),
 				),
 				'corporate7'          => array(
 					'alt'       => 'Corporate 7',
-					'img'       => porto_options_uri . '/demos/corporate_7.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_7.jpg',
 					'filter'    => 'classic',
 					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate7.zip', 'media-gallery.zip' ),
 				),
 				'corporate8'          => array(
 					'alt'       => 'Corporate 8',
-					'img'       => porto_options_uri . '/demos/corporate_8.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_8.jpg',
 					'filter'    => 'classic',
 					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate8.zip', 'media-gallery.zip' ),
 				),
 				'corporate9'          => array(
 					'alt'       => 'Corporate 9',
-					'img'       => porto_options_uri . '/demos/corporate_9.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_9.jpg',
 					'filter'    => 'classic',
 					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate9.zip', 'media-gallery.zip' ),
 				),
 				'corporate10'         => array(
 					'alt'       => 'Corporate 10',
-					'img'       => porto_options_uri . '/demos/corporate_10.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_10.jpg',
 					'filter'    => 'classic',
 					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate10.zip', 'media-gallery.zip' ),
 				),
 				'corporate11'         => array(
 					'alt'       => 'Corporate 11',
-					'img'       => porto_options_uri . '/demos/corporate_11.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_11.jpg',
 					'filter'    => 'classic',
 					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate11.zip', 'media-gallery.zip' ),
 				),
 				'corporate12'         => array(
 					'alt'       => 'Corporate 12',
-					'img'       => porto_options_uri . '/demos/corporate_12.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_12.jpg',
 					'filter'    => 'classic',
 					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate12.zip', 'media-gallery.zip' ),
 				),
 				'corporate13'         => array(
 					'alt'       => 'Corporate 13',
-					'img'       => porto_options_uri . '/demos/corporate_13.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_13.jpg',
 					'filter'    => 'classic',
 					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate13.zip', 'media-gallery.zip' ),
 				),
 				'corporate14'         => array(
 					'alt'       => 'Corporate 14',
-					'img'       => porto_options_uri . '/demos/corporate_14.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_14.jpg',
 					'filter'    => 'classic',
 					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate14.zip', 'media-gallery.zip' ),
 				),
 				'corporate-hosting'   => array(
 					'alt'       => 'Corporate Hosting',
-					'img'       => porto_options_uri . '/demos/corporate_hosting.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_hosting.jpg',
 					'filter'    => 'classic',
 					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate-hosting.zip', 'media-gallery.zip' ),
 				),
+				'corporate15'         => array(
+					'alt'       => 'Corporate 15',
+					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_15.jpg',
+					'filter'    => 'classic',
+					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate15.zip', 'media-gallery.zip' ),
+				),
+				'corporate16'         => array(
+					'alt'       => 'Corporate 16',
+					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_16.jpg',
+					'filter'    => 'classic',
+					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate16.zip', 'media-gallery.zip' ),
+				),
+				'corporate17'         => array(
+					'alt'       => 'Corporate 17',
+					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_17.jpg',
+					'filter'    => 'classic',
+					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'media-gallery.zip' ),
+				),
+				'corporate18'         => array(
+					'alt'       => 'Corporate 18',
+					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_18.jpg',
+					'filter'    => 'classic',
+					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate18.zip', 'media-gallery.zip' ),
+				),
+				'corporate19'         => array(
+					'alt'       => 'Corporate 19',
+					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_19.jpg',
+					'filter'    => 'classic',
+					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-corporate19.zip', 'media-gallery.zip' ),
+				),
+				'corporate20'         => array(
+					'alt'       => 'Corporate 20',
+					'img'       => PORTO_OPTIONS_URI . '/demos/corporate_20.jpg',
+					'filter'    => 'classic',
+					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'media-gallery.zip' ),
+				),
 				'shop1'               => array(
 					'alt'     => 'Shop 1',
-					'img'     => porto_options_uri . '/demos/shop1.jpg',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop1.jpg',
 					'filter'  => 'shop',
 					'plugins' => array( 'woocommerce' ),
 				),
 				'shop2'               => array(
 					'alt'     => 'Shop 2',
-					'img'     => porto_options_uri . '/demos/shop2.jpg',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop2.jpg',
 					'filter'  => 'shop',
 					'plugins' => array( 'woocommerce' ),
 				),
 				'shop3'               => array(
 					'alt'     => 'Shop 3',
-					'img'     => porto_options_uri . '/demos/shop3.jpg',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop3.jpg',
 					'filter'  => 'shop',
 					'plugins' => array( 'woocommerce' ),
 				),
 				'shop4'               => array(
 					'alt'     => 'Shop 4',
-					'img'     => porto_options_uri . '/demos/shop4.jpg',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop4.jpg',
 					'filter'  => 'shop',
 					'plugins' => array( 'woocommerce' ),
 				),
 				'shop5'               => array(
 					'alt'     => 'Shop 5',
-					'img'     => porto_options_uri . '/demos/shop5.jpg',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop5.jpg',
 					'filter'  => 'shop',
 					'plugins' => array( 'woocommerce' ),
 				),
 				'shop6'               => array(
 					'alt'     => 'Shop 6',
-					'img'     => porto_options_uri . '/demos/shop6.jpg',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop6.jpg',
 					'filter'  => 'shop',
 					'plugins' => array( 'woocommerce' ),
 				),
 				'shop7'               => array(
 					'alt'     => 'Shop 7',
-					'img'     => porto_options_uri . '/demos/shop7.jpg',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop7.jpg',
 					'filter'  => 'shop',
 					'plugins' => array( 'woocommerce' ),
 				),
 				'shop8'               => array(
 					'alt'     => 'Shop 8',
-					'img'     => porto_options_uri . '/demos/shop8.jpg',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop8.jpg',
 					'filter'  => 'shop',
 					'plugins' => array( 'woocommerce' ),
 				),
 				'shop9'               => array(
 					'alt'     => 'Shop 9',
-					'img'     => porto_options_uri . '/demos/shop9.jpg',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop9.jpg',
 					'filter'  => 'shop',
 					'plugins' => array( 'woocommerce' ),
 				),
 				'shop10'              => array(
 					'alt'     => 'Shop 10',
-					'img'     => porto_options_uri . '/demos/shop10.jpg',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop10.jpg',
 					'filter'  => 'shop',
 					'plugins' => array( 'woocommerce' ),
 				),
 				'shop11'              => array(
 					'alt'     => 'Shop 11',
-					'img'     => porto_options_uri . '/demos/shop11.jpg',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop11.jpg',
 					'filter'  => 'shop',
 					'plugins' => array( 'woocommerce' ),
 				),
 				'shop12'              => array(
 					'alt'     => 'Shop 12',
-					'img'     => porto_options_uri . '/demos/shop12.jpg',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop12.jpg',
 					'filter'  => 'shop',
 					'plugins' => array( 'woocommerce' ),
 				),
 				'shop13'              => array(
 					'alt'     => 'Shop 13',
-					'img'     => porto_options_uri . '/demos/shop13.jpg',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop13.jpg',
 					'filter'  => 'shop',
 					'plugins' => array( 'woocommerce' ),
 				),
 				'shop14'              => array(
 					'alt'     => 'Shop 14',
-					'img'     => porto_options_uri . '/demos/shop14.jpg',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop14.jpg',
 					'filter'  => 'shop',
 					'plugins' => array( 'woocommerce' ),
 				),
 				'shop15'              => array(
 					'alt'     => 'Shop 15',
-					'img'     => porto_options_uri . '/demos/shop15.jpg',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop15.jpg',
 					'filter'  => 'shop',
 					'plugins' => array( 'woocommerce' ),
 				),
 				'shop16'              => array(
-					'alt'     => 'Shop 16',
-					'img'     => porto_options_uri . '/demos/shop16.jpg',
+					'alt'     => 'Shop 16 (Parallax)',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop16.jpg',
 					'filter'  => 'shop',
 					'plugins' => array( 'woocommerce' ),
 				),
 				'shop17'              => array(
 					'alt'     => 'Shop 17',
-					'img'     => porto_options_uri . '/demos/shop17.jpg',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop17.jpg',
 					'filter'  => 'shop',
 					'plugins' => array( 'woocommerce' ),
 				),
 				'shop18'              => array(
 					'alt'     => 'Shop 18',
-					'img'     => porto_options_uri . '/demos/shop18.jpg',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop18.jpg',
 					'filter'  => 'shop',
 					'plugins' => array( 'woocommerce' ),
 				),
 				'shop19'              => array(
 					'alt'     => 'Shop 19',
-					'img'     => porto_options_uri . '/demos/shop19.jpg',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop19.jpg',
 					'filter'  => 'shop',
 					'plugins' => array( 'woocommerce' ),
 				),
 				'shop20'              => array(
 					'alt'     => 'Shop 20',
-					'img'     => porto_options_uri . '/demos/shop20.jpg',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop20.jpg',
 					'filter'  => 'shop',
 					'plugins' => array( 'woocommerce', 'instagram-slider-widget' ),
 				),
+				'shop21'              => array(
+					'alt'     => 'Shop 21',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop21.jpg',
+					'filter'  => 'shop',
+					'plugins' => array( 'woocommerce' ),
+				),
+				'shop22'              => array(
+					'alt'     => 'Shop 22 (Multi-Vendor, Marketplace)',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop22.jpg',
+					'filter'  => 'shop',
+					'plugins' => array( 'woocommerce', 'dokan-lite' ),
+				),
+				'shop23'              => array(
+					'alt'     => 'Shop 23 (Baby Shop)',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop23.jpg',
+					'filter'  => 'shop',
+					'plugins' => array( 'woocommerce' ),
+				),
+				'shop24'              => array(
+					'alt'     => 'Shop 24 (Digital Product)',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop24.jpg',
+					'filter'  => 'shop',
+					'plugins' => array( 'woocommerce' ),
+				),
+				'shop25'              => array(
+					'alt'     => 'Shop 25 (Book Store)',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop25.jpg',
+					'filter'  => 'shop',
+					'plugins' => array( 'woocommerce' ),
+				),
+				'shop26'              => array(
+					'alt'     => 'Shop 26',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop26.jpg',
+					'filter'  => 'shop',
+					'plugins' => array( 'woocommerce' ),
+				),
+				'shop27'              => array(
+					'alt'     => 'Shop 27 (Bike Store)',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop27.jpg',
+					'filter'  => 'shop',
+					'plugins' => array( 'woocommerce', 'instagram-slider-widget' ),
+				),
+				'shop28'              => array(
+					'alt'     => 'Shop 28 (Single Product)',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop28.jpg',
+					'filter'  => 'shop onepage',
+					'plugins' => array( 'woocommerce' ),
+				),
+				'shop29'              => array(
+					'alt'     => 'Shop 29',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop29.jpg',
+					'filter'  => 'shop',
+					'plugins' => array( 'woocommerce', 'instagram-slider-widget' ),
+				),
+				'shop30'              => array(
+					'alt'     => 'Shop 30',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop30.jpg',
+					'filter'  => 'shop',
+					'plugins' => array( 'woocommerce' ),
+				),
+				'shop31'              => array(
+					'alt'     => 'Shop 31 (Game Store)',
+					'img'     => PORTO_OPTIONS_URI . '/demos/shop31.jpg',
+					'filter'  => 'shop',
+					'plugins' => array( 'woocommerce' ),
+				),
 				'dark'                => array(
 					'alt'       => 'Dark Original',
-					'img'       => porto_options_uri . '/demos/dark_original.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/dark_original.jpg',
 					'filter'    => 'classic',
 					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-dark.zip', 'media-gallery.zip' ),
 				),
 				'rtl'                 => array(
 					'alt'       => 'RTL Original',
-					'img'       => porto_options_uri . '/demos/rtl_original.jpg',
+					'img'       => PORTO_OPTIONS_URI . '/demos/rtl_original.jpg',
 					'filter'    => 'classic',
 					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'home-rtl.zip', 'media-gallery.zip' ),
+				),
+				'blog1'               => array(
+					'alt'       => 'Blog 1',
+					'img'       => PORTO_OPTIONS_URI . '/demos/blog1.jpg',
+					'filter'    => 'blog all',
+					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'media-gallery.zip' ),
+				),
+				'blog2'               => array(
+					'alt'       => 'Blog 2',
+					'img'       => PORTO_OPTIONS_URI . '/demos/blog2.jpg',
+					'filter'    => 'blog all',
+					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'media-gallery.zip' ),
+				),
+				'blog3'               => array(
+					'alt'       => 'Blog 3',
+					'img'       => PORTO_OPTIONS_URI . '/demos/blog3.jpg',
+					'filter'    => 'blog all',
+					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'media-gallery.zip' ),
+				),
+				'blog4'               => array(
+					'alt'       => 'Blog 4',
+					'img'       => PORTO_OPTIONS_URI . '/demos/blog4.jpg',
+					'filter'    => 'blog all',
+					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'media-gallery.zip' ),
+				),
+				'blog5'               => array(
+					'alt'       => 'Blog 5',
+					'img'       => PORTO_OPTIONS_URI . '/demos/blog5.jpg',
+					'filter'    => 'blog all',
+					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'media-gallery.zip' ),
+				),
+				'portfolio1'          => array(
+					'alt'       => 'Portfolio 1',
+					'img'       => PORTO_OPTIONS_URI . '/demos/portfolio1.jpg',
+					'filter'    => 'portfolio all',
+					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'media-gallery.zip' ),
+				),
+				'portfolio2'          => array(
+					'alt'       => 'Portfolio 2',
+					'img'       => PORTO_OPTIONS_URI . '/demos/portfolio2.jpg',
+					'filter'    => 'portfolio all',
+					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'media-gallery.zip' ),
+				),
+				'portfolio3'          => array(
+					'alt'       => 'Portfolio 3',
+					'img'       => PORTO_OPTIONS_URI . '/demos/portfolio3.jpg',
+					'filter'    => 'portfolio all',
+					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'media-gallery.zip' ),
+				),
+				'portfolio4'          => array(
+					'alt'       => 'Portfolio 4',
+					'img'       => PORTO_OPTIONS_URI . '/demos/portfolio4.jpg',
+					'filter'    => 'portfolio all',
+					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'media-gallery.zip' ),
+				),
+				'portfolio5'          => array(
+					'alt'       => 'Portfolio 5',
+					'img'       => PORTO_OPTIONS_URI . '/demos/portfolio5.jpg',
+					'filter'    => 'portfolio all',
+					'revslider' => array( 'full-width-slider.zip', 'full-width-video.zip', 'media-gallery.zip' ),
 				),
 			);
 		}
 
 		public function porto_extra_demos() {
-			return array( 'digital-agency', 'law-firm', 'construction', 'restaurant', 'hotel', 'medical', 'wedding', 'photography1', 'photography2', 'photography3', 'business-consulting', 'gym', 'event', 'resume', 'church', 'finance', 'agency-onepage', 'app-landing' );
+			return array( 'digital-agency', 'law-firm', 'construction', 'restaurant', 'hotel', 'medical', 'wedding', 'photography1', 'photography2', 'photography3', 'business-consulting', 'gym', 'event', 'resume', 'church', 'finance', 'agency-one-page', 'app-landing' );
 		}
 
 		public function __construct() {
 			$this->init_globals();
 			$this->init_actions();
-		}
-
-		public function get_header_logo_width() {
-			return '200px';
 		}
 
 		public function init_globals() {
@@ -632,11 +839,11 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 
 			$this->step = isset( $_GET['step'] ) ? sanitize_key( $_GET['step'] ) : current( array_keys( $this->steps ) );
 
-			wp_register_script( 'jquery-blockui', porto_uri . '/inc/admin/setup_wizard/assets/js/jquery.blockUI.js', array( 'jquery' ), '2.70', true );
-			wp_register_script( 'isotope', porto_js . '/libs/isotope.pkgd.min.js', array( 'jquery' ), '3.0.1', true );
-			wp_register_script( 'jquery-magnific-popup', porto_js . '/libs/jquery.magnific-popup.min.js', array( 'jquery' ), '1.1.0', true );
-			wp_register_script( 'porto-admin', porto_js . '/admin/admin.min.js', array( 'jquery', 'jquery-magnific-popup' ), $this->version, true );
-			wp_register_script( 'porto-setup', porto_uri . '/inc/admin/setup_wizard/assets/js/setup-wizard.js', array( 'jquery', 'isotope', 'porto-admin', 'jquery-blockui' ), $this->version );
+			wp_register_script( 'jquery-blockui', PORTO_URI . '/inc/admin/setup_wizard/assets/js/jquery.blockUI.js', array( 'jquery' ), '2.70', true );
+			wp_register_script( 'isotope', PORTO_JS . '/libs/isotope.pkgd.min.js', array( 'jquery' ), '3.0.1', true );
+			wp_register_script( 'jquery-magnific-popup', PORTO_JS . '/libs/jquery.magnific-popup.min.js', array( 'jquery' ), '1.1.0', true );
+			wp_register_script( 'porto-admin', PORTO_JS . '/admin/admin.min.js', array( 'jquery', 'jquery-magnific-popup' ), $this->version, true );
+			wp_register_script( 'porto-setup', PORTO_URI . '/inc/admin/setup_wizard/assets/js/setup-wizard.js', array( 'jquery', 'isotope', 'porto-admin', 'jquery-blockui' ), $this->version );
 			wp_localize_script(
 				'porto-setup',
 				'porto_setup_wizard_params',
@@ -650,8 +857,10 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 				)
 			);
 
-			wp_enqueue_style( 'porto-magnific-popup', porto_css . '/magnific-popup.min.css', false, $this->version, 'all' );
-			wp_enqueue_style( 'porto-setup', porto_uri . '/inc/admin/setup_wizard/assets/css/style.css', array( 'wp-admin', 'dashicons', 'install', 'porto-magnific-popup' ), $this->version );
+			wp_enqueue_style( 'porto-wizard-fonts', '//fonts.googleapis.com/css?family=Open+Sans%3A400%2C600%2C700&ver=5.2.1' );
+			wp_enqueue_style( 'font-awesome', PORTO_CSS . '/font-awesome.min.css', false, PORTO_VERSION, 'all' );
+			wp_enqueue_style( 'jquery-magnific-popup', PORTO_CSS . '/magnific-popup.min.css', false, $this->version, 'all' );
+			wp_enqueue_style( 'porto-setup', PORTO_URI . '/inc/admin/setup_wizard/assets/css/style.css', array( 'wp-admin', 'dashicons', 'install', 'jquery-magnific-popup' ), $this->version );
 
 			wp_enqueue_style( 'wp-admin' );
 			wp_enqueue_media();
@@ -702,7 +911,7 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 			<body class="porto-setup wp-core-ui">
 			<h1 id="porto-logo">
 				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?> - <?php bloginfo( 'description' ); ?>" class="overlay-logo">
-					<img class="img-responsive" src="<?php echo porto_uri; ?>/images/logo/logo.png" alt="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" width="111" height="54" />
+					<img class="img-responsive" src="<?php echo PORTO_URI; ?>/images/logo/logo.png" alt="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" width="111" height="54" />
 				</a>
 			</h1>
 			<?php
@@ -744,7 +953,7 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 					$show_link = false;
 				}
 				?>
-				<li class="<?php echo $li_class_escaped; ?>">
+				<li class="<?php echo esc_attr( $li_class_escaped ); ?>">
 				<?php
 				if ( $show_link ) {
 					?>
@@ -806,7 +1015,7 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 		public function porto_setup_wizard_status() {
 			?>
 			<h1><?php esc_html_e( 'System Status', 'porto' ); ?></h1>
-			<?php include_once porto_admin . '/admin_pages/mini-status.php'; ?>
+			<?php include_once PORTO_ADMIN . '/admin_pages/mini-status.php'; ?>
 			<p class="porto-setup-actions step">
 				<a href="<?php echo esc_url( $this->get_next_step_link() ); ?>" class="button-primary button button-large button-next" data-callback="install_plugins"><?php esc_html_e( 'Continue', 'porto' ); ?></a>
 			</p>
@@ -821,7 +1030,7 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 		private function _wp_get_attachment_id_by_post_name( $post_name ) {
 			global $wpdb;
 			$str   = $post_name;
-			$posts = $wpdb->get_results( "SELECT * FROM $wpdb->posts WHERE post_title = '$str' ", OBJECT );
+			$posts = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE post_title = %s", $str ), OBJECT );
 			if ( $posts ) {
 				return $posts[0]->ID;
 			}
@@ -1082,7 +1291,7 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 
 			// Switch to theme
 			if ( $parent_theme_template !== $new_theme_name ) {
-				echo '<p class="lead success">Child Theme <strong>' . $new_theme_title . '</strong> created and activated!<br />Folder is located in wp-content/themes/<strong>' . $new_theme_name . '</strong></p>';
+				echo '<p class="lead success">Child Theme <strong>' . esc_html( $new_theme_title ) . '</strong> created and activated!<br />Folder is located in wp-content/themes/<strong>' . esc_html( $new_theme_name ) . '</strong></p>';
 				switch_theme( $new_theme_name, $new_theme_name );
 			}
 		}
@@ -1107,40 +1316,42 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 			<h3><?php esc_html_e( 'Upload Logo', 'porto' ); ?></h3>
 			<form method="post" class="porto-install-demos">
 				<input type="hidden" id="current_site_url" value="<?php echo esc_url( site_url() ); ?>">
-				<table>
-					<tr>
-						<td>
-							<div id="current-logo">
-							<?php
-								global $porto_settings;
-							if ( ! isset( $porto_settings['logo-type'] ) || ! $porto_settings['logo-type'] ) {
-								$image_url  = $porto_settings['logo'] && $porto_settings['logo']['url'] ? $porto_settings['logo']['url'] : porto_uri . '/images/logo/logo.png';
-								$logo_width = $porto_settings['logo-overlay-width'] ? $porto_settings['logo-overlay-width'] : 250;
-								if ( $image_url ) {
-									$image = '<img class="site-logo" src="%s" alt="%s" style="max-width:%spx; height:auto" />';
-									printf(
-										$image,
-										$image_url,
-										get_bloginfo( 'name' ),
-										$logo_width
-									);
-								}
-							} else {
-								?>
-								<input type="text" name="new_logo_text" id="new_logo_text" value="<?php echo esc_attr( $porto_settings['logo-text'] ); ?>" style="padding: 7px 10px; width: 300px;">
+				<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px;">
+					<table>
+						<tr>
+							<td>
+								<div id="current-logo">
 								<?php
-							}
-							?>
-							</div>
-						</td>
-						<td>
-							<?php if ( ! isset( $porto_settings['logo-type'] ) || ! $porto_settings['logo-type'] ) : ?>
-							<a href="#" class="button button-upload"><?php esc_html_e( 'Upload New Logo', 'porto' ); ?></a>
-							<?php endif; ?>
-						</td>
-					</tr>
-				</table>
-				<p>You can upload and customize this in Theme Options later.</p>
+									global $porto_settings;
+								if ( ! isset( $porto_settings['logo-type'] ) || ! $porto_settings['logo-type'] ) {
+									$image_url  = $porto_settings['logo'] && $porto_settings['logo']['url'] ? $porto_settings['logo']['url'] : PORTO_URI . '/images/logo/logo.png';
+									$logo_width = $porto_settings['logo-overlay-width'] ? $porto_settings['logo-overlay-width'] : 250;
+									if ( $image_url ) {
+										$image = '<img class="site-logo" src="%s" alt="%s" style="max-width:%spx; height:auto" />';
+										printf(
+											$image,
+											$image_url,
+											get_bloginfo( 'name' ),
+											$logo_width
+										);
+									}
+								} else {
+									?>
+									<input type="text" name="new_logo_text" id="new_logo_text" value="<?php echo esc_attr( $porto_settings['logo-text'] ); ?>" style="padding: 7px 10px; width: 300px;">
+									<?php
+								}
+								?>
+								</div>
+							</td>
+							<td>
+								<?php if ( ! isset( $porto_settings['logo-type'] ) || ! $porto_settings['logo-type'] ) : ?>
+								<a href="#" class="button button-upload"><?php esc_html_e( 'Upload New Logo', 'porto' ); ?></a>
+								<?php endif; ?>
+							</td>
+						</tr>
+					</table>
+					<p style="margin-bottom: 0;"><i class="fas fa-info-circle"></i> You can upload and customize this in Theme Options later.</p>
+				</div>
 
 				<hr/>
 
@@ -1258,7 +1469,7 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 					<?php endforeach; ?>
 				</div>
 				<br />
-				<p><?php esc_html_e( 'Installing a demo provides pages, posts, menus, images, theme options, widgets and more.', 'porto' ); ?>
+				<p style="padding-left: 20px;"><i class="fas fa-info-circle" style="margin-left: -20px; width: 20px;"></i><?php esc_html_e( 'Installing a demo provides pages, posts, menus, images, theme options, widgets and more.', 'porto' ); ?>
 				<br /><strong><?php esc_html_e( 'IMPORTANT: The included plugins need to be installed and activated before you install a demo.', 'porto' ); ?> </strong>
 				<?php /* translators: $1: opening A tag which has link to the plugins step $2: closing A tag */ ?>
 				<br /><?php printf( esc_html__( 'Please check the %1$sStatus%2$s step to ensure your server meets all requirements for a successful import. Settings that need attention will be listed in red.', 'porto' ), '<a href="' . esc_url( $this->get_step_link( 'status' ) ) . '">', '</a>' ); ?></p>
@@ -1281,7 +1492,7 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 			check_admin_referer( 'porto-setup' );
 
 			$new_logo_id   = (int) $_POST['new_logo_id'];
-			$new_logo_text = $_POST['new_logo_text'];
+			$new_logo_text = sanitize_text_field( $_POST['new_logo_text'] );
 
 			if ( ( $new_logo_id || $new_logo_text ) && class_exists( 'ReduxFrameworkInstances' ) ) {
 				$redux = ReduxFrameworkInstances::get_instance( 'porto_settings' );
@@ -1296,7 +1507,7 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 					}
 				}
 				if ( $new_logo_text ) {
-					$porto_settings['logo-text'] = esc_html( $new_logo_text );
+					$porto_settings['logo-text'] = $new_logo_text;
 				}
 				$redux->set_options( $porto_settings );
 			}
@@ -1328,7 +1539,7 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 						$purchase_code = Porto()->get_purchase_code_asterisk();
 
 					if ( ! empty( $errors ) ) {
-						echo '<div class="notice-error notice-alt"><p>' . $errors . '</p></div>';
+						echo '<div class="notice-error notice-alt"><p>' . esc_html( $errors ) . '</p></div>';
 					}
 
 					if ( ! empty( $purchase_code ) ) {
@@ -1400,7 +1611,7 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 			<?php
 				// Create Child Theme
 			if ( isset( $_REQUEST['theme_name'] ) && current_user_can( 'manage_options' ) ) {
-				echo porto_filter_output( $this->_make_child_theme( esc_html( $_REQUEST['theme_name'] ) ) );
+				echo porto_filter_output( $this->_make_child_theme( sanitize_text_field( $_REQUEST['theme_name'] ) ) );
 			}
 				$theme = 'Porto Child';
 			?>
@@ -1441,8 +1652,8 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 
 			<p class="error">Item Support <strong>DOES NOT</strong> Include:</p>
 			<ul>
-				<li>Customization services (this is available through <a href="mailto:nicework125@gmail.com">nicework125@gmail.com</a>)</li>
-				<li>Installation services (this is available through <a href="mailto:nicework125@gmail.com">nicework125@gmail.com</a>)</li>
+				<li>Customization services (this is available through <a href="mailto:ptheme.customize@gmail.com">ptheme.customize@gmail.com</a>)</li>
+				<li>Installation services (this is available through <a href="mailto:ptheme.customize@gmail.com">ptheme.customize@gmail.com</a>)</li>
 				<li>Help and Support for non-bundled 3rd party plugins (i.e. plugins you install yourself later on)</li>
 			</ul>
 			<p>More details about item support can be found in the ThemeForest <a href="http://themeforest.net/page/item_support_policy" target="_blank">Item Support Policy</a>. </p>
@@ -1494,10 +1705,10 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 		/****************** importer functions *************************/
 		private function get_demo_file( $demo = false ) {
 			if ( ! $demo ) {
-				$demo = ( isset( $_POST['demo'] ) && $_POST['demo'] ) ? $_POST['demo'] : 'landing';
+				$demo = ( isset( $_POST['demo'] ) && $_POST['demo'] ) ? sanitize_text_field( $_POST['demo'] ) : 'landing';
 			}
 			// Importer remote API
-			require_once porto_plugins . '/importer/importer-api.php';
+			require_once PORTO_PLUGINS . '/importer/importer-api.php';
 			$importer_api   = new Porto_Importer_API( $demo );
 			$demo_file_path = $importer_api->get_remote_demo();
 			if ( ! $demo_file_path ) {
@@ -1552,9 +1763,9 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 			if ( ! check_ajax_referer( 'porto_setup_wizard_nonce', 'wpnonce', false ) ) {
 				die();
 			}
-			$demo = ( isset( $_POST['demo'] ) && $_POST['demo'] ) ? $_POST['demo'] : 'landing';
+			$demo = ( isset( $_POST['demo'] ) && $_POST['demo'] ) ? sanitize_text_field( $_POST['demo'] ) : 'landing';
 			// Importer remote API
-			require_once porto_plugins . '/importer/importer-api.php';
+			require_once PORTO_PLUGINS . '/importer/importer-api.php';
 			$importer_api = new Porto_Importer_API( $demo );
 			$importer_api->delete_temp_dir();
 			die();
@@ -1621,13 +1832,13 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 			}
 
 			if ( ! class_exists( 'WP_Import' ) ) { // if WP importer doesn't exist
-				require_once porto_plugins . '/importer/wordpress-importer.php';
+				require_once PORTO_PLUGINS . '/importer/wordpress-importer.php';
 			}
 
 			if ( current_user_can( 'manage_options' ) && class_exists( 'WP_Importer' ) && class_exists( 'WP_Import' ) ) { // check for main import class and wp import class
 
-				$demo                        = ( isset( $_POST['demo'] ) && $_POST['demo'] ) ? $_POST['demo'] : 'landing';
-				$process                     = ( isset( $_POST['process'] ) && $_POST['process'] ) ? $_POST['process'] : 'import_start';
+				$demo                        = ( isset( $_POST['demo'] ) && $_POST['demo'] ) ? sanitize_text_field( $_POST['demo'] ) : 'landing';
+				$process                     = ( isset( $_POST['process'] ) && $_POST['process'] ) ? sanitize_text_field( $_POST['process'] ) : 'import_start';
 				$demo_path                   = $this->get_demo_file();
 				$importer                    = new WP_Import();
 				$theme_xml                   = $demo_path . '/content.gz';
@@ -1704,9 +1915,13 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 		}
 
 		function import_dummy_start() {
-			$process = ( isset( $_POST['process'] ) && $_POST['process'] ) ? $_POST['process'] : 'import_start';
+			$process = ( isset( $_POST['process'] ) && $_POST['process'] ) ? sanitize_text_field( $_POST['process'] ) : 'import_start';
 			if ( current_user_can( 'manage_options' ) && 'import_start' == $process ) {
 				delete_option( 'porto_import_processed_duplicates' );
+			}
+
+			if ( class_exists( 'WC_Comments' ) ) {
+				remove_action( 'wp_update_comment_count', array( 'WC_Comments', 'clear_transients' ) );
 			}
 		}
 
@@ -1726,6 +1941,10 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 				ob_end_flush();
 				ob_start();
 			}
+
+			if ( class_exists( 'WC_Comments' ) ) {
+				add_action( 'wp_update_comment_count', array( 'WC_Comments', 'clear_transients' ) );
+			}
 		}
 
 		function import_dummy_step_by_step() {
@@ -1742,15 +1961,15 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 			}
 
 			if ( ! class_exists( 'Porto_WP_Import' ) ) { // if WP importer doesn't exist
-				$wp_import = porto_plugins . '/importer/porto-wordpress-importer.php';
+				$wp_import = PORTO_PLUGINS . '/importer/porto-wordpress-importer.php';
 				include $wp_import;
 			}
 
 			if ( current_user_can( 'manage_options' ) && class_exists( 'WP_Importer' ) && class_exists( 'Porto_WP_Import' ) ) { // check for main import class and wp import class
 
-				$process   = ( isset( $_POST['process'] ) && $_POST['process'] ) ? $_POST['process'] : 'import_start';
-				$demo      = ( isset( $_POST['demo'] ) && $_POST['demo'] ) ? $_POST['demo'] : 'landing';
-				$index     = ( isset( $_POST['index'] ) && $_POST['index'] ) ? $_POST['index'] : 0;
+				$process   = ( isset( $_POST['process'] ) && $_POST['process'] ) ? sanitize_text_field( $_POST['process'] ) : 'import_start';
+				$demo      = ( isset( $_POST['demo'] ) && $_POST['demo'] ) ? sanitize_text_field( $_POST['demo'] ) : 'landing';
+				$index     = ( isset( $_POST['index'] ) && $_POST['index'] ) ? (int) $_POST['index'] : 0;
 				$demo_path = $this->get_demo_file();
 
 				$importer                    = new Porto_WP_Import();
@@ -1809,7 +2028,7 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 				die();
 			}
 			if ( current_user_can( 'manage_options' ) ) {
-				$demo = ( isset( $_POST['demo'] ) && $_POST['demo'] ) ? $_POST['demo'] : 'landing';
+				$demo = ( isset( $_POST['demo'] ) && $_POST['demo'] ) ? sanitize_text_field( $_POST['demo'] ) : 'landing';
 				// Import Revolution Slider
 				if ( class_exists( 'RevSlider' ) ) {
 					$demos = $this->porto_demo_types();
@@ -1848,7 +2067,7 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 				$paths['tempurl'] = trailingslashit( $paths['baseurl'] ) . trailingslashit( $paths['temp'] );
 				$paths['config']  = 'charmap.php';
 				$sli_fonts        = trailingslashit( $paths['basedir'] ) . $paths['fonts'] . '/Simple-Line-Icons';
-				$sli_fonts_dir    = porto_plugins . '/importer/data/Simple-Line-Icons/';
+				$sli_fonts_dir    = PORTO_PLUGINS . '/importer/data/Simple-Line-Icons/';
 
 				// Make destination directory
 				if ( ! is_dir( $sli_fonts ) ) {
@@ -1887,8 +2106,9 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 				$theme_options = ob_get_clean();
 
 				ob_start();
-				$options = json_decode( $theme_options, true );
-				$redux   = ReduxFrameworkInstances::get_instance( 'porto_settings' );
+				$theme_options = str_replace( 'PPPSITE_URLPPP', get_site_url(), $theme_options );
+				$options       = json_decode( $theme_options, true );
+				$redux         = ReduxFrameworkInstances::get_instance( 'porto_settings' );
 				$redux->set_options( $options );
 				ob_clean();
 				ob_end_clean();
@@ -2023,19 +2243,7 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 
 		private function importer_get_page_by_title( $page_title, $output = OBJECT ) {
 			global $wpdb;
-			$sql = $wpdb->prepare(
-				"
-					SELECT ID
-					FROM $wpdb->posts
-					WHERE post_title = %s
-					AND post_type = %s
-					order by post_name desc limit 1
-				",
-				$page_title,
-				'page'
-			);
-
-			$page = $wpdb->get_var( $sql );
+			$page = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts LEFT JOIN $wpdb->postmeta ON ( $wpdb->posts.ID = $wpdb->postmeta.post_id and $wpdb->postmeta.meta_key = %s ) WHERE $wpdb->posts.post_title = %s AND $wpdb->posts.post_type = %s order by $wpdb->postmeta.meta_value desc limit 1", 'porto_imported_date', $page_title, 'page' ) );
 
 			if ( $page ) {
 				return get_post( $page, $output );
@@ -2093,7 +2301,7 @@ if ( ! class_exists( 'Porto_Theme_Setup_Wizard' ) ) {
 						$sbg_sidebar = array_merge( $sbg_sidebar, array( 'ServicesSidebar' => 'Services Sidebar' ) );
 						update_option( 'sbg_sidebars', $sbg_sidebar );
 					}
-				} elseif ( 'law-firm' == $demo ) {
+				} elseif ( 'law-firm' == $demo || 'shop20' == $demo ) {
 					$sbg_sidebar = get_option( 'sbg_sidebars', array() );
 					if ( ! array_key_exists( 'GeneralSidebar', $sbg_sidebar ) ) {
 						$sbg_sidebar = array_merge( $sbg_sidebar, array( 'GeneralSidebar' => 'General Sidebar' ) );

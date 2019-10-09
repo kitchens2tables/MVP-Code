@@ -18,7 +18,13 @@ extract(
 		$atts
 	)
 );
+if ( ! $atts ) {
+	$atts = array();
+}
 $atts['show'] = $show;
+if ( ! $title ) {
+	$atts['title'] = '';
+}
 
 $el_class = porto_shortcode_extract_class( $el_class );
 

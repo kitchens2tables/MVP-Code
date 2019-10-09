@@ -5,9 +5,9 @@ $tooltip_content = apply_filters( 'porto_footer_tooltip', $porto_settings['show-
 if ( $tooltip_content ) :
 	?>
 	<div class="porto-tooltip">
-		<span class="tooltip-icon"><i class="fa fa-exclamation"></i></span>
+		<span class="tooltip-icon"><i class="fas fa-exclamation"></i></span>
 		<div class="tooltip-popup">
-			<span class="tooltip-close"><i class="fa fa-close"></i></span>
+			<span class="tooltip-close"><i class="fas fa-times"></i></span>
 			<div class="content">
 				<?php echo do_shortcode( $tooltip_content ); ?>
 			</div>

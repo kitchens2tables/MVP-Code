@@ -30,6 +30,8 @@ extract(
 	)
 );
 
+wp_enqueue_script( 'isotope' );
+
 $args = array(
 	'post_type'      => 'member',
 	'posts_per_page' => $number,

@@ -1,5 +1,6 @@
 // Infinite Scroll body
 (function(theme, $) {
+    'use strict';
 
     theme = theme || {};
 
@@ -268,6 +269,8 @@
 }).apply(this, [window.theme, jQuery]);
 
 jQuery(document).ready(function() {
+    'use strict';
+
     if (typeof theme.PostsInfinite !== 'undefined') {
         theme.PostsInfinite.initialize();
     }

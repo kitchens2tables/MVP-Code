@@ -33,13 +33,13 @@ function porto_post_meta_fields() {
 			'desc'  => __( 'Input website url if post format is link.', 'porto-functionality' ),
 			'type'  => 'text',
 		),
-		// External URL
-		'external_url'   => array(
+		// Quote Text
+		/*'quote_text'   => array(
 			'name'  => 'quote_text',
 			'title' => __( 'Quote', 'porto-functionality' ),
-			'desc'  => __( 'Input website url if post format is link.', 'porto-functionality' ),
+			'desc'  => __( 'Input quote if post format is quote.', 'porto-functionality' ),
 			'type'  => 'text',
-		),
+		),*/
 		// Layout
 		'post_layout'    => array(
 			'name'    => 'post_layout',
@@ -211,7 +211,7 @@ function porto_category_meta_fields() {
 		array(
 			'name'     => 'post_grid_columns',
 			'title'    => __( 'Grid Columns', 'porto-functionality' ),
-			'desc'     => __( 'Select the post columns in <strong>Grid</strong> layout.', 'porto-functionality' ),
+			'desc'     => __( 'Select the post columns in <strong>Grid or Masonry</strong> layout.', 'porto-functionality' ),
 			'type'     => 'radio',
 			'default'  => '3',
 			'options'  => array(

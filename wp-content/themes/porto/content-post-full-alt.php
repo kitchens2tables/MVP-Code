@@ -33,6 +33,9 @@ if ( 'without-icon' == $porto_settings['post-title-style'] ) {
 		?>
 
 	<div class="post-content">
+		<?php if ( $porto_settings['post-title'] && isset( $porto_settings['post-replace-pos'] ) && $porto_settings['post-replace-pos'] ) : ?>
+			<h2 class="entry-title"><?php the_title(); ?></h2>
+		<?php endif; ?>
 		<div>
 			<?php if ( in_array( 'author', $porto_settings['post-metas'] ) ) : ?>
 				<span>
@@ -76,14 +79,14 @@ if ( 'without-icon' == $porto_settings['post-title-style'] ) {
 
 			<?php if ( $show_date || $show_format ) : ?>
 				<?php if ( in_array( 'date', $porto_settings['post-metas'] ) ) : ?>
-					<span class="m-l-lg">
-						<?php esc_html_e( 'Post Date: ', 'porto' ); ?><span class="font-weight-semibold"><?php echo get_the_date(); ?></span>
+					<span class="post-date-block m-l-lg">
+						<span><?php esc_html_e( 'Post Date: ', 'porto' ); ?></span><span class="font-weight-semibold"><?php echo get_the_date(); ?></span>
 					</span>
 				<?php endif; ?>
 			<?php endif; ?>
 		</div>
 		<hr class="solid">
-		<?php if ( $porto_settings['post-title'] ) : ?>
+		<?php if ( $porto_settings['post-title'] && ( ! isset( $porto_settings['post-replace-pos'] ) || ! $porto_settings['post-replace-pos'] ) ) : ?>
 			<h2 class="entry-title"><?php the_title(); ?></h2>
 		<?php endif; ?>
 		<?php porto_render_rich_snippets( false ); ?>

@@ -38,7 +38,7 @@ if ( ! class_exists( 'ReduxFramework_raw' ) ) {
 
 			if ( ! empty( $this->field['content'] ) && isset( $this->field['content'] ) ) {
 				if ( isset( $this->field['markdown'] ) && $this->field['markdown'] == true && ! empty( $this->field['content'] ) ) {
-					require_once dirname( __FILE__ ) . '/parsedown.php';
+					require_once PORTO_ADMIN . '/ReduxCore/inc/fields/raw/parsedown.php';
 					$Parsedown = new Parsedown();
 					echo '' . $Parsedown->text( $this->field['content'] );
 				} else {

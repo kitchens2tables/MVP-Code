@@ -298,6 +298,13 @@ function porto_load_ultimate_heading_shortcode() {
 	);
 
 	if ( ! class_exists( 'WPBakeryShortCode_Porto_Ultimate_Headings' ) ) {
-		class WPBakeryShortCode_Porto_Ultimate_Headings extends WPBakeryShortCodesContainer { }
+		class WPBakeryShortCode_Porto_Ultimate_Headings extends WPBakeryShortCodesContainer {
+			protected $controls_list = array(
+				'add',
+				'edit',
+				'clone',
+				'delete',
+			);
+		}
 	}
 }

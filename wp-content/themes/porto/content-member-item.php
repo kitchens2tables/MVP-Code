@@ -114,7 +114,7 @@ if ( count( $featured_images ) ) :
 				$share_links .= '<a href="' . esc_url( $share_pinterest ) . '"' . $target . ' data-tooltip data-placement="bottom" title="' . esc_attr__( 'Pinterest', 'porto' ) . '" class="share-pinterest">' . esc_html__( 'Pinterest', 'porto' ) . '</a>';
 			endif;
 			if ( $share_email ) :
-				$share_links .= '<a href="mailto:' . esc_attr( $share_email ) . '"' . $target . ' data-tooltip data-placement="bottom" title="' . esc_attr__( 'Email', 'porto' ) . '" class="share-email">' . esc_attr( $share_email ) . '</a>';
+				$share_links .= '<a href="mailto:' . esc_attr( $share_email ) . '"' . $target . ' data-tooltip data-placement="bottom" title="' . esc_attr__( 'Email', 'porto' ) . '" class="share-email">' . esc_html( $share_email ) . '</a>';
 			endif;
 			if ( $share_vk ) :
 				$share_links .= '<a  href="' . esc_url( $share_vk ) . '"' . $target . ' data-tooltip data-placement="bottom" title="' . esc_attr__( 'VK', 'porto' ) . '" class="share-vk">' . esc_html__( 'VK', 'porto' ) . '</a>';
@@ -151,7 +151,7 @@ if ( count( $featured_images ) ) :
 
 					<span class="thumb-info-wrapper <?php echo ( isset( $social_links_adv_pos ) && $social_links_adv_pos ) ? 'member-social-adv-main' : ''; ?>">
 						<span class="thumb-member-container">
-							<a class="text-decoration-none member-image" href="<?php echo ! $show_external_link || ! $member_link ? get_the_permalink() : esc_url( $member_link ); ?>"<?php echo porto_filter_output( $ajax_attr ); ?>>
+							<a class="text-decoration-none member-image" href="<?php echo ! $show_external_link || ! $member_link ? esc_url( get_the_permalink() ) : esc_url( $member_link ); ?>"<?php echo porto_filter_output( $ajax_attr ); ?>>
 								<img class="img-responsive" width="<?php echo esc_attr( $attachment_medium['width'] ); ?>" height="<?php echo esc_attr( $attachment_medium['height'] ); ?>" src="<?php echo esc_url( $attachment_medium['src'] ); ?>" alt="<?php echo esc_attr( $attachment_medium['alt'] ); ?>" />
 							</a>
 							<?php if ( 'yes' == $porto_member_socials || ( ! $porto_member_socials && $porto_settings['member-socials'] ) ) : ?>
@@ -160,13 +160,13 @@ if ( count( $featured_images ) ) :
 									<div class="share-links post-share-advance member-share-advance">
 										<div class="post-share-advance-bg">
 											<?php echo porto_filter_output( $share_links ); ?>
-											<i class="fa fa-share-alt"></i>
+											<i class="fas fa-share-alt"></i>
 										</div>
 									</div>
 								<?php endif; ?>
 							<?php endif; ?>
 						</span>
-						<a class="text-decoration-none member-info-container" href="<?php echo ! $show_external_link || ! $member_link ? get_the_permalink() : esc_url( $member_link ); ?>"<?php echo porto_filter_output( $ajax_attr ); ?>>
+						<a class="text-decoration-none member-info-container" href="<?php echo ! $show_external_link || ! $member_link ? esc_url( get_the_permalink() ) : esc_url( $member_link ); ?>"<?php echo porto_filter_output( $ajax_attr ); ?>>
 						<?php if ( ! $view_type ) : ?>
 							<span class="thumb-info-title">
 								<span class="thumb-info-inner"><?php the_title(); ?></span>
@@ -185,11 +185,11 @@ if ( count( $featured_images ) ) :
 						</span>
 						<?php endif; ?>
 					<?php if ( $member_show_zoom ) : ?>
-						<span class="zoom" data-src="<?php echo esc_url( $attachment['src'] ); ?>" data-title="<?php echo esc_attr( $attachment['caption'] ); ?>"><i class="fa fa-search"></i></span>
+						<span class="zoom" data-src="<?php echo esc_url( $attachment['src'] ); ?>" data-title="<?php echo esc_attr( $attachment['caption'] ); ?>"><i class="fas fa-search"></i></span>
 					<?php endif; ?>
 					</a>
 					</span> <!--Thumb info wrapper end-->
-					<a class="text-decoration-none member-info-container" href="<?php echo ! $show_external_link || ! $member_link ? get_the_permalink() : esc_url( $member_link ); ?>"<?php echo porto_filter_output( $ajax_attr ); ?>>
+					<a class="text-decoration-none member-info-container" href="<?php echo ! $show_external_link || ! $member_link ? esc_url( get_the_permalink() ) : esc_url( $member_link ); ?>"<?php echo porto_filter_output( $ajax_attr ); ?>>
 				<?php
 				if ( 2 == $view_type || 4 == $view_type ) :
 					$show_info = true;
@@ -236,7 +236,7 @@ if ( count( $featured_images ) ) :
 							$member_overview = implode( ' ', $member_overview );
 						}
 					}
-					echo do_shortcode( wpautop( $member_overview ) );
+					echo do_shortcode( $member_overview );
 					?>
 					</span>
 				<?php endif; ?>

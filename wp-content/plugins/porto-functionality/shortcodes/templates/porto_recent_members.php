@@ -36,6 +36,7 @@ extract(
 	)
 );
 
+wp_enqueue_script( 'isotope' );
 
 $carousel_class         = '';
 $options                = array();
@@ -64,6 +65,7 @@ if ( $slider_config ) {
 $options['lg']     = (int) $items_desktop;
 $options['md']     = (int) $items_tablets;
 $options['sm']     = (int) $items_mobile;
+$options['xs']     = 1;
 $options['margin'] = 25;
 
 if ( $ajax_load ) {

@@ -151,5 +151,19 @@ if( isset( $porto_settings['js-code'] ) && $porto_settings['js-code'] ) {
 		<?php get_template_part( 'share' ); ?>
 	</div>
 <?php endif;  ?>
+
+<script>
+	
+	// to reset the form on click of close icon on popups
+	jQuery('button.pum-close.popmake-close').click(function(){
+
+		jQuery('form').trigger("reset");
+		jQuery('.um-form-field').attr('value', ''); 
+
+	});
+
+	// to hide the log out button on main menu
+	jQuery('ul#menu-main-menu li.menu-item a:contains(Log out)').hide();
+</script>
 </body>
 </html>

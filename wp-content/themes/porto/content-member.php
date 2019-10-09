@@ -54,7 +54,7 @@ if ( $social_share ) {
 			$share_links .= '<a href="' . esc_url( $share_pinterest ) . '"' . $target . ' data-tooltip data-placement="bottom" title="' . esc_attr__( 'Pinterest', 'porto' ) . '" class="share-pinterest">' . esc_html__( 'Pinterest', 'porto' ) . '</a>';
 				endif;
 		if ( $share_email ) :
-			$share_links .= '<a href="mailto:' . esc_attr( $share_email ) . '"' . $target . ' data-tooltip data-placement="bottom" title="' . esc_attr__( 'Email', 'porto' ) . '" class="share-email">' . esc_attr( $share_email ) . '</a>';
+			$share_links .= '<a href="mailto:' . esc_attr( $share_email ) . '"' . $target . ' data-tooltip data-placement="bottom" title="' . esc_attr__( 'Email', 'porto' ) . '" class="share-email">' . esc_html( $share_email ) . '</a>';
 				endif;
 		if ( $share_vk ) :
 			$share_links .= '<a  href="' . esc_url( $share_vk ) . '"' . $target . ' data-tooltip data-placement="bottom" title="' . esc_attr__( 'VK', 'porto' ) . '" class="share-vk">' . esc_html__( 'VK', 'porto' ) . '</a>';
@@ -103,32 +103,45 @@ if ( $social_share ) {
 		$image_count     = count( $featured_images );
 		if ( ( 'images' == $slideshow_type && $image_count ) || ( 'video' == $slideshow_type && $video_code ) ) :
 			?>
-		<div class="col-md-5<?php echo ! isset( $member_counter ) || 0 === $member_counter % 2 ? ' order-md-2' : ''; ?>mb-4 mb-lg-0">
+		<div class="col-md-5<?php echo ! isset( $member_counter ) || 0 === $member_counter % 2 ? ' order-md-2' : ''; ?> mb-4 mb-lg-0">
 			<?php if ( 'images' == $slideshow_type && $image_count ) : ?>
 				<div class="member-image<?php echo 1 == $image_count ? ' single' : ''; ?>">
 					<?php if ( $social_share && isset( $social_links_adv_pos ) && $social_links_adv_pos ) : ?>
 						<div class="share-links post-share-advance member-share-advance">
 							<div class="post-share-advance-bg">
 								<?php echo porto_filter_output( $share_links ); ?>
-								<i class="fa fa-share-alt"></i>
+								<i class="fas fa-share-alt"></i>
 							</div>
 						</div>
 					<?php endif; ?>
 					<div class="member-slideshow porto-carousel owl-carousel">
 						<?php
 						foreach ( $featured_images as $featured_image ) {
-							$attachment = porto_get_attachment( $featured_image['attachment_id'] );
+							$attachment_medium = porto_get_attachment( $featured_image['attachment_id'], 'blog-masonry' );
+							$attachment        = porto_get_attachment( $featured_image['attachment_id'] );
 							if ( $attachment ) {
+								$placeholder = porto_generate_placeholder( $attachment_medium['width'] . 'x' . $attachment_medium['height'] );
 								?>
 								<div>
 									<div class="img-thumbnail">
-										<img class="owl-lazy img-responsive" width="<?php echo esc_attr( $attachment['width'] ); ?>" height="<?php echo esc_attr( $attachment['height'] ); ?>" data-src="<?php echo esc_url( $attachment['src'] ); ?>" alt="<?php echo esc_attr( $attachment['alt'] ); ?>" />
+										<?php
+											echo wp_get_attachment_image(
+												$featured_image['attachment_id'],
+												'blog-masonry',
+												false,
+												array(
+													'class'    => 'owl-lazy img-responsive',
+													'data-src' => esc_url( $attachment_medium['src'] ),
+													'src'      => esc_url( $placeholder[0] ),
+												)
+											);
+										?>
 										<?php if ( $porto_settings['member-zoom'] ) : ?>
-											<span class="zoom" data-src="<?php echo esc_url( $attachment['src'] ); ?>" data-title="<?php echo esc_attr( $attachment['caption'] ); ?>"><i class="fa fa-search"></i></span>
+											<span class="zoom" data-src="<?php echo esc_url( $attachment['src'] ); ?>" data-title="<?php echo esc_attr( $attachment['caption'] ); ?>"><i class="fas fa-search"></i></span>
 											<?php
 											if ( ! is_singular( 'member' ) ) :
 												?>
-												<a class="link" href="<?php the_permalink(); ?>"><i class="fa fa-link"></i></a><?php endif; ?>
+												<a class="link" href="<?php the_permalink(); ?>"><i class="fas fa-link"></i></a><?php endif; ?>
 										<?php endif; ?>
 									</div>
 								</div>
@@ -177,7 +190,7 @@ if ( $social_share ) {
 				</div>
 			<?php endif; ?>
 			<?php
-				echo do_shortcode( wpautop( get_post_meta( $post->ID, 'member_overview', true ) ) );
+				echo do_shortcode( get_post_meta( $post->ID, 'member_overview', true ) );
 			?>
 			<?php if ( $member_link || ! is_single() || ( $social_share && $share_links && '' == $porto_settings['member-socials-pos'] && isset( $social_links_adv_pos ) && ! $social_links_adv_pos ) ) : ?>
 				<hr class="tall">

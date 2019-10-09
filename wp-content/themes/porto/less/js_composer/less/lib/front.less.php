@@ -9,6 +9,11 @@
 @import "../modules/vc_table.less";
 // pixel icons
 @import "pixel_icons.less";
+<?php if ( is_multisite() ) : ?>
+  @icomoon-font-path: "../../../../themes/porto/less/js_composer/fonts/vc_icons_v2/fonts";
+<?php else: ?>
+  @icomoon-font-path: "../../themes/porto/less/js_composer/fonts/vc_icons_v2/fonts";
+<?php endif; ?>
 @import "../../fonts/vc_icons_v2/init.less";
 
 //Helper classes

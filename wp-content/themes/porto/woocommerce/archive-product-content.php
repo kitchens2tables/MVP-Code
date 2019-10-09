@@ -102,8 +102,6 @@ if ( $porto_settings['category-ajax'] ) {
 
 				/**
 				 * Hook: woocommerce_shop_loop.
-				 *
-				 * @hooked WC_Structured_Data::generate_product_data() - 10
 				 */
 				do_action( 'woocommerce_shop_loop' );
 

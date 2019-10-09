@@ -1,5 +1,8 @@
+
 if (typeof portoInitStatCounter == 'undefined') {
     function portoInitStatCounter($elements) {
+        'use strict';
+
         if (typeof $elements == "undefined") {
             $elements = jQuery("body");
         }
@@ -58,6 +61,8 @@ if (typeof portoInitStatCounter == 'undefined') {
 }
 
 jQuery(document).ready(function($) {
+    'use strict';
+
     portoInitStatCounter();
     $(document.body).on('porto_refresh_vc_content', function(event, $elements) {
         portoInitStatCounter($elements);

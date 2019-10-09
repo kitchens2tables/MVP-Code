@@ -11,10 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $extra_class_escaped = '';
 global $porto_layout, $porto_product_layout;
 if ( 'widewidth' === $porto_layout && ( ! is_product() || ! isset( $porto_product_layout ) || 'full_width' !== $porto_product_layout ) ) {
-	$extra_class_escaped .= ' m-b-xl';
-	if ( porto_get_wrapper_type() !== 'boxed' ) {
-		$extra_class_escaped .= ' m-r-md m-l-md';
-	}
+	$extra_class_escaped .= ' m-b-lg m-t';
 }
 ?>
-<div id="primary" class="content-area"><main id="content" class="site-main<?php echo $extra_class_escaped; ?>" role="main">
+<div id="primary" class="content-area"><main id="content" class="site-main<?php echo ! $extra_class_escaped ? '' : $extra_class_escaped; ?>" role="main">

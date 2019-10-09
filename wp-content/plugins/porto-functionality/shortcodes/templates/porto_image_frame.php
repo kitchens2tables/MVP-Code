@@ -141,10 +141,10 @@ if ( $image_url ) {
 			}
 			$output .= '<span class="thumb-info-title">';
 			if ( $title || $date ) {
-				$output .= '<span class="thumb-info-inner">' . $title . '<em>' . $date . '</em></span>';
+				$output .= '<span class="thumb-info-inner">' . wp_kses_post( $title ) . '<em>' . esc_html( $date ) . '</em></span>';
 			}
 			if ( $sub_title ) {
-				$output .= '<span class="thumb-info-type">' . $sub_title . '</span>';
+				$output .= '<span class="thumb-info-type">' . wp_kses_post( $sub_title ) . '</span>';
 			}
 			$output .= '</span>';
 			if ( $use_link && $centered_icons ) {
@@ -153,7 +153,7 @@ if ( $image_url ) {
 		}
 
 		if ( $use_link && $link_icon && ! $centered_icons ) {
-			$output .= '<span class="thumb-info-action"><span class="thumb-info-action-icon"><i class="fa fa-link"></i></span></span>';
+			$output .= '<span class="thumb-info-action"><span class="thumb-info-action-icon"><i class="fas fa-link"></i></span></span>';
 		}
 
 		if ( $centered_icons ) {
@@ -173,8 +173,8 @@ if ( $image_url ) {
 						break;
 				}
 				$c       = 'thumb-info-action-icon' . ( 'custom' !== $icon['skin'] ? ' thumb-info-action-icon-' . $icon['skin'] : '' );
-				$a_style = ( 'custom' === $icon['skin'] && isset( $icon['bg_color'] ) && $icon['bg_color'] ) ? ' style="background:' . $icon['bg_color'] . '"' : '';
-				$i_style = ( 'custom' === $icon['skin'] && isset( $icon['icon_color'] ) && $icon['icon_color'] ) ? ' style="color:' . $icon['icon_color'] . '"' : '';
+				$a_style = ( 'custom' === $icon['skin'] && isset( $icon['bg_color'] ) && $icon['bg_color'] ) ? ' style="background:' . esc_attr( $icon['bg_color'] ) . '"' : '';
+				$i_style = ( 'custom' === $icon['skin'] && isset( $icon['icon_color'] ) && $icon['icon_color'] ) ? ' style="color:' . esc_attr( $icon['icon_color'] ) . '"' : '';
 				$i_html  = '<i class="' . esc_attr( $i ) . '"' . $i_style . '>';
 				if ( 'icon-image' == $i && $i_image = $icon['icon_image'] ) {
 					$i_image  = preg_replace( '/[^\d]/', '', $i_image );
@@ -206,17 +206,17 @@ if ( $image_url ) {
 						$s_atts[] = 'target="' . esc_attr( trim( $a_target ) ) . '"';
 
 						$s_atts      = implode( ' ', $s_atts );
-						$icons_html .= '<a class="' . $c . '" ' . $s_atts . $a_style . '>' . $i_html . '</a>';
+						$icons_html .= '<a class="' . esc_attr( $c ) . '" ' . $s_atts . $a_style . '>' . $i_html . '</a>';
 					}
 				} elseif ( 'popup_iframe' === $icon['action'] ) {
 					if ( $icon['popup_iframe'] ) {
-						$icons_html .= '<a class="' . $c . ' porto-popup-iframe" href="' . $icon['popup_iframe'] . '"' . $a_style . '>' . $i_html . '</a>';
+						$icons_html .= '<a class="' . esc_attr( $c ) . ' porto-popup-iframe" href="' . $icon['popup_iframe'] . '"' . $a_style . '>' . $i_html . '</a>';
 					}
 				} else {
 					if ( $icon['popup_block'] ) {
 						$id          = 'popup' . rand();
-						$icons_html .= '<a class="' . $c . ' porto-popup-content" href="#' . $id . '" data-animation="' . esc_attr( $icon['popup_animation'] ) . '"' . $a_style . '>' . $i_html . '</a>';
-						$icons_html .= '<div id="' . $id . '" class="dialog dialog-' . esc_attr( $icon['popup_size'] ) . ' zoom-anim-dialog mfp-hide">' . do_shortcode( '[porto_block name="' . $icon['popup_block'] . '"]' ) . '</div>';
+						$icons_html .= '<a class="' . esc_attr( $c ) . ' porto-popup-content" href="#' . esc_attr( $id ) . '" data-animation="' . esc_attr( $icon['popup_animation'] ) . '"' . $a_style . '>' . $i_html . '</a>';
+						$icons_html .= '<div id="' . esc_attr( $id ) . '" class="dialog dialog-' . esc_attr( $icon['popup_size'] ) . ' zoom-anim-dialog mfp-hide">' . do_shortcode( '[porto_block name="' . $icon['popup_block'] . '"]' ) . '</div>';
 					}
 				}
 			}
@@ -250,8 +250,8 @@ if ( $image_url ) {
 							break;
 					}
 					$c       = 'custom' !== $social['skin'] ? 'thumb-info-social-links-' . $social['skin'] : '';
-					$a_style = ( 'custom' === $social['skin'] && isset( $social['bg_color'] ) && $social['bg_color'] ) ? ' style="background:' . $social['bg_color'] . '"' : '';
-					$i_style = ( 'custom' === $social['skin'] && isset( $social['icon_color'] ) && $social['icon_color'] ) ? ' style="color:' . $social['icon_color'] . '"' : '';
+					$a_style = ( 'custom' === $social['skin'] && isset( $social['bg_color'] ) && $social['bg_color'] ) ? ' style="background:' . esc_attr( $social['bg_color'] ) . '"' : '';
+					$i_style = ( 'custom' === $social['skin'] && isset( $social['icon_color'] ) && $social['icon_color'] ) ? ' style="color:' . esc_attr( $social['icon_color'] ) . '"' : '';
 					$i_html  = '<i class="' . esc_attr( $i ) . '"' . $i_style . '>';
 					if ( 'icon-image' == $i && $i_image = $social['icon_image'] ) {
 						$i_image  = preg_replace( '/[^\d]/', '', $i_image );
@@ -283,17 +283,17 @@ if ( $image_url ) {
 							$i_atts[] = 'target="' . esc_attr( trim( $a_target ) ) . '"';
 
 							$i_atts        = implode( ' ', $i_atts );
-							$socials_html .= '<a class="' . $c . '" ' . $i_atts . $a_style . '>' . $i_html . '</a>';
+							$socials_html .= '<a class="' . esc_attr( $c ) . '" ' . $i_atts . $a_style . '>' . $i_html . '</a>';
 						}
 					} elseif ( 'popup_iframe' === $social['action'] ) {
 						if ( $social['popup_iframe'] ) {
-							$socials_html .= '<a class="' . $c . ' porto-popup-iframe" href="' . $social['popup_iframe'] . '"' . $a_style . '>' . $i_html . '</a>';
+							$socials_html .= '<a class="' . esc_attr( $c ) . ' porto-popup-iframe" href="' . esc_url( $social['popup_iframe'] ) . '"' . $a_style . '>' . $i_html . '</a>';
 						}
 					} else {
 						if ( $social['popup_block'] ) {
 							$id            = 'popup' . rand();
-							$socials_html .= '<a class="' . $c . ' porto-popup-content" href="#' . $id . '" data-animation="' . esc_attr( $social['popup_animation'] ) . '"' . $a_style . '>' . $i_html . '</a>';
-							$socials_html .= '<div id="' . $id . '" class="dialog dialog-' . esc_attr( $social['popup_size'] ) . ' zoom-anim-dialog mfp-hide">' . do_shortcode( '[porto_block name="' . $icon['popup_block'] . '"]' ) . '</div>';
+							$socials_html .= '<a class="' . esc_attr( $c ) . ' porto-popup-content" href="#' . esc_attr( $id ) . '" data-animation="' . esc_attr( $social['popup_animation'] ) . '"' . $a_style . '>' . $i_html . '</a>';
+							$socials_html .= '<div id="' . esc_attr( $id ) . '" class="dialog dialog-' . esc_attr( $social['popup_size'] ) . ' zoom-anim-dialog mfp-hide">' . do_shortcode( '[porto_block name="' . $icon['popup_block'] . '"]' ) . '</div>';
 						}
 					}
 				}
@@ -307,19 +307,19 @@ if ( $image_url ) {
 						$output .= '<a ' . $attributes . '>';
 					}
 					if ( $title ) {
-						$output .= '<h2 class="font-weight-semibold m-b-xs">' . $title . '</h2>';
+						$output .= '<h2 class="font-weight-semibold m-b-xs">' . wp_kses_post( $title ) . '</h2>';
 					}
 					if ( $date ) {
-						$output .= '<em class="thumb-info-date m-b-xs">' . $date . '</em>';
+						$output .= '<em class="thumb-info-date m-b-xs">' . esc_html( $date ) . '</em>';
 					}
 					if ( $sub_title ) {
-						$output .= '<h5 class="font-weight-semibold m-b-xs">' . $sub_title . '</h5>';
+						$output .= '<h5 class="font-weight-semibold m-b-xs">' . wp_kses_post( $sub_title ) . '</h5>';
 					}
 					if ( $use_link && $centered_icons ) {
 						$output .= '</a>';
 					}
 				}
-				$output .= do_shortcode( porto_clean_shortcodes( wpautop( $content ) ) );
+				$output .= function_exists( 'wpb_js_remove_wpautop' ) ? wpb_js_remove_wpautop( $content, true ) : do_shortcode( $content );
 				if ( $socials_html && ( ( 'side-image' === $view_type || 'side-image-right' === $view_type ) && ( $title || $date || $sub_title ) ) ) {
 					$output .= '<span class="thumb-info-social-icons">';
 					$output .= $socials_html;

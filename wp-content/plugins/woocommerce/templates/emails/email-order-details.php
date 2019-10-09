@@ -12,21 +12,19 @@
  *
  * @see https://docs.woocommerce.com/document/template-structure/
  * @package WooCommerce/Templates/Emails
- * @version 3.3.1
+ * @version 3.7.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 $text_align = is_rtl() ? 'right' : 'left';
 
 do_action( 'woocommerce_email_before_order_table', $order, $sent_to_admin, $plain_text, $email ); ?>
 
-<h2 style='color:#666; font-size:12px;'>
+<h2>
 	<?php
 	if ( $sent_to_admin ) {
-		$before = '<a  style="color:#f05020 !important; font-size:18px;" class="link" href="' . esc_url( $order->get_edit_order_url() ) . '">';
+		$before = '<a class="link" href="' . esc_url( $order->get_edit_order_url() ) . '">';
 		$after  = '</a>';
 	} else {
 		$before = '';
@@ -37,8 +35,8 @@ do_action( 'woocommerce_email_before_order_table', $order, $sent_to_admin, $plai
 	?>
 </h2>
 
-<div style="margin-bottom: 40px;" > 
-	<table id="order-templ-create" class="td" cellspacing="0" cellpadding="6" style="width: 100%; font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;" border="1">
+<div style="margin-bottom: 40px;">
+	<table class="td" cellspacing="0" cellpadding="6" style="width: 100%; font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;" border="1">
 		<thead>
 			<tr>
 				<th class="td" scope="col" style="text-align:<?php echo esc_attr( $text_align ); ?>;"><?php esc_html_e( 'Product', 'woocommerce' ); ?></th>
@@ -46,24 +44,27 @@ do_action( 'woocommerce_email_before_order_table', $order, $sent_to_admin, $plai
 				<th class="td" scope="col" style="text-align:<?php echo esc_attr( $text_align ); ?>;"><?php esc_html_e( 'Price', 'woocommerce' ); ?></th>
 			</tr>
 		</thead>
-		<tbody class="">
+		<tbody>
 			<?php
-			echo wc_get_email_order_items( $order, array( // WPCS: XSS ok.
-				'show_sku'      => $sent_to_admin,
-				'show_image'    => false,
-				'image_size'    => array( 32, 32 ),
-				'plain_text'    => $plain_text,
-				'sent_to_admin' => $sent_to_admin,
-			) );
+			echo wc_get_email_order_items( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				$order,
+				array(
+					'show_sku'      => $sent_to_admin,
+					'show_image'    => false,
+					'image_size'    => array( 32, 32 ),
+					'plain_text'    => $plain_text,
+					'sent_to_admin' => $sent_to_admin,
+				)
+			);
 			?>
 		</tbody>
 		<tfoot>
 			<?php
-			$totals = $order->get_order_item_totals();
+			$item_totals = $order->get_order_item_totals();
 
-			if ( $totals ) {
+			if ( $item_totals ) {
 				$i = 0;
-				foreach ( $totals as $total ) {
+				foreach ( $item_totals as $total ) {
 					$i++;
 					?>
 					<tr>
@@ -77,7 +78,7 @@ do_action( 'woocommerce_email_before_order_table', $order, $sent_to_admin, $plai
 				?>
 				<tr>
 					<th class="td" scope="row" colspan="2" style="text-align:<?php echo esc_attr( $text_align ); ?>;"><?php esc_html_e( 'Note:', 'woocommerce' ); ?></th>
-					<td class="td" style="text-align:<?php echo esc_attr( $text_align ); ?>;"><?php echo wp_kses_post( wptexturize( $order->get_customer_note() ) ); ?></td>
+					<td class="td" style="text-align:<?php echo esc_attr( $text_align ); ?>;"><?php echo wp_kses_post( nl2br( wptexturize( $order->get_customer_note() ) ) ); ?></td>
 				</tr>
 				<?php
 			}
@@ -85,7 +86,5 @@ do_action( 'woocommerce_email_before_order_table', $order, $sent_to_admin, $plai
 		</tfoot>
 	</table>
 </div>
-
-
 
 <?php do_action( 'woocommerce_email_after_order_table', $order, $sent_to_admin, $plain_text, $email ); ?>

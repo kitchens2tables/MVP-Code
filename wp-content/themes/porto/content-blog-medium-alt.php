@@ -36,7 +36,7 @@ if ( in_array( 'like', $porto_settings['post-metas'] ) ) {
 	$post_meta .= '<span class="meta-like m-l-lg">' . porto_blog_like() . '</span>';
 }
 if ( in_array( 'date', $porto_settings['post-metas'] ) && ! count( $featured_images ) ) {
-	$post_meta .= '<span class="meta-date m-l-lg">' . esc_html__( 'Post Date: ', 'porto' ) . '<strong>' . get_the_date( esc_attr( $porto_settings['blog-date-format'] ) ) . '</strong></span>';
+	$post_meta .= '<span class="meta-date m-l-lg">' . esc_html__( 'Post Date: ', 'porto' ) . '<strong>' . get_the_date( esc_html( $porto_settings['blog-date-format'] ) ) . '</strong></span>';
 }
 $post_meta .= '</div>';
 ?>
@@ -48,17 +48,22 @@ $post_meta .= '</div>';
 		<div class="col-md-8 col-lg-5">
 			<?php
 				// Post Slideshow
-				$slideshow_type = get_post_meta( $post->ID, 'slideshow_type', true );
+				$slideshow_type = get_post_meta( get_the_ID(), 'slideshow_type', true );
 
 			if ( ! $slideshow_type ) {
 				$slideshow_type = 'images';
 			}
+				$args = array();
+			if ( 'images' == $slideshow_type ) {
+				$args['image_size'] = 'blog-medium';
+			}
+			if ( in_array( 'date', $porto_settings['post-metas'] ) ) {
+				$args['extra_html'] = '<span class="blog-post-date background-color-primary text-color-light font-weight-bold"> ' . esc_html( get_the_date( 'j' ) ) . '<span class="month-year font-weight-light">' . esc_html( get_the_date( 'M-y' ) ) . '</span></span>';
+			}
 				porto_get_template_part(
 					'views/posts/post-media/' . $slideshow_type,
 					null,
-					( 'images' == $slideshow_type ? array(
-						'image_size' => 'blog-medium',
-					) : false )
+					$args
 				);
 			?>
 		</div>

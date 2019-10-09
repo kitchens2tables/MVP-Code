@@ -15,7 +15,7 @@ if ( porto_is_ajax() && isset( $_POST['ajax_action'] ) && 'portfolio_ajax_modal'
 add_action( 'porto_after_main', 'porto_display_related_portfolios' );
 ?>
 
-	<div id="content" role="main" class="<?php echo 'wide-left-sidebar' === $porto_layout || 'wide-right-sidebar' === $porto_layout || 'wide-both-sidebar' === $porto_layout ? 'm-t-lg m-b-xl m-r-md m-l-md' : ''; ?>">
+	<div id="content" role="main">
 
 		<?php
 		if ( have_posts() ) :

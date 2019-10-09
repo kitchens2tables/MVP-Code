@@ -1,0 +1,67 @@
+2019-10-03T07:24:47+00:00 CRITICAL Uncaught Error: Call to undefined function wc_print_notices() in /var/www/html/kitchens2tables/wp-content/plugins/dc-woocommerce-multi-vendor/templates/shortcode/vendor_registration.php:2
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/dc-woocommerce-multi-vendor/classes/class-wcmp-template.php(38): include()
+#1 /var/www/html/kitchens2tables/wp-content/plugins/dc-woocommerce-multi-vendor/classes/shortcode/class-wcmp-shortcode-vendor-registration.php(40): WCMp_Template->get_template('shortcode/vendo...')
+#2 /var/www/html/kitchens2tables/wp-content/plugins/dc-woocommerce-multi-vendor/classes/class-wcmp-shortcode.php(89): WCMp_Vendor_Registration_Shortcode::output(Array)
+#3 /var/www/html/kitchens2tables/wp-content/plugins/dc-woocommerce-multi-vendor/classes/class-wcmp-shortcode.php(65): WCMp_Shortcode::shortcode_wrapper(Array)
+#4 /var/www/html/kitchens2tables/wp-includes/shortcodes.php(319): WCMp_Shortcode->wcmp_vendor_registration_shortcode('', '', 'vendor_registra...')
+#5 [internal function]:  in /var/www/html/kitchens2tables/wp-content/plugins/dc-woocommerce-multi-vendor/templates/shortcode/vendor_registration.php on line 2
+
+2019-10-03T12:02:48+00:00 CRITICAL Uncaught Error: Call to undefined function wc_print_notices() in /var/www/html/kitchens2tables/wp-content/plugins/dc-woocommerce-multi-vendor/templates/shortcode/vendor_registration.php:2
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/dc-woocommerce-multi-vendor/classes/class-wcmp-template.php(38): include()
+#1 /var/www/html/kitchens2tables/wp-content/plugins/dc-woocommerce-multi-vendor/classes/shortcode/class-wcmp-shortcode-vendor-registration.php(40): WCMp_Template->get_template('shortcode/vendo...')
+#2 /var/www/html/kitchens2tables/wp-content/plugins/dc-woocommerce-multi-vendor/classes/class-wcmp-shortcode.php(89): WCMp_Vendor_Registration_Shortcode::output(Array)
+#3 /var/www/html/kitchens2tables/wp-content/plugins/dc-woocommerce-multi-vendor/classes/class-wcmp-shortcode.php(65): WCMp_Shortcode::shortcode_wrapper(Array)
+#4 /var/www/html/kitchens2tables/wp-includes/shortcodes.php(319): WCMp_Shortcode->wcmp_vendor_registration_shortcode('', '', 'vendor_registra...')
+#5 [internal function]:  in /var/www/html/kitchens2tables/wp-content/plugins/dc-woocommerce-multi-vendor/templates/shortcode/vendor_registration.php on line 2
+
+2019-10-03T12:34:08+00:00 CRITICAL Uncaught Error: Call to undefined function wc_print_notices() in /var/www/html/kitchens2tables/wp-content/plugins/dc-woocommerce-multi-vendor/templates/shortcode/vendor_registration.php:2
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/dc-woocommerce-multi-vendor/classes/class-wcmp-template.php(38): include()
+#1 /var/www/html/kitchens2tables/wp-content/plugins/dc-woocommerce-multi-vendor/classes/shortcode/class-wcmp-shortcode-vendor-registration.php(40): WCMp_Template->get_template('shortcode/vendo...')
+#2 /var/www/html/kitchens2tables/wp-content/plugins/dc-woocommerce-multi-vendor/classes/class-wcmp-shortcode.php(89): WCMp_Vendor_Registration_Shortcode::output(Array)
+#3 /var/www/html/kitchens2tables/wp-content/plugins/dc-woocommerce-multi-vendor/classes/class-wcmp-shortcode.php(65): WCMp_Shortcode::shortcode_wrapper(Array)
+#4 /var/www/html/kitchens2tables/wp-includes/shortcodes.php(319): WCMp_Shortcode->wcmp_vendor_registration_shortcode('', '', 'vendor_registra...')
+#5 [internal function]:  in /var/www/html/kitchens2tables/wp-content/plugins/dc-woocommerce-multi-vendor/templates/shortcode/vendor_registration.php on line 2
+
+2019-10-03T14:14:37+00:00 CRITICAL Uncaught Error: Call to a member function get_products() on bool in /var/www/html/kitchens2tables/wp-content/themes/porto-child/input_menus.php:36
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/class-functions.php(504): include()
+#1 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(288): um_account_content_hook_menus(NULL)
+#2 /var/www/html/kitchens2tables/wp-includes/plugin.php(203): WP_Hook->apply_filters(NULL, Array)
+#3 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-account.php(683): apply_filters('um_account_cont...', NULL, Array)
+#4 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-account.php(71): um\core\Account->get_tab_fields('mytab', Array)
+#5 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-account.php(227): um\core\Account->init_tabs(Array)
+#6 /var/www/html/kitchens2tables/wp-includes/shortcodes.php(319): um\core\Account->ultimatemember_ac in /var/www/html/kitchens2tables/wp-content/themes/porto-child/input_menus.php on line 36
+
+2019-10-03T14:15:34+00:00 CRITICAL Uncaught Error: Call to a member function get_products() on bool in /var/www/html/kitchens2tables/wp-content/themes/porto-child/input_menus.php:36
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/class-functions.php(504): include()
+#1 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(288): um_account_content_hook_menus(NULL)
+#2 /var/www/html/kitchens2tables/wp-includes/plugin.php(203): WP_Hook->apply_filters(NULL, Array)
+#3 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-account.php(683): apply_filters('um_account_cont...', NULL, Array)
+#4 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-account.php(71): um\core\Account->get_tab_fields('mytab', Array)
+#5 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-account.php(227): um\core\Account->init_tabs(Array)
+#6 /var/www/html/kitchens2tables/wp-includes/shortcodes.php(319): um\core\Account->ultimatemember_ac in /var/www/html/kitchens2tables/wp-content/themes/porto-child/input_menus.php on line 36
+
+2019-10-03T14:25:18+00:00 CRITICAL Uncaught Error: Call to a member function get_products() on bool in /var/www/html/kitchens2tables/wp-content/themes/porto-child/input_menus.php:36
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/class-functions.php(504): include()
+#1 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(288): um_account_content_hook_menus(NULL)
+#2 /var/www/html/kitchens2tables/wp-includes/plugin.php(203): WP_Hook->apply_filters(NULL, Array)
+#3 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-account.php(683): apply_filters('um_account_cont...', NULL, Array)
+#4 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-account.php(71): um\core\Account->get_tab_fields('mytab', Array)
+#5 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-account.php(227): um\core\Account->init_tabs(Array)
+#6 /var/www/html/kitchens2tables/wp-includes/shortcodes.php(319): um\core\Account->ultimatemember_ac in /var/www/html/kitchens2tables/wp-content/themes/porto-child/input_menus.php on line 36
+
+2019-10-03T14:31:27+00:00 CRITICAL Uncaught Error: Call to a member function get_products() on bool in /var/www/html/kitchens2tables/wp-content/themes/porto-child/input_menus.php:36
+Stack trace:
+#0 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/class-functions.php(504): include()
+#1 /var/www/html/kitchens2tables/wp-includes/class-wp-hook.php(288): um_account_content_hook_menus(NULL)
+#2 /var/www/html/kitchens2tables/wp-includes/plugin.php(203): WP_Hook->apply_filters(NULL, Array)
+#3 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-account.php(683): apply_filters('um_account_cont...', NULL, Array)
+#4 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-account.php(71): um\core\Account->get_tab_fields('mytab', Array)
+#5 /var/www/html/kitchens2tables/wp-content/plugins/ultimate-member/includes/core/class-account.php(227): um\core\Account->init_tabs(Array)
+#6 /var/www/html/kitchens2tables/wp-includes/shortcodes.php(319): um\core\Account->ultimatemember_ac in /var/www/html/kitchens2tables/wp-content/themes/porto-child/input_menus.php on line 36
+

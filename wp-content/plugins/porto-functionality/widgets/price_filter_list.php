@@ -12,10 +12,16 @@ function porto_load_price_filter_widget() {
 
 class Porto_WC_Widget_Price_Filter extends WP_Widget {
 
+	protected static $instance = null;
+
 	/**
 	 * Constructor.
 	 */
 	public function __construct() {
+
+		if ( ! self::$instance ) {
+			self::$instance = $this;
+		}
 
 		$widget_ops = array(
 			'classname'   => 'woocommerce porto_widget_price_filter',
@@ -70,15 +76,12 @@ class Porto_WC_Widget_Price_Filter extends WP_Widget {
 		$max_price = apply_filters( 'woocommerce_price_filter_widget_max_amount', $max );
 
 		echo '<form method="get" action="' . esc_url( $form_action ) . '">
-			<div class="price_label">
-				' . esc_html__( 'Price:', 'woocommerce' ) . ' <span class="from">' . wc_price( esc_attr( $min_price ) ) . '</span> &mdash; <span class="to">' . wc_price( esc_attr( $max_price ) ) . '</span>
-			</div>
-			<label>' . esc_html__( 'Min price', 'woocommerce' ) . '</label>
-			<input type="text" class="form-control" name="min_price" value="' . ( isset( $_GET['min_price'] ) ? esc_attr( $_GET['min_price'] ) : '' ) . '" data-min="' . esc_attr( apply_filters( 'woocommerce_price_filter_widget_min_amount', $min ) ) . '" placeholder="" />
-			<label>' . esc_html__( 'Max price', 'woocommerce' ) . '</label>
-			<input type="text" class="form-control" name="max_price" value="' . ( isset( $_GET['max_price'] ) ? esc_attr( $_GET['max_price'] ) : '' ) . '" data-max="' . esc_attr( apply_filters( 'woocommerce_price_filter_widget_max_amount', $max ) ) . '" placeholder="" />
+			<div class="fields">
+			<input type="text" class="form-control" name="min_price" value="' . ( isset( $_GET['min_price'] ) ? esc_attr( $_GET['min_price'] ) : '' ) . '" placeholder="' . esc_attr( $min_price ) . '" data-min="' . esc_attr( apply_filters( 'woocommerce_price_filter_widget_min_amount', $min ) ) . '" placeholder="" /> <span>-</span>
+			<input type="text" class="form-control" name="max_price" value="' . ( isset( $_GET['max_price'] ) ? esc_attr( $_GET['max_price'] ) : '' ) . '" placeholder="' . esc_attr( $max_price ) . '" data-max="' . esc_attr( apply_filters( 'woocommerce_price_filter_widget_max_amount', $max ) ) . '" placeholder="" />
 			<button type="submit" class="button">' . esc_html__( 'Filter', 'woocommerce' ) . '</button>
 			' . ( function_exists( 'wc_query_string_form_fields' ) ? wc_query_string_form_fields( null, array( 'min_price', 'max_price' ), '', true ) : '' ) . '
+			</div>
 		</form>';
 
 		echo porto_filter_output( $after_widget );
@@ -110,10 +113,14 @@ class Porto_WC_Widget_Price_Filter extends WP_Widget {
 	 * Get filtered min price for current products.
 	 * @return int
 	 */
-	protected function get_filtered_price() {
+	public function get_filtered_price() {
 		global $wpdb;
 
-		$args       = wc()->query->get_main_query()->query_vars;
+		if ( wc()->query->get_main_query() ) {
+			$args = wc()->query->get_main_query()->query_vars;
+		} else {
+			$args = array();
+		}
 		$tax_query  = isset( $args['tax_query'] ) ? $args['tax_query'] : array();
 		$meta_query = isset( $args['meta_query'] ) ? $args['meta_query'] : array();
 
@@ -140,15 +147,23 @@ class Porto_WC_Widget_Price_Filter extends WP_Widget {
 		$sql  = "SELECT min( FLOOR( price_meta.meta_value ) ) as min_price, max( CEILING( price_meta.meta_value ) ) as max_price FROM {$wpdb->posts} ";
 		$sql .= " LEFT JOIN {$wpdb->postmeta} as price_meta ON {$wpdb->posts}.ID = price_meta.post_id " . $tax_query_sql['join'] . $meta_query_sql['join'];
 		$sql .= "   WHERE {$wpdb->posts}.post_type IN ('" . implode( "','", array_map( 'esc_sql', apply_filters( 'woocommerce_price_filter_post_type', array( 'product' ) ) ) ) . "')
-					AND {$wpdb->posts}.post_status = 'publish'
+					AND {$wpdb->posts}.post_status = %s
 					AND price_meta.meta_key IN ('" . implode( "','", array_map( 'esc_sql', apply_filters( 'woocommerce_price_filter_meta_keys', array( '_price' ) ) ) ) . "')
 					AND price_meta.meta_value > '' ";
 		$sql .= $tax_query_sql['where'] . $meta_query_sql['where'];
 
-		if ( $search = WC_Query::get_main_search_query_sql() ) {
+		if ( wc()->query->get_main_query() && $search = WC_Query::get_main_search_query_sql() ) {
 			$sql .= ' AND ' . $search;
 		}
 
-		return $wpdb->get_row( $sql );
+		return $wpdb->get_row( $wpdb->prepare( $sql, 'publish' ) );
+	}
+
+	public static function get_instance() {
+		if ( ! self::$instance ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
 	}
 }

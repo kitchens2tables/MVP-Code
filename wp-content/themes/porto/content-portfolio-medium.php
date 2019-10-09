@@ -22,7 +22,7 @@ if ( 'without-icon' == $porto_settings['post-title-style'] ) {
 	<div class="portfolio-title<?php echo ( 'widewidth' === $porto_layout ? ' container m-t-lg' : '' ); ?>">
 		<div class="row">
 			<div class="portfolio-nav-all col-lg-1">
-				<a title="<?php esc_attr_e( 'Back to list', 'porto' ); ?>" data-tooltip href="<?php echo get_post_type_archive_link( 'portfolio' ); ?>"><i class="fa fa-th"></i></a>
+				<a title="<?php esc_attr_e( 'Back to list', 'porto' ); ?>" data-tooltip href="<?php echo get_post_type_archive_link( 'portfolio' ); ?>"><i class="fas fa-th"></i></a>
 			</div>
 			<div class="col-lg-10 text-center">
 				<h2 class="entry-title shorter"><?php the_title(); ?></h2>
@@ -56,7 +56,7 @@ if ( 'without-icon' == $porto_settings['post-title-style'] ) {
 
 		if ( ( 'images' == $slideshow_type && $image_count ) || ( 'video' == $slideshow_type && $video_code ) ) :
 			?>
-		<div class="col-lg-4">
+		<div class="col-md-4">
 			<?php
 			if ( 'images' == $slideshow_type && $image_count ) :
 				$slider_type         = get_post_meta( $post->ID, 'slider_type', true );
@@ -98,17 +98,30 @@ if ( 'without-icon' == $porto_settings['post-title-style'] ) {
 							<div class="porto-carousel thumb-gallery-detail owl-carousel show-nav-hover" data-plugin-options="<?php echo esc_attr( $options ); ?>">
 								<?php
 								foreach ( $featured_images as $featured_image ) {
-									$attachment = porto_get_attachment( $featured_image['attachment_id'] );
-									if ( $attachment ) {
+									$attachment_medium = wp_get_attachment_image_src( $featured_image['attachment_id'], 'blog-masonry' );
+									if ( $attachment_medium ) {
+										$placeholder = porto_generate_placeholder( $attachment_medium[1] . 'x' . $attachment_medium[2] );
 										?>
 										<div class="thumb-gallery-item">
 											<?php
 											if ( $lightbox ) :
+												$attachment = porto_get_attachment( $featured_image['attachment_id'] );
 												?>
 												<a href="<?php echo esc_url( $attachment['src'] ); ?>" title="<?php echo esc_attr( $attachment['alt'] ); ?>"><?php endif; ?>
 											<span class="thumb-info thumb-info-centered-info<?php echo ! $lightbox ? ' thumb-info-hide-wrapper-bg thumb-info-no-zoom' : ''; ?> font-size-xl">
 												<span class="thumb-info-wrapper font-size-xl">
-													<img class="img-responsive" alt="<?php echo esc_attr( $attachment['alt'] ); ?>" width="<?php echo esc_attr( $attachment['width'] ); ?>" height="<?php echo esc_attr( $attachment['height'] ); ?>" src="<?php echo esc_url( $attachment['src'] ); ?>">
+													<?php
+														echo wp_get_attachment_image(
+															$featured_image['attachment_id'],
+															'blog-masonry',
+															false,
+															array(
+																'class'    => 'img-responsive',
+																'data-src' => esc_url( $attachment_medium[0] ),
+																'src'      => esc_url( $placeholder[0] ),
+															)
+														);
+													?>
 													<?php if ( $lightbox ) : ?>
 													<span class="thumb-info-title font-size-xl">
 														<span class="thumb-info-inner font-size-xl"><i class="Simple-Line-Icons-magnifier font-size-xl"></i></span>
@@ -168,17 +181,31 @@ if ( 'without-icon' == $porto_settings['post-title-style'] ) {
 						<div class="portfolio-slideshow porto-carousel owl-carousel nav-style-3" data-plugin-options="<?php echo esc_attr( json_encode( $options ) ); ?>">
 							<?php
 							foreach ( $featured_images as $featured_image ) {
-								$attachment = porto_get_attachment( $featured_image['attachment_id'] );
-								if ( $attachment ) {
+
+								$attachment_medium = wp_get_attachment_image_src( $featured_image['attachment_id'], 'blog-masonry' );
+								if ( $attachment_medium ) :
+									$placeholder = porto_generate_placeholder( $attachment_medium[1] . 'x' . $attachment_medium[2] );
 									?>
 									<div class="img-thumbnail">
-										<img class="owl-lazy img-responsive" width="<?php echo esc_attr( $attachment['width'] ); ?>" height="<?php echo esc_attr( $attachment['height'] ); ?>" data-src="<?php echo esc_url( $attachment['src'] ); ?>" alt="<?php echo esc_attr( $attachment['alt'] ); ?>" />
-										<?php if ( $porto_settings['portfolio-zoom'] ) : ?>
-											<span class="zoom" data-src="<?php echo esc_url( $attachment['src'] ); ?>" data-title="<?php echo esc_attr( $attachment['caption'] ); ?>"><i class="fa fa-search"></i></span>
-										<?php endif; ?>
+									<?php
+										echo wp_get_attachment_image(
+											$featured_image['attachment_id'],
+											'blog-masonry',
+											false,
+											array(
+												'class'    => 'owl-lazy img-responsive',
+												'data-src' => esc_url( $attachment_medium[0] ),
+												'src'      => esc_url( $placeholder[0] ),
+											)
+										);
+									if ( $porto_settings['portfolio-zoom'] ) :
+										$attachment = porto_get_attachment( $featured_image['attachment_id'], 'full' );
+										?>
+										<span class="zoom" data-src="<?php echo esc_url( $attachment['src'] ); ?>" data-title="<?php echo esc_attr( $attachment['caption'] ); ?>"><i class="fas fa-search"></i></span>
+									<?php endif; ?>
 									</div>
 									<?php
-								}
+								endif;
 							}
 							?>
 						</div>
@@ -199,7 +226,7 @@ if ( 'without-icon' == $porto_settings['post-title-style'] ) {
 			?>
 
 		</div>
-		<div class="col-lg-8">
+		<div class="col-md-8">
 		<?php else : ?>
 		<div class="col-lg-12">
 		<?php endif; ?>
@@ -221,7 +248,7 @@ if ( 'without-icon' == $porto_settings['post-title-style'] ) {
 					if ( in_array( 'date', $porto_settings['portfolio-metas'] ) ) :
 						?>
 						<li>
-							<i class="fa fa-calendar"></i> <?php echo get_the_date(); ?>
+							<i class="far fa-calendar-alt"></i> <?php echo get_the_date(); ?>
 						</li>
 						<?php
 					endif;
@@ -229,7 +256,7 @@ if ( 'without-icon' == $porto_settings['post-title-style'] ) {
 					if ( in_array( 'cats', $porto_settings['portfolio-metas'] ) && $cat_list ) :
 						?>
 						<li>
-							<i class="fa fa-tags"></i> <?php echo porto_filter_output( $cat_list ); ?>
+							<i class="fas fa-tags"></i> <?php echo porto_filter_output( $cat_list ); ?>
 						</li>
 					<?php endif; ?>
 					<?php
@@ -268,7 +295,7 @@ if ( 'without-icon' == $porto_settings['post-title-style'] ) {
 			<?php if ( $portfolio_info ) : ?>
 				<h5 class="m-t-sm"><?php esc_html_e( 'More Information', 'porto' ); ?></h5>
 				<div class="m-b-lg">
-					<?php echo do_shortcode( wpautop( $portfolio_info ) ); ?>
+					<?php echo do_shortcode( $portfolio_info ); ?>
 				</div>
 			<?php endif; ?>
 
@@ -292,7 +319,7 @@ if ( 'without-icon' == $porto_settings['post-title-style'] ) {
 				<?php if ( 'without-icon' == $porto_settings['post-title-style'] ) : ?>
 					<h4><?php esc_html_e( 'Author', 'porto' ); ?></h4>
 				<?php else : ?>
-					<h3><i class="fa fa-user"></i><?php esc_html_e( 'Author', 'porto' ); ?></h3>
+					<h3><i class="fas fa-user"></i><?php esc_html_e( 'Author', 'porto' ); ?></h3>
 				<?php endif; ?>
 
 				<div class="img-thumbnail">

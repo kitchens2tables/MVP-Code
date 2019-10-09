@@ -40,7 +40,7 @@ extract(
 	)
 );
 
-wp_enqueue_script( 'porto_shortcodes_countdown_js' );
+wp_enqueue_script( 'countdown' );
 wp_enqueue_script( 'porto_shortcodes_countdown_loader_js' );
 
 $count_frmt    = $labels = $countdown_design_style = '';
@@ -74,8 +74,6 @@ if ( is_array( $countdown_opt ) ) {
 }
 
 $countdown_design_style = apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, vc_shortcode_custom_css_class( $css_countdown, ' ' ), 'porto_countdown', $atts );
-$countdown_id           = 'countdown-wrap-' . rand( 1000, 9999 );
-
 $data_attr = '';
 if ( '' == $count_frmt ) {
 	$count_frmt = 'DHMS';
@@ -223,16 +221,18 @@ if ( ! isset( $porto_shortcode_countdown_use ) || ! $porto_shortcode_countdown_u
 	?>
 <script>
 	jQuery(document).ready(function ($) {
+		'use strict';
 		if (!$.fn.porto_countdown) {
-			var c = document.createElement("script");
-			c.src = "<?php echo wp_scripts()->registered['porto_shortcodes_countdown_js']->src; ?>";
-			if (!$('script[src="' + c.src + '"]').length) {
-				document.getElementsByTagName("body")[0].appendChild(c);
-			}
-			c = document.createElement("script");
-			c.src = "<?php echo wp_scripts()->registered['porto_shortcodes_countdown_loader_js']->src; ?>";
-			if (!$('script[src="' + c.src + '"]').length) {
-				document.getElementsByTagName("body")[0].appendChild(c);
+			var js_src = "<?php echo wp_scripts()->registered['countdown']->src; ?>";
+			if (!$('script[src="' + js_src + '"]').length) {
+				var js = document.createElement('script');
+				$(js).appendTo('body').on('load', function() {
+					var c = document.createElement("script");
+					c.src = "<?php echo wp_scripts()->registered['porto_shortcodes_countdown_loader_js']->src; ?>";
+					if (!$('script[src="' + c.src + '"]').length) {
+						document.getElementsByTagName("body")[0].appendChild(c);
+					}
+				}).attr('src', js_src);
 			}
 		}
 	});

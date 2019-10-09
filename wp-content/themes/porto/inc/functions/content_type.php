@@ -1,8 +1,7 @@
 <?php
-require_once( porto_functions . '/content_type/portfolio_like.php' );
-require_once( porto_functions . '/content_type/blog_like.php' );
-require_once( porto_functions . '/content_type/meta_values.php' );
-require_once( porto_functions . '/content_type/meta_fields.php' );
+require_once( PORTO_FUNCTIONS . '/content_type/portfolio_like.php' );
+require_once( PORTO_FUNCTIONS . '/content_type/blog_like.php' );
+require_once( PORTO_FUNCTIONS . '/content_type/meta_values.php' );
 function porto_get_meta_value( $meta_key, $boolean = false ) {
 	global $wp_query, $porto_settings;
 	$value = '';
@@ -40,7 +39,8 @@ function porto_get_meta_value( $meta_key, $boolean = false ) {
 				$blog_id = get_option( 'page_for_posts' );
 				if ( $blog_id ) {
 					$value = get_post_meta( $blog_id, $meta_key, true );
-				} elseif ( isset( $porto_settings[ 'blog-' . $meta_key ] ) ) {
+				}
+				if ( ( ! $blog_id || ! $value ) && isset( $porto_settings[ 'blog-' . $meta_key ] ) ) {
 					$value = $porto_settings[ 'blog-' . $meta_key ];
 				}
 			} elseif ( is_home() || is_front_page() ) {
@@ -443,6 +443,10 @@ function porto_portfolio_sub_title( $post = null ) {
 				break;
 			case 'author_role':
 				$output .= get_post_meta( $post->ID, 'portfolio_author_role', true );
+				break;
+			case 'excerpt':
+				if ( has_excerpt( $post->ID ) )
+				$output .= get_the_excerpt( $post->ID );
 				break;
 		}
 	}

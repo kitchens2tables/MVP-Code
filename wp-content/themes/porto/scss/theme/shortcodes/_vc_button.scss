@@ -10,6 +10,7 @@
     color: #666;
     background-color: transparent;
 }
+.vc_btn3-block { display: block; width: 100%; }
 
 .vc_btn3-container.vc_btn3-inline {
     vertical-align: baseline;
@@ -28,12 +29,24 @@
         font-size: inherit;
         line-height: inherit;
         height: auto;
-        @include transform(none);
+        transform: none;
     }
 }
 
 .vc_general.vc_btn3 .vc_btn3-placeholder {
     display: none;
+}
+
+.vc_btn3.vc_btn3-icon-left {
+    &:not(.vc_btn3-o-empty) .vc_btn3-icon {
+        padding-#{$right}: 7px;
+    }
+}
+
+.vc_btn3.vc_btn3-icon-right {
+    &:not(.vc_btn3-o-empty) .vc_btn3-icon {
+        padding-#{$left}: 7px;
+    }
 }
 
 .vc_btn3.vc_btn3-size-lg {

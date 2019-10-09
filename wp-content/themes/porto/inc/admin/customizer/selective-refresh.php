@@ -53,7 +53,7 @@ function porto_customizer_refresh_partials( WP_Customize_Manager $wp_customize )
 		array(
 			'selector'            => '#header .searchform-popup',
 			'container_inclusive' => true,
-			'settings'            => array( 'porto_settings[search-layout]', 'porto_settings[search-type]', 'porto_settings[search-cats]', 'porto_settings[search-sub-cats]' ),
+			'settings'            => array( 'porto_settings[search-layout]', 'porto_settings[search-type]', 'porto_settings[search-cats]', 'porto_settings[search-cats-mobile]', 'porto_settings[search-sub-cats]' ),
 			'render_callback'     => function() {
 				return porto_search_form();
 			},
@@ -64,7 +64,7 @@ function porto_customizer_refresh_partials( WP_Customize_Manager $wp_customize )
 		array(
 			'selector'            => '.page-top',
 			'container_inclusive' => true,
-			'settings'            => array( 'porto_settings[breadcrumbs-parallax]', 'porto_settings[breadcrumbs-parallax-speed]', 'porto_settings[show-pagetitle]', 'porto_settings[show-breadcrumbs]', 'porto_settings[pagetitle-archives]', 'porto_settings[pagetitle-parent]', 'porto_settings[breadcrumbs-prefix]', 'porto_settings[breadcrumbs-blog-link]', 'porto_settings[breadcrumbs-archives-link]', 'porto_settings[breadcrumbs-categories]', 'porto_settings[breadcrumbs-delimiter]', 'porto_settings[breadcrumbs-type]', 'porto_settings[blog-title]', 'porto_settings[breadcrumbs-css-class]' ),
+			'settings'            => array( 'porto_settings[breadcrumbs-parallax]', 'porto_settings[breadcrumbs-parallax-speed]', 'porto_settings[show-pagetitle]', 'porto_settings[show-breadcrumbs]', 'porto_settings[pagetitle-archives]', 'porto_settings[pagetitle-parent]', 'porto_settings[breadcrumbs-prefix]', 'porto_settings[breadcrumbs-blog-link]', 'porto_settings[breadcrumbs-shop-link]', 'porto_settings[breadcrumbs-archives-link]', 'porto_settings[breadcrumbs-categories]', 'porto_settings[breadcrumbs-delimiter]', 'porto_settings[breadcrumbs-type]', 'porto_settings[blog-title]', 'porto_settings[breadcrumbs-css-class]' ),
 			'render_callback'     => function() {
 				return get_template_part( 'breadcrumbs' );
 			},
@@ -163,7 +163,7 @@ function porto_customizer_refresh_partials( WP_Customize_Manager $wp_customize )
 			'selector'            => '.single-post article.post',
 			'container_inclusive' => true,
 			'fallback_refresh'    => false,
-			'settings'            => array( 'porto_settings[post-slideshow]', 'porto_settings[post-title]', 'porto_settings[post-share]', 'porto_settings[post-share-position]', 'porto_settings[post-author]', 'porto_settings[post-comments]' ),
+			'settings'            => array( 'porto_settings[post-slideshow]', 'porto_settings[post-title]', 'porto_settings[post-share]', 'porto_settings[post-share-position]', 'porto_settings[post-author]', 'porto_settings[post-comments]', 'porto_settings[post-replace-pos]' ),
 			'render_callback'     => function() {
 				if ( is_singular( 'post' ) ) {
 					global $post, $porto_settings;
@@ -184,6 +184,18 @@ function porto_customizer_refresh_partials( WP_Customize_Manager $wp_customize )
 			},
 		)
 	);
+	$wp_customize->selective_refresh->add_partial(
+		'mobile-panel-add-switcher',
+		array(
+			'selector'            => '#side-nav-panel',
+			'container_inclusive' => false,
+			'fallback_refresh'    => true,
+			'settings'            => array( 'porto_settings[mobile-panel-add-switcher]' ),
+			'render_callback'     => function() {
+				return get_template_part( 'panel' );
+			},
+		)
+	);
 
 	// woocommerce
 	if ( class_exists( 'Woocommerce' ) ) :
@@ -193,11 +205,13 @@ function porto_customizer_refresh_partials( WP_Customize_Manager $wp_customize )
 				'selector'            => 'body.archive.woocommerce #primary.content-area',
 				'fallback_refresh'    => false,
 				'container_inclusive' => true,
-				'settings'            => array( 'porto_settings[category-item]', 'porto_settings[shop-product-cols]', 'porto_settings[shop-product-cols-mobile]', 'porto_settings[product-cols]', 'porto_settings[product-cols-mobile]', 'porto_settings[cat-view-type]', 'porto_settings[category-image-hover]', 'porto_settings[product-stock]', 'porto_settings[category-addlinks-convert]', 'porto_settings[category-addlinks-pos]', 'porto_settings[add-to-cart-notification]', 'porto_settings[show_swatch]', 'porto_settings[product-wishlist]', 'porto_settings[product-quickview]', 'porto_settings[product-hot]', 'porto_settings[product-sale]', 'porto_settings[product-sale-label]', 'porto_settings[product-sale-percent]' ),
+				'settings'            => array( 'porto_settings[category-item]', 'porto_settings[shop-product-cols]', 'porto_settings[shop-product-cols-mobile]', 'porto_settings[product-cols]', 'porto_settings[product-cols-mobile]', 'porto_settings[cat-view-type]', 'porto_settings[category-image-hover]', 'porto_settings[product-stock]', 'porto_settings[category-addlinks-convert]', 'porto_settings[category-addlinks-pos]', 'porto_settings[add-to-cart-notification]', 'porto_settings[show_swatch]', 'porto_settings[product-categories]', 'porto_settings[product-review]', 'porto_settings[product-price]', 'porto_settings[product-desc]', 'porto_settings[product-wishlist]', 'porto_settings[product-quickview]', 'porto_settings[product-hot]', 'porto_settings[product-sale]', 'porto_settings[product-sale-label]', 'porto_settings[product-sale-percent]' ),
 				'render_callback'     => function() {
-					wp_register_script( 'porto_shortcodes_countdown_js', PORTO_SHORTCODES_URL . 'assets/js/countdown.min.js', array( 'jquery' ), PORTO_SHORTCODES_VERSION, true );
-					wp_register_script( 'porto_shortcodes_countdown_loader_js', PORTO_SHORTCODES_URL . 'assets/js/countdown-loader.min.js', array( 'jquery' ), PORTO_SHORTCODES_VERSION, true );
-					wc_get_template_part( 'archive-product-content' );
+					if ( defined( 'PORTO_SHORTCODES_URL' ) ) {
+						wp_register_script( 'countdown', PORTO_SHORTCODES_URL . 'assets/js/countdown.min.js', array( 'jquery' ), PORTO_SHORTCODES_VERSION, true );
+						wp_register_script( 'porto_shortcodes_countdown_loader_js', PORTO_SHORTCODES_URL . 'assets/js/countdown-loader.min.js', array( 'jquery' ), PORTO_SHORTCODES_VERSION, true );
+						wc_get_template_part( 'archive-product-content' );
+					}
 				},
 			)
 		);
@@ -207,7 +221,7 @@ function porto_customizer_refresh_partials( WP_Customize_Manager $wp_customize )
 				'selector'            => '.single-product #content > .product',
 				'fallback_refresh'    => false,
 				'container_inclusive' => true,
-				'settings'            => array( 'porto_settings[product-nav]', 'porto_settings[product-custom-tabs-count]', 'porto_settings[product-short-desc]', 'porto_settings[product-tabs-pos]', 'porto_settings[product_variation_display_mode]', 'porto_settings[product-tab-title]', 'porto_settings[product-tab-block]', 'porto_settings[product-tab-priority]', 'porto_settings[product-hot]', 'porto_settings[product-sale]', 'porto_settings[product-sale-label]', 'porto_settings[product-sale-percent]', 'porto_settings[product-share]', 'porto_settings[product-thumbs]', 'porto_settings[product-thumbs-count]', 'porto_settings[product-zoom]', 'porto_settings[product-zoom-mobile]', 'porto_settings[product-image-popup]', 'porto_settings[zoom-type]', 'porto_settings[zoom-scroll]', 'porto_settings[zoom-lens-size]', 'porto_settings[zoom-lens-shape]', 'porto_settings[zoom-contain-lens]', 'porto_settings[zoom-lens-border]', 'porto_settings[zoom-border]', 'porto_settings[zoom-border-color]' ),
+				'settings'            => array( 'porto_settings[product-nav]', 'porto_settings[product-custom-tabs-count]', 'porto_settings[product-short-desc]', 'porto_settings[product-tabs-pos]', 'porto_settings[product_variation_display_mode]', 'porto_settings[product-attr-desc]', 'porto_settings[product-tab-title]', 'porto_settings[product-tab-block]', 'porto_settings[product-tab-priority]', 'porto_settings[product-hot]', 'porto_settings[product-sale]', 'porto_settings[product-sale-label]', 'porto_settings[product-sale-percent]', 'porto_settings[product-share]', 'porto_settings[product-thumbs]', 'porto_settings[product-thumbs-count]', 'porto_settings[product-zoom]', 'porto_settings[product-zoom-mobile]', 'porto_settings[product-image-popup]', 'porto_settings[zoom-type]', 'porto_settings[zoom-scroll]', 'porto_settings[zoom-lens-size]', 'porto_settings[zoom-lens-shape]', 'porto_settings[zoom-contain-lens]', 'porto_settings[zoom-lens-border]', 'porto_settings[zoom-border]', 'porto_settings[zoom-border-color]' ),
 				'render_callback'     => function() {
 					if ( is_product() ) {
 						global $post, $product, $porto_layout, $page;
@@ -226,9 +240,11 @@ function porto_customizer_refresh_partials( WP_Customize_Manager $wp_customize )
 								return do_shortcode( $post->post_content );
 							}
 						);
-						wp_register_script( 'porto_shortcodes_countdown_js', PORTO_SHORTCODES_URL . 'assets/js/countdown.min.js', array( 'jquery' ), PORTO_SHORTCODES_VERSION, true );
-						wp_register_script( 'porto_shortcodes_countdown_loader_js', PORTO_SHORTCODES_URL . 'assets/js/countdown-loader.min.js', array( 'jquery' ), PORTO_SHORTCODES_VERSION, true );
-						wc_get_template_part( 'content', 'single-product' );
+						if ( defined( 'PORTO_SHORTCODES_URL' ) ) {
+							wp_register_script( 'countdown', PORTO_SHORTCODES_URL . 'assets/js/countdown.min.js', array( 'jquery' ), PORTO_SHORTCODES_VERSION, true );
+							wp_register_script( 'porto_shortcodes_countdown_loader_js', PORTO_SHORTCODES_URL . 'assets/js/countdown-loader.min.js', array( 'jquery' ), PORTO_SHORTCODES_VERSION, true );
+							wc_get_template_part( 'content', 'single-product' );
+						}
 					}
 				},
 			)
@@ -282,7 +298,7 @@ function porto_customizer_refresh_partials( WP_Customize_Manager $wp_customize )
 			)
 		);
 		$wp_customize->selective_refresh->add_partial(
-			'single-product-upsells',
+			'cart-product-cross-sells',
 			array(
 				'selector'            => '.cross-sells',
 				'fallback_refresh'    => false,
@@ -314,7 +330,7 @@ function porto_customizer_refresh_partials( WP_Customize_Manager $wp_customize )
 		array(
 			'selector'            => 'head > style#porto-style-inline-css',
 			'container_inclusive' => false,
-			'settings'            => array( 'porto_settings[logo-width]', 'porto_settings[logo-width-wide]', 'porto_settings[logo-width-tablet]', 'porto_settings[logo-width-mobile]', 'porto_settings[logo-width-sticky]', 'porto_settings[logo-overlay-width]', 'porto_settings[header-link-color]', 'porto_settings[header-top-border]', 'porto_settings[sticky-header-bg]', 'porto_settings[sticky-header-bg-gcolor]', 'porto_settings[sticky-header-opacity]', 'porto_settings[mainmenu-wrap-bg-color-sticky]', 'porto_settings[mainmenu-bg-color]', 'porto_settings[mainmenu-toplevel-link-color]', 'porto_settings[mainmenu-toplevel-hbg-color]', 'porto_settings[mainmenu-toplevel-padding1]', 'porto_settings[mainmenu-toplevel-padding2]', 'porto_settings[mainmenu-toplevel-padding3]', 'porto_settings[mainmenu-popup-top-border]', 'porto_settings[mainmenu-popup-bg-color]', 'porto_settings[mainmenu-popup-text-color]', 'porto_settings[mainmenu-popup-text-hbg-color]', 'porto_settings[mainmenu-toplevel-hbg-color]', 'porto_settings[breadcrumbs-bg]', 'porto_settings[footer-ribbon-bg-color]', 'porto_settings[switcher-hbg-color]', 'porto_settings[searchform-bg-color]', 'porto_settings[searchform-text-color]', 'porto_settings[quickview-color]', 'porto_settings[header-type-select]', 'porto_settings[header-type]', 'porto_settings[search-border-radius]', 'porto_settings[breadcrumbs-type]', 'porto_settings[woo-account-login-style]', 'porto_settings[body-bg-gradient]', 'porto_settings[header-wrap-bg-gradient]', 'porto_settings[header-bg-gradient]', 'porto_settings[content-bg-gradient]', 'porto_settings[content-bottom-bg-gradient]', 'porto_settings[breadcrumbs-bg-gradient]', 'porto_settings[footer-bg-gradient]', 'porto_settings[footer-main-bg-gradient]', 'porto_settings[footer-top-bg-gradient]', 'porto_settings[footer-bottom-bg-gradient]', 'porto_settings[minicart-type]', 'porto_settings[search-layout]', 'porto_settings[menu-type]' ),
+			'settings'            => array( 'porto_settings[logo-width]', 'porto_settings[logo-width-wide]', 'porto_settings[logo-width-tablet]', 'porto_settings[logo-width-mobile]', 'porto_settings[logo-width-sticky]', 'porto_settings[logo-overlay-width]', 'porto_settings[header-link-color]', 'porto_settings[header-top-border]', 'porto_settings[sticky-header-bg]', 'porto_settings[sticky-header-bg-gcolor]', 'porto_settings[sticky-header-opacity]', 'porto_settings[mainmenu-wrap-bg-color-sticky]', 'porto_settings[mainmenu-bg-color]', 'porto_settings[mainmenu-toplevel-link-color]', 'porto_settings[mainmenu-toplevel-hbg-color]', 'porto_settings[mainmenu-toplevel-padding1]', 'porto_settings[mainmenu-toplevel-padding2]', 'porto_settings[mainmenu-toplevel-padding3]', 'porto_settings[mainmenu-popup-top-border]', 'porto_settings[mainmenu-popup-bg-color]', 'porto_settings[mainmenu-popup-text-color]', 'porto_settings[mainmenu-popup-text-hbg-color]', 'porto_settings[mainmenu-toplevel-hbg-color]', 'porto_settings[breadcrumbs-bg]', 'porto_settings[footer-ribbon-bg-color]', 'porto_settings[switcher-hbg-color]', 'porto_settings[searchform-bg-color]', 'porto_settings[searchform-text-color]', 'porto_settings[header-type-select]', 'porto_settings[header-type]', 'porto_settings[search-border-radius]', 'porto_settings[breadcrumbs-type]', 'porto_settings[woo-account-login-style]', 'porto_settings[body-bg-gradient]', 'porto_settings[header-wrap-bg-gradient]', 'porto_settings[header-bg-gradient]', 'porto_settings[content-bg-gradient]', 'porto_settings[content-bottom-bg-gradient]', 'porto_settings[breadcrumbs-bg-gradient]', 'porto_settings[footer-bg-gradient]', 'porto_settings[footer-main-bg-gradient]', 'porto_settings[footer-top-bg-gradient]', 'porto_settings[footer-bottom-bg-gradient]', 'porto_settings[minicart-type]', 'porto_settings[search-layout]', 'porto_settings[menu-type]', 'porto_settings[product-attr-desc]', 'porto_settings[submenu-arrow]' ),
 			'render_callback'     => function() {
 				global $porto_dynamic_style;
 				if ( $porto_dynamic_style ) {

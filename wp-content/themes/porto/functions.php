@@ -1,33 +1,31 @@
 <?php
-
 if ( ! defined( 'ABSPATH' ) ) {
 	die();
 }
-
 /**
  * Define variables
  */
-define( 'porto_lib', get_template_directory() . '/inc' );       // library directory
-define( 'porto_admin', porto_lib . '/admin' );                    // admin directory
-define( 'porto_plugins', porto_lib . '/plugins' );                  // plugins directory
-define( 'porto_content_types', porto_lib . '/content_types' );            // content_types directory
-define( 'porto_menu', porto_lib . '/menu' );                     // menu directory
-define( 'porto_functions', porto_lib . '/functions' );                // functions directory
-define( 'porto_options_dir', porto_admin . '/theme_options' );          // options directory
-define( 'porto_dir', get_template_directory() );                // template directory
-define( 'porto_uri', get_template_directory_uri() );            // template directory uri
-define( 'porto_css', porto_uri . '/css' );                      // css uri
-define( 'porto_js', porto_uri . '/js' );                       // javascript uri
-define( 'porto_plugins_uri', porto_uri . '/inc/plugins' );              // plugins uri
-define( 'porto_options_uri', porto_uri . '/inc/admin/theme_options' );  // theme options uri
-define( 'porto_lib_uri', porto_uri . '/inc/lib' );                  // library uri
+define( 'PORTO_LIB', get_parent_theme_file_path() . '/inc' );       // library directory
+define( 'PORTO_ADMIN', PORTO_LIB . '/admin' );                    // admin directory
+define( 'PORTO_PLUGINS', PORTO_LIB . '/plugins' );                  // plugins directory
+define( 'PORTO_CONTENT_TYPES', PORTO_LIB . '/content_types' );            // content_types directory
+define( 'PORTO_MENU', PORTO_LIB . '/menu' );                     // menu directory
+define( 'PORTO_FUNCTIONS', PORTO_LIB . '/functions' );                // functions directory
+define( 'PORTO_OPTIONS_DIR', PORTO_ADMIN . '/theme_options' );          // options directory
+define( 'PORTO_DIR', get_parent_theme_file_path() );                // template directory
+define( 'PORTO_URI', get_parent_theme_file_uri() );            // template directory uri
+define( 'PORTO_CSS', PORTO_URI . '/css' );                      // css uri
+define( 'PORTO_JS', PORTO_URI . '/js' );                       // javascript uri
+define( 'PORTO_PLUGINS_URI', PORTO_URI . '/inc/plugins' );              // plugins uri
+define( 'PORTO_OPTIONS_URI', PORTO_URI . '/inc/admin/theme_options' );  // theme options uri
+define( 'PORTO_LIB_URI', PORTO_URI . '/inc/lib' );                  // library uri
 $theme_version = '';
 $theme         = wp_get_theme();
 if ( is_child_theme() ) {
 	$theme = wp_get_theme( $theme->template );
 }
 $theme_version = $theme->version;
-define( 'porto_version', $theme_version );                    // set current version
+define( 'PORTO_VERSION', $theme_version );                    // set current version
 /**
  * WordPress theme check
  */
@@ -38,35 +36,35 @@ if ( ! isset( $content_width ) ) {
 /**
  * Porto content types functions
  */
-require_once porto_functions . '/content_type.php';
+require_once PORTO_FUNCTIONS . '/content_type.php';
 /**
  * Porto functions
  */
-require_once porto_functions . '/functions.php';
+require_once PORTO_FUNCTIONS . '/functions.php';
 /**
  * Menu
  */
-require_once porto_menu . '/menu.php';
+require_once PORTO_MENU . '/menu.php';
 
 /**
  * Porto theme options
  */
-require_once porto_admin . '/theme_options.php';
+require_once PORTO_ADMIN . '/theme_options.php';
 
 /**
  * Porto admin options
  */
 if ( current_user_can( 'manage_options' ) ) {
-	require_once porto_admin . '/admin.php';
+	require_once PORTO_ADMIN . '/admin.php';
 }
 /**
  * Porto Extensions
  */
-require_once porto_lib . '/lib/setup.php';
+require_once PORTO_LIB . '/lib/setup.php';
 /**
  * Install Plugins
  */
-require_once porto_plugins . '/plugins.php';
+require_once PORTO_PLUGINS . '/plugins.php';
 /**
  * Theme support & Theme setup
  */
@@ -85,7 +83,7 @@ if ( ! function_exists( 'porto_setup' ) ) :
 			}
 		}
 		// translation
-		load_theme_textdomain( 'porto', porto_dir . '/languages' );
+		load_theme_textdomain( 'porto', PORTO_DIR . '/languages' );
 		load_child_theme_textdomain( 'porto', get_stylesheet_directory() . '/languages' );
 
 		global $porto_settings, $porto_settings_optimize;
@@ -165,32 +163,32 @@ if ( ! function_exists( 'porto_setup' ) ) :
 			'editor-color-palette',
 			array(
 				array(
-					'name'  => __( 'Primary', 'primary' ),
+					'name'  => __( 'Primary', 'porto' ),
 					'slug'  => 'primary',
 					'color' => $porto_settings['skin-color'],
 				),
 				array(
-					'name'  => __( 'Secondary', 'primary' ),
+					'name'  => __( 'Secondary', 'porto' ),
 					'slug'  => 'secondary',
 					'color' => $porto_settings['secondary-color'],
 				),
 				array(
-					'name'  => __( 'Tertiary', 'primary' ),
+					'name'  => __( 'Tertiary', 'porto' ),
 					'slug'  => 'tertiary',
 					'color' => $porto_settings['tertiary-color'],
 				),
 				array(
-					'name'  => __( 'Quaternary', 'primary' ),
+					'name'  => __( 'Quaternary', 'porto' ),
 					'slug'  => 'quaternary',
 					'color' => $porto_settings['quaternary-color'],
 				),
 				array(
-					'name'  => __( 'Dark', 'primary' ),
+					'name'  => __( 'Dark', 'porto' ),
 					'slug'  => 'dark',
 					'color' => $porto_settings['dark-color'],
 				),
 				array(
-					'name'  => __( 'Light', 'primary' ),
+					'name'  => __( 'Light', 'porto' ),
 					'slug'  => 'light',
 					'color' => $porto_settings['light-color'],
 				),
@@ -199,15 +197,28 @@ if ( ! function_exists( 'porto_setup' ) ) :
 	}
 endif;
 add_action( 'after_setup_theme', 'porto_setup' );
+
 /**
  * Enqueue css, js files
  */
+add_action( 'wp_enqueue_scripts', 'porto_pre_css', 8 );
 add_action( 'wp_enqueue_scripts', 'porto_css', 1000 );
 add_action( 'wp_enqueue_scripts', 'porto_scripts', 1000 );
 add_action( 'admin_enqueue_scripts', 'porto_admin_css', 1000 );
 add_action( 'admin_enqueue_scripts', 'porto_admin_scripts', 1000 );
 if ( is_admin() ) {
 	add_action( 'enqueue_block_editor_assets', 'porto_admin_block_css', 1000 );
+
+	if ( function_exists( 'mailpoet_deactivate_plugin' ) ) {
+		// fix MailPoet3 style issue
+		add_filter( 'mailpoet_conflict_resolver_whitelist_style', 'porto_add_styles_mailpoet_pages' );
+
+		function porto_add_styles_mailpoet_pages( $styles ) {
+			$styles[] = PORTO_CSS . '/admin.css';
+			$styles[] = PORTO_CSS . '/admin_bar.css';
+			return $styles;
+		}
+	}
 }
 
 function porto_google_webfont_loader() {
@@ -260,7 +271,7 @@ function porto_google_webfont_loader() {
 		};
 		(function(d) {
 			var wf = d.createElement('script'), s = d.scripts[0];
-			wf.src = '<?php echo porto_js; ?>/libs/webfont.js';
+			wf.src = '<?php echo PORTO_JS; ?>/libs/webfont.js';
 			wf.async = true;
 			s.parentNode.insertBefore(wf, s);
 		})(document);</script>
@@ -268,14 +279,44 @@ function porto_google_webfont_loader() {
 	}
 }
 
+if ( ! function_exists( 'porto_pre_css' ) ) {
+	function porto_pre_css() {
+		$yith_wcwl = '';
+		if ( wp_style_is( 'yith-wcwl-main', 'registered' ) ) {
+			$yith_wcwl = 'yith-wcwl-main';
+		}
+
+		if ( wp_style_is( 'yith-wcwl-user-main', 'registered' ) ) {
+			$yith_wcwl = 'yith-wcwl-user-main';
+		}
+
+		if ( $yith_wcwl ) {
+			$yith_wcwl_style = wp_styles()->registered[ $yith_wcwl ];
+			if ( isset( $yith_wcwl_style->deps ) && ! empty( $yith_wcwl_style->deps ) ) {
+				foreach ( $yith_wcwl_style->deps as $index => $dep ) {
+					if ( 'yith-wcwl-font-awesome' == $dep ) {
+						unset( $yith_wcwl_style->deps[ $index ] );
+						break;
+					}
+				}
+			}
+		}
+	}
+}
+
 function porto_css() {
 	// deregister plugin styles
 	wp_deregister_style( 'font-awesome' );
 	wp_dequeue_style( 'font-awesome' );
+	wp_deregister_style( 'yith-wcwl-font-awesome' );
 	wp_dequeue_style( 'yith-wcwl-font-awesome' );
 	wp_dequeue_style( 'bsf-Simple-Line-Icons' );
-	wp_deregister_style( 'animate-css' );
-	wp_dequeue_style( 'animate-css' );
+	wp_deregister_style( 'vc_animate-css' );
+	wp_dequeue_style( 'vc_animate-css' );
+	if ( class_exists( 'RevSliderFront' ) ) {
+		remove_action( 'wp_footer', array( 'RevSliderFront', 'load_icon_fonts' ) );
+		add_action( 'wp_footer', 'porto_revslider_icon_fonts' );
+	}
 
 	global $porto_settings, $porto_settings_optimize, $post;
 
@@ -335,18 +376,22 @@ function porto_css() {
 	 register styles */
 	// plugins styles
 	wp_deregister_style( 'porto-plugins' );
+	$optimized_suffix = '';
+	if ( isset( $porto_settings_optimize['optimize_fontawesome'] ) && $porto_settings_optimize['optimize_fontawesome'] ) {
+		$optimized_suffix = '_optimized';
+	}
 	if ( is_rtl() ) {
-		wp_register_style( 'porto-plugins', porto_uri . '/css/plugins_rtl.css?ver=' . porto_version );
+		wp_register_style( 'porto-plugins', PORTO_URI . '/css/plugins_rtl' . $optimized_suffix . '.css?ver=' . PORTO_VERSION );
 	} else {
-		wp_register_style( 'porto-plugins', porto_uri . '/css/plugins.css?ver=' . porto_version );
+		wp_register_style( 'porto-plugins', PORTO_URI . '/css/plugins' . $optimized_suffix . '.css?ver=' . PORTO_VERSION );
 	}
 
 	// default styles
 	wp_deregister_style( 'porto-theme' );
 	if ( is_rtl() ) {
-		wp_register_style( 'porto-theme', porto_uri . '/css/theme_rtl.css?ver=' . porto_version );
+		wp_register_style( 'porto-theme', PORTO_URI . '/css/theme_rtl.css?ver=' . PORTO_VERSION );
 	} else {
-		wp_register_style( 'porto-theme', porto_uri . '/css/theme.css?ver=' . porto_version );
+		wp_register_style( 'porto-theme', PORTO_URI . '/css/theme.css?ver=' . PORTO_VERSION );
 	}
 
 	// shortcodes styles
@@ -361,9 +406,9 @@ function porto_css() {
 	if ( class_exists( 'WooCommerce' ) ) {
 		wp_deregister_style( 'porto-theme-shop' );
 		if ( is_rtl() ) {
-			wp_register_style( 'porto-theme-shop', porto_uri . '/css/theme_rtl_shop.css?ver=' . porto_version );
+			wp_register_style( 'porto-theme-shop', PORTO_URI . '/css/theme_rtl_shop.css?ver=' . PORTO_VERSION );
 		} else {
-			wp_register_style( 'porto-theme-shop', porto_uri . '/css/theme_shop.css?ver=' . porto_version );
+			wp_register_style( 'porto-theme-shop', PORTO_URI . '/css/theme_shop.css?ver=' . PORTO_VERSION );
 		}
 	}
 
@@ -371,18 +416,18 @@ function porto_css() {
 	if ( class_exists( 'bbPress' ) || class_exists( 'BuddyPress' ) ) {
 		wp_deregister_style( 'porto-theme-bbpress' );
 		if ( is_rtl() ) {
-			wp_register_style( 'porto-theme-bbpress', porto_uri . '/css/theme_rtl_bbpress.css?ver=' . porto_version );
+			wp_register_style( 'porto-theme-bbpress', PORTO_URI . '/css/theme_rtl_bbpress.css?ver=' . PORTO_VERSION );
 		} else {
-			wp_register_style( 'porto-theme-bbpress', porto_uri . '/css/theme_bbpress.css?ver=' . porto_version );
+			wp_register_style( 'porto-theme-bbpress', PORTO_URI . '/css/theme_bbpress.css?ver=' . PORTO_VERSION );
 		}
 	}
 
 	// custom styles
 	wp_deregister_style( 'porto-style' );
-	wp_register_style( 'porto-style', porto_uri . '/style.css' );
+	wp_register_style( 'porto-style', PORTO_URI . '/style.css' );
 	if ( is_rtl() ) {
 		wp_deregister_style( 'porto-style-rtl' );
-		wp_register_style( 'porto-style-rtl', porto_uri . '/style_rtl.css' );
+		wp_register_style( 'porto-style-rtl', PORTO_URI . '/style_rtl.css' );
 	}
 
 	// Load Google fonts
@@ -393,10 +438,10 @@ function porto_css() {
 	// ie styles
 	global $wp_styles;
 	wp_deregister_style( 'porto-ie' );
-	wp_register_style( 'porto-ie', porto_uri . '/css/ie.css?ver=' . porto_version );
+	wp_register_style( 'porto-ie', PORTO_URI . '/css/ie.css?ver=' . PORTO_VERSION );
 
 	/* enqueue styles */
-	wp_enqueue_style( 'porto-bootstrap' );
+	wp_enqueue_style( 'bootstrap' );
 	wp_enqueue_style( 'porto-plugins' );
 	wp_enqueue_style( 'porto-theme' );
 	wp_enqueue_style( 'porto-shortcodes' );
@@ -416,7 +461,7 @@ function porto_css() {
 	$wp_styles->add_data( 'porto-ie', 'conditional', 'lt IE 10' );
 	if ( current_user_can( 'edit_theme_options' ) ) {
 		// admin style
-		wp_enqueue_style( 'porto_admin_bar', porto_css . '/admin_bar.css', false, porto_version, 'all' );
+		wp_enqueue_style( 'porto_admin_bar', PORTO_CSS . '/admin_bar.css', false, PORTO_VERSION, 'all' );
 	}
 	porto_enqueue_revslider_css();
 }
@@ -490,24 +535,24 @@ function porto_admin_block_css() {
 function porto_register_style( $handle, $filename, $themedir = true, $load_default = true, $deps = array() ) {
 	if ( $themedir ) {
 		$blog_id  = porto_get_blog_id();
-		$css_file = porto_dir . '/css/' . $filename . '_' . $blog_id . '.css';
-		$css_uri  = porto_uri . '/css/' . $filename . '_' . $blog_id . '.css';
+		$css_file = PORTO_DIR . '/css/' . $filename . '_' . $blog_id . '.css';
+		$css_uri  = PORTO_URI . '/css/' . $filename . '_' . $blog_id . '.css';
 	} else {
 		$upload_dir = wp_upload_dir();
 		$css_file   = $upload_dir['basedir'] . '/porto_styles/' . $filename . '.css';
 		$css_uri    = $upload_dir['baseurl'] . '/porto_styles/' . $filename . '.css';
 	}
 	if ( file_exists( $css_file ) ) {
-		wp_register_style( $handle, $css_uri, $deps, porto_version );
+		wp_register_style( $handle, $css_uri, $deps, PORTO_VERSION );
 	} elseif ( $load_default ) {
 		if ( 'style-editor' == $filename ) {
 			ob_start();
-			require_once porto_dir . '/style-editor.php';
+			require_once PORTO_DIR . '/style-editor.php';
 			$css = ob_get_contents();
 			ob_end_clean();
 			wp_add_inline_style( 'porto-shortcodes', $css );
 		} else {
-			wp_register_style( $handle, porto_uri . '/css/' . $filename . '.css', $deps, porto_version );
+			wp_register_style( $handle, PORTO_URI . '/css/' . $filename . '.css', $deps, PORTO_VERSION );
 		}
 	}
 }
@@ -549,51 +594,62 @@ function porto_scripts() {
 			$min_suffix = '.min';
 		}
 		// porto scripts
-		wp_register_script( 'popper', porto_js . '/libs/popper.min.js', array( 'jquery', 'jquery-migrate' ), '1.12.5', true );
+		wp_register_script( 'popper', PORTO_JS . '/libs/popper.min.js', array( 'jquery', 'jquery-migrate' ), '1.12.5', true );
 		wp_enqueue_script( 'popper' );
 
 		$optimize_suffix = '';
 		if ( isset( $porto_settings_optimize['optimize_bootstrap'] ) && $porto_settings_optimize['optimize_bootstrap'] ) {
 			$optimize_suffix = '.optimized';
 		}
-		wp_deregister_script( 'bootstrap' );
-		wp_register_script( 'bootstrap', porto_js . '/bootstrap' . $optimize_suffix . $min_suffix . '.js', array( 'popper' ), '4.1.3', true );
+		wp_register_script( 'bootstrap', PORTO_JS . '/bootstrap' . $optimize_suffix . $min_suffix . '.js', array( 'popper' ), '4.1.3', true );
 		wp_enqueue_script( 'bootstrap' );
 
 		/* plugins */
-		wp_register_script( 'jquery-cookie', porto_js . '/libs/jquery.cookie.min.js', array(), '1.4.1', true );
-		wp_register_script( 'owl-carousel', porto_js . '/libs/owl.carousel.min.js', array(), '2.3.4', true );
-		wp_register_script( 'isotope', porto_js . '/libs/isotope.pkgd.min.js', array(), '3.0.1', true );
-		wp_register_script( 'jquery-appear', porto_js . '/libs/jquery.appear.min.js', array(), null, true );
-		wp_register_script( 'easypiechart', porto_js . '/libs/easypiechart.min.js', array(), '2.1.4', true );
-		wp_register_script( 'jquery-fitvids', porto_js . '/libs/jquery.fitvids.min.js', array(), '1.1', true );
-		wp_register_script( 'jquery-mousewheel', porto_js . '/libs/jquery.mousewheel.min.js', array(), '3.1.13', true );
-		wp_register_script( 'jquery-matchHeight', porto_js . '/libs/jquery.matchHeight.min.js', array(), null, true );
-		wp_register_script( 'modernizr', porto_js . '/libs/modernizr.js', array(), '2.8.3', true );
-		wp_register_script( 'jquery-magnific-popup', porto_js . '/libs/jquery.magnific-popup.min.js', array(), '1.1.0', true );
-		wp_register_script( 'jquery-selectric', porto_js . '/libs/jquery.selectric.min.js', array(), '1.9.6', true );
+		wp_register_script( 'jquery-cookie', PORTO_JS . '/libs/jquery.cookie.min.js', array(), '1.4.1', true );
+		wp_register_script( 'owl-carousel', PORTO_JS . '/libs/owl.carousel.min.js', array(), '2.3.4', true );
+		wp_register_script( 'isotope', PORTO_JS . '/libs/isotope.pkgd.min.js', array(), '3.0.1', true );
+		wp_register_script( 'jquery-appear', PORTO_JS . '/libs/jquery.appear.min.js', array(), null, true );
+		wp_register_script( 'easypiechart', PORTO_JS . '/libs/easypiechart.min.js', array(), '2.1.4', true );
+		wp_register_script( 'jquery-fitvids', PORTO_JS . '/libs/jquery.fitvids.min.js', array(), '1.1', true );
+		wp_register_script( 'jquery-mousewheel', PORTO_JS . '/libs/jquery.mousewheel.min.js', array(), '3.1.13', true );
+		wp_register_script( 'jquery-matchHeight', PORTO_JS . '/libs/jquery.matchHeight.min.js', array(), null, true );
+		wp_register_script( 'modernizr', PORTO_JS . '/libs/modernizr.js', array(), '2.8.3', true );
+		wp_register_script( 'jquery-magnific-popup', PORTO_JS . '/libs/jquery.magnific-popup.min.js', array(), '1.1.0', true );
+		wp_register_script( 'jquery-selectric', PORTO_JS . '/libs/jquery.selectric.min.js', array(), '1.9.6', true );
+		wp_register_script( 'jquery-vide', PORTO_JS . '/libs/jquery.vide.min.js', array(), '0.5.1', true );
+		wp_register_script( 'jquery-lazyload', PORTO_JS . '/libs/jquery.lazyload.min.js', array(), '1.9.7', true );
+		wp_register_script( 'jquery-waitforimages', PORTO_JS . '/libs/jquery.waitforimages.min.js', array(), '2.0.2', true );
 
 		wp_enqueue_script( 'jquery-cookie' );
 		wp_enqueue_script( 'owl-carousel' );
-		wp_enqueue_script( 'isotope' );
 		wp_enqueue_script( 'jquery-appear' );
 		wp_enqueue_script( 'jquery-fitvids' );
 		wp_enqueue_script( 'jquery-matchHeight' );
 		wp_enqueue_script( 'modernizr' );
 		wp_enqueue_script( 'jquery-magnific-popup' );
+		wp_enqueue_script( 'jquery-waitforimages' );
+
 		if ( $porto_settings['show-searchform'] && isset( $porto_settings['search-cats'] ) && $porto_settings['search-cats'] ) {
 			wp_enqueue_script( 'jquery-selectric' );
 		}
-
-
-		if ( class_exists( 'Woocommerce' ) ) {
-			wp_register_script( 'jquery-scrollbar', porto_js . '/libs/jquery.scrollbar.min.js', array(), '0.2.10', true );
-			wp_register_script( 'jquery-elevatezoom', porto_js . '/libs/jquery.elevatezoom.min.js', array(), '3.0.8', true );
-			wp_register_script( 'jquery-fancybox', porto_js . '/libs/jquery.fancybox.min.js', array(), '2.1.5', true );
-			wp_register_script( 'easy-responsive-tabs', porto_js . '/libs/easy-responsive-tabs.min.js', array( 'jquery' ), porto_version, true );
+		if ( ( 'masonry' == $porto_settings['post-layout'] && is_home() || ( is_archive() && 'post' == get_post_type() ) || is_search() ) || ( is_archive() && ( 'portfolio' == get_post_type() || 'member' == get_post_type() ) ) ) {
+			wp_enqueue_script( 'isotope' );
 		}
 
-		wp_register_script( 'jquery-slick', porto_js . '/libs/jquery.slick.min.js', array( 'jquery' ), porto_version, true );
+		if ( class_exists( 'Woocommerce' ) ) {
+			wp_register_script( 'jquery-scrollbar', PORTO_JS . '/libs/jquery.scrollbar.min.js', array(), '0.2.10', true );
+			wp_register_script( 'jquery-elevatezoom', PORTO_JS . '/libs/jquery.elevatezoom.min.js', array(), '3.0.8', true );
+			wp_register_script( 'jquery-fancybox', PORTO_JS . '/libs/jquery.fancybox.min.js', array(), '2.1.5', true );
+			wp_register_script( 'easy-responsive-tabs', PORTO_JS . '/libs/easy-responsive-tabs.min.js', array( 'jquery' ), PORTO_VERSION, true );
+		}
+		if ( 'overlay' == $porto_settings['menu-type'] ) {
+			if ( ! class_exists( 'Woocommerce' ) ) {
+				wp_register_script( 'jquery-scrollbar', PORTO_JS . '/libs/jquery.scrollbar.min.js', array(), '0.2.10', true );
+			}
+			wp_enqueue_script( 'jquery-scrollbar' );
+		}
+
+		wp_register_script( 'jquery-slick', PORTO_JS . '/libs/jquery.slick.min.js', array( 'jquery' ), PORTO_VERSION, true );
 		global $porto_product_layout;
 		if ( class_exists( 'Woocommerce' ) && isset( $porto_product_layout ) && $porto_product_layout ) {
 			if ( 'transparent' == $porto_product_layout ) {
@@ -605,11 +661,14 @@ function porto_scripts() {
 		}
 
 		// load porto theme js file
-		wp_deregister_script( 'porto-theme' );
-		wp_register_script( 'porto-theme', porto_js . '/theme' . $min_suffix . '.js', array( 'jquery' ), porto_version, true );
+		wp_register_script( 'porto-theme', PORTO_JS . '/theme' . $min_suffix . '.js', array( 'jquery' ), PORTO_VERSION, true );
 		wp_enqueue_script( 'porto-theme' );
+
+		wp_register_script( 'porto-theme-async', PORTO_JS . '/theme-async' . $min_suffix . '.js', array( 'jquery', 'porto-theme' ), PORTO_VERSION, true );
+		wp_enqueue_script( 'porto-theme-async' );
+
 		if ( class_exists( 'Woocommerce' ) ) {
-			wp_register_script( 'porto-woocommerce-theme', porto_js . '/woocommerce-theme' . $min_suffix . '.js', array( 'porto-theme' ), porto_version, true );
+			wp_register_script( 'porto-woocommerce-theme', PORTO_JS . '/woocommerce-theme' . $min_suffix . '.js', array( 'porto-theme' ), PORTO_VERSION, true );
 			wp_enqueue_script( 'porto-woocommerce-theme' );
 		}
 
@@ -640,10 +699,9 @@ function porto_scripts() {
 				'show_sticky_header'        => esc_js( $show_sticky_header ),
 				'show_sticky_header_tablet' => esc_js( $porto_settings['enable-sticky-header-tablet'] ),
 				'show_sticky_header_mobile' => esc_js( $porto_settings['enable-sticky-header-mobile'] ),
-				'ajax_loader_url'           => esc_js( str_replace( array( 'http:', 'https:' ), array( '', '' ), porto_uri . '/images/ajax-loader@2x.gif' ) ),
+				'ajax_loader_url'           => esc_js( str_replace( array( 'http:', 'https:' ), array( '', '' ), PORTO_URI . '/images/ajax-loader@2x.gif' ) ),
 				'category_ajax'             => esc_js( $porto_settings['category-ajax'] ),
 				'prdctfltr_ajax'            => esc_js( $js_wc_prdctfltr ),
-				'show_minicart'             => esc_js( $porto_settings['show-minicart'] ),
 				'slider_loop'               => esc_js( $porto_settings['slider-loop'] ),
 				'slider_autoplay'           => esc_js( $porto_settings['slider-autoplay'] ),
 				'slider_autoheight'         => esc_js( $porto_settings['slider-autoheight'] ),
@@ -679,57 +737,52 @@ function porto_scripts() {
 				'request_error'             => esc_js( __( 'The requested content cannot be loaded.<br/>Please try again later.', 'porto' ) ),
 				'loader_text'               => esc_js( __( 'Loading...', 'porto' ) ),
 				'submenu_back'              => esc_js( __( 'Back', 'porto' ) ),
+				'porto_nonce'               => wp_create_nonce( 'porto-nonce' ),
 			)
 		);
 	}
 }
+
 function porto_admin_css() {
 	wp_deregister_style( 'font-awesome' );
 	wp_dequeue_style( 'font-awesome' );
 	wp_dequeue_style( 'yith-wcwl-font-awesome' );
-	wp_enqueue_style( 'font-awesome', porto_css . '/font-awesome.min.css', false, porto_version, 'all' );
+	if ( wp_style_is( 'rs-icon-set-fa-icon-', 'enqueued' ) ) {
+		// wp_dequeue_style( 'rs-icon-set-fa-icon-' );
+	}
+
+	wp_enqueue_style( 'font-awesome', PORTO_CSS . '/font-awesome.min.css', false, PORTO_VERSION, 'all' );
 
 	// porto icon font
-	wp_enqueue_style( 'porto-font', porto_css . '/Porto-Font/Porto-Font.css', false, porto_version, 'all' );
+	wp_enqueue_style( 'porto-font', PORTO_CSS . '/Porto-Font/Porto-Font.css', false, PORTO_VERSION, 'all' );
 	// simple line icon font
 	wp_dequeue_style( 'bsf-Simple-Line-Icons' );
-	wp_dequeue_style( 'porto_shortcodes_simpleline' );
-	wp_enqueue_style( 'porto-sli-font', porto_css . '/Simple-Line-Icons/Simple-Line-Icons.css', false, porto_version, 'all' );
+	wp_deregister_style( 'simple-line-icons' );
+	wp_dequeue_style( 'simple-line-icons' );
+	wp_enqueue_style( 'simple-line-icons', PORTO_CSS . '/Simple-Line-Icons/Simple-Line-Icons.css', false, PORTO_VERSION, 'all' );
 	// wp default styles
-	wp_enqueue_style( 'wp-color-picker' );
-	// codemirror
-	// wp_enqueue_style('porto_codemirror', porto_css . '/codemirror.css', false, porto_version, 'all');
 	// admin style
-	wp_enqueue_style( 'porto_admin', porto_css . '/admin.css', false, porto_version, 'all' );
-	wp_enqueue_style( 'porto_admin_bar', porto_css . '/admin_bar.css', false, porto_version, 'all' );
+	wp_enqueue_style( 'porto_admin', PORTO_CSS . '/admin.css', false, PORTO_VERSION, 'all' );
+	wp_enqueue_style( 'porto_admin_bar', PORTO_CSS . '/admin_bar.css', false, PORTO_VERSION, 'all' );
 	porto_enqueue_revslider_css();
 }
+
 function porto_admin_scripts() {
 	if ( function_exists( 'add_thickbox' ) ) {
 		add_thickbox();
 	}
 	wp_enqueue_media();
 	global $pagenow;
-	if ( in_array( $pagenow, array( 'post.php', 'post-new.php', 'term.php' ) ) ) {
-		// codemirror
-		/*
-		wp_register_script('porto-codemirror', porto_js.'/codemirror/codemirror.min.js', array('jquery'), porto_version, true);
-		wp_enqueue_script('porto-codemirror');
-		wp_register_script('porto-codemirror-css', porto_js.'/codemirror/css.js', array('porto-codemirror'), porto_version, true);
-		wp_enqueue_script('porto-codemirror-css');
-		wp_register_script('porto-codemirror-js', porto_js.'/codemirror/javascript.js', array('porto-codemirror'), porto_version, true);
-		wp_enqueue_script('porto-codemirror-js');*/
-	}
-	if ( 'themes.php' == $pagenow && isset( $_GET['page'] ) && 'porto_settings' === $_GET['page'] && defined( 'WPB_VC_VERSION' ) && ! wp_script_is( 'waypoints', 'registered' ) ) {
-		wp_register_script( 'waypoints', vc_asset_url( 'lib/waypoints/waypoints.min.js' ), array( 'jquery' ), WPB_VC_VERSION, true );
-		wp_enqueue_script( 'waypoints' );
+	if ( 'themes.php' == $pagenow && isset( $_GET['page'] ) && 'porto_settings' === $_GET['page'] && defined( 'WPB_VC_VERSION' ) && ! wp_script_is( 'vc_waypoints', 'registered' ) ) {
+		wp_register_script( 'vc_waypoints', vc_asset_url( 'lib/vc_waypoints/vc-waypoints.min.js' ), array( 'jquery' ), WPB_VC_VERSION, true );
+		wp_enqueue_script( 'vc_waypoints' );
 	}
 	// admin script
-	wp_register_script( 'porto-admin', porto_js . '/admin/admin.min.js', array( 'common', 'jquery', 'media-upload', 'thickbox', 'wp-color-picker' ), porto_version, true );
+	wp_register_script( 'porto-admin', PORTO_JS . '/admin/admin.min.js', array( 'common', 'jquery', 'media-upload', 'thickbox', 'wp-color-picker' ), PORTO_VERSION, true );
 	wp_enqueue_script( 'porto-admin' );
 
 	$admin_vars = array(
-		'import_options_msg' => esc_html__( 'If you want to import demo, please backup current theme options in "Import / Export" section before import. Do you want to import demo?', 'porto' ),
+		'import_options_msg' => esc_js( __( 'If you want to import demo, please backup current theme options in "Import / Export" section before import. Do you want to import demo?', 'porto' ) ),
 		'theme_option_url'   => esc_url( admin_url( 'themes.php?page=porto_settings' ) ),
 	);
 	if ( in_array( $pagenow, array( 'themes.php', 'customize.php' ) ) ) {
@@ -742,7 +795,7 @@ function porto_enqueue_revslider_css() {
 	global $porto_settings;
 	$style = '';
 	if ( $porto_settings['skin-color'] ) {
-		$style = '.tparrows:before{color:' . $porto_settings['skin-color'] . ';text-shadow:0 0 3px #fff;}';
+		$style = '.tparrows:before{color:' . esc_html( $porto_settings['skin-color'] ) . ';text-shadow:0 0 3px #fff;}';
 	}
 	$style .= '.revslider-initialised .tp-loader{z-index:18;}';
 	wp_add_inline_style( 'rs-plugin-settings', $style );
@@ -750,7 +803,7 @@ function porto_enqueue_revslider_css() {
 // retrieves the attachment ID from the file URL
 function porto_get_image_id( $image_url ) {
 	global $wpdb;
-	$attachment = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid='%s';", $image_url ) );
+	$attachment = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE guid=%s", $image_url ) );
 	if ( isset( $attachment[0] ) ) {
 		return $attachment[0];
 	} else {
@@ -772,92 +825,15 @@ function porto_gform_confirmation( $confirmation, $form, $entry, $ajax ) {
 
 // Fix for PHP Fatal error:  Call to undefined function YIT_Pointers() in \plugins\yith-woocommerce-wishlist\includes\class.yith-wcwl-admin-init.php
 if ( function_exists( 'yith_wishlist_constructor' ) && ! class_exists( 'YIT_Pointers' ) ) {
-	require_once porto_dir . '/woocommerce/yit-pointers.php';
+	require_once PORTO_DIR . '/woocommerce/yit-pointers.php';
 }
 
-
-
-
-
- 
- 
- 
- 
- 
- function my_enqueue() {
-
-    //wp_enqueue_script( 'ajax-script', get_template_directory_uri() . '/js/my-ajax-script.js', array('jquery') );
-
-    wp_localize_script( 'ajax-script', 'my_ajax_object',    array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
-}
-add_action( 'wp_enqueue_scripts', 'my_enqueue' );
-
-    /* Custom Ajax */
-    function data_custom_ajax(){    
-     global $wpdb;
-
-$order_id = $_POST['order'];
-
-$product= $_POST['product'];
-
-
-$order = wc_get_order( $order_id );
-
-
-        $billing_address = $order->get_formatted_billing_address();
-
-
-        
-
-$status=$order->data['status']; 
-
- 
-
-
-?>
-<div  style='background: beige; margin-bottom: 30px;' > 
-    <table>
-        <tbody><tr><td style='width:33%;'>Order number is:  <?php  echo $order_id;  ?> | <?php $order_date=  $order->get_date_created(); 
-        
-        $date=date_create($order_date);
-echo date_format($date,"Y/m/d");
-        
-        ?>  </td><td style='width:33%;'>Status:  
-        <select>
-        <option    <?php if ($status == 'Pending Payment' ){ echo 'selected'; } ?>  value='Pending Payment' >Pending Payment</option>
-        <option   <?php  if ($status == 'processing' ){ echo 'selected'; } ?>  value='Processing'>Processing</option>
-        
-      
-        <option  <?php   if ($status == 'Shipped' ){ echo 'selected';}?>  value='Shipped'>Shipped</option>
-        <option  <?php  if ($status == 'On Hold' ){ echo 'selected';  }?> value='On Hold'>On Hold </option>
-        <option  <?php if ($status == 'Completed' ){ echo 'selected';  }?> value='Completed'Completed</option>
-         <option  <?php if ($status == 'Cancelled' ){ echo 'selected'; }?> value='Cancelled'>Cancelled</option>
-         <option  <?php if ($status == 'Refunded' ){ echo 'selected';  }?> value='Refunded'>Refunded</option>
-         <option  <?php if ($status == 'Failed' ){ echo 'selected';  }?> value='Failed'>Failed</option>
-        
-        
-        
-        
-        
-        
-        </select>
-        
-        </td><td style='width:33%;'><strong>Rating Received:</strong> </td></tr>
-        <tr><td><strong>Billing Details:</strong> <?php echo $order->get_formatted_billing_address(); ?></td>
-      
-       
-        <td><strong>Shipping Details:</strong>  <?php echo $order->get_formatted_shipping_address(); ?></td>
-         
-       
-        <td><strong>Customer Feedback:</strong></td></tr>
-    </tbody></table>
-</div>
-<?php
-//echo $html; 
-
-    }
-    
-    
-    add_action('wp_ajax_nopriv_data_custom_ajax', 'data_custom_ajax');
-    add_action('wp_ajax_data_custom_ajax', 'data_custom_ajax');
-
+// Load Revslider Icon Fonts
+if ( ! function_exists( 'porto_revslider_icon_fonts' ) ) :
+	function porto_revslider_icon_fonts() {
+		global $pe_7s_var;
+		if ( $pe_7s_var ) {
+			echo "<link rel='stylesheet' property='stylesheet' id='rs-icon-set-pe-7s-css' href='" . RS_PLUGIN_URL . "public/assets/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css' type='text/css' media='all' />\n";
+		}
+	}
+endif;

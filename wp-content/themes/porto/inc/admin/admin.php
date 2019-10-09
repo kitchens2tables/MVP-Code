@@ -26,10 +26,12 @@ class Porto_Admin {
 	}
 
 	public function switch_options_panel() {
-		if ( isset( $_POST['type'] ) && 'redux' == $_POST['type'] ) {
-			set_theme_mod( 'theme_options_use_new_style', false );
-		} else {
-			set_theme_mod( 'theme_options_use_new_style', true );
+		if ( current_user_can( 'edit_theme_options' ) ) {
+			if ( isset( $_POST['type'] ) && 'redux' == $_POST['type'] ) {
+				set_theme_mod( 'theme_options_use_new_style', false );
+			} else {
+				set_theme_mod( 'theme_options_use_new_style', true );
+			}
 		}
 	}
 
@@ -93,11 +95,11 @@ class Porto_Admin {
 	}
 
 	public function welcome_screen() {
-		require_once porto_admin . '/admin_pages/welcome.php';
+		require_once PORTO_ADMIN . '/admin_pages/welcome.php';
 	}
 
 	public function changelog() {
-		require_once porto_admin . '/admin_pages/changelog.php';
+		require_once PORTO_ADMIN . '/admin_pages/changelog.php';
 	}
 
 	public function let_to_num( $size ) {
@@ -121,7 +123,7 @@ class Porto_Admin {
 	public function check_purchase_code() {
 
 		if ( ! $this->_checkedPurchaseCode ) {
-			$code         = isset( $_POST['code'] ) ? esc_attr( trim( $_POST['code'] ) ) : '';
+			$code         = isset( $_POST['code'] ) ? sanitize_text_field( $_POST['code'] ) : '';
 			$code_confirm = $this->get_purchase_code();
 
 			if ( isset( $_POST['action'] ) && ! empty( $_POST['action'] ) ) {
@@ -168,16 +170,10 @@ class Porto_Admin {
 	}
 
 	public function curl_purchase_code( $code, $domain, $act ) {
-		$whitelist = array(
-			'127.0.0.1',
-			'::1',
-		);
-		$local     = in_array( $_SERVER['REMOTE_ADDR'], $whitelist );
-
-		require_once porto_plugins . '/importer/importer-api.php';
+		require_once PORTO_PLUGINS . '/importer/importer-api.php';
 		$importer_api = new Porto_Importer_API();
 
-		$result = $importer_api->get_response( $this->activation_url . "?item=9207399&code=$code&domain=$domain&siteurl=" . urlencode( site_url() ) . "&act=$act" . ( $local ? '&local=true' : '' ) );
+		$result = $importer_api->get_response( $this->activation_url . "?item=9207399&code=$code&domain=$domain&siteurl=" . urlencode( site_url() ) . "&act=$act" . ( $importer_api->is_localhost() ? '&local=true' : '' ) );
 
 		if ( ! $result || is_wp_error( $result ) ) {
 			return false;
@@ -231,7 +227,7 @@ class Porto_Admin {
 			return $transient;
 		}
 
-		require_once porto_plugins . '/importer/importer-api.php';
+		require_once PORTO_PLUGINS . '/importer/importer-api.php';
 		$importer_api   = new Porto_Importer_API();
 		$new_version    = $importer_api->get_latest_theme_version();
 		$theme_template = get_template();
@@ -254,7 +250,7 @@ class Porto_Admin {
 	}
 
 	public function upgrader_pre_download( $reply, $package, $obj ) {
-		require_once porto_plugins . '/importer/importer-api.php';
+		require_once PORTO_PLUGINS . '/importer/importer-api.php';
 		$importer_api = new Porto_Importer_API();
 		if ( strpos( $package, $importer_api->get_url( 'theme' ) ) !== false || strpos( $package, $importer_api->get_url( 'plugins' ) ) !== false ) {
 			if ( ! $this->is_registered() ) {
@@ -275,14 +271,14 @@ class Porto_Admin {
 	public function add_theme_update_url() {
 		global $pagenow;
 		if ( 'update-core.php' == $pagenow ) {
-			require_once porto_plugins . '/importer/importer-api.php';
+			require_once PORTO_PLUGINS . '/importer/importer-api.php';
 			$importer_api   = new Porto_Importer_API();
 			$new_version    = $importer_api->get_latest_theme_version();
 			$theme_template = get_template();
-			if ( version_compare( porto_version, $new_version, '<' ) ) {
+			if ( version_compare( PORTO_VERSION, $new_version, '<' ) ) {
 				$url         = $importer_api->get_url( 'changelog' );
 				$checkbox_id = md5( wp_get_theme( $theme_template )->get( 'Name' ) );
-				wp_add_inline_script( 'porto-admin', 'if (jQuery(\'#checkbox_' . $checkbox_id . '\').length) {jQuery(\'#checkbox_' . $checkbox_id . '\').closest(\'tr\').children().last().append(\'<a href="' . esc_url( $url ) . '" target="_blank">' . esc_html__( 'View Details', 'porto' ) . '</a>\');}' );
+				wp_add_inline_script( 'porto-admin', 'if (jQuery(\'#checkbox_' . $checkbox_id . '\').length) {jQuery(\'#checkbox_' . $checkbox_id . '\').closest(\'tr\').children().last().append(\'<a href="' . esc_url( $url ) . '" target="_blank">' . esc_js( __( 'View Details', 'porto' ) ) . '</a>\');}' );
 			}
 		}
 	}
@@ -311,13 +307,13 @@ function Porto() {
 }
 
 if ( is_customize_preview() ) {
-	require porto_admin . '/customizer/customizer.php';
+	require PORTO_ADMIN . '/customizer/customizer.php';
 
-	require porto_admin . '/customizer/header-builder.php';
+	require PORTO_ADMIN . '/customizer/header-builder.php';
 
 	if ( get_theme_mod( 'theme_options_use_new_style', false ) ) {
-		require porto_admin . '/customizer/selective-refresh.php';
-		require porto_admin . '/customizer/customizer-reset.php';
+		require PORTO_ADMIN . '/customizer/selective-refresh.php';
+		require PORTO_ADMIN . '/customizer/customizer-reset.php';
 	}
 }
 
@@ -339,7 +335,6 @@ if ( is_admin() ) {
 		'admin_init',
 		function() {
 			if ( isset( $_POST['porto_registration'] ) && check_admin_referer( 'porto-setup' ) ) {
-				$action = isset( $_POST['action'] ) ? $_POST['action'] : '';
 				update_option( 'porto_register_error_msg', '' );
 				$result = Porto()->check_purchase_code();
 				if ( 'verified' === $result ) {
@@ -362,7 +357,7 @@ if ( is_admin() ) {
 	add_action(
 		'admin_init',
 		function() {
-			if ( ! Porto()->is_registered() && ( ( 'themes.php' == $GLOBALS['pagenow'] && isset( $_GET['page'] ) && 'porto_settings' == $_GET['page'] ) || empty( $_COOKIE['porto_dismiss_activate_msg'] ) || version_compare( $_COOKIE['porto_dismiss_activate_msg'], porto_version, '<' ) ) ) {
+			if ( ! Porto()->is_registered() && ( ( 'themes.php' == $GLOBALS['pagenow'] && isset( $_GET['page'] ) && 'porto_settings' == $_GET['page'] ) || empty( $_COOKIE['porto_dismiss_activate_msg'] ) || version_compare( $_COOKIE['porto_dismiss_activate_msg'], PORTO_VERSION, '<' ) ) ) {
 				add_action(
 					'admin_notices',
 					function() { ?>
@@ -387,7 +382,7 @@ if ( is_admin() ) {
 									$el.remove();
 								});
 							});
-							setCookie('porto_dismiss_activate_msg', '<?php echo porto_version; ?>', 30);
+							setCookie('porto_dismiss_activate_msg', '<?php echo PORTO_VERSION; ?>', 30);
 						});
 					})(window.jQuery);
 				</script>
@@ -419,7 +414,7 @@ if ( is_admin() ) {
 
 	// Add Advanced Options
 	if ( ! is_customize_preview() ) {
-		require porto_admin . '/setup_wizard/setup_wizard.php';
-		require porto_admin . '/setup_wizard/speed_optimize_wizard.php';
+		require PORTO_ADMIN . '/setup_wizard/setup_wizard.php';
+		require PORTO_ADMIN . '/setup_wizard/speed_optimize_wizard.php';
 	}
 }

@@ -1,12 +1,12 @@
 <?php
 global $porto_settings;
-if ( empty( $porto_settings['mobile-panel-type'] ) ) :
+if ( empty( $porto_settings['mobile-panel-type'] ) && 'overlay' != $porto_settings['menu-type'] ) :
 
 	$header_type = porto_get_header_type();
 	$is_preset   = porto_header_type_is_preset();
 	?>
 
-<div id="nav-panel" class="<?php echo ( isset( $porto_settings['mobile-panel-pos'] ) && $porto_settings['mobile-panel-pos'] ) ? $porto_settings['mobile-panel-pos'] : ''; ?>">
+<div id="nav-panel">
 	<div class="container">
 		<div class="mobile-nav-wrap">
 			<?php
@@ -22,7 +22,7 @@ if ( empty( $porto_settings['mobile-panel-type'] ) ) :
 			}
 
 			// show top navigation and mobile menu
-			$menu = porto_mobile_menu( '19' == $header_type );
+			$menu = porto_mobile_menu( '19' == $header_type || empty( $header_type ) );
 
 			if ( $menu ) {
 				echo '<div class="menu-wrap">' . $menu . '</div>';

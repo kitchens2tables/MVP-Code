@@ -94,7 +94,7 @@ if ( $count ) :
 	if ( $attachment && $attachment_related ) :
 		?>
 		<div class="portfolio-item <?php echo 'outimage' == $portfolio_view ? 'outimage' : $portfolio_view; ?>">
-			<a class="text-decoration-none" href="<?php echo ! $show_external_link || ! $portfolio_link ? get_the_permalink() : esc_url( $portfolio_link ); ?>"<?php echo porto_filter_output( $ajax_attr ); ?>>
+			<a class="text-decoration-none" href="<?php echo ! $show_external_link || ! $portfolio_link ? esc_url( get_the_permalink() ) : esc_url( $portfolio_link ); ?>"<?php echo porto_filter_output( $ajax_attr ); ?>>
 				<span class="thumb-info <?php echo esc_attr( $class ); ?>">
 					<span class="thumb-info-wrapper">
 						<img class="img-responsive" width="<?php echo esc_attr( $attachment_related['width'] ); ?>" height="<?php echo esc_attr( $attachment_related['height'] ); ?>" src="<?php echo esc_url( $attachment_related['src'] ); ?>" alt="<?php echo esc_attr( $attachment_related['alt'] ); ?>" />
@@ -124,7 +124,7 @@ if ( $count ) :
 									<span class="thumb-info-action-icon"><i class="fa <?php echo ! empty( $ajax_attr ) ? 'fa-plus-square' : 'fa-link'; ?>"></i></span>
 								<?php endif; ?>
 								<?php if ( $portfolio_show_zoom ) : ?>
-									<span class="thumb-info-action-icon thumb-info-action-icon-light thumb-info-zoom zoom" data-src="<?php echo esc_url( $attachment['src'] ); ?>" data-title="<?php echo esc_attr( $attachment['caption'] ); ?>"><i class="fa fa-search"></i></span>
+									<span class="thumb-info-action-icon thumb-info-action-icon-light thumb-info-zoom zoom" data-src="<?php echo esc_url( $attachment['src'] ); ?>" data-title="<?php echo esc_attr( $attachment['caption'] ); ?>"><i class="fas fa-search"></i></span>
 								<?php endif; ?>
 							</span>
 						<?php endif; ?>

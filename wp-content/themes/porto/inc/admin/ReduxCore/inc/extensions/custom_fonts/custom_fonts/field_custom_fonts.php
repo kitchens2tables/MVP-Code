@@ -83,7 +83,7 @@ if ( ! class_exists( 'ReduxFramework_custom_fonts' ) ) {
 
 			if ( empty( $this->extension_dir ) ) {
 
-				$this->extension_dir = trailingslashit( str_replace( '\\', '/', dirname( __FILE__ ) ) );
+				$this->extension_dir = trailingslashit( str_replace( '\\', '/', PORTO_ADMIN . '/ReduxCore/inc/extensions/custom_fonts/custom_fonts' ) );
 
 				$this->extension_url = site_url( str_replace( trailingslashit( str_replace( '\\', '/', ABSPATH ) ), '', $this->extension_dir ) );
 

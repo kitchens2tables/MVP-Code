@@ -13,10 +13,7 @@ function porto_shortcode_experience_timeline_item( $atts, $content = null ) {
 }
 
 function porto_load_experience_timeline_item_shortcode() {
-	$animation_type     = porto_vc_animation_type();
-	$animation_duration = porto_vc_animation_duration();
-	$animation_delay    = porto_vc_animation_delay();
-	$custom_class       = porto_vc_custom_class();
+	$custom_class = porto_vc_custom_class();
 
 	vc_map(
 		array(

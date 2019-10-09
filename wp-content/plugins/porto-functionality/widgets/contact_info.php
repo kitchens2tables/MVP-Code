@@ -45,29 +45,29 @@ class Porto_Contact_Info_Widget extends WP_Widget {
 			<?php
 			if ( $contact_before ) :
 				?>
-				<?php echo wpautop( do_shortcode( $contact_before ) ); ?><?php endif; ?>
+				<?php echo do_shortcode( $contact_before ); ?><?php endif; ?>
 			<ul class="contact-details<?php echo ! $icon ? '' : ' list list-icons'; ?>">
 				<?php
 				if ( $address ) :
 					?>
-					<li><i class="fa fa-dot-circle-o"></i> <strong><?php echo porto_strip_script_tags( $address_label ); ?>:</strong> <span><?php echo force_balance_tags( $address ); ?></span></li><?php endif; ?>
+					<li><i class="far fa-dot-circle"></i> <strong><?php echo porto_strip_script_tags( $address_label ); ?>:</strong> <span><?php echo force_balance_tags( $address ); ?></span></li><?php endif; ?>
 				<?php
 				if ( $phone ) :
 					?>
-					<li><i class="fa fa-whatsapp"></i> <strong><?php echo porto_strip_script_tags( $phone_label ); ?>:</strong> <span><?php echo force_balance_tags( $phone ); ?></span></li><?php endif; ?>
+					<li><i class="fab fa-whatsapp"></i> <strong><?php echo porto_strip_script_tags( $phone_label ); ?>:</strong> <span><?php echo force_balance_tags( $phone ); ?></span></li><?php endif; ?>
 				<?php
 				if ( $email ) :
 					?>
-					<li><i class="fa fa-envelope-o"></i> <strong><?php echo porto_strip_script_tags( $email_label ); ?>:</strong> <span><a href="mailto:<?php echo esc_attr( $email ); ?>"><?php echo force_balance_tags( $email ); ?></a></span></li><?php endif; ?>
+					<li><i class="far fa-envelope"></i> <strong><?php echo porto_strip_script_tags( $email_label ); ?>:</strong> <span><a href="mailto:<?php echo esc_attr( $email ); ?>"><?php echo force_balance_tags( $email ); ?></a></span></li><?php endif; ?>
 				<?php
 				if ( $working ) :
 					?>
-					<li><i class="fa fa-clock-o"></i> <strong><?php echo porto_strip_script_tags( $working_label ); ?>:</strong> <span><?php echo force_balance_tags( $working ); ?></span></li><?php endif; ?>
+					<li><i class="far fa-clock"></i> <strong><?php echo porto_strip_script_tags( $working_label ); ?>:</strong> <span><?php echo force_balance_tags( $working ); ?></span></li><?php endif; ?>
 			</ul>
 			<?php
 			if ( $contact_after ) :
 				?>
-				<?php echo wpautop( do_shortcode( $contact_after ) ); ?><?php endif; ?>
+				<?php echo do_shortcode( $contact_after ); ?><?php endif; ?>
 		</div>
 
 		<?php

@@ -33,7 +33,7 @@ if ( ! $image_count ) {
 							<span class="thumb-info-wrapper">
 								<img class="img-responsive" width="<?php echo esc_attr( $attachment_medium['width'] ); ?>" height="<?php echo esc_attr( $attachment_medium['height'] ); ?>" src="<?php echo esc_url( $attachment_medium['src'] ); ?>" alt="<?php echo esc_attr( $attachment_medium['alt'] ); ?>" />
 								<span class="thumb-info-action">
-									<span class="thumb-info-action-icon thumb-info-action-icon-light" data-src="<?php echo esc_url( $attachment['src'] ); ?>" data-title="<?php echo esc_attr( $attachment['caption'] ); ?>"><i class="fa fa-plus text-dark"></i></span>
+									<span class="thumb-info-action-icon thumb-info-action-icon-light" data-src="<?php echo esc_url( $attachment['src'] ); ?>" data-title="<?php echo esc_attr( $attachment['caption'] ); ?>"><i class="fas fa-plus text-dark"></i></span>
 								</span>
 							</span>
 						</span>
@@ -41,6 +41,12 @@ if ( ! $image_count ) {
 				</div>
 			<?php endforeach; ?>
 		</div>
+
+		<?php if ( isset( $extra_html ) ) : ?>
+			<?php // @codingStandardsIgnoreLine ?>
+			<?php echo porto_filter_output( $extra_html ); ?>
+		<?php endif; ?>
+
 		<?php if ( is_single() && 'advance' === $porto_settings['post-share-position'] ) : ?>
 			<?php get_template_part( 'views/posts/single/share' ); ?>
 		<?php endif; ?>

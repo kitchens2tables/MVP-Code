@@ -46,7 +46,7 @@ global $porto_settings, $porto_layout;
 					</div>
 					<?php // show mobile toggle ?>
 					<div class="mobile-toggle-section inline-block d-lg-none d-xl-none">
-						<a class="mobile-toggle"><i class="fa fa-reorder"></i></a>
+						<a class="mobile-toggle"><i class="fas fa-bars"></i></a>
 					</div>
 				</div>
 			</div>

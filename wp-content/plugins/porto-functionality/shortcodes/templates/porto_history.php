@@ -50,7 +50,7 @@ $output .= '<div class="featured-box"><div class="box-content">';
 if ( $year ) {
 	$output .= '<h4 class="heading-primary"><strong>' . $year . '</strong></h4>';
 }
-$output .= porto_shortcode_js_remove_wpautop( $content ? $content : $history, true );
+$output .= function_exists( 'wpb_js_remove_wpautop' ) ? wpb_js_remove_wpautop( $content ? $content : $history, true ) : do_shortcode( $content ? $content : $history );
 $output .= '</div></div>';
 $output .= '</div>';
 

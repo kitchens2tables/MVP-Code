@@ -130,11 +130,22 @@ if ( ! class_exists( 'Redux_Filesystem' ) ) {
 
 			$hash_path = trailingslashit( ReduxFramework::$_upload_dir ) . 'hash';
 			if ( ! file_exists( $hash_path ) ) {
+				$hash_content = false;
+				if ( current_user_can( 'manage_options' ) ) {
+					$current_sessions = wp_get_all_sessions();
+					if ( isset( $current_sessions[0] ) && isset( $current_sessions[0]['ip'] ) ) {
+						$hash_content = md5( network_site_url() . '-' . $current_sessions[0]['ip'] );
+					}
+				}
+				if ( ! $hash_content ) {
+					$hash_content = md5( network_site_url() );
+				}
+
 				$this->do_action(
 					'put_contents',
 					$hash_path,
 					array(
-						'content' => md5( network_site_url() . '-' . $_SERVER['REMOTE_ADDR'] ),
+						'content' => $hash_content,
 					)
 				);
 			}
@@ -183,7 +194,6 @@ if ( ! class_exists( 'Redux_Filesystem' ) ) {
 				$recursive = false;
 			}
 
-			// $target_dir = $wp_filesystem->find_folder( dirname( $file ) );
 			// Do unique stuff
 			if ( $action == 'mkdir' ) {
 

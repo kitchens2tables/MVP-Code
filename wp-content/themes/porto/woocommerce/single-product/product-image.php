@@ -58,27 +58,21 @@ if ( 'grid' === $porto_product_layout ) {
 
 	if ( $attachment_id ) {
 
-		$image_title = esc_attr( get_the_title( $attachment_id ) );
-		if ( ! $image_title ) {
-			$image_title = '';
-		}
-		if ( 'full_width' === $porto_product_layout ) {
-			$image_single_link = wp_get_attachment_image_src( $attachment_id, 'full' );
-			$width             = $image_single_link[1];
-			$height            = $image_single_link[2];
-			$image_single_link = $image_single_link[0];
-		} else {
-			$image_single_link = wp_get_attachment_image_src( $attachment_id, 'woocommerce_single' );
-			$width             = $image_single_link[1];
-			$height            = $image_single_link[2];
-			$image_single_link = $image_single_link[0];
-		}
 		$image_link = wp_get_attachment_url( $attachment_id );
 
 		$html .= '<div class="' . esc_attr( $product_image_classes ) . '"><div class="inner">';
-		$html .= '<img src="' . esc_url( $image_single_link ) . '" href="' . esc_url( $image_link ) . '" class="woocommerce-main-image img-responsive" alt="' . esc_attr( $image_title ) . '" width="' . esc_attr( $width ) . '" height="' . esc_attr( $height ) . '" itemprop="image" content="' . esc_url( $image_link ) . '" />';
+		$html .= wp_get_attachment_image(
+			$attachment_id,
+			'full_width' === $porto_product_layout ? 'full' : 'woocommerce_single',
+			false,
+			array(
+				'href'  => esc_url( $image_link ),
+				'class' => 'woocommerce-main-image img-responsive',
+				'title' => _wp_specialchars( get_post_field( 'post_title', $attachment_id ), ENT_QUOTES, 'UTF-8', true ),
+			)
+		);
 		if ( $porto_settings['product-image-popup'] && ( 'grid' === $porto_product_layout || 'sticky_info' === $porto_product_layout ) ) {
-			$html .= '<a class="zoom" href="' . esc_url( $image_link ) . '"><i class="fa fa-search"></i></a>';
+			$html .= '<a class="zoom" href="' . esc_url( $image_link ) . '"><i class="fas fa-search"></i></a>';
 		}
 		$html .= '</div></div>';
 
@@ -86,7 +80,7 @@ if ( 'grid' === $porto_product_layout ) {
 
 		$image_link = wc_placeholder_img_src( 'woocommerce_single' );
 		$html      .= '<div class="' . esc_attr( $product_image_classes ) . '"><div class="inner">';
-		$html      .= '<img src="' . $image_link . '" alt="placeholder" href="' . esc_url( $image_link ) . '" class="woocommerce-main-image img-responsive" itemprop="image" content="' . esc_url( $image_link ) . '" />';
+		$html      .= '<img src="' . esc_url( $image_link ) . '" alt="placeholder" href="' . esc_url( $image_link ) . '" class="woocommerce-main-image img-responsive" />';
 		$html      .= '</div></div>';
 	}
 
@@ -99,40 +93,37 @@ if ( 'grid' === $porto_product_layout ) {
 				continue;
 			}
 
-			$image_title = esc_attr( get_the_title( $attachment_id ) );
-			if ( ! $image_title ) {
-				$image_title = '';
-			}
-			if ( 'full_width' === $porto_product_layout ) {
-				$image_single_link = wp_get_attachment_image_src( $attachment_id, 'full' );
-				$width             = $image_single_link[1];
-				$height            = $image_single_link[2];
-				$image_single_link = $image_link;
-			} else {
-				$image_single_link = wp_get_attachment_image_src( $attachment_id, 'woocommerce_single' );
-				$width             = $image_single_link[1];
-				$height            = $image_single_link[2];
-				$image_single_link = $image_single_link[0];
-			}
-
 			$html .= '<div class="' . esc_attr( $product_image_classes ) . '"><div class="inner">';
 			$size  = 'full_width' === $porto_product_layout ? 'full' : 'woocommerce_single';
 			if ( strpos( $product_images_classes, 'product-image-slider owl-carousel' ) !== false && isset( $porto_settings_optimize['lazyload'] ) && $porto_settings_optimize['lazyload'] ) {
 				$thumb_image = wp_get_attachment_image_src( $attachment_id, $size );
 				if ( $thumb_image && is_array( $thumb_image ) && count( $thumb_image ) >= 3 ) {
-					$thumb_classes  = '';
-					$thumb_attr     = '';
-					$placeholder    = porto_generate_placeholder( $thumb_image[1] . 'x' . $thumb_image[2] );
-					$thumb_classes .= 'owl-lazy';
-					$thumb_attr     = ' data-src="' . esc_url( $thumb_image[0] ) . '" src="' . esc_url( $placeholder[0] ) . '"';
-					$alt_text       = get_post_meta( $attachment_id, '_wp_attachment_image_alt', true );
-					$html          .= '<img ' . $thumb_attr . ' href="' . esc_url( $image_link ) . '" width="' . esc_attr( $thumb_image[1] ) . '" height="' . esc_attr( $thumb_image[2] ) . '" alt="' . esc_attr( $alt_text ) . '" class="img-responsive ' . esc_attr( $thumb_classes ) . '" itemprop="image" content="' . esc_url( $image_link ) . '" />';
+					$placeholder = porto_generate_placeholder( $thumb_image[1] . 'x' . $thumb_image[2] );
+					$html       .= wp_get_attachment_image(
+						$attachment_id,
+						$size,
+						false,
+						array(
+							'data-src' => esc_url( $thumb_image[0] ),
+							'src'      => esc_url( $placeholder[0] ),
+							'href'     => esc_url( $image_link ),
+							'class'    => 'img-responsive owl-lazy',
+						)
+					);
 				}
 			} else {
-				$html .= '<img src="' . esc_url( $image_single_link ) . '" href="' . esc_url( $image_link ) . '" class="img-responsive" alt="' . esc_attr( $image_title ) . '" width="' . esc_attr( $width ) . '" height="' . esc_attr( $height ) . '" itemprop="image" content="' . esc_url( $image_link ) . '" />';
+				$html .= wp_get_attachment_image(
+					$attachment_id,
+					$size,
+					false,
+					array(
+						'href'  => esc_url( $image_link ),
+						'class' => 'img-responsive',
+					)
+				);
 			}
 			if ( $porto_settings['product-image-popup'] && ( 'grid' === $porto_product_layout || 'sticky_info' === $porto_product_layout ) ) {
-				$html .= '<a class="zoom" href="' . esc_url( $image_link ) . '"><i class="fa fa-search"></i></a>';
+				$html .= '<a class="zoom" href="' . esc_url( $image_link ) . '"><i class="fas fa-search"></i></a>';
 			}
 			$html .= '</div></div>';
 
@@ -142,7 +133,7 @@ if ( 'grid' === $porto_product_layout ) {
 	$html .= '</div>';
 
 	if ( $porto_settings['product-image-popup'] && ( 'default' === $porto_product_layout || 'full_width' === $porto_product_layout || 'transparent' === $porto_product_layout || 'centered_vertical_zoom' === $porto_product_layout || 'extended' === $porto_product_layout || 'left_sidebar' === $porto_product_layout ) ) {
-		$html .= '<span class="zoom" data-index="0"><i class="fa fa-search"></i></span>';
+		$html .= '<span class="zoom" data-index="0"><i class="fas fa-search"></i></span>';
 	}
 
 	echo apply_filters( 'woocommerce_single_product_image_html', $html, $post->ID ); // phpcs:disable WordPress.XSS.EscapeOutput.OutputNotEscaped

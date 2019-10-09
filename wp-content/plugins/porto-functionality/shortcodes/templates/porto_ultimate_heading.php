@@ -120,7 +120,7 @@ if ( ! function_exists( 'porto_ultimate_heading_spacer' ) ) {
 		if ( 'center' != $alignment ) {
 			$line_style_inline .= 'margin-' . esc_attr( $alignment ) . ': 0';
 		}
-		$wrapper_style .= 'height:' . $line_height . 'px;';
+		$wrapper_style .= 'height:' . esc_attr( $line_height ) . 'px;';
 		$line           = '<span class="porto-u-headings-line" style="' . esc_attr( $line_style_inline ) . '"></span>';
 		$icon_inline    = $line;
 	} elseif ( 'image_only' == $spacer ) {
@@ -191,7 +191,7 @@ if ( ! function_exists( 'porto_ultimate_heading_spacer' ) ) {
 		$output .= porto_ultimate_heading_spacer( $wrapper_class, $wrapper_style, $icon_inline );
 	}
 	if ( $main_heading ) {
-		$output .= '<div class="porto-u-main-heading"><' . $heading_tag . ' style="' . esc_attr( $main_heading_style_inline ) . '">' . $main_heading . '</' . $heading_tag . '></div>';
+		$output .= '<div class="porto-u-main-heading"><' . esc_html( $heading_tag ) . ' style="' . esc_attr( $main_heading_style_inline ) . '">' . wp_kses_post( $main_heading ) . '</' . esc_html( $heading_tag ) . '></div>';
 	}
 	if ( 'middle' == $spacer_position && 'no_spacer' != $spacer ) {
 		$output .= porto_ultimate_heading_spacer( $wrapper_class, $wrapper_style, $icon_inline );

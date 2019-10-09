@@ -166,15 +166,16 @@ h6.text-shadow {
         h1, h2, h3, h4, h5, h6 {
             position: relative;
             display: inline-block;
+            vertical-align: middle;
         }
         h1 {
-            padding-#{$right}: 15px;
+            padding-#{$right}: 20px;
         }
         h2, h3 {
-            padding-#{$right}: 10px;
+            padding-#{$right}: 15px;
         }
         h4, h5, h6 {
-            padding-#{$right}: 5px;
+            padding-#{$right}: 8px;
         }
     }
 
@@ -184,65 +185,67 @@ h6.text-shadow {
             padding-#{$right}: 0;
         }
         h1 {
-            padding-#{$left}: 15px;
+            padding-#{$left}: 20px;
         }
         h2, h3 {
-            padding-#{$left}: 10px;
+            padding-#{$left}: 15px;
         }
         h4, h5, h6 {
-            padding-#{$left}: 5px;
+            padding-#{$left}: 8px;
         }
     }
 
     &.heading-middle-border-center {
         text-align: center;
         h1 {
-            padding-left: 15px;
-            padding-right: 15px;
+            padding-left: 20px;
+            padding-right: 20px;
         }
         h2, h3 {
+            padding-left: 16px;
+            padding-right: 16px;
+        }
+        h4, h5, h6 {
             padding-left: 10px;
             padding-right: 10px;
         }
-        h4, h5, h6 {
-            padding-left: 5px;
-            padding-right: 5px;
-        }
     }
 
-    &.heading-border-xs {
-        h1, h2, h3, h4, h5, h6 {
-            border-bottom-width: 1px;
+    &.heading-border {
+        &.heading-border-xs {
+            h1, h2, h3, h4, h5, h6 {
+                border-bottom-width: 1px;
+            }
+            &:before {
+                border-top-width: 1px;
+            }
         }
-        &:before {
-            border-top-width: 1px;
-        }
-    }
 
-    &.heading-border-sm {
-        h1, h2, h3, h4, h5, h6 {
-            border-bottom-width: 2px;
+        &.heading-border-sm {
+            h1, h2, h3, h4, h5, h6 {
+                border-bottom-width: 2px;
+            }
+            &:before {
+                border-top-width: 2px;
+            }
         }
-        &:before {
-            border-top-width: 2px;
-        }
-    }
 
-    &.heading-border-lg {
-        h1, h2, h3, h4, h5, h6 {
-            border-bottom-width: 3px;
+        &.heading-border-lg {
+            h1, h2, h3, h4, h5, h6 {
+                border-bottom-width: 3px;
+            }
+            &:before {
+                border-top-width: 3px;
+            }
         }
-        &:before {
-            border-top-width: 3px;
-        }
-    }
 
-    &.heading-border-xl {
-        h1, h2, h3, h4, h5, h6 {
-            border-bottom-width: 5px;
-        }
-        &:before {
-            border-top-width: 5px;
+        &.heading-border-xl {
+            h1, h2, h3, h4, h5, h6 {
+                border-bottom-width: 5px;
+            }
+            &:before {
+                border-top-width: 5px;
+            }
         }
     }
 }

@@ -34,14 +34,14 @@ else :
 			<?php if ( $is_google_login ) { ?>
 
 				<a class="button social-button large google-plus" href="<?php echo wp_login_url(); ?>?loginGoogle=1&redirect=<?php echo the_permalink(); ?>" onclick="window.location.href = '<?php echo wp_login_url(); ?>?loginGoogle=1&redirect='+window.location.href return false">
-					<i class="fa fa-google"></i>
+					<i class="fab fa-google"></i>
 					<span><?php esc_html_e( 'Google', 'porto' ); ?></span></a>
 			<?php } ?>
 
 			<?php if ( $is_twitter_login ) { ?>
 
 				<a class="button social-button large twitter" href="<?php echo wp_login_url(); ?>?loginSocial=twitter&redirect=<?php echo the_permalink(); ?>" onclick="window.location.href = '<?php echo wp_login_url(); ?>?loginSocial=twitter&redirect='+window.location.href return false">
-					<i class="fa fa-twitter"></i>
+					<i class="fab fa-twitter"></i>
 					<span><?php esc_html_e( 'Twitter', 'porto' ); ?></span></a>
 			<?php } ?>
 		</div>

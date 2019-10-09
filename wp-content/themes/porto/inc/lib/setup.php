@@ -7,17 +7,22 @@ if ( ! defined( 'ABSPATH' ) ) {
 global $porto_settings;
 
 // Lazy load
-require porto_lib . '/lib/lazy-load/lazy-load.php';
+require PORTO_LIB . '/lib/lazy-load/lazy-load.php';
 
 // Infinite Scroll
-require porto_lib . '/lib/infinite-scroll/infinite-scroll.php';
+require PORTO_LIB . '/lib/infinite-scroll/infinite-scroll.php';
 
 // Image Swatch
 if ( class_exists( 'Woocommerce' ) ) {
-	require porto_lib . '/lib/woocommerce-swatches/woocommerce-swatches.php';
+	require PORTO_LIB . '/lib/woocommerce-swatches/woocommerce-swatches.php';
 }
 
 // Live Search
 if ( isset( $porto_settings['search-live'] ) && $porto_settings['search-live'] ) {
-	require porto_lib . '/lib/live-search/live-search.php';
+	require PORTO_LIB . '/lib/live-search/live-search.php';
+}
+
+// Porto Studio
+if ( class_exists( 'Vc_Manager' ) && ( ( is_admin() && ( 'post.php' == $GLOBALS['pagenow'] || 'post-new.php' == $GLOBALS['pagenow'] || porto_is_ajax() ) ) || ( isset( $_REQUEST['vc_editable'] ) && $_REQUEST['vc_editable'] ) ) && ( current_user_can( 'edit_posts' ) || current_user_can( 'edit_pages' ) ) ) {
+	require_once PORTO_LIB . '/lib/porto-studio/porto-studio.php';
 }

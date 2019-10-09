@@ -38,7 +38,7 @@ if ( 'without-icon' == $porto_settings['post-title-style'] ) {
 	?>
 
 	<div class="post-content">
-		<?php if ( $porto_settings['post-title'] ) : ?>
+		<?php if ( $porto_settings['post-title'] && ( ! isset( $porto_settings['post-replace-pos'] ) || ! $porto_settings['post-replace-pos'] ) ) : ?>
 			<h2 class="entry-title"><?php the_title(); ?></h2>
 		<?php endif; ?>
 		<?php porto_render_rich_snippets( false ); ?>
@@ -46,23 +46,23 @@ if ( 'without-icon' == $porto_settings['post-title-style'] ) {
 			<?php
 			if ( in_array( 'author', $porto_settings['post-metas'] ) ) :
 				?>
-				<span class="meta-author"><i class="fa fa-user"></i> <?php esc_html_e( 'By', 'porto' ); ?> <?php the_author_posts_link(); ?></span><?php endif; ?>
+				<span class="meta-author"><i class="far fa-user"></i> <?php esc_html_e( 'By', 'porto' ); ?> <?php the_author_posts_link(); ?></span><?php endif; ?>
 			<?php
 			$cats_list = get_the_category_list( ', ' );
 			if ( $cats_list && in_array( 'cats', $porto_settings['post-metas'] ) ) :
 				?>
-				<span class="meta-cats"><i class="fa fa-folder-open"></i> <?php echo porto_filter_output( $cats_list ); ?></span>
+				<span class="meta-cats"><i class="far fa-folder"></i> <?php echo porto_filter_output( $cats_list ); ?></span>
 			<?php endif; ?>
 			<?php
 			$tags_list = get_the_tag_list( '', ', ' );
 			if ( $tags_list && in_array( 'tags', $porto_settings['post-metas'] ) ) :
 				?>
-				<span class="meta-tags"><i class="fa fa-tag"></i> <?php echo porto_filter_output( $tags_list ); ?></span>
+				<span class="meta-tags"><i class="far fa-envelope"></i> <?php echo porto_filter_output( $tags_list ); ?></span>
 			<?php endif; ?>
 			<?php
 			if ( in_array( 'comments', $porto_settings['post-metas'] ) ) :
 				?>
-				<span class="meta-comments"><i class="fa fa-comments"></i> <?php comments_popup_link( __( '0 Comments', 'porto' ), __( '1 Comment', 'porto' ), '% ' . __( 'Comments', 'porto' ) ); ?></span><?php endif; ?>
+				<span class="meta-comments"><i class="far fa-comments"></i> <?php comments_popup_link( __( '0 Comments', 'porto' ), __( '1 Comment', 'porto' ), '% ' . __( 'Comments', 'porto' ) ); ?></span><?php endif; ?>
 			<?php if ( in_array( 'like', $porto_settings['post-metas'] ) ) : ?>
 				<span class="meta-like">
 					<?php echo porto_blog_like(); ?>
@@ -74,6 +74,10 @@ if ( 'without-icon' == $porto_settings['post-title-style'] ) {
 			}
 			?>
 		</div>
+
+		<?php if ( $porto_settings['post-title'] && isset( $porto_settings['post-replace-pos'] ) && $porto_settings['post-replace-pos'] ) : ?>
+			<h2 class="entry-title"><?php the_title(); ?></h2>
+		<?php endif; ?>
 
 		<div class="entry-content">
 			<?php

@@ -1,7 +1,7 @@
 <?php
 global $porto_settings, $porto_layout;
 ?>
-<header id="header" class="header-side sticky-menu-header<?php echo ! $porto_settings['logo-overlay'] || ! $porto_settings['logo-overlay']['url'] ? '' : ' logo-overlay-header'; ?>">
+<header id="header" class="header-side sticky-menu-header<?php echo ! $porto_settings['logo-overlay'] || ! $porto_settings['logo-overlay']['url'] ? '' : ' logo-overlay-header'; ?>" data-plugin-sticky data-plugin-options="<?php echo esc_attr( '{"autoInit": true, "minWidth": 992, "containerSelector": ".page-wrapper","autoFit":true, "paddingOffsetBottom": 0, "paddingOffsetTop": 0}' ); ?>">
 	<div class="header-main<?php echo ! $porto_settings['show-minicart'] || ! class_exists( 'WooCommerce' ) ? '' : ' show-minicart'; ?>">
 
 		<div class="side-top">
@@ -48,7 +48,7 @@ global $porto_settings, $porto_layout;
 					echo porto_filter_output( $sidebar_menu );
 				endif;
 				?>
-				<a class="mobile-toggle"><i class="fa fa-reorder"></i></a>
+				<a class="mobile-toggle"><i class="fas fa-bars"></i></a>
 
 				<div class="d-xl-none d-lg-none inline-block">
 					<?php echo porto_filter_output( $minicart ); ?>

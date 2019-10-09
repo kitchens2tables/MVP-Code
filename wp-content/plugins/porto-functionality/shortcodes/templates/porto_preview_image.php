@@ -29,6 +29,8 @@ if ( ! $image_url && $image_id ) {
 $image_url = str_replace( array( 'http:', 'https:' ), '', $image_url );
 
 if ( $image_url ) {
+	wp_enqueue_script( 'jquery-lazyload' );
+
 	$output = '<div class="porto-preview-image ' . esc_attr( $el_class ) . '">';
 
 	//parse link
@@ -66,7 +68,7 @@ if ( $image_url ) {
 		( $noborders ? ' thumb-info-no-borders' : '' ) .
 		( $boxshadow ? ' thumb-info-box-shadow' : '' ) .
 		'">' . ( $tip_label ? '<span class="thumb-info-ribbon' . ( ( 'custom' != $tip_skin ) ? ' thumb-info-ribbon-' . $tip_skin : '' ) . '"><span>' . $tip_label . '</span></span>' : '' ) . '<span class="thumb-info-wrapper">
-		<span data-src="' . esc_url( $image_url ) . '" data-image="' . esc_url( $image_url ) . '" class="lazy thumb-info-image"' . $style . ' data-plugin-lazyload data-plugin-options="{\'appearEffect\': \'animated fadeIn\'}"></span><i class="fa fa-spinner fa-spin fa-fw"></i></span></span>';
+		<span data-src="' . esc_url( $image_url ) . '" data-image="' . esc_url( $image_url ) . '" class="lazy thumb-info-image"' . $style . ' data-plugin-lazyload data-plugin-options="{\'appearEffect\': \'animated fadeIn\'}"></span><i class="fas fa-spinner fa-spin fa-fw"></i></span></span>';
 
 	if ( $use_link ) {
 		$output .= '</a>';

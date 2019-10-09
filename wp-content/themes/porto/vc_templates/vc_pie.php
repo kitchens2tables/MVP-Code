@@ -44,8 +44,6 @@ if ( 'default' == $type ) {
 			$wp_scripts = wp_scripts();
 			$src        = $wp_scripts->registered['vc_pie']->src;
 			echo "<script type='text/javascript' src='" . esc_url( $src ) . "'></script>";
-			wp_dequeue_script( 'vc_pie' );
-			wp_deregister_script( 'vc_pie' );
 		}
 	} else {
 		wp_enqueue_script( 'vc_pie' );

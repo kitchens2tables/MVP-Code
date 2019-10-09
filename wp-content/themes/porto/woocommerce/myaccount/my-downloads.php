@@ -1,6 +1,6 @@
 <?php
 /**
- * My Downloads
+ * My Downloads - Deprecated
  *
  * Shows downloads on the account page.
  *
@@ -8,18 +8,18 @@
  * @depreacated 2.6.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
-if ( $downloads = WC()->customer->get_downloadable_products() ) : ?>
+$downloads = WC()->customer->get_downloadable_products();
+
+if ( $downloads ) : ?>
 
 	<div class="featured-box featured-box-primary align-left m-t-lg">
 		<div class="box-content">
 
 			<?php do_action( 'woocommerce_before_available_downloads' ); ?>
 
-			<h2><?php echo apply_filters( 'woocommerce_my_account_my_downloads_title', __( 'Available Downloads', 'porto' ) ); ?></h2>
+			<h2><?php echo apply_filters( 'woocommerce_my_account_my_downloads_title', esc_html__( 'Available Downloads', 'porto' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></h2>
 
 			<ul class="digital-downloads">
 				<?php foreach ( $downloads as $download ) : ?>
@@ -29,10 +29,11 @@ if ( $downloads = WC()->customer->get_downloadable_products() ) : ?>
 
 						if ( is_numeric( $download['downloads_remaining'] ) ) {
 							$downloads_remain = $download['downloads_remaining'];
-							echo apply_filters( 'woocommerce_available_download_count', '<span class="count">' . sprintf( _n( '%s download remaining', '%s downloads remaining', $downloads_remain, 'woocommerce' ), $downloads_remain ) . '</span> ', $download );
+							/* translators: %s product name */
+							echo apply_filters( 'woocommerce_available_download_count', '<span class="count">' . sprintf( _n( '%s download remaining', '%s downloads remaining', $downloads_remain, 'woocommerce' ), $downloads_remain ) . '</span> ', $download ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						}
 
-							echo apply_filters( 'woocommerce_available_download_link', '<a href="' . esc_url( $download['download_url'] ) . '">' . $download['download_name'] . '</a>', $download );
+							echo apply_filters( 'woocommerce_available_download_link', '<a href="' . esc_url( $download['download_url'] ) . '">' . $download['download_name'] . '</a>', $download ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 							do_action( 'woocommerce_available_download_end', $download );
 						?>

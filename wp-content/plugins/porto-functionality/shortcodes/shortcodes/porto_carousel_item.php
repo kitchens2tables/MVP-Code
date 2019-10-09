@@ -71,14 +71,15 @@ function porto_load_carousel_item_shortcode() {
 					),
 				),
 				array(
-					'type'        => 'textfield',
-					'heading'     => __( 'Image Size', 'porto-functionality' ),
-					'description' => __( 'Enter image size name or in pixels. Example: full, large, thumbnail or 200x100 (Width x Height).', 'porto-functionality' ),
-					'param_name'  => 'image_size',
+					'type'       => 'dropdown',
+					'heading'    => __( 'Image Size', 'porto-functionality' ),
+					'param_name' => 'image_size',
 					'dependency'  => array(
 						'element' => 'type',
 						'value'   => array( 'lazyload' ),
 					),
+					'value'      => porto_sh_commons( 'image_sizes' ),
+					'std'        => '',
 				),
 				array(
 					'type'       => 'textfield',

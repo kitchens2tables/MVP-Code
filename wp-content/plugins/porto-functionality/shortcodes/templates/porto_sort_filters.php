@@ -15,6 +15,8 @@ extract(
 	)
 );
 
+wp_enqueue_script( 'isotope' );
+
 $el_class = porto_shortcode_extract_class( $el_class );
 
 $output = '<div class="porto-sort-filters ' . esc_attr( $el_class ) . '"';

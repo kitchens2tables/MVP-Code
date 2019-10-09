@@ -44,6 +44,12 @@
         font-weight: $font-weight-bold;
     }
 }
+.font-weight-medium {
+    font-weight: 500;
+}
+.font-weight-extra-bold {
+    font-weight: $font-weight-extrabold;
+}
 
 // TEXT OTHERS
 // -----------------------------------------------------------------------------
@@ -63,7 +69,6 @@
 .mfp-close,
 .mfp-close-btn-in .mfp-close {
     text-indent: -9999px;
-    -ms-transform: rotateZ(45deg);
     -webkit-transform: rotateZ(45deg);
     transform: rotateZ(45deg);
     width: 41px;
@@ -115,8 +120,11 @@
 .mfp-wrap {
     direction: ltr;
 
-    html.browser-rtl & {
+    body.rtl & {
         direction: rtl;
+    }
+    ~ .select2-container {
+        z-index: 9043;
     }
 }
 
@@ -156,7 +164,7 @@
     .mfp-container, &.mfp-bg {
         opacity: 0.001;
         -webkit-backface-visibility: hidden;
-        @include transition(all 0.3s ease-out);
+        @include transition(all .3s ease-out);
     }
     &.mfp-ready {
         .mfp-container {
@@ -177,21 +185,21 @@
 .my-mfp-zoom-in {
     .zoom-anim-dialog {
         opacity: 0;
-        @include transition(all 0.2s ease-in-out);
-        @include transform(scale(0.8));
+        @include transition(all .2s ease-in-out);
+        transform: scale(0.8);
     }
     &.mfp-ready .zoom-anim-dialog {
         opacity: 1;
-        @include transform(scale(1));
+        transform: scale(1);
     }
     &.mfp-removing .zoom-anim-dialog {
-        @include transform(scale(0.8));
+        transform: scale(0.8);
         opacity: 0;
     }
     &.mfp-bg {
         opacity: 0.001;
         /* Chrome opacity transition bug */
-        @include transition(opacity 0.3s ease-out);
+        @include transition(opacity .3s ease-out);
     }
     &.mfp-ready.mfp-bg {
         opacity: 0.8;
@@ -204,20 +212,20 @@
 .my-mfp-slide-bottom {
     .zoom-anim-dialog {
         opacity: 0;
-        @include transition(all 0.2s ease-out);
-        @include transform(translateY(-20px) perspective(600px) rotateX(10deg));
+        @include transition(all .2s ease-out);
+        transform: translateY(-20px) perspective(600px) rotateX(10deg);
     }
     &.mfp-ready .zoom-anim-dialog {
         opacity: 1;
-        @include transform(translateY(0) perspective(600px) rotateX(0));
+        transform: translateY(0) perspective(600px) rotateX(0);
     }
     &.mfp-removing .zoom-anim-dialog {
         opacity: 0;
-        @include transform(translateY(-10px) perspective(600px) rotateX(10deg));
+        transform: translateY(-10px) perspective(600px) rotateX(10deg);
     }
     &.mfp-bg {
         opacity: 0.01;
-        @include transition(opacity 0.3s ease-out);
+        @include transition(opacity .3s ease-out);
     }
     &.mfp-ready.mfp-bg {
         opacity: 0.8;

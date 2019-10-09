@@ -179,7 +179,7 @@ if ( ! class_exists( 'ReduxFramework_image_select' ) ) {
 					if ( ! empty( $this->field['tiles'] ) && $this->field['tiles'] == true ) {
 						echo '<span class="tiles ' . $v['class'] . '" style="background-image: url(' . $v['img'] . ');" rel="' . $v['img'] . '"">&nbsp;</span>';
 					} else {
-						echo '<img data-original="' . $v['img'] . '" src="' . porto_uri . '/images/lazy.png" title="' . $v['alt'] . '" alt="' . $v['alt'] . '" class="' . $v['class'] . '" style="' . $style . '"' . $presets . $merge . ' />';
+						echo '<img data-original="' . $v['img'] . '" src="' . PORTO_URI . '/images/lazy.png" title="' . $v['alt'] . '" alt="' . $v['alt'] . '" class="' . $v['class'] . '" style="' . $style . '"' . $presets . $merge . ' />';
 					}
 
 					if ( $v['title'] != '' ) {

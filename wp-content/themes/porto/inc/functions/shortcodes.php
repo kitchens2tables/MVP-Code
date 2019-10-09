@@ -1,19 +1,6 @@
 <?php
 
-add_filter( 'the_excerpt', 'shortcode_unautop' );
 add_filter( 'the_excerpt', 'do_shortcode' );
-function porto_clean_shortcodes( $content ) {
-	$array = array(
-		'<p>['    => '[',
-		']</p>'   => ']',
-		']<br />' => ']',
-	);
-
-	$content = strtr( $content, $array );
-	$content = preg_replace( '/<br \/>.\[/s', '[', $content );
-	return $content;
-}
-//add_filter( 'the_content', 'porto_clean_shortcodes' );
 
 // Replace rows and columns classes
 function porto_custom_css_classes_for_elements( $class_string, $tag ) {
@@ -21,7 +8,7 @@ function porto_custom_css_classes_for_elements( $class_string, $tag ) {
 	if ( 'vc_row' == $tag || 'vc_row_inner' == $tag ) {
 		if ( strpos( $class_string, 'porto-inner-container' ) !== false ) {
 			$class_string = str_replace( 'vc_row-fluid', '', $class_string );
-			$class_string = str_replace( ' porto-inner-container', '', $class_string );
+			//$class_string = str_replace( ' porto-inner-container', '', $class_string );
 		} else {
 			$class_string = str_replace( 'vc_row-fluid', 'row', $class_string );
 		}
@@ -46,6 +33,7 @@ function porto_custom_css_classes_for_elements( $class_string, $tag ) {
 			}
 			if ( preg_match( '/col-(\w{2})-(\d{1})\/5/', $class_string ) ) {
 				$class_string = str_replace( 'vc_column_container', 'vc_column_container porto-column', $class_string );
+				$class_string = preg_replace( '/ col-(\w{2})-12/', '', $class_string );
 			}
 			if ( preg_match( '/vc_hidden-(\w{2})/', $class_string ) ) {
 				$class_string = str_replace( array( 'vc_hidden-lg', 'vc_hidden-md', 'vc_hidden-sm', 'vc_hidden-xs' ), array( 'd-xl-none', 'd-lg-none d-xl-block', 'd-md-none d-lg-block', 'd-none d-md-block' ), $class_string );
@@ -109,6 +97,58 @@ function porto_load_shortcodes() {
 			'param_name'  => 'animation_delay',
 			'description' => __( 'numerical value (unit: milliseconds)', 'porto' ),
 			'value'       => '0',
+			'group'       => $animation_group,
+		);
+
+		$floating_start_pos  = array(
+			'type'       => 'dropdown',
+			'heading'    => __( 'Floating Start Pos', 'porto' ),
+			'param_name' => 'floating_start_pos',
+			'value'      => array(
+				__( 'Disabled', 'porto' ) => '',
+				__( 'None', 'porto' )     => 'none',
+				__( 'Top', 'porto' )      => 'top',
+				__( 'Bottom', 'porto' )   => 'bottom',
+			),
+			'dependency'  => array(
+				'element' => 'animation_type',
+				'value'   => array( '' ),
+			),
+			'group'      => $animation_group,
+		);
+		$floating_speed      = array(
+			'type'        => 'textfield',
+			'heading'     => __( 'Floating Speed', 'porto' ),
+			'param_name'  => 'floating_speed',
+			'description' => __( 'numerical value (from 0.0 to 10.0)', 'porto' ),
+			'value'       => '',
+			'dependency'  => array(
+				'element' => 'animation_type',
+				'value'   => array( '' ),
+			),
+			'group'       => $animation_group,
+		);
+		$floating_transition = array(
+			'type'        => 'checkbox',
+			'heading'     => __( 'Floating Transition', 'porto' ),
+			'param_name'  => 'floating_transition',
+			'value'       => array( __( 'Yes, please', 'js_composer' ) => 'yes' ),
+			'std'         => 'yes',
+			'dependency'  => array(
+				'element' => 'animation_type',
+				'value'   => array( '' ),
+			),
+			'group'       => $animation_group,
+		);
+		$floating_horizontal = array(
+			'type'        => 'checkbox',
+			'heading'     => __( 'Floating Horizontal', 'porto' ),
+			'param_name'  => 'floating_horizontal',
+			'value'       => array( __( 'Yes, please', 'js_composer' ) => 'yes' ),
+			'dependency'  => array(
+				'element' => 'animation_type',
+				'value'   => array( '' ),
+			),
 			'group'       => $animation_group,
 		);
 
@@ -1258,6 +1298,28 @@ function porto_load_shortcodes() {
 			'vc_custom_heading',
 			array(
 				'type'       => 'dropdown',
+				'heading'    => __( 'Font Weight', 'porto' ),
+				'param_name' => 'font_weight',
+				'std'        => '',
+				'value'      => array(
+					__( 'Default', 'porto' ) => '',
+					'100'                    => '100',
+					'200'                    => '200',
+					'300'                    => '300',
+					'400'                    => '400',
+					'500'                    => '500',
+					'600'                    => '600',
+					'700'                    => '700',
+					'800'                    => '800',
+					'900'                    => '900',
+				),
+				'group'      => $section_group,
+			)
+		);
+		vc_add_param(
+			'vc_custom_heading',
+			array(
+				'type'       => 'dropdown',
 				'heading'    => __( 'Skin Color', 'porto' ),
 				'param_name' => 'skin',
 				'std'        => 'custom',
@@ -1331,6 +1393,15 @@ function porto_load_shortcodes() {
 				'group'      => $section_group,
 			)
 		);
+		vc_remove_param( 'vc_custom_heading', 'css_animation' );
+		vc_add_param( 'vc_custom_heading', $animation_type );
+		vc_add_param( 'vc_custom_heading', $animation_duration );
+		vc_add_param( 'vc_custom_heading', $animation_delay );
+
+		vc_add_param( 'vc_custom_heading', $floating_start_pos );
+		vc_add_param( 'vc_custom_heading', $floating_speed );
+		vc_add_param( 'vc_custom_heading', $floating_transition );
+		vc_add_param( 'vc_custom_heading', $floating_horizontal );
 
 		/* ---------------------------- */
 		/* Customize Tabs, Tab
@@ -2332,6 +2403,16 @@ function porto_load_shortcodes() {
 		$param['std'] = 'classic';
 		vc_update_shortcode_param( 'vc_btn', $param );
 
+		vc_remove_param( 'vc_btn', 'css_animation' );
+		vc_add_param( 'vc_btn', $animation_type );
+		vc_add_param( 'vc_btn', $animation_duration );
+		vc_add_param( 'vc_btn', $animation_delay );
+
+		vc_add_param( 'vc_btn', $floating_start_pos );
+		vc_add_param( 'vc_btn', $floating_speed );
+		vc_add_param( 'vc_btn', $floating_transition );
+		vc_add_param( 'vc_btn', $floating_horizontal );
+
 		/* ---------------------------- */
 		/* Add Single Image Parameters
 		/* ---------------------------- */
@@ -2404,6 +2485,11 @@ function porto_load_shortcodes() {
 		vc_add_param( 'vc_single_image', $animation_type );
 		vc_add_param( 'vc_single_image', $animation_duration );
 		vc_add_param( 'vc_single_image', $animation_delay );
+
+		vc_add_param( 'vc_single_image', $floating_start_pos );
+		vc_add_param( 'vc_single_image', $floating_speed );
+		vc_add_param( 'vc_single_image', $floating_transition );
+		vc_add_param( 'vc_single_image', $floating_horizontal );
 
 		/* ---------------------------- */
 		/* Customize Progress Bar
@@ -3095,214 +3181,6 @@ function porto_vc_remove_deprecated_css_class( $output ) {
 	return $output;
 }
 
-
-// Add simple line icon font
-if ( ! function_exists( 'vc_iconpicker_type_simpleline' ) ) {
-	add_filter( 'vc_iconpicker-type-simpleline', 'vc_iconpicker_type_simpleline' );
-
-	function vc_iconpicker_type_simpleline( $icons ) {
-		$simpleline_icons = array(
-			array( 'Simple-Line-Icons-user' => 'User' ),
-			array( 'Simple-Line-Icons-people' => 'People' ),
-			array( 'Simple-Line-Icons-user-female' => 'User Female' ),
-			array( 'Simple-Line-Icons-user-follow' => 'User Follow' ),
-			array( 'Simple-Line-Icons-user-following' => 'User Following' ),
-			array( 'Simple-Line-Icons-user-unfollow' => 'User Unfollow' ),
-			array( 'Simple-Line-Icons-login' => 'Login' ),
-			array( 'Simple-Line-Icons-logout' => 'Logout' ),
-			array( 'Simple-Line-Icons-emotsmile' => 'Emotsmile' ),
-			array( 'Simple-Line-Icons-phone' => 'Phone' ),
-			array( 'Simple-Line-Icons-call-end' => 'Call End' ),
-			array( 'Simple-Line-Icons-call-in' => 'Call In' ),
-			array( 'Simple-Line-Icons-call-out' => 'Call Out' ),
-			array( 'Simple-Line-Icons-map' => 'Map' ),
-			array( 'Simple-Line-Icons-location-pin' => 'Location Pin' ),
-			array( 'Simple-Line-Icons-direction' => 'Direction' ),
-			array( 'Simple-Line-Icons-directions' => 'Directions' ),
-			array( 'Simple-Line-Icons-compass' => 'Compass' ),
-			array( 'Simple-Line-Icons-layers' => 'Layers' ),
-			array( 'Simple-Line-Icons-menu' => 'Menu' ),
-			array( 'Simple-Line-Icons-list' => 'List' ),
-			array( 'Simple-Line-Icons-options-vertical' => 'Options Vertical' ),
-			array( 'Simple-Line-Icons-options' => 'Options' ),
-			array( 'Simple-Line-Icons-arrow-down' => 'Arrow Down' ),
-			array( 'Simple-Line-Icons-arrow-left' => 'Arrow Left' ),
-			array( 'Simple-Line-Icons-arrow-right' => 'Arrow Right' ),
-			array( 'Simple-Line-Icons-arrow-up' => 'Arrow Up' ),
-			array( 'Simple-Line-Icons-arrow-up-circle' => 'Arrow Up Circle' ),
-			array( 'Simple-Line-Icons-arrow-left-circle' => 'Arrow Left Circle' ),
-			array( 'Simple-Line-Icons-arrow-right-circle' => 'Arrow Right Circle' ),
-			array( 'Simple-Line-Icons-arrow-down-circle' => 'Arrow Down Circle' ),
-			array( 'Simple-Line-Icons-check' => 'Check' ),
-			array( 'Simple-Line-Icons-clock' => 'Clock' ),
-			array( 'Simple-Line-Icons-plus' => 'Plus' ),
-			array( 'Simple-Line-Icons-minus' => 'Minus' ),
-			array( 'Simple-Line-Icons-close' => 'Close' ),
-			array( 'Simple-Line-Icons-event' => 'Event' ),
-			array( 'Simple-Line-Icons-exclamation' => 'Exclamation' ),
-			array( 'Simple-Line-Icons-organization' => 'Organization' ),
-			array( 'Simple-Line-Icons-trophy' => 'Trophy' ),
-			array( 'Simple-Line-Icons-screen-smartphone' => 'Smartphone' ),
-			array( 'Simple-Line-Icons-screen-desktop' => 'Desktop' ),
-			array( 'Simple-Line-Icons-plane' => 'Plane' ),
-			array( 'Simple-Line-Icons-notebook' => 'Notebook' ),
-			array( 'Simple-Line-Icons-mustache' => 'Mustache' ),
-			array( 'Simple-Line-Icons-mouse' => 'Mouse' ),
-			array( 'Simple-Line-Icons-magnet' => 'Magnet' ),
-			array( 'Simple-Line-Icons-energy' => 'Energy' ),
-			array( 'Simple-Line-Icons-disc' => 'Disc' ),
-			array( 'Simple-Line-Icons-cursor' => 'Cursor' ),
-			array( 'Simple-Line-Icons-cursor-move' => 'Cursor Move' ),
-			array( 'Simple-Line-Icons-crop' => 'Crop' ),
-			array( 'Simple-Line-Icons-chemistry' => 'Chemistry' ),
-			array( 'Simple-Line-Icons-speedometer' => 'Speedometer' ),
-			array( 'Simple-Line-Icons-shield' => 'Shield' ),
-			array( 'Simple-Line-Icons-screen-tablet' => 'Tablet' ),
-			array( 'Simple-Line-Icons-magic-wand' => 'Magic Wand' ),
-			array( 'Simple-Line-Icons-hourglass' => 'Hourglass' ),
-			array( 'Simple-Line-Icons-graduation' => 'Graduation' ),
-			array( 'Simple-Line-Icons-ghost' => 'Ghost' ),
-			array( 'Simple-Line-Icons-game-controller' => 'Game Controller' ),
-			array( 'Simple-Line-Icons-fire' => 'Fire' ),
-			array( 'Simple-Line-Icons-eyeglass' => 'Eyeglass' ),
-			array( 'Simple-Line-Icons-envelope-open' => 'Envelope Open' ),
-			array( 'Simple-Line-Icons-envelope-letter' => 'Envelope Letter' ),
-			array( 'Simple-Line-Icons-bell' => 'Bell' ),
-			array( 'Simple-Line-Icons-badge' => 'Badge' ),
-			array( 'Simple-Line-Icons-anchor' => 'Anchor' ),
-			array( 'Simple-Line-Icons-wallet' => 'Wallet' ),
-			array( 'Simple-Line-Icons-vector' => 'Vector' ),
-			array( 'Simple-Line-Icons-speech' => 'Speech' ),
-			array( 'Simple-Line-Icons-puzzle' => 'Puzzle' ),
-			array( 'Simple-Line-Icons-printer' => 'Printer' ),
-			array( 'Simple-Line-Icons-present' => 'Present' ),
-			array( 'Simple-Line-Icons-playlist' => 'Playlist' ),
-			array( 'Simple-Line-Icons-pin' => 'Pin' ),
-			array( 'Simple-Line-Icons-picture' => 'Picture' ),
-			array( 'Simple-Line-Icons-handbag' => 'Handbag' ),
-			array( 'Simple-Line-Icons-globe-alt' => 'Globe Alt' ),
-			array( 'Simple-Line-Icons-globe' => 'Globe' ),
-			array( 'Simple-Line-Icons-folder-alt' => 'Folder Alt' ),
-			array( 'Simple-Line-Icons-folder' => 'Folder' ),
-			array( 'Simple-Line-Icons-film' => 'Film' ),
-			array( 'Simple-Line-Icons-feed' => 'Feed' ),
-			array( 'Simple-Line-Icons-drop' => 'Drop' ),
-			array( 'Simple-Line-Icons-drawer' => 'Drawer' ),
-			array( 'Simple-Line-Icons-docs' => 'Docs' ),
-			array( 'Simple-Line-Icons-doc' => 'Doc' ),
-			array( 'Simple-Line-Icons-diamond' => 'Diamond' ),
-			array( 'Simple-Line-Icons-cup' => 'Cup' ),
-			array( 'Simple-Line-Icons-calculator' => 'Calculator' ),
-			array( 'Simple-Line-Icons-bubbles' => 'Bubbles' ),
-			array( 'Simple-Line-Icons-briefcase' => 'Briefcase' ),
-			array( 'Simple-Line-Icons-book-open' => 'Book Open' ),
-			array( 'Simple-Line-Icons-basket-loaded' => 'Basket Loaded' ),
-			array( 'Simple-Line-Icons-basket' => 'Basket' ),
-			array( 'Simple-Line-Icons-bag' => 'Bag' ),
-			array( 'Simple-Line-Icons-action-undo' => 'Action Undo' ),
-			array( 'Simple-Line-Icons-action-redo' => 'Action Redo' ),
-			array( 'Simple-Line-Icons-wrench' => 'Wrench' ),
-			array( 'Simple-Line-Icons-umbrella' => 'Umbrella' ),
-			array( 'Simple-Line-Icons-trash' => 'Trash' ),
-			array( 'Simple-Line-Icons-tag' => 'Tag' ),
-			array( 'Simple-Line-Icons-support' => 'Support' ),
-			array( 'Simple-Line-Icons-frame' => 'Frame' ),
-			array( 'Simple-Line-Icons-size-fullscreen' => 'Size Fullscreen' ),
-			array( 'Simple-Line-Icons-size-actual' => 'Size Actual' ),
-			array( 'Simple-Line-Icons-shuffle' => 'Shuffle' ),
-			array( 'Simple-Line-Icons-share-alt' => 'Share Alt' ),
-			array( 'Simple-Line-Icons-share' => 'Share' ),
-			array( 'Simple-Line-Icons-rocket' => 'Rocket' ),
-			array( 'Simple-Line-Icons-question' => 'Question' ),
-			array( 'Simple-Line-Icons-pie-chart' => 'Pie Chart' ),
-			array( 'Simple-Line-Icons-pencil' => 'Pencil' ),
-			array( 'Simple-Line-Icons-note' => 'Note' ),
-			array( 'Simple-Line-Icons-loop' => 'Loop' ),
-			array( 'Simple-Line-Icons-home' => 'Home' ),
-			array( 'Simple-Line-Icons-grid' => 'Grid' ),
-			array( 'Simple-Line-Icons-graph' => 'Graph' ),
-			array( 'Simple-Line-Icons-microphone' => 'Microphone' ),
-			array( 'Simple-Line-Icons-music-tone-alt' => 'Music Tone Alt' ),
-			array( 'Simple-Line-Icons-music-tone' => 'Music Tone' ),
-			array( 'Simple-Line-Icons-earphones-alt' => 'Earphones Alt' ),
-			array( 'Simple-Line-Icons-earphones' => 'Earphones' ),
-			array( 'Simple-Line-Icons-equalizer' => 'Equalizer' ),
-			array( 'Simple-Line-Icons-like' => 'Like' ),
-			array( 'Simple-Line-Icons-dislike' => 'Dislike' ),
-			array( 'Simple-Line-Icons-control-start' => 'Control Start' ),
-			array( 'Simple-Line-Icons-control-rewind' => 'Control Rewind' ),
-			array( 'Simple-Line-Icons-control-play' => 'Control Play' ),
-			array( 'Simple-Line-Icons-control-pause' => 'Control Pause' ),
-			array( 'Simple-Line-Icons-control-forward' => 'Control Forward' ),
-			array( 'Simple-Line-Icons-control-end' => 'Control End' ),
-			array( 'Simple-Line-Icons-volume-1' => 'Volume 1' ),
-			array( 'Simple-Line-Icons-volume-2' => 'Volume 2' ),
-			array( 'Simple-Line-Icons-volume-off' => 'Volume Off' ),
-			array( 'Simple-Line-Icons-calendar' => 'Calendar' ),
-			array( 'Simple-Line-Icons-bulb' => 'Bulb' ),
-			array( 'Simple-Line-Icons-chart' => 'Chart' ),
-			array( 'Simple-Line-Icons-ban' => 'Ban' ),
-			array( 'Simple-Line-Icons-bubble' => 'Bubble' ),
-			array( 'Simple-Line-Icons-camcorder' => 'Camcorder' ),
-			array( 'Simple-Line-Icons-camera' => 'Camera' ),
-			array( 'Simple-Line-Icons-cloud-download' => 'Cloud Download' ),
-			array( 'Simple-Line-Icons-cloud-upload' => 'Cloud Upload' ),
-			array( 'Simple-Line-Icons-envelope' => 'Envelope' ),
-			array( 'Simple-Line-Icons-eye' => 'Eye' ),
-			array( 'Simple-Line-Icons-flag' => 'Flag' ),
-			array( 'Simple-Line-Icons-heart' => 'Heart' ),
-			array( 'Simple-Line-Icons-info' => 'Info' ),
-			array( 'Simple-Line-Icons-key' => 'Key' ),
-			array( 'Simple-Line-Icons-link' => 'Link' ),
-			array( 'Simple-Line-Icons-lock' => 'Lock' ),
-			array( 'Simple-Line-Icons-lock-open' => 'Lock Open' ),
-			array( 'Simple-Line-Icons-magnifier' => 'Magnifier' ),
-			array( 'Simple-Line-Icons-magnifier-add' => 'Magnifier Add' ),
-			array( 'Simple-Line-Icons-magnifier-remove' => 'Magnifier Remove' ),
-			array( 'Simple-Line-Icons-paper-clip' => 'Paper Clip' ),
-			array( 'Simple-Line-Icons-paper-plane' => 'Paper Plane' ),
-			array( 'Simple-Line-Icons-power' => 'Power' ),
-			array( 'Simple-Line-Icons-refresh' => 'Refresh' ),
-			array( 'Simple-Line-Icons-reload' => 'Reload' ),
-			array( 'Simple-Line-Icons-settings' => 'Settings' ),
-			array( 'Simple-Line-Icons-star' => 'Star' ),
-			array( 'Simple-Line-Icons-symbol-female' => 'Symbol Female' ),
-			array( 'Simple-Line-Icons-symbol-male' => 'Symbol Male' ),
-			array( 'Simple-Line-Icons-target' => 'Target' ),
-			array( 'Simple-Line-Icons-credit-card' => 'Credit Card' ),
-			array( 'Simple-Line-Icons-paypal' => 'Paypal' ),
-			array( 'Simple-Line-Icons-social-tumblr' => 'Tumblr' ),
-			array( 'Simple-Line-Icons-social-twitter' => 'Twitter' ),
-			array( 'Simple-Line-Icons-social-facebook' => 'Facebook' ),
-			array( 'Simple-Line-Icons-social-instagram' => 'Instagram' ),
-			array( 'Simple-Line-Icons-social-linkedin' => 'Linkedin' ),
-			array( 'Simple-Line-Icons-social-pinterest' => 'Pinterest' ),
-			array( 'Simple-Line-Icons-social-github' => 'Github' ),
-			array( 'Simple-Line-Icons-social-google' => 'Google' ),
-			array( 'Simple-Line-Icons-social-reddit' => 'Reddit' ),
-			array( 'Simple-Line-Icons-social-skype' => 'Skype' ),
-			array( 'Simple-Line-Icons-social-dribbble' => 'Dribbble' ),
-			array( 'Simple-Line-Icons-social-behance' => 'Behance' ),
-			array( 'Simple-Line-Icons-social-foursqare' => 'Foursqare' ),
-			array( 'Simple-Line-Icons-social-soundcloud' => 'Soundcloud' ),
-			array( 'Simple-Line-Icons-social-spotify' => 'Spotify' ),
-			array( 'Simple-Line-Icons-social-stumbleupon' => 'Stumbleupon' ),
-			array( 'Simple-Line-Icons-social-youtube' => 'Youtube' ),
-			array( 'Simple-Line-Icons-social-dropbox' => 'Dropbox' ),
-			array( 'Simple-Line-Icons-social-vkontakte' => 'Vkontakte' ),
-			array( 'Simple-Line-Icons-social-steam' => 'Steam' ),
-			array( 'Simple-Line-Icons-moustache' => 'Moustache' ),
-			array( 'Simple-Line-Icons-bar-chart' => 'Bar Chart' ),
-			array( 'Simple-Line-Icons-pointer' => 'Pointer' ),
-			array( 'Simple-Line-Icons-users' => 'Users' ),
-			array( 'Simple-Line-Icons-eyeglasses' => 'Eyeglasses' ),
-			array( 'Simple-Line-Icons-symbol-fermale' => 'Symbol Fermale' ),
-		);
-
-		return array_merge( $icons, $simpleline_icons );
-	}
-}
-
 if ( ! function_exists( 'porto_image_resize' ) ) :
 	function porto_image_resize( $attach_id = null, $thumb_size ) {
 		if ( ! $attach_id ) {
@@ -3411,18 +3289,5 @@ if ( ! function_exists( 'porto_image_resize' ) ) :
 			return $vt_image;
 		}
 		return false;
-	}
-endif;
-
-if ( ! function_exists( 'porto_remove_wpautop' ) ) :
-	function porto_remove_wpautop( $content ) {
-		$content = trim( $content );
-		if ( strpos( $content, '</p>' ) === 0 ) {
-			$content = substr( $content, 4 );
-		}
-		if ( strrpos( $content, '<p>' ) === strlen( $content ) - 3 ) {
-			$content = substr( $content, 0, -3 );
-		}
-		return $content;
 	}
 endif;

@@ -24,6 +24,7 @@
  * =========================================================
  */
 (function($) {
+    'use strict';
     var smartPhone = window.orientation != undefined;
     var DateTimePicker = function(element, options) {
         this.id = dpgId++;

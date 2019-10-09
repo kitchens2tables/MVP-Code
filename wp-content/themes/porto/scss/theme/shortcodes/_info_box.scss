@@ -9,6 +9,9 @@
 .porto-sicon-header .porto-sicon-title {
     margin: 3px 0;
 }
+.default-icon .porto-sicon-header .porto-sicon-title:not(:last-child) {
+    margin: 0 0 3px;
+}
 .porto-sicon-header h3.porto-sicon-title {
     font-size: 16px;
     line-height: 1.2em
@@ -181,9 +184,9 @@ a.porto-sicon-box-link {
 }
 .porto-sicon-box {
     margin-bottom: 20px;
-    .fa {
+    /*.fa {
         font-family: "FontAwesome" !important;
-    }
+    }*/
 }
 .porto-sicon-wrapper.text-left {
     .porto-sicon-box.top-icon,
@@ -204,6 +207,54 @@ a.porto-sicon-box-link {
         .porto-sicon-img,
         .porto-sicon-description {
             text-align: $right !important;
+        }
+    }
+}
+/* effects */
+.porto-sicon-wrapper {
+    &.style_2, &.style_3 {
+        .porto-sicon-box .porto-icon {
+            transition: transform .2s;
+        }
+    }
+    &.style_2 .porto-sicon-box:hover .porto-icon {
+        transform: scale(1.15, 1.15);
+    }
+    &.style_3 .porto-sicon-box:hover .porto-icon {
+        transform: translateY(-4px);
+    }
+
+    &.featured-icon {
+        .porto-sicon-header h3.porto-sicon-title {
+            font-weight: $font-weight-semibold;
+        }
+
+        .porto-icon {
+            border-radius: 35px;
+            color: #FFF;
+            margin-#{$right}: 10px;
+            height: 35px;
+            position: relative;
+            text-align: center;
+            width: 35px;
+            background: transparent;
+            line-height: 32px;
+            &:after {
+                border-radius: 50%;
+                box-sizing: initial;
+                content: "";
+                display: block;
+                height: 100%;
+                #{$left}: -4px;
+                padding: 1px;
+                position: absolute;
+                top: -4px;
+                width: 100%;
+            }
+
+            i {
+                line-height: 35px;
+            }
         }
     }
 }

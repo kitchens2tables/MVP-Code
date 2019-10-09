@@ -9,7 +9,7 @@ if ( $theme->parent_theme ) {
 <div class="wrap about-wrap porto-wrap">
 	<h1><?php esc_html_e( 'Welcome to Porto!', 'porto' ); ?></h1>
 	<div class="about-text"><?php echo esc_html__( 'Porto is now installed and ready to use! Read below for additional information. We hope you enjoy it!', 'porto' ); ?></div>
-	<div class="porto-logo"><span class="porto-version"><?php esc_html_e( 'Version', 'porto' ); ?> <?php echo porto_version; ?></span></div>
+	<div class="porto-logo"><span class="porto-version"><?php esc_html_e( 'Version', 'porto' ); ?> <?php echo PORTO_VERSION; ?></span></div>
 	<h2 class="nav-tab-wrapper">
 		<?php
 		printf( '<a href="#" class="nav-tab nav-tab-active">%s</a>', esc_html__( 'Theme License', 'porto' ) );
@@ -101,7 +101,7 @@ if ( $theme->parent_theme ) {
 		</div>
 		<div class="system-status col-right">
 			<h3><?php esc_html_e( 'System Status', 'porto' ); ?></h3>
-			<?php require_once porto_admin . '/admin_pages/mini-status.php'; ?>
+			<?php require_once PORTO_ADMIN . '/admin_pages/mini-status.php'; ?>
 		</div>
 	</div>
 </div>

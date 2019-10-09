@@ -12,7 +12,7 @@ if ( ! class_exists( 'Porto_Speed_Optimize_Wizard' ) ) {
 	 */
 	class Porto_Speed_Optimize_Wizard {
 
-		protected $version = '1.0.0';
+		protected $version = '1.1.0';
 
 		protected $theme_name = '';
 
@@ -43,10 +43,6 @@ if ( ! class_exists( 'Porto_Speed_Optimize_Wizard' ) ) {
 		public function __construct() {
 			$this->init_globals();
 			$this->init_actions();
-		}
-
-		public function get_header_logo_width() {
-			return '200px';
 		}
 
 		public function init_globals() {
@@ -153,9 +149,9 @@ if ( ! class_exists( 'Porto_Speed_Optimize_Wizard' ) ) {
 
 			$this->step = isset( $_GET['step'] ) ? sanitize_key( $_GET['step'] ) : current( array_keys( $this->steps ) );
 
-			wp_register_script( 'jquery-blockui', porto_uri . '/inc/admin/setup_wizard/assets/js/jquery.blockUI.js', array( 'jquery' ), '2.70', true );
-			wp_register_script( 'porto-admin', porto_js . '/admin/admin.min.js', array( 'jquery' ), $this->version, true );
-			wp_register_script( 'porto-speed-optimize', porto_uri . '/inc/admin/setup_wizard/assets/js/setup-wizard.js', array( 'jquery', 'porto-admin', 'jquery-blockui' ), $this->version );
+			wp_register_script( 'jquery-blockui', PORTO_URI . '/inc/admin/setup_wizard/assets/js/jquery.blockUI.js', array( 'jquery' ), '2.70', true );
+			wp_register_script( 'porto-admin', PORTO_JS . '/admin/admin.min.js', array( 'jquery' ), $this->version, true );
+			wp_register_script( 'porto-speed-optimize', PORTO_URI . '/inc/admin/setup_wizard/assets/js/setup-wizard.js', array( 'jquery', 'porto-admin', 'jquery-blockui' ), $this->version );
 			wp_localize_script(
 				'porto-speed-optimize',
 				'porto_speed_optimize_wizard_params',
@@ -165,7 +161,7 @@ if ( ! class_exists( 'Porto_Speed_Optimize_Wizard' ) ) {
 				)
 			);
 
-			wp_enqueue_style( 'porto-speed-optimize', porto_uri . '/inc/admin/setup_wizard/assets/css/style.css', array( 'wp-admin', 'dashicons', 'install' ), $this->version );
+			wp_enqueue_style( 'porto-speed-optimize', PORTO_URI . '/inc/admin/setup_wizard/assets/css/style.css', array( 'wp-admin', 'dashicons', 'install' ), $this->version );
 
 			wp_enqueue_style( 'wp-admin' );
 			wp_enqueue_media();
@@ -188,7 +184,7 @@ if ( ! class_exists( 'Porto_Speed_Optimize_Wizard' ) ) {
 		}
 
 		public function get_step_link( $step ) {
-			return add_query_arg( 'step', $step, admin_url( 'admin.php?page=' . $this->page_slug ) );
+			return add_query_arg( 'step', $step, esc_url( admin_url( 'admin.php?page=' . $this->page_slug ) ) );
 		}
 		public function get_next_step_link() {
 			$keys = array_keys( $this->steps );
@@ -231,7 +227,7 @@ if ( ! class_exists( 'Porto_Speed_Optimize_Wizard' ) ) {
 			<body class="porto-setup wp-core-ui">
 			<h1 id="porto-logo">
 				<a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?> - <?php bloginfo( 'description' ); ?>" class="overlay-logo">
-					<img class="img-responsive" src="<?php echo porto_uri; ?>/images/logo/logo.png" alt="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" width="111" height="54" />
+					<img class="img-responsive" src="<?php echo PORTO_URI; ?>/images/logo/logo.png" alt="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" width="111" height="54" />
 				</a>
 			</h1>
 			<?php
@@ -273,7 +269,7 @@ if ( ! class_exists( 'Porto_Speed_Optimize_Wizard' ) ) {
 					$show_link = false;
 				}
 				?>
-				<li class="<?php echo $li_class_escaped; ?>">
+				<li class="<?php echo esc_attr( $li_class_escaped ); ?>">
 				<?php
 				if ( $show_link ) {
 					?>
@@ -340,7 +336,7 @@ if ( ! class_exists( 'Porto_Speed_Optimize_Wizard' ) ) {
 					<?php esc_html_e( 'Toggle All', 'porto' ); ?>
 				</label>
 				<style>
-					.shortcode_list { display: -webkit-flex; display: -ms-flexbox; display: flex; -webkit-flex-wrap: wrap; -ms-flex-wrap: wrap; flex-wrap: wrap; min-height: 200px; }
+					.shortcode_list { display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; min-height: 200px; }
 					.shortcode_list li { width: 33.3333%; margin-bottom: 4px; padding-right: 10px; box-sizing: border-box; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 					.shortcode_list li .checkbox { font-size: 13px; font-weight: 400; word-break: break-all; }
 					.shortcode_list .blockOverlay:before { content: 'Loading unused shortcodes...'; position: absolute; top: 50%; margin-top: -10px; left: 0; width: 100%; text-align: center; }
@@ -350,7 +346,7 @@ if ( ! class_exists( 'Porto_Speed_Optimize_Wizard' ) ) {
 				</style>
 				<ul class="shortcode_list"></ul>
 				<p class="porto-setup-actions step">
-					<input type="submit" name="save_step" class="button button-primary button-next button-next" value="<?php esc_html_e( 'Compile & Continue', 'porto' ); ?>" disabled="disabled" />
+					<input type="submit" name="save_step" class="button button-primary button-next button-next" value="<?php esc_attr_e( 'Compile & Continue', 'porto' ); ?>" disabled="disabled" />
 					<?php wp_nonce_field( 'porto-speed-optimize' ); ?>
 					<a href="<?php echo esc_url( $this->get_next_step_link() ); ?>" class="button button-large button-next"><?php esc_html_e( 'Skip this step', 'porto' ); ?></a>
 				</p>
@@ -372,7 +368,7 @@ if ( ! class_exists( 'Porto_Speed_Optimize_Wizard' ) ) {
 
 			global $porto_settings_optimize;
 			if ( isset( $_POST['shortcodes'] ) && ! empty( $_POST['shortcodes'] ) ) {
-				$porto_settings_optimize['shortcodes_to_remove'] = $_POST['shortcodes'];
+				$porto_settings_optimize['shortcodes_to_remove'] = array_map( 'sanitize_text_field', $_POST['shortcodes'] );
 			} else {
 				unset( $porto_settings_optimize['shortcodes_to_remove'] );
 			}
@@ -392,7 +388,7 @@ if ( ! class_exists( 'Porto_Speed_Optimize_Wizard' ) ) {
 		 */
 		public function porto_speed_optimize_wizard_revslider() {
 			global $porto_settings_optimize, $porto_settings;
-			$rev_pages         = porto_get_used_shortcode_list( array( 'rev_slider', 'rev_slider_vc' ), true );
+			$rev_pages         = $this->get_used_shortcode_list( array( 'rev_slider', 'rev_slider_vc' ), true );
 			$portfolio_use_rev = false;
 			if ( 'carousel' == $porto_settings['portfolio-content-layout'] ) {
 				$portfolio_use_rev = true;
@@ -427,7 +423,7 @@ if ( ! class_exists( 'Porto_Speed_Optimize_Wizard' ) ) {
 				}
 			}
 			if ( $portfolio_use_rev ) {
-				$portfolio_pages = porto_get_used_shortcode_list( array( 'porto_portfolios', 'porto_recent_portfolios' ), true, array( 'ajax_load' => 'yes' ) );
+				$portfolio_pages = $this->get_used_shortcode_list( array( 'porto_portfolios', 'porto_recent_portfolios' ), true, array( 'ajax_load' => 'yes' ) );
 				$rev_pages       = array_unique( array_merge( $rev_pages, $portfolio_pages ) );
 			}
 
@@ -458,7 +454,7 @@ if ( ! class_exists( 'Porto_Speed_Optimize_Wizard' ) ) {
 				<input type="hidden" name="rev_pages" value="<?php echo implode( ',', $rev_pages ); ?>" />
 				<p></p>
 				<p class="porto-setup-actions step">
-					<input type="submit" name="save_step" class="button button-primary button-next button-next" value="<?php esc_html_e( 'Save & Continue', 'porto' ); ?>" />
+					<input type="submit" name="save_step" class="button button-primary button-next button-next" value="<?php esc_attr_e( 'Save & Continue', 'porto' ); ?>" />
 					<?php wp_nonce_field( 'porto-speed-optimize' ); ?>
 					<a href="<?php echo esc_url( $this->get_next_step_link() ); ?>" class="button button-large button-next"><?php esc_html_e( 'Skip this step', 'porto' ); ?></a>
 				</p>
@@ -473,7 +469,7 @@ if ( ! class_exists( 'Porto_Speed_Optimize_Wizard' ) ) {
 			if ( isset( $_POST['optimize_revslider'] ) && 'true' == $_POST['optimize_revslider'] && isset( $_POST['rev_pages'] ) ) {
 				$porto_settings_optimize['optimize_revslider'] = true;
 				if ( $_POST['rev_pages'] ) {
-					$porto_settings_optimize['optimize_revslider_pages'] = explode( ',', $_POST['rev_pages'] );
+					$porto_settings_optimize['optimize_revslider_pages'] = explode( ',', sanitize_text_field( $_POST['rev_pages'] ) );
 				}
 				$porto_settings_optimize['optimize_revslider_portfolio'] = ( isset( $porto_settings['portfolio-archive-ajax'] ) && $porto_settings['portfolio-archive-ajax'] && 'true' == $_POST['portfolio_use_rev'] ? true : false );
 			} else {
@@ -523,9 +519,28 @@ if ( ! class_exists( 'Porto_Speed_Optimize_Wizard' ) ) {
 						</label>
 						<p><?php esc_html_e( 'By using this option, you can use fontawesome icons only what Porto theme used. This will reduce around 40KB of page size.', 'porto' ); ?></p>
 					</li>
+					<li>
+						<h4 style="margin-bottom: .25rem;"><?php esc_html_e( 'Disable Unused Content Types', 'porto' ); ?></h4>
+						<?php
+							$post_types = array(
+								'portfolio' => __( 'Portfolio', 'porto' ),
+								'member'    => __( 'Member', 'porto' ),
+								'event'     => __( 'Event', 'porto' ),
+								'faq'       => __( 'Faq', 'porto' ),
+							);
+						foreach ( $post_types as $post_type => $title ) {
+							?>
+							<label class="checkbox checkbox-inline">
+								<input type="checkbox" value="<?php echo esc_attr( $post_type ); ?>" name="optimize_post_types[]" <?php echo isset( $porto_settings[ 'enable-' . $post_type ] ) ? checked( ! $porto_settings[ 'enable-' . $post_type ], true, false ) : ''; ?>> <?php echo esc_html( $title ); ?>
+							</label>&nbsp;
+							<?php
+						}
+						?>
+						<p><?php esc_html_e( 'By disabling unused content types, you can reduce server response time and free up server space by deleting thumbnail files for these content types. We recommend to use Regenerate Thumbnails to remove image files for unregistered sizes after modifying these options.', 'porto' ); ?></p>
+					</li>
 				</ul>
 				<p class="porto-setup-actions step">
-					<input type="submit" name="save_step" class="button button-primary button-next button-next" value="<?php esc_html_e( 'Compile & Continue', 'porto' ); ?>" />
+					<input type="submit" name="save_step" class="button button-primary button-next button-next" value="<?php esc_attr_e( 'Compile & Continue', 'porto' ); ?>" />
 					<?php wp_nonce_field( 'porto-speed-optimize' ); ?>
 					<a href="<?php echo esc_url( $this->get_next_step_link() ); ?>" class="button button-large button-next"><?php esc_html_e( 'Skip this step', 'porto' ); ?></a>
 				</p>
@@ -582,6 +597,19 @@ if ( ! class_exists( 'Porto_Speed_Optimize_Wizard' ) ) {
 					$need_save                               = true;
 				}
 			}
+
+			$disabled_content_types = isset( $_POST['optimize_post_types'] ) && is_array( $_POST['optimize_post_types'] ) ? $_POST['optimize_post_types'] : array();
+			$post_types             = array( 'portfolio', 'member', 'event', 'faq' );
+			foreach ( $post_types as $post_type ) {
+				if ( in_array( $post_type, $disabled_content_types ) && ( ! isset( $porto_settings[ 'enable-' . $post_type ] ) || $porto_settings[ 'enable-' . $post_type ] ) ) {
+					$porto_settings[ 'enable-' . $post_type ] = false;
+					$need_save                                = true;
+				} elseif ( ! in_array( $post_type, $disabled_content_types ) && isset( $porto_settings[ 'enable-' . $post_type ] ) && ! $porto_settings[ 'enable-' . $post_type ] ) {
+					$porto_settings[ 'enable-' . $post_type ] = true;
+					$need_save                                = true;
+				}
+			}
+
 			if ( $need_save ) {
 				ob_start();
 				$redux = ReduxFrameworkInstances::get_instance( 'porto_settings' );
@@ -614,7 +642,7 @@ if ( ! class_exists( 'Porto_Speed_Optimize_Wizard' ) ) {
 				</label>
 				<p></p>
 				<p class="porto-setup-actions step">
-					<input type="submit" name="save_step" class="button button-primary button-next button-next" value="<?php esc_html_e( 'Save & Continue', 'porto' ); ?>" />
+					<input type="submit" name="save_step" class="button button-primary button-next button-next" value="<?php esc_attr_e( 'Save & Continue', 'porto' ); ?>" />
 					<?php wp_nonce_field( 'porto-speed-optimize' ); ?>
 					<a href="<?php echo esc_url( $this->get_next_step_link() ); ?>" class="button button-large button-next"><?php esc_html_e( 'Skip this step', 'porto' ); ?></a>
 				</p>
@@ -812,11 +840,186 @@ if ( ! class_exists( 'Porto_Speed_Optimize_Wizard' ) ) {
 		 * Get unused shortcodes list
 		 */
 		public function get_unused_shortcodes() {
-			$all_shortcodes    = porto_get_all_shortcode_list();
-			$used_shortcodes   = porto_get_used_shortcode_list();
+			$all_shortcodes    = $this->get_all_shortcode_list();
+			$used_shortcodes   = $this->get_used_shortcode_list();
 			$unused_shortcodes = array_diff( $all_shortcodes, $used_shortcodes );
 			echo json_encode( $unused_shortcodes );
 			die();
+		}
+
+		/**
+		 * Get All Shortcodes List
+		 */
+		private function get_all_shortcode_list() {
+			if ( ! class_exists( 'WPBMap' ) ) {
+				return array();
+			}
+			$shortcode_list    = array();
+			$all_vc_shortcodes = WPBMap::getAllShortCodes();
+			$all_vc_categories = WPBMap::getCategories();
+			if ( ! empty( $all_vc_shortcodes ) ) {
+				foreach ( $all_vc_shortcodes as $key => $s ) {
+					if ( 'vc_row' == $key || 'vc_row_inner' == $key || 'vc_column' == $key || 'vc_column_inner' == $key ) {
+						continue;
+					}
+					$shortcode_list[] = $key;
+				}
+			}
+			return apply_filters( 'porto_all_shortcode_list', $shortcode_list );
+		}
+
+		/**
+		 * Get shortcodes from porto header builder html elements
+		 */
+		private function header_builder_html_shortcode( $elements ) {
+			if ( ! $elements || empty( $elements ) ) {
+				return false;
+			}
+			$post_short_contents = array();
+			foreach ( $elements as $element ) {
+				if ( is_array( $element ) ) {
+					$result = $this->header_builder_html_shortcode( $element );
+					if ( ! empty( $result ) ) {
+						$post_short_contents = array_merge( $post_short_contents, $result );
+					}
+				} else {
+					foreach ( $element as $key => $value ) {
+						if ( 'html' == $key && $value ) {
+							$str = '';
+							if ( is_string( $value ) ) {
+								$str = $value;
+							} elseif ( is_object( $value ) && isset( $value->html ) ) {
+								$str = $value->html;
+							}
+							if ( $str ) {
+								$post_short_contents[] = $str;
+							}
+						}
+					}
+				}
+			}
+			return $post_short_contents;
+		}
+
+		/**
+		 * Get Used Shortcodes List
+		 */
+		private function get_used_shortcode_list( $shortcode_list = array(), $return_ids = false, $attrs = array() ) {
+			if ( empty( $shortcode_list ) ) {
+				$shortcode_list = $this->get_all_shortcode_list();
+			}
+			global $wpdb, $porto_settings;
+			$post_contents = $wpdb->get_results( $wpdb->prepare( "SELECT ID, post_content, post_excerpt FROM $wpdb->posts WHERE post_type not in (%s, %s) AND post_status = 'publish' AND (post_content != '' or post_excerpt != '')", 'revision', 'attachment' ) );
+
+			$post_meta_contents = $wpdb->get_results( $wpdb->prepare( "SELECT post_id as ID, meta_value as post_content FROM $wpdb->postmeta WHERE meta_key in (%s, %s) and meta_value != ''", 'video_code', 'member_overview' ) );
+			$post_contents      = array_merge( $post_contents, $post_meta_contents );
+
+			$sidebars_array = get_option( 'sidebars_widgets' );
+			if ( empty( $post_contents ) || ! is_array( $post_contents ) ) {
+				$post_contents = array();
+			}
+			foreach ( $sidebars_array as $sidebar => $widgets ) {
+				if ( ! empty( $widgets ) && is_array( $widgets ) ) {
+					foreach ( $widgets as $sidebar_widget ) {
+						$widget_type = trim( substr( $sidebar_widget, 0, strrpos( $sidebar_widget, '-' ) ) );
+						if ( ! array_key_exists( $widget_type, $post_contents ) ) {
+							$post_contents[ $widget_type ] = get_option( 'widget_' . $widget_type );
+						}
+					}
+				}
+			}
+
+			$porto_settings_keys = array(
+				'footer-tooltip',
+				'welcome-msg',
+				'header-contact-info',
+				'menu-title',
+				'menu-block',
+				'header-copyright',
+				'post-banner-block',
+				'portfolio-banner-block',
+				'member-banner-block',
+				'event-banner-block',
+			);
+			$custom_tabs_count   = isset( $porto_settings['product-custom-tabs-count'] ) ? (int) $porto_settings['product-custom-tabs-count'] : 2;
+			for ( $index = 1; $index <= $custom_tabs_count; $index++ ) {
+				$porto_settings_keys[] = 'custom_tab_content' . $index;
+			}
+			foreach ( $porto_settings_keys as $key ) {
+				if ( isset( $porto_settings[ $key ] ) ) {
+					$post_contents[] = $porto_settings[ $key ];
+				}
+			}
+
+			// header builder elements
+			$current_layout  = porto_header_builder_layout();
+			$header_elements = isset( $current_layout['elements'] ) ? $current_layout['elements'] : array();
+			foreach ( $header_elements as $elements ) {
+				$elements = json_decode( $elements );
+				$result   = $this->header_builder_html_shortcode( $elements );
+				if ( ! empty( $result ) ) {
+					$post_contents = array_merge( $post_contents, $result );
+				}
+			}
+
+			$used = array();
+			if ( $return_ids ) {
+				foreach ( $post_contents as $post_content ) {
+					if ( isset( $post_content->ID ) ) {
+						$content = $post_content->post_content;
+						foreach ( $shortcode_list as $shortcode ) {
+							if ( false === strpos( $content, '[' ) && false === strpos( $content, 'wp:porto/porto-' ) ) {
+								continue;
+							}
+							if ( empty( $attrs ) && ! in_array( $post_content->ID, $used ) && ( stripos( $content, '[' . $shortcode . ' ' ) !== false || stripos( $content, 'wp:porto/' . str_replace( '_', '-', $shortcode ) ) !== false ) ) {
+								$used[] = $post_content->ID;
+							} elseif ( ! empty( $attrs ) && ! in_array( $post_content->ID, $used ) ) {
+								$attr_text  = '';
+								$attr_text1 = '';
+								foreach ( $attrs as $key => $value ) {
+									$attr_text = $key . '="' . $value . '"';
+									if ( 'yes' == $value ) {
+										$attr_text1 = '"' . $key . '":true';
+									} else {
+										$attr_text1 = '"' . $key . '":"' . $value . '"';
+									}
+								}
+								if ( preg_match( '/\[' . $shortcode . '\s[^]]*' . $attr_text . '[^]]*\]/', $content ) || preg_match( '/wp:porto\/' . str_replace( '_', '-', $shortcode ) . '\s[^>]*' . $attr_text1 . '[^>]*\>/', $content ) ) {
+									$used[] = $post_content->ID;
+								}
+							}
+						}
+					}
+				}
+			} else {
+				$excerpt_arr = array(
+					'post_content',
+					'post_excerpt',
+				);
+				foreach ( $post_contents as $post_content ) {
+					foreach ( $excerpt_arr as $excerpt_key ) {
+						if ( is_string( $post_content ) && 'post_excerpt' == $excerpt_key ) {
+							break;
+						}
+						if ( ! is_string( $post_content ) && 'post_excerpt' == $excerpt_key && ! isset( $post_content->post_excerpt ) ) {
+							break;
+						}
+						$content = is_string( $post_content ) ? $post_content : ( isset( $post_content->{$excerpt_key} ) ? $post_content->{$excerpt_key} : '' );
+
+						foreach ( $shortcode_list as $shortcode ) {
+							if ( false === strpos( $content, '[' ) && false === strpos( $content, 'wp:porto/porto-' ) ) {
+								continue;
+							}
+							if ( ! in_array( $shortcode, $used ) && ( stripos( $content, '[' . $shortcode . ' ' ) !== false || stripos( $content, 'wp:porto/' . str_replace( '_', '-', $shortcode ) ) !== false ) ) {
+								$used[] = $shortcode;
+							}
+						}
+						$shortcode_list = array_diff( $shortcode_list, $used );
+					}
+				}
+			}
+
+			return apply_filters( 'porto_used_shortcode_list', $used, $return_ids );
 		}
 
 	}

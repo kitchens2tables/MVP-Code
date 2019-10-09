@@ -58,7 +58,9 @@ div.wpb_single_image {
             }
             &:after {
                 @include transition(all 0.2s);
-                font-family: "FontAwesome";
+                font-family: "Font Awesome 5 Free";
+                font-weight: 900;
+                -webkit-font-smoothing: antialiased;
                 color: #FFF;
                 content: $fa-var-search-plus;
                 font-size: 30px;
@@ -97,7 +99,9 @@ div.wpb_single_image {
             text-align: center;
 
             &:before {
-                font-family: "FontAwesome";
+                font-family: "Font Awesome 5 Free";
+                font-weight: 900;
+                -webkit-font-smoothing: antialiased;
                 content: $fa-var-search;
             }
         }

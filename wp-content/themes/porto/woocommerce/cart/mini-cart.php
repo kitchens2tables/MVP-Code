@@ -2,12 +2,10 @@
 /**
  * Mini-cart
  *
- * @version     3.5.0
+ * @version     3.7.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 global $porto_settings;
 
@@ -20,7 +18,6 @@ if ( version_compare( $porto_woo_version, '2.4', '<' ) ) {
 }
 
 ?>
-
 
 <?php do_action( 'woocommerce_before_mini_cart' ); ?>
 
@@ -43,53 +40,38 @@ if ( version_compare( $porto_woo_version, '2.4', '<' ) ) {
 
 			if ( $_product && $_product->exists() && $cart_item['quantity'] > 0 && apply_filters( 'woocommerce_widget_cart_item_visible', true, $cart_item, $cart_item_key ) ) {
 				$product_name      = apply_filters( 'woocommerce_cart_item_name', $_product->get_name(), $cart_item, $cart_item_key );
-				$thumbnail         = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image(), $cart_item, $cart_item_key );
+				$thumbnail         = apply_filters( 'woocommerce_cart_item_thumbnail', $_product->get_image( 'woocommerce_gallery_thumbnail' ), $cart_item, $cart_item_key );
 				$product_price     = apply_filters( 'woocommerce_cart_item_price', WC()->cart->get_product_price( $_product ), $cart_item, $cart_item_key );
 				$product_permalink = apply_filters( 'woocommerce_cart_item_permalink', $_product->is_visible() ? $_product->get_permalink( $cart_item ) : '', $cart_item, $cart_item_key );
 
 				?>
-					<li class="woocommerce-mini-cart-item <?php echo esc_attr( apply_filters( 'woocommerce_mini_cart_item_class', 'mini_cart_item', $cart_item, $cart_item_key ) ); ?>"> 
+					<li class="woocommerce-mini-cart-item <?php echo esc_attr( apply_filters( 'woocommerce_mini_cart_item_class', 'mini_cart_item', $cart_item, $cart_item_key ) ); ?>">
 						<div class="product-image"><div class="inner">
 					<?php if ( ! $_product->is_visible() ) : ?>
-							<?php echo str_replace( array( 'http:', 'https:' ), '', $thumbnail ); ?>
+							<?php echo str_replace( array( 'http:', 'https:' ), '', $thumbnail ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						<?php else : ?>
 							<a href="<?php echo esc_url( $product_permalink ); ?>">
-								<?php echo str_replace( array( 'http:', 'https:' ), '', $thumbnail ); ?>
+								<?php echo str_replace( array( 'http:', 'https:' ), '', $thumbnail ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 							</a>
 						<?php endif; ?>
 						</div></div>
 						<div class="product-details">
 						<?php if ( ! $_product->is_visible() ) { ?>
-								<?php echo porto_filter_output( $product_name ); ?>
+								<?php echo porto_filter_output( $product_name ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 							<?php } else { ?>
-								
-								<p>  
-									<?php echo porto_filter_output( $product_name ); ?>
-								</p>
-
-								
-								
-								
-								
+								<a href="<?php echo esc_url( $product_permalink ); ?>">
+									<?php echo porto_filter_output( $product_name ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+								</a>
 							<?php } ?>
-						<?php 
-						
-						
-				 
-						
-						echo function_exists( 'wc_get_formatted_cart_item_data' ) ? wc_get_formatted_cart_item_data( $cart_item ) : WC()->cart->get_item_data( $cart_item ); 
-						
-						
-						
-						?>
-						<?php echo apply_filters( 'woocommerce_widget_cart_item_quantity', '<span class="quantity">' . sprintf( '%s &times; %s', $cart_item['quantity'], $product_price ) . '</span>', $cart_item, $cart_item_key ); ?>
+						<?php echo function_exists( 'wc_get_formatted_cart_item_data' ) ? wc_get_formatted_cart_item_data( $cart_item ) : WC()->cart->get_item_data( $cart_item ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<?php echo apply_filters( 'woocommerce_widget_cart_item_quantity', '<span class="quantity">' . sprintf( '%s &times; %s', $cart_item['quantity'], $product_price ) . '</span>', $cart_item, $cart_item_key ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						<?php
-						echo apply_filters(
+						echo apply_filters( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 							'woocommerce_cart_item_remove_link',
 							sprintf(
 								'<a href="%s" class="remove remove-product" aria-label="%s" data-product_id="%s" data-cart_id="%s" data-product_sku="%s"></a>',
 								esc_url( function_exists( 'wc_get_cart_remove_url' ) ? wc_get_cart_remove_url( $cart_item_key ) : WC()->cart->get_remove_url( $cart_item_key ) ),
-								esc_attr__( 'Remove this item', 'porto' ),
+								esc_attr__( 'Remove this item', 'woocommerce' ),
 								esc_attr( $product_id ),
 								esc_attr( $cart_item_key ),
 								esc_attr( $_product->get_sku() )
@@ -111,7 +93,7 @@ if ( version_compare( $porto_woo_version, '2.4', '<' ) ) {
 
 		<li class="woocommerce-mini-cart__empty-message empty">
 			<?php
-				esc_html_e( 'No products in the cart.', 'porto' );
+				esc_html_e( 'No products in the cart.', 'woocommerce' );
 			?>
 		</li>
 
@@ -121,12 +103,26 @@ if ( version_compare( $porto_woo_version, '2.4', '<' ) ) {
 
 <?php if ( $has_items ) : ?>
 
-	<p class="woocommerce-mini-cart__total total"><strong><?php esc_html_e( 'Subtotal', 'porto' ); ?>:</strong> <?php echo WC()->cart->get_cart_subtotal(); ?></p>
+	<p class="woocommerce-mini-cart__total total">
+	<?php if ( has_action( 'woocommerce_widget_shopping_cart_total' ) ) : ?>
+		<?php
+		/**
+		 * Woocommerce_widget_shopping_cart_total hook.
+		 *
+		 * @hooked woocommerce_widget_shopping_cart_subtotal - 10
+		 */
+		do_action( 'woocommerce_widget_shopping_cart_total' );
+		?>
+	<?php else : ?>
+		<strong><?php esc_html_e( 'Subtotal', 'woocommerce' ); ?>:</strong> <?php echo WC()->cart->get_cart_subtotal(); ?>
+	<?php endif; ?>
+	</p>
 
 	<?php do_action( 'woocommerce_widget_shopping_cart_before_buttons' ); ?>
 
 	<p class="woocommerce-mini-cart__buttons buttons"><?php do_action( 'woocommerce_widget_shopping_cart_buttons' ); ?></p>
 
+	<?php do_action( 'woocommerce_widget_shopping_cart_after_buttons' ); ?>
 <?php endif; ?>
 
 <?php do_action( 'woocommerce_after_mini_cart' ); ?>

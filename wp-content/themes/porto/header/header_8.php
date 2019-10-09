@@ -42,14 +42,14 @@ global $porto_settings, $porto_layout;
 			<div class="header-right">
 				<div>
 					<?php // show mobile toggle ?>
-					<a class="mobile-toggle"><i class="fa fa-reorder"></i></a>
-					<div class="block-nowrap" fhfhgfh>
+					<a class="mobile-toggle"><i class="fas fa-bars"></i></a>
+					<div class="block-nowrap">
 						<?php
-						// show top navigation
-						echo porto_top_navigation();
-
 						// show search form
 						echo porto_search_form();
+
+						// show top navigation
+						echo porto_top_navigation();
 						?>
 					</div>
 

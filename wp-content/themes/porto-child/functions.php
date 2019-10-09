@@ -1526,6 +1526,7 @@ function custom_um_add_submit_button_to_register( $args ) {
                 else
                 {
                   jQuery("#error-feedback-"+formid).html('');
+
                   jQuery("#um-submit-btn-"+formid).click();
                 }
                  

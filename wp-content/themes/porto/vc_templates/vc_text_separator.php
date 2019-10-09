@@ -83,13 +83,13 @@ if ( ! $style && $color != $default_color ) {
 	 background-image: linear-gradient(to right, ' . esc_attr( $color ) . ', transparent);' : '';
 } elseif ( 'solid' == $style && $color != $default_color ) {
 	$inline_css_1 .= ( $color ) ? 'background-color: ' . esc_attr( $color ) . ';' : '';
-	$inline_css_1 .= ( $color ) ? 'background-color: ' . esc_attr( $color ) . ';' : '';
+	$inline_css_2 .= ( $color ) ? 'background-color: ' . esc_attr( $color ) . ';' : '';
 } elseif ( 'dashed' == $style && $color != $default_color ) {
 	if ( ! $f_rand ) {
 		$line_class .= ' ' . $rand;
 		$f_rand      = true;
 	}
-	$custom_css .= '.' . $rand . ':after {border-color:' . esc_attr( $color ) . ' !important;}';
+	$custom_css .= '.' . $rand . ':after {border-color:' . esc_html( $color ) . ' !important;}';
 } elseif ( 'pattern' == $style ) {
 	if ( $pattern ) {
 		$pattern_url = wp_get_attachment_url( $pattern );
@@ -107,7 +107,7 @@ if ( $border_width ) {
 			$line_class .= ' ' . $rand;
 			$f_rand      = true;
 		}
-		$custom_css .= '.' . $rand . ':after {border-width:' . esc_attr( $border_width ) . 'px !important; margin-top:-' . esc_attr( $border_width ) . 'px !important;}';
+		$custom_css .= '.' . $rand . ':after {border-width:' . esc_html( $border_width ) . 'px !important; margin-top:-' . esc_html( $border_width ) . 'px !important;}';
 	} else {
 		$inline_css_1 .= 'height:' . esc_attr( $border_width ) . 'px;';
 		$inline_css_2 .= 'height:' . esc_attr( $border_width ) . 'px;';

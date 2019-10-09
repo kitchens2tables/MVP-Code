@@ -5,6 +5,8 @@ if (typeof countUp == "undefined") {
       v 1.1.0
   */
   function countUp(target, startVal, endVal, decimals, duration, options) {
+      'use strict';
+
       // default options
       this.options = options || {
           useEasing : true, // toggle easing

@@ -293,12 +293,6 @@ jQuery(document).ready(function($) {
         pos: 'bottom',
         type: 'section'
     }, {
-        target: '.product .quickview',
-        text: 'Quick View',
-        elementID: 'porto_settings[quickview-color]',
-        pos: 'bottom',
-        type: 'control'
-    }, {
         target: '.product .labels .onhot',
         text: 'Hot Label',
         elementID: 'porto_settings[hot-color]',
@@ -994,12 +988,12 @@ jQuery(document).ready(function($) {
     });
     wp.customize('porto_settings[mainmenu-tip-bg-color]', function(e) {
         e.bind(function(value) {
-            appendStyle('porto_settings[mainmenu-tip-bg-color]', '.mega-menu .tip, .sidebar-menu .tip, .accordion-menu .tip, .menu-custom-block .tip { background: ' + value + ' }.mega-menu .tip .tip-arrow, .sidebar-menu .tip .tip-arrow, .accordion-menu .tip .tip-arrow, .menu-custom-block .tip .tip-arrow { color: ' + value + ' }')
+            appendStyle('porto_settings[mainmenu-tip-bg-color]', '.mega-menu .tip, .sidebar-menu .tip, .accordion-menu .tip, .menu-custom-block .tip { background: ' + value + ' }');
         });
     });
     wp.customize('porto_settings[menu-custom-text-color]', function(e) {
         e.bind(function(value) {
-            appendStyle('porto_settings[menu-custom-text-color]', '#header .menu-custom-block, #header .menu-custom-block span { color: ' + value + ' }')
+            appendStyle('porto_settings[menu-custom-text-color]', '#header .menu-custom-block, #header .menu-custom-block span { color: ' + value + ' }');
         });
     });
     wp.customize('porto_settings[menu-custom-link]', function(e) {
@@ -1432,29 +1426,29 @@ jQuery(document).ready(function($) {
         });
     });
 
-    wp.customize('porto_settings[wishlist-color]', function(e) {
+    wp.customize('porto_settings[shop-add-links-color]', function(e) {
         e.bind(function(value) {
-            appendStyle('porto_settings[wishlist-color]', ( value ? '.yith-wcwl-add-to-wishlist a, .yith-wcwl-add-to-wishlist span, .show-outimage-q-onimage .yith-wcwl-add-to-wishlist a, .show-outimage-q-onimage .yith-wcwl-add-to-wishlist span, .show-outimage-q-onimage-alt .yith-wcwl-add-to-wishlist a, .show-outimage-q-onimage-alt .yith-wcwl-add-to-wishlist span, .show-outimage-q-onimage .yith-wcwl-add-to-wishlist a:hover, .show-outimage-q-onimage .yith-wcwl-add-to-wishlist span:hover, .show-outimage-q-onimage-alt .yith-wcwl-add-to-wishlist a:hover, .show-outimage-q-onimage-alt .yith-wcwl-add-to-wishlist span:hover, .show-outimage-q-onimage .yith-wcwl-add-to-wishlist a:hover:before, .show-outimage-q-onimage .yith-wcwl-add-to-wishlist span:hover:before, .show-outimage-q-onimage-alt .yith-wcwl-add-to-wishlist a:hover:before, .show-outimage-q-onimage-alt .yith-wcwl-add-to-wishlist span:hover:before, .product-summary-wrap .yith-wcwl-add-to-wishlist a:before, .product-summary-wrap .yith-wcwl-add-to-wishlist span:before, .product-summary-wrap .yith-wcwl-add-to-wishlist a:hover, .product-summary-wrap .yith-wcwl-add-to-wishlist span:hover, .product-summary-wrap .yith-wcwl-add-to-wishlist a:focus, .product-summary-wrap .yith-wcwl-add-to-wishlist span:focus { color: ' + value + '} .yith-wcwl-add-to-wishlist span.ajax-loading:hover { background-color: ' + value + ' } .product-summary-wrap .yith-wcwl-add-to-wishlist a:before, .product-summary-wrap .yith-wcwl-add-to-wishlist span:before { border-color: ' + value + ' }' : '' ) );
+            appendStyle('porto_settings[shop-add-links-color]', ( value ? '.add-links .add_to_cart_button, .add-links .add_to_cart_read_more, .add-links .quickview, .yith-wcwl-add-to-wishlist a, .yith-wcwl-add-to-wishlist a:hover, .yith-wcwl-add-to-wishlist span { color: ' + value + ' }' : '' ) );
         });
     });
-    wp.customize('porto_settings[wishlist-border-color]', function(e) {
+    wp.customize('porto_settings[shop-add-links-bg-color]', function(e) {
         e.bind(function(value) {
-            appendStyle('porto_settings[wishlist-border-color]', ( value ? '.yith-wcwl-add-to-wishlist a, .yith-wcwl-add-to-wishlist span { border-color: ' + value + '}' : '' ) );
+            appendStyle('porto_settings[shop-add-links-bg-color]', ( value ? '.add-links .add_to_cart_button, .add-links .add_to_cart_read_more, .add-links .quickview, .yith-wcwl-add-to-wishlist a, .yith-wcwl-add-to-wishlist a:hover, .yith-wcwl-add-to-wishlist span { background-color: ' + value + ' }' : '' ) );
+        });
+    });
+    wp.customize('porto_settings[shop-add-links-border-color]', function(e) {
+        e.bind(function(value) {
+            appendStyle('porto_settings[shop-add-links-border-color]', ( value ? '.add-links .add_to_cart_button, .add-links .add_to_cart_read_more, .add-links .quickview, .yith-wcwl-add-to-wishlist a, .yith-wcwl-add-to-wishlist a:hover, .yith-wcwl-add-to-wishlist span { border-color: ' + value + ' }' : '' ) );
+        });
+    });
+    wp.customize('porto_settings[wishlist-color]', function(e) {
+        e.bind(function(value) {
+            appendStyle('porto_settings[wishlist-color]', ( value ? '.product-summary-wrap .yith-wcwl-add-to-wishlist a:before, .product-summary-wrap .yith-wcwl-add-to-wishlist span:before, .product-summary-wrap .yith-wcwl-add-to-wishlist a:hover, .product-summary-wrap .yith-wcwl-add-to-wishlist span:hover, .product-summary-wrap .yith-wcwl-add-to-wishlist a:focus, .product-summary-wrap .yith-wcwl-add-to-wishlist span:focus { color: ' + value + '} .product-summary-wrap .yith-wcwl-add-to-wishlist a:before, .product-summary-wrap .yith-wcwl-add-to-wishlist span:before { border-color: ' + value + ' }' : '' ) );
         });
     });
     wp.customize('porto_settings[wishlist-color-inverse]', function(e) {
         e.bind(function(value) {
             appendStyle('porto_settings[wishlist-color-inverse]', ( value ? '.product-summary-wrap .yith-wcwl-add-to-wishlist a:hover:before, .product-summary-wrap .yith-wcwl-add-to-wishlist span:hover:before, .product-summary-wrap .yith-wcwl-add-to-wishlist a:focus:before, .product-summary-wrap .yith-wcwl-add-to-wishlist span:focus:before { color: ' + value + '}' : '' ) );
-        });
-    });
-    wp.customize('porto_settings[quickview-border-color]', function(e) {
-        e.bind(function(value) {
-            appendStyle('porto_settings[quickview-border-color]', ( value ? '.add-links .quickview { border-color: ' + value + '}' : '' ) );
-        });
-    });
-    wp.customize('porto_settings[quickview-color-inverse]', function(e) {
-        e.bind(function(value) {
-            appendStyle('porto_settings[quickview-color-inverse]', ( value ? 'ul.products li.product-col .links-on-image .add-links-wrap .add-links .quickview { color: ' + value + '}' : '' ) );
         });
     });
     wp.customize('porto_settings[hot-color]', function(e) {
@@ -1479,8 +1473,8 @@ jQuery(document).ready(function($) {
     });
     wp.customize('porto_settings[css-code]', function(e) {
         e.bind(function(value) {
-            appendStyle('porto_settings[css-code]', value)
-        })
+            appendStyle('porto_settings[css-code]', value);
+        });
     });
     wp.customize('porto_settings[sticky-header-effect]', function(e) {
         e.bind(function(value) {
@@ -1494,17 +1488,17 @@ jQuery(document).ready(function($) {
     wp.customize('porto_settings[show-sticky-logo]', function(e) {
         e.bind(function(value) {
             appendStyle('porto_settings[show-sticky-logo]', ( value == '1' ? '' : '#header.sticky-header .logo { display: none !important; }' ));
-        })
+        });
     });
     wp.customize('porto_settings[show-sticky-searchform]', function(e) {
         e.bind(function(value) {
             appendStyle('porto_settings[show-sticky-searchform]', ( value == '1' ? '' : '#header.sticky-header .searchform-popup { display: none !important; }' ));
-        })
+        });
     });
     wp.customize('porto_settings[show-sticky-minicart]', function(e) {
         e.bind(function(value) {
             appendStyle('porto_settings[show-sticky-minicart]', ( value == '1' ? '' : '#header.sticky-header #mini-cart { display: none !important; }' ));
-        })
+        });
     });
     wp.customize('porto_settings[show-sticky-menu-custom-content]', function(e) {
         e.bind(function(value) {
@@ -1518,6 +1512,9 @@ jQuery(document).ready(function($) {
             } else {
                 $('#side-nav-panel').attr('class', '');
             }
+            var mobile_panel_pos = value ? ( isRTL() ? ( 'panel-left' == value ? 'right' : 'left' ) : value.replace('panel-', '') ) : ( isRTL() ? 'right' : 'left' ),
+                css = 'html.panel-opened { margin-' + mobile_panel_pos + ': 260px !important; margin-' + ( 'left' == mobile_panel_pos ? 'right' : 'left' ) + ': -260px !important; }';
+            appendStyle('porto_settings[mobile-panel-pos]', css);
         });
     });
 
@@ -1631,7 +1628,13 @@ jQuery(document).ready(function($) {
     });
     wp.customize('porto_settings[category-view-mode]', function(e) {
         e.bind(function(value) {
-            $('ul.products').removeClass('grid').removeClass('list').addClass(value);
+            if ($('.gridlist-toggle').length) {
+                if ('list' == value) {
+                    $('.gridlist-toggle #list:not(.active)').click();
+                } else {
+                    $('.gridlist-toggle #grid:not(.active)').click();
+                }
+            }
         });
     });
     wp.customize('porto_settings[category-hover]', function(e) {

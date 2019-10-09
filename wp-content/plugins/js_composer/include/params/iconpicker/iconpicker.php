@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *      `` example
  *        array(
  *            'type' => 'iconpicker',
- *            'heading' => __( 'Icon', 'js_composer' ),
+ *            'heading' => esc_html__( 'Icon', 'js_composer' ),
  *            'param_name' => 'icon_fontawesome',
  *            'settings' => array(
  *                'emptyIcon' => false, // default true, display an "EMPTY"
@@ -87,11 +87,11 @@ class Vc_IconPicker {
 		}
 		if ( ! isset( $this->settings['settings'], $this->settings['settings']['allCategoryText'] ) ) {
 			// If categorized then use this option
-			$this->settings['settings']['allCategoryText'] = __( 'From all categories', 'js_composer' );
+			$this->settings['settings']['allCategoryText'] = esc_html__( 'From all categories', 'js_composer' );
 		}
 		if ( ! isset( $this->settings['settings'], $this->settings['settings']['unCategorizedText'] ) ) {
 			// If categorized then use this option
-			$this->settings['settings']['unCategorizedText'] = __( 'Uncategorized', 'js_composer' );
+			$this->settings['settings']['unCategorizedText'] = esc_html__( 'Uncategorized', 'js_composer' );
 		}
 
 		/**
@@ -139,7 +139,7 @@ class Vc_IconPicker {
 		}
 		$output .= '</select></div>';
 
-		$output .= '<input name="' . esc_attr( $this->settings['param_name'] ) . '" class="wpb_vc_param_value  ' . esc_attr( $this->settings['param_name'] ) . ' ' . esc_attr( $this->settings['type'] ) . '_field" type="hidden" value="' . esc_attr( $this->value ) . '" ' . ( ( isset( $this->settings['settings'] ) && ! empty( $this->settings['settings'] ) ) ? ' data-settings="' . esc_attr( json_encode( $this->settings['settings'] ) ) . '" ' : '' ) . ' />';
+		$output .= '<input name="' . esc_attr( $this->settings['param_name'] ) . '" class="wpb_vc_param_value  ' . esc_attr( $this->settings['param_name'] ) . ' ' . esc_attr( $this->settings['type'] ) . '_field" type="hidden" value="' . esc_attr( $this->value ) . '" ' . ( ( isset( $this->settings['settings'] ) && ! empty( $this->settings['settings'] ) ) ? ' data-settings="' . esc_attr( wp_json_encode( $this->settings['settings'] ) ) . '" ' : '' ) . ' />';
 
 		return $output;
 	}

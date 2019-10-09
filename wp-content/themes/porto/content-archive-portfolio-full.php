@@ -163,10 +163,10 @@ if ( $ajax_attr ) {
 					<?php if ( $portfolio_show_link || $portfolio_show_zoom ) : ?>
 						<span class="thumb-info-action">
 							<?php if ( $portfolio_show_link ) : ?>
-								<span class="thumb-info-action-icon thumb-info-action-icon-primary"><i class="fa <?php echo ! $ajax_attr ? 'fa-link' : 'fa-plus-square'; ?>"></i></span>
+								<span class="thumb-info-action-icon thumb-info-action-icon-primary"><i class="fas <?php echo ! $ajax_attr ? 'fa-link' : 'fa-plus-square'; ?>"></i></span>
 							<?php endif; ?>
 							<?php if ( $portfolio_show_zoom ) : ?>
-								<span class="thumb-info-action-icon thumb-info-action-icon-light thumb-info-zoom" data-src="<?php echo esc_attr( json_encode( $zoom_src ) ); ?>" data-title="<?php echo esc_attr( json_encode( $zoom_title ) ); ?>"><i class="fa fa-search-plus"></i></span>
+								<span class="thumb-info-action-icon thumb-info-action-icon-light thumb-info-zoom" data-src="<?php echo esc_attr( json_encode( $zoom_src ) ); ?>" data-title="<?php echo esc_attr( json_encode( $zoom_title ) ); ?>"><i class="fas fa-search-plus"></i></span>
 							<?php endif; ?>
 						</span>
 					<?php endif; ?>
@@ -190,7 +190,7 @@ if ( $ajax_attr ) {
 			if ( in_array( 'date', $porto_settings['portfolio-metas'] ) ) :
 				?>
 				<li>
-					<i class="fa fa-calendar"></i> <?php echo get_the_date(); ?>
+					<i class="far fa-calendar-alt"></i> <?php echo get_the_date(); ?>
 				</li>
 				<?php
 			endif;
@@ -198,7 +198,7 @@ if ( $ajax_attr ) {
 			if ( in_array( 'cats', $porto_settings['portfolio-metas'] ) && $cat_list ) :
 				?>
 				<li>
-					<i class="fa fa-tags"></i> <?php echo porto_filter_output( $cat_list ); ?>
+					<i class="fas fa-tags"></i> <?php echo porto_filter_output( $cat_list ); ?>
 				</li>
 			<?php endif; ?>
 			<?php

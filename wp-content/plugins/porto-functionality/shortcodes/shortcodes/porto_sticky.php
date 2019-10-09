@@ -63,6 +63,13 @@ function porto_load_sticky_shortcode() {
 					'param_name' => 'active_class',
 					'value'      => 'sticky-active',
 				),
+				array(
+					'type'       => 'checkbox',
+					'heading'    => __( 'Auto Fit', 'porto-functionality' ),
+					'param_name' => 'autofit',
+					'value'      => array( __( 'Yes', 'js_composer' ) => 'yes' ),
+					'std'        => '',
+				),
 				$custom_class,
 				$animation_type,
 				$animation_duration,

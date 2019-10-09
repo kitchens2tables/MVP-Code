@@ -138,8 +138,8 @@ if ( ! class_exists( 'Porto_Infinite_Scroll' ) ) :
 				} else {
 					$required = array( 'porto-theme' );
 				}
-				wp_enqueue_script( 'jquery-infinite-scroll', porto_uri . '/js/libs/jquery.infinite-scroll.min.js', $required, '2.1.0', true );
-				wp_enqueue_script( 'porto-infinite-scroll', porto_lib_uri . '/infinite-scroll/infinite-scroll.min.js', array( 'jquery-infinite-scroll' ), porto_version, true );
+				wp_enqueue_script( 'jquery-infinite-scroll', PORTO_URI . '/js/libs/jquery.infinite-scroll.min.js', $required, '2.1.0', true );
+				wp_enqueue_script( 'porto-infinite-scroll', PORTO_LIB_URI . '/infinite-scroll/infinite-scroll.min.js', array( 'jquery-infinite-scroll' ), PORTO_VERSION, true );
 
 				if ( 'post' == $post_type || 'portfolio' == $post_type ) {
 					$item_selector = '.' . $post_type . 's-container .' . $post_type . ', .' . $post_type . 's-container .timeline-date';

@@ -5,16 +5,14 @@
  * @version     3.3.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 ?>
 
 <table class="shop_table review-order woocommerce-checkout-review-order-table">
 	<thead>
 		<tr>
-			<th class="product-name"><?php esc_html_e( 'Product', 'porto' ); ?></th>
-			<th class="product-total"><?php esc_html_e( 'Total', 'porto' ); ?></th>
+			<th class="product-name"><?php esc_html_e( 'Product', 'woocommerce' ); ?></th>
+			<th class="product-total"><?php esc_html_e( 'Total', 'woocommerce' ); ?></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -28,12 +26,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 				?>
 					<tr class="<?php echo esc_attr( apply_filters( 'woocommerce_cart_item_class', 'cart_item', $cart_item, $cart_item_key ) ); ?>">
 						<td class="product-name">
-						<?php echo apply_filters( 'woocommerce_cart_item_name', $_product->get_title(), $cart_item, $cart_item_key ) . '&nbsp;'; ?>
-						<?php echo apply_filters( 'woocommerce_checkout_cart_item_quantity', ' <strong class="product-quantity">' . sprintf( '&times; %s', $cart_item['quantity'] ) . '</strong>', $cart_item, $cart_item_key ); ?>
-						<?php echo function_exists( 'wc_get_formatted_cart_item_data' ) ? wc_get_formatted_cart_item_data( $cart_item ) : WC()->cart->get_item_data( $cart_item ); ?>
+						<?php echo apply_filters( 'woocommerce_cart_item_name', $_product->get_title(), $cart_item, $cart_item_key ) . '&nbsp;'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<?php echo apply_filters( 'woocommerce_checkout_cart_item_quantity', ' <strong class="product-quantity">' . sprintf( '&times; %s', $cart_item['quantity'] ) . '</strong>', $cart_item, $cart_item_key ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+						<?php echo function_exists( 'wc_get_formatted_cart_item_data' ) ? wc_get_formatted_cart_item_data( $cart_item ) : WC()->cart->get_item_data( $cart_item ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						</td>
 						<td class="product-total">
-						<?php echo apply_filters( 'woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal( $_product, $cart_item['quantity'] ), $cart_item, $cart_item_key ); ?>
+						<?php echo apply_filters( 'woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal( $_product, $cart_item['quantity'] ), $cart_item, $cart_item_key ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 						</td>
 					</tr>
 					<?php
@@ -46,7 +44,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<tfoot>
 
 		<tr class="cart-subtotal">
-			<th><?php esc_html_e( 'Subtotal', 'porto' ); ?></th>
+			<th><?php esc_html_e( 'Subtotal', 'woocommerce' ); ?></th>
 			<td><?php echo apply_filters( 'porto_get_price_html', WC()->cart->get_cart_subtotal() ); ?></td>
 		</tr>
 
@@ -80,8 +78,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 		<?php if ( wc_tax_enabled() && ! WC()->cart->display_prices_including_tax() ) : ?>
 			<?php if ( 'itemized' === get_option( 'woocommerce_tax_total_display' ) ) : ?>
-				<?php foreach ( WC()->cart->get_tax_totals() as $code => $tax ) : ?>
-					<tr class="tax-rate tax-rate-<?php echo sanitize_title( $code ); ?>">
+				<?php foreach ( WC()->cart->get_tax_totals() as $code => $tax ) : // phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited ?>
+					<tr class="tax-rate tax-rate-<?php echo esc_attr( sanitize_title( $code ) ); ?>">
 						<th><?php echo esc_html( $tax->label ); ?></th>
 						<td><?php echo wp_kses_post( $tax->formatted_amount ); ?></td>
 					</tr>

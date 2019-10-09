@@ -25,7 +25,7 @@
 // ** MySQL settings - You can get this info from your web host ** //
 /** The name of the database for WordPress */
 define('WP_CACHE', true);
-define( 'WPCACHEHOME', '/var/www/html/kitchens2tables/wp-content/plugins/wp-super-cache/' );
+define('WPCACHEHOME', '/var/www/html/kitchens2tables/wp-content/plugins/wp-super-cache/');
 define('DB_NAME', 'kitchens2tables');
 /** MySQL database username */
 define('DB_USER', 'root');
@@ -76,6 +76,7 @@ $table_prefix  = 'wp_';
  * @link https://codex.wordpress.org/Debugging_in_WordPress
  */
 define('WP_DEBUG', false); 
+define( 'WP_DEBUG_LOG', false );
 define('CONCATENATE_SCRIPTS', false);
 /* That's all, stop editing! Happy blogging. */
 /** Absolute path to the WordPress directory. */

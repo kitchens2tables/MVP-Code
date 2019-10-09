@@ -41,7 +41,7 @@
                 display: none;
             }
             .delimiter {
-                font-family: "FontAwesome";
+                font-family: 'Font Awesome 5 Free'; font-weight: 900; -webkit-font-smoothing: antialiased;
                 display: block;
                 float: $right;
                 margin: 0 4px;
@@ -60,6 +60,7 @@
                 }
                 &.delimiter-2 {
                     font-family: "Porto";
+                    font-weight: 400;
                     &:before {
                         @if $rtl == 1 {
                             content: "\e819";

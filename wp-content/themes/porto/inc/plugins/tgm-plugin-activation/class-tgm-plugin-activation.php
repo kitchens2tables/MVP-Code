@@ -503,10 +503,10 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			if ( false !== strpos( __FILE__, WP_PLUGIN_DIR ) || false !== strpos( __FILE__, WPMU_PLUGIN_DIR ) ) {
 				// Plugin, we'll need to adjust the file name.
 				add_action( 'load_textdomain_mofile', array( $this, 'correct_plugin_mofile' ), 10, 2 );
-				load_theme_textdomain( 'tgmpa', dirname( __FILE__ ) . '/languages' );
+				load_theme_textdomain( 'tgmpa', PORTO_PLUGINS . '/tgm-plugin-activation/languages' );
 				remove_action( 'load_textdomain_mofile', array( $this, 'correct_plugin_mofile' ), 10 );
 			} else {
-				load_theme_textdomain( 'tgmpa', dirname( __FILE__ ) . '/languages' );
+				load_theme_textdomain( 'tgmpa', PORTO_PLUGINS . '/tgm-plugin-activation/languages' );
 			}
 		}
 

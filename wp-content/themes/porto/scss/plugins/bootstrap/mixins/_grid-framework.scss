@@ -30,12 +30,12 @@
     @include media-breakpoint-up($breakpoint, $breakpoints) {
       // Provide basic `.col-{bp}` classes for equal-width flexbox columns
       .col#{$infix} {
-        -webkit-flex-basis: 0; -ms-flex-preferred-size: 0; flex-basis: 0;
-        -webkit-flex-grow: 1; -ms-flex-positive: 1; flex-grow: 1;
+        -ms-flex-preferred-size: 0; flex-basis: 0;
+        -ms-flex-positive: 1; flex-grow: 1;
         max-width: 100%;
       }
       .col#{$infix}-auto {
-        -webkit-flex: 0 0 auto; -ms-flex: 0 0 auto; flex: 0 0 auto;
+        -ms-flex: 0 0 auto; flex: 0 0 auto;
         width: auto;
         max-width: none; // Reset earlier grid tiers
       }
@@ -46,12 +46,12 @@
         }
       }
 
-      .order#{$infix}-first { -webkit-order: -1; -ms-flex-order: -1; order: -1; }
+      .order#{$infix}-first { -ms-flex-order: -1; order: -1; }
 
-      .order#{$infix}-last { -webkit-order: $columns + 1; -ms-flex-order: $columns + 1; order: $columns + 1; }
+      .order#{$infix}-last { -ms-flex-order: $columns + 1; order: $columns + 1; }
 
       @for $i from 0 through $columns {
-        .order#{$infix}-#{$i} { -webkit-order: $i; -ms-flex-order: $i; order: $i; }
+        .order#{$infix}-#{$i} { -ms-flex-order: $i; order: $i; }
       }
 
       // `$columns - 1` because offsetting by the width of an entire row isn't possible

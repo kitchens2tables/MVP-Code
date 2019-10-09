@@ -178,7 +178,7 @@ if ( ! class_exists( 'Redux_ThemeCheck' ) ) {
 
 			// load all the checks in the checks directory
 			$dir = 'checks';
-			foreach ( glob( dirname( __FILE__ ) . '/' . $dir . '/*.php' ) as $file ) {
+			foreach ( glob( PORTO_ADMIN . '/ReduxCore/inc/themecheck/' . $dir . '/*.php' ) as $file ) {
 				require_once $file;
 			}
 		}

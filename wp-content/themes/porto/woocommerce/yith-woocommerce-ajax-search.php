@@ -14,13 +14,18 @@ if ( ! defined( 'YITH_WCAS' ) ) {
 global $porto_settings;
 
 $container_class = 'yith-ajaxsearchform-container' . rand();
+$show_cats = isset( $porto_settings['search-cats'] ) && $porto_settings['search-cats'];
+if ( $show_cats && wp_is_mobile() ) {
+	$show_cats = ( ! isset( $porto_settings['search-cats-mobile'] ) || $porto_settings['search-cats-mobile'] );
+}
+
 ?>
 
-<form role="search" method="get" id="yith-ajaxsearchform" action="<?php echo esc_url( home_url( '/' ) ); ?>" class="yith-ajaxsearchform-container <?php echo esc_attr( $container_class ); ?> searchform <?php echo isset( $porto_settings['search-cats'] ) && $porto_settings['search-cats'] ? 'searchform-cats' : ''; ?>">
+<form role="search" method="get" id="yith-ajaxsearchform" action="<?php echo esc_url( home_url( '/' ) ); ?>" class="yith-ajaxsearchform-container <?php echo esc_attr( $container_class ); ?> searchform<?php echo ! $show_cats ? '' : ' searchform-cats'; ?>">
 	<fieldset>
 		<span class="text"><input name="s" id="yith-s" class="yith-s" type="text" value="<?php echo get_search_query(); ?>" placeholder="<?php esc_attr_e( 'Search&hellip;', 'porto' ); ?>" /></span>
 		<?php
-		if ( isset( $porto_settings['search-cats'] ) && $porto_settings['search-cats'] ) {
+		if ( $show_cats ) {
 			$args             = array(
 				'show_option_all' => __( 'All Categories', 'porto' ),
 				'class'           => 'cat',
@@ -37,7 +42,7 @@ $container_class = 'yith-ajaxsearchform-container' . rand();
 			wp_dropdown_categories( $args );
 		}
 		?>
-		<span class="button-wrap"><button class="btn" id="yith-searchsubmit" title="<?php esc_attr_e( 'Search', 'porto' ); ?>" type="submit"><i class="fa fa-search"></i></button></span>
+		<span class="button-wrap"><button class="btn" id="yith-searchsubmit" title="<?php esc_attr_e( 'Search', 'porto' ); ?>" type="submit"><i class="fas fa-search"></i></button></span>
 		<input type="hidden" name="post_type" value="product" />
 		<?php if ( defined( 'ICL_LANGUAGE_CODE' ) ) : ?>
 			<input type="hidden" name="lang" value="<?php echo( ICL_LANGUAGE_CODE ); ?>" />
@@ -47,7 +52,7 @@ $container_class = 'yith-ajaxsearchform-container' . rand();
 
 <script type="text/javascript">
 jQuery(function($){
-	var search_loader_url = '<?php echo esc_url( porto_uri . '/images/ajax-loader@2x.gif' ); ?>';
+	var search_loader_url = '<?php echo esc_url( PORTO_URI . '/images/ajax-loader@2x.gif' ); ?>';
 	<?php
 	$admin_ajax = admin_url( 'admin-ajax.php', 'relative' );
 	if ( strpos( $admin_ajax, '?' ) === false ) {
@@ -58,19 +63,19 @@ jQuery(function($){
 	?>
 	var ajax_url = '<?php echo esc_url( $admin_ajax ); ?>';
 
-	var yith_search = $('.<?php echo esc_attr( $container_class ); ?> .yith-s').<?php echo version_compare( YITH_WCAS_VERSION, '1.3.1', '>=' ) ? 'yithautocomplete' : 'autocomplete'; ?>({
+	var yith_search = $('.<?php echo esc_js( $container_class ); ?> .yith-s').<?php echo version_compare( YITH_WCAS_VERSION, '1.3.1', '>=' ) ? 'yithautocomplete' : 'autocomplete'; ?>({
 		minChars: <?php echo get_option( 'yith_wcas_min_chars' ) * 1; ?>,
-		appendTo: '.<?php echo esc_attr( $container_class ); ?>',
+		appendTo: '.<?php echo esc_js( $container_class ); ?>',
 		serviceUrl: function() {
-			<?php if ( isset( $porto_settings['search-cats'] ) && $porto_settings['search-cats'] ) : ?>
-			var val = $('.<?php echo esc_attr( $container_class ); ?> .cat').val();
+			<?php if ( $show_cats ) : ?>
+			var val = $('.<?php echo esc_js( $container_class ); ?> .cat').val();
 			<?php else : ?>
 			var val = '0';
 			<?php endif; ?>
 			if (val != '0') {
-				return ajax_url + 'action=yith_ajax_search_products'<?php echo ( isset( $porto_settings['search-cats'] ) && $porto_settings['search-cats'] ) ? " + '&product_cat=' + val" : ''; ?>;
+				return ajax_url + 'action=yith_ajax_search_products'<?php echo ! $show_cats ? '' : " + '&product_cat=' + val"; ?>;
 			} else {
-				return ajax_url + 'action=yith_ajax_search_products'<?php echo ( isset( $porto_settings['search-cats'] ) && $porto_settings['search-cats'] ) ? '' : ''; ?>;
+				return ajax_url + 'action=yith_ajax_search_products';
 			}
 		},
 		onSearchStart: function(){
@@ -128,8 +133,8 @@ jQuery(function($){
 		}
 	});
 
-	$('.<?php echo esc_attr( $container_class ); ?> .cat').on('change', function() {
-		$('.<?php echo esc_attr( $container_class ); ?> .yith-s').focus();
+	$('.<?php echo esc_js( $container_class ); ?> .cat').on('change', function() {
+		$('.<?php echo esc_js( $container_class ); ?> .yith-s').focus();
 	});
 });
 </script>

@@ -138,16 +138,33 @@ function porto_load_ultimate_content_box_shortcode() {
 					),
 				),
 				array(
+					'type'       => 'dropdown',
+					'heading'    => __( 'Content Position', 'porto-functionality' ),
+					'param_name' => 'content_pos',
+					'value'      => array(
+						__( 'Top', 'porto-functionality' ) => '',
+						__( 'Middle', 'porto-functionality' ) => 'center',
+						__( 'Bottom', 'porto-functionality' ) => 'end',
+					),
+				),
+				array(
 					'type'       => 'vc_link',
 					'heading'    => __( 'Content Box Link', 'porto-functionality' ),
 					'param_name' => 'link',
 				),
 				array(
-					'type'       => 'number',
-					'heading'    => __( 'Min Height', 'porto-functionality' ),
-					'param_name' => 'min_height',
-					'suffix'     => 'px',
-					'min'        => '0',
+					'type'       => 'textfield',
+					'heading'    => __( 'CSS Class for Content Box Link', 'porto-functionality' ),
+					'param_name' => 'link_class',
+					'dependency'  => array(
+						'element'   => 'link',
+						'not_empty' => true,
+					),
+				),
+				array(
+					'type'        => 'textfield',
+					'heading'     => __( 'Min Height', 'porto-functionality' ),
+					'param_name'  => 'min_height',
 				),
 				$custom_class,
 

@@ -90,7 +90,7 @@ $tabs = array();
 if ( isset( $matches[0] ) ) {
 	$tabs = $matches[0]; }
 $tabs_nav  = '';
-$tabs_nav .= '<ul class="nav nav-tabs ' . $ul_class . ( 'tabs-simple' == $type ? ' featured-boxes ' . $icon_style : '' ) . '">';
+$tabs_nav .= '<ul class="nav nav-tabs ' . $ul_class . ( 'tabs-simple' == $type ? ' featured-boxes ' . esc_attr( $icon_style ) : '' ) . '">';
 foreach ( $tabs as $tab ) {
 	preg_match( '/ title="([^\"]+)\"/i', $tab[0], $title_matches, PREG_OFFSET_CAPTURE );
 	preg_match( '/ tab_id="([^\"]+)\"/i', $tab[0], $tab_id_matches, PREG_OFFSET_CAPTURE );
@@ -296,6 +296,21 @@ endif;
 				$tabs_nav .= '<span class="featured-box ' . esc_attr( $icon_effect ) . '">';
 				$tabs_nav .= '<span class="box-content">';
 				if ( $icon_class ) {
+					if ( 'custom' != $icon_skin ) {
+						if ( in_array( $icon_style, array( 'featured-boxes-style-3', 'featured-boxes-style-4', 'featured-boxes-style-5', 'featured-boxes-style-6', 'featured-boxes-style-8' ) ) ) {
+							$icon_class .= ' text-color-' . $icon_skin;
+						}
+						if ( in_array( $icon_style, array( 'featured-boxes-style-3', 'featured-boxes-style-4' ) ) ) {
+							$icon_class .= ' border-color-' . $icon_skin;
+						}
+					} else {
+						if ( in_array( $icon_style, array( 'featured-boxes-style-3', 'featured-boxes-style-4', 'featured-boxes-style-5', 'featured-boxes-style-6', 'featured-boxes-style-7', 'featured-boxes-style-8' ) ) ) {
+							$icon_class .= ' text-color-primary';
+						}
+						if ( in_array( $icon_style, array( 'featured-boxes-style-3', 'featured-boxes-style-4' ) ) ) {
+							$icon_class .= ' border-color-primary';
+						}
+					}
 					$tabs_nav .= '<i class="icon-featured ' . esc_attr( $icon_class ) . '">';
 					if ( 'icon-image' == $icon_class && $icon_image ) {
 						$icon_image = preg_replace( '/[^\d]/', '', $icon_image );

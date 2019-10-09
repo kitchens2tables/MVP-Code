@@ -98,7 +98,6 @@ return $html;
 }
 
 
-
 function porto_logo( $sticky_logo = false ) {
 	global $porto_settings;
 

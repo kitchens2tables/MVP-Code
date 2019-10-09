@@ -56,6 +56,16 @@ $icon_wrapper              = false;
 $icon_html                 = false;
 $attributes                = array();
 
+$css_animation      = '';
+$animation_type     = '';
+$animation_delay    = '';
+$animation_duration = '';
+
+$floating_start_pos  = '';
+$floating_speed      = '';
+$floating_transition = 'yes';
+$floating_horizontal = '';
+
 $colors = array(
 	'blue'        => '#5472d2',
 	'turquoise'   => '#00c1cf',
@@ -132,7 +142,7 @@ if ( 'true' === $add_icon ) {
 		}
 		$icon_class = ${'i_icon_' . $i_type};
 	} else {
-		$icon_class = 'fa fa-adjust';
+		$icon_class = 'fas fa-adjust';
 	}
 
 	if ( $icon_wrapper ) {
@@ -165,21 +175,21 @@ if ( ! ( $contextual || 'custom' !== $skin ) ) {
 		if ( $outline_custom_color ) {
 			$styles[]     = vc_get_css_color( 'border-color', $outline_custom_color );
 			$styles[]     = vc_get_css_color( 'color', $outline_custom_color );
-			$attributes[] = 'onmouseleave="this.style.borderColor=\'' . $outline_custom_color . '\'; this.style.backgroundColor=\'transparent\'; this.style.color=\'' . $outline_custom_color . '\'"';
+			$attributes[] = 'onmouseleave="this.style.borderColor=\'' . esc_js( $outline_custom_color ) . '\'; this.style.backgroundColor=\'transparent\'; this.style.color=\'' . esc_js( $outline_custom_color ) . '\'"';
 		} else {
 			$attributes[] = 'onmouseleave="this.style.borderColor=\'\'; this.style.backgroundColor=\'transparent\'; this.style.color=\'\'"';
 		}
 
 		$onmouseenter = array();
 		if ( $outline_custom_hover_background ) {
-			$onmouseenter[] = 'this.style.borderColor=\'' . $outline_custom_hover_background . '\';';
-			$onmouseenter[] = 'this.style.backgroundColor=\'' . $outline_custom_hover_background . '\';';
+			$onmouseenter[] = 'this.style.borderColor=\'' . esc_js( $outline_custom_hover_background ) . '\';';
+			$onmouseenter[] = 'this.style.backgroundColor=\'' . esc_js( $outline_custom_hover_background ) . '\';';
 		}
 		if ( $outline_custom_hover_text ) {
-			$onmouseenter[] = 'this.style.color=\'' . $outline_custom_hover_text . '\';';
+			$onmouseenter[] = 'this.style.color=\'' . esc_js( $outline_custom_hover_text ) . '\';';
 		}
 		if ( $onmouseenter ) {
-			$attributes[] = 'onmouseenter="' . implode( ' ', $onmouseenter ) . '"';
+			$attributes[] = 'onmouseenter="' . esc_js( implode( ' ', $onmouseenter ) ) . '"';
 		}
 
 		if ( ! $outline_custom_color && ! $outline_custom_hover_background && ! $outline_custom_hover_text ) {
@@ -211,7 +221,6 @@ if ( ! ( $contextual || 'custom' !== $skin ) ) {
 		$gradient_css[] = 'background-color: ' . $gradient_color_1;
 		$gradient_css[] = 'background-image: -webkit-linear-gradient(left, ' . $gradient_color_1 . ' 0%, ' . $gradient_color_2 . ' 50%,' . $gradient_color_1 . ' 100%)';
 		$gradient_css[] = 'background-image: linear-gradient(to right, ' . $gradient_color_1 . ' 0%, ' . $gradient_color_2 . ' 50%,' . $gradient_color_1 . ' 100%)';
-		$gradient_css[] = '-webkit-transition: all .2s ease-in-out';
 		$gradient_css[] = 'transition: all .2s ease-in-out';
 		$gradient_css[] = 'background-size: 200% 100%';
 
@@ -223,17 +232,17 @@ if ( ! ( $contextual || 'custom' !== $skin ) ) {
 		$gradient_css_hover[] = 'background-position: 100% 0';
 
 		$uid = uniqid();
-		echo '<style>.vc_btn3-style-' . $style . '.vc_btn-gradient-btn-' . $uid . ':hover,.vc_btn3-style-' . $style . '.vc_btn-gradient-btn-' . $uid . ':focus{' . implode(
+		echo '<style>.vc_btn3-style-' . esc_html( $style ) . '.vc_btn-gradient-btn-' . $uid . ':hover,.vc_btn3-style-' . esc_html( $style ) . '.vc_btn-gradient-btn-' . $uid . ':focus{' . esc_html( implode(
 			';',
 			$gradient_css_hover
-		) . ';' . '} ';
-		echo '.vc_btn3-style-' . $style . '.vc_btn-gradient-btn-' . $uid . '{' . implode(
+		) ) . ';' . '} ';
+		echo '.vc_btn3-style-' . esc_html( $style ) . '.vc_btn-gradient-btn-' . $uid . '{' . esc_html( implode(
 			';',
 			$gradient_css
-		) . ';' . '}</style>';
+		) ) . ';' . '}</style>';
 		$button_classes[] = 'vc_btn-gradient-btn-' . $uid;
-		$attributes[]     = 'data-vc-gradient-1="' . $gradient_color_1 . '"';
-		$attributes[]     = 'data-vc-gradient-2="' . $gradient_color_2 . '"';
+		$attributes[]     = 'data-vc-gradient-1="' . esc_attr( $gradient_color_1 ) . '"';
+		$attributes[]     = 'data-vc-gradient-2="' . esc_attr( $gradient_color_2 ) . '"';
 	} else {
 		$button_classes[] = 'vc_btn3-color-' . $color;
 	}
@@ -244,7 +253,31 @@ if ( $label ) {
 }
 
 if ( $styles ) {
-	$attributes[] = 'style="' . implode( ' ', $styles ) . '"';
+	$attributes[] = 'style="' . esc_attr( implode( ' ', $styles ) ) . '"';
+}
+
+if ( $animation_type ) {
+	$attributes[] = ' data-appear-animation="' . esc_attr( $animation_type ) . '"';
+	if ( $animation_delay ) {
+		$attributes[] = ' data-appear-animation-delay="' . esc_attr( $animation_delay ) . '"';
+	}
+	if ( $animation_duration && 1000 != $animation_duration ) {
+		$attributes[] = ' data-appear-animation-duration="' . esc_attr( $animation_duration ) . '"';
+	}
+} elseif ( $floating_start_pos && $floating_speed ) {
+	$floating_options = array( 'startPos' => $floating_start_pos, 'speed' => $floating_speed );
+	if ( $floating_transition ) {
+		$floating_options['transition'] = true;
+	} else {
+		$floating_options['transition'] = false;
+	}
+	if ( $floating_horizontal ) {
+		$floating_options['horizontal'] = true;
+	} else {
+		$floating_options['horizontal'] = false;
+	}
+	$attributes[] = 'data-plugin-float-element';
+	$attributes[] = 'data-plugin-options="' . esc_attr( json_encode( $floating_options ) ) . '"';
 }
 
 if ( isset( $show_arrow ) && $show_arrow ) {
@@ -301,7 +334,7 @@ if ( $button_classes ) {
 	}
 	if ( $btn_arrow ) {
 		$button_classes[] = 'btn-arrow';
-		$button_html     .= '<span class="icon-wrapper"><i class="fa fa-chevron-right"></i></span>';
+		$button_html     .= '<span class="icon-wrapper"><i class="fas fa-chevron-right"></i></span>';
 	}
 	$button_classes = esc_attr( apply_filters( VC_SHORTCODE_CUSTOM_CSS_FILTER_TAG, implode( ' ', array_filter( $button_classes ) ), $this->settings['base'], $atts ) );
 	$attributes[]   = 'class="' . trim( $button_classes ) . '"';

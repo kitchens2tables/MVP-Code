@@ -28,141 +28,228 @@ function porto_load_product_categories_shortcode() {
 			'icon'        => 'porto_vc_woocommerce',
 			'category'    => __( 'WooCommerce', 'js_composer' ),
 			'description' => __( 'Display product categories loop', 'porto-functionality' ),
-			'params'      => array(
+			'params'      => array_merge(
 				array(
-					'type'        => 'textfield',
-					'heading'     => __( 'Title', 'woocommerce' ),
-					'param_name'  => 'title',
-					'admin_label' => true,
-				),
-				array(
-					'type'        => 'dropdown',
-					'heading'     => __( 'View mode', 'porto-functionality' ),
-					'param_name'  => 'view',
-					'value'       => array(
-						__( 'Grid', 'porto-functionality' )   => 'grid',
-						__( 'Slider', 'porto-functionality' ) => 'products-slider',
+					array(
+						'type'        => 'textfield',
+						'heading'     => __( 'Title', 'woocommerce' ),
+						'param_name'  => 'title',
+						'admin_label' => true,
 					),
-					'admin_label' => true,
-				),
-				array(
-					'type'        => 'textfield',
-					'heading'     => __( 'Number', 'js_composer' ),
-					'param_name'  => 'number',
-					'description' => __( 'The `number` field is used to display the number of products.', 'js_composer' ),
-				),
-				array(
-					'type'       => 'dropdown',
-					'heading'    => __( 'Columns', 'porto-functionality' ),
-					'param_name' => 'columns',
-					'dependency' => array(
-						'element' => 'view',
-						'value'   => array( 'products-slider', 'grid' ),
+					array(
+						'type'        => 'dropdown',
+						'heading'     => __( 'View mode', 'porto-functionality' ),
+						'param_name'  => 'view',
+						'value'       => array(
+							__( 'Grid', 'porto-functionality' )   => 'grid',
+							__( 'Slider', 'porto-functionality' ) => 'products-slider',
+							__( 'Grid - Creative', 'porto-functionality' ) => 'creative',
+						),
+						'admin_label' => true,
 					),
-					'std'        => '4',
-					'value'      => porto_sh_commons( 'products_columns' ),
-				),
-				array(
-					'type'       => 'dropdown',
-					'heading'    => __( 'Columns on mobile ( <= 575px )', 'porto-functionality' ),
-					'param_name' => 'columns_mobile',
-					'dependency' => array(
-						'element' => 'view',
-						'value'   => array( 'products-slider', 'grid' ),
+					array(
+						'type'        => 'textfield',
+						'heading'     => __( 'Number', 'js_composer' ),
+						'param_name'  => 'number',
+						'description' => __( 'The `number` field is used to display the number of products.', 'js_composer' ),
 					),
-					'std'        => '',
-					'value'      => array(
-						__( 'Default', 'porto-functionality' ) => '',
-						'1' => '1',
-						'2' => '2',
-						'3' => '3',
+					array(
+						'type'       => 'dropdown',
+						'heading'    => __( 'Columns', 'porto-functionality' ),
+						'param_name' => 'columns',
+						'dependency' => array(
+							'element' => 'view',
+							'value'   => array( 'products-slider', 'grid' ),
+						),
+						'std'        => '4',
+						'value'      => porto_sh_commons( 'products_columns' ),
 					),
-				),
-				array(
-					'type'       => 'dropdown',
-					'heading'    => __( 'Column Width', 'porto-functionality' ),
-					'param_name' => 'column_width',
-					'dependency' => array(
-						'element' => 'view',
-						'value'   => array( 'products-slider', 'grid' ),
+					array(
+						'type'       => 'dropdown',
+						'heading'    => __( 'Columns on mobile ( <= 575px )', 'porto-functionality' ),
+						'param_name' => 'columns_mobile',
+						'dependency' => array(
+							'element' => 'view',
+							'value'   => array( 'products-slider', 'grid' ),
+						),
+						'std'        => '',
+						'value'      => array(
+							__( 'Default', 'porto-functionality' ) => '',
+							'1' => '1',
+							'2' => '2',
+							'3' => '3',
+						),
 					),
-					'value'      => porto_sh_commons( 'products_column_width' ),
-				),
-				array(
-					'type'        => 'dropdown',
-					'heading'     => __( 'Order by', 'js_composer' ),
-					'param_name'  => 'orderby',
-					'value'       => $order_by_values,
-					/* translators: %s: Wordpress codex page */
-					'description' => sprintf( __( 'Select how to sort retrieved products. More at %s.', 'js_composer' ), '<a href="http://codex.wordpress.org/Class_Reference/WP_Query#Order_.26_Orderby_Parameters" target="_blank">WordPress codex page</a>' ),
-				),
-				array(
-					'type'        => 'dropdown',
-					'heading'     => __( 'Order way', 'js_composer' ),
-					'param_name'  => 'order',
-					'value'       => $order_way_values,
-					/* translators: %s: Wordpress codex page */
-					'description' => sprintf( __( 'Designates the ascending or descending order. More at %s.', 'js_composer' ), '<a href="http://codex.wordpress.org/Class_Reference/WP_Query#Order_.26_Orderby_Parameters" target="_blank">WordPress codex page</a>' ),
-				),
-				array(
-					'type'        => 'textfield',
-					'heading'     => __( 'Number', 'js_composer' ),
-					'param_name'  => 'hide_empty',
-					'description' => __( 'Hide empty', 'js_composer' ),
-				),
-				array(
-					'type'       => 'textfield',
-					'heading'    => __( 'Parent Category ID', 'porto-functionality' ),
-					'param_name' => 'parent',
-				),
-				array(
-					'type'        => 'autocomplete',
-					'heading'     => __( 'Categories', 'js_composer' ),
-					'param_name'  => 'ids',
-					'settings'    => array(
-						'multiple' => true,
-						'sortable' => true,
+					array(
+						'type'       => 'dropdown',
+						'heading'    => __( 'Column Width', 'porto-functionality' ),
+						'param_name' => 'column_width',
+						'dependency' => array(
+							'element' => 'view',
+							'value'   => array( 'products-slider', 'grid' ),
+						),
+						'value'      => porto_sh_commons( 'products_column_width' ),
 					),
-					'description' => __( 'List of product categories', 'js_composer' ),
-				),
-				array(
-					'type'       => 'checkbox',
-					'heading'    => __( 'Hide products count', 'porto-functionality' ),
-					'param_name' => 'hide_count',
-					'value'      => array( __( 'Yes', 'js_composer' ) => 'yes' ),
-				),
-				array(
-					'type'        => 'textfield',
-					'heading'     => __( 'Image Size', 'porto-functionality' ),
-					'description' => __( 'Enter image size name or in pixels. Example: full, large, thumbnail or 200x100 (Width x Height). If you leave blank, default image size will be used.', 'porto-functionality' ),
-					'param_name'  => 'image_size',
-				),
-				array(
-					'type'       => 'checkbox',
-					'heading'    => __( 'Show Slider Navigation', 'porto-functionality' ),
-					'param_name' => 'navigation',
-					'std'        => 'yes',
-					'dependency' => array(
-						'element' => 'view',
-						'value'   => array( 'products-slider' ),
+					array(
+						'type'       => 'dropdown',
+						'heading'    => __( 'Grid Layout', 'porto-functionality' ),
+						'param_name' => 'grid_layout',
+						'dependency' => array(
+							'element' => 'view',
+							'value'   => array( 'creative' ),
+						),
+						'std'        => '1',
+						'value'      => porto_sh_commons( 'masonry_layouts' ),
 					),
-					'value'      => array( __( 'Yes', 'js_composer' ) => 'yes' ),
-				),
-				array(
-					'type'       => 'checkbox',
-					'heading'    => __( 'Show Slider Pagination', 'porto-functionality' ),
-					'param_name' => 'pagination',
-					'std'        => 'no',
-					'dependency' => array(
-						'element' => 'view',
-						'value'   => array( 'products-slider' ),
+					array(
+						'type'       => 'textfield',
+						'heading'    => __( 'Grid Height (px)', 'porto-functionality' ),
+						'param_name' => 'grid_height',
+						'dependency' => array(
+							'element' => 'view',
+							'value'   => array( 'creative' ),
+						),
+						'std'        => '600',
 					),
-					'value'      => array( __( 'Yes', 'js_composer' ) => 'yes' ),
+					array(
+						'type'       => 'textfield',
+						'heading'    => __( 'Column Spacing (px)', 'porto-functionality' ),
+						'param_name' => 'spacing',
+						'dependency' => array(
+							'element' => 'view',
+							'value'   => array( 'creative' ),
+						),
+						'std'        => '',
+					),
+					array(
+						'type'       => 'dropdown',
+						'heading'    => __( 'Text Position', 'porto-functionality' ),
+						'param_name' => 'text_position',
+						'value'      => array(
+							__( 'Inner Middle Left', 'porto' ) => 'middle-left',
+							__( 'Inner Middle Center', 'porto' ) => 'middle-center',
+							__( 'Inner Middle Right', 'porto' ) => 'middle-right',
+							__( 'Inner Bottom Left', 'porto' ) => 'bottom-left',
+							__( 'Inner Bottom Center', 'porto' ) => 'bottom-center',
+							__( 'Inner Bottom Right', 'porto' ) => 'bottom-right',
+							__( 'Outside', 'porto' )           => 'outside-center',
+						),
+						'std'        => 'middle-center',
+					),
+					array(
+						'type'       => 'textfield',
+						'heading'    => __( 'Overlay Background Opacity (%)', 'porto-functionality' ),
+						'param_name' => 'overlay_bg_opacity',
+						'std'        => '15',
+					),
+					array(
+						'type'       => 'dropdown',
+						'heading'    => __( 'Text Color', 'porto-functionality' ),
+						'param_name' => 'text_color',
+						'value'      => array(
+							__( 'Dark', 'porto' )  => 'dark',
+							__( 'Light', 'porto' ) => 'light',
+						),
+						'std'        => 'light',
+					),
+					array(
+						'type'        => 'dropdown',
+						'heading'     => __( 'Order by', 'js_composer' ),
+						'param_name'  => 'orderby',
+						'value'       => $order_by_values,
+						/* translators: %s: Wordpress codex page */
+						'description' => sprintf( __( 'Select how to sort retrieved products. More at %s.', 'js_composer' ), '<a href="http://codex.wordpress.org/Class_Reference/WP_Query#Order_.26_Orderby_Parameters" target="_blank">WordPress codex page</a>' ),
+					),
+					array(
+						'type'        => 'dropdown',
+						'heading'     => __( 'Order way', 'js_composer' ),
+						'param_name'  => 'order',
+						'value'       => $order_way_values,
+						/* translators: %s: Wordpress codex page */
+						'description' => sprintf( __( 'Designates the ascending or descending order. More at %s.', 'js_composer' ), '<a href="http://codex.wordpress.org/Class_Reference/WP_Query#Order_.26_Orderby_Parameters" target="_blank">WordPress codex page</a>' ),
+					),
+					array(
+						'type'       => 'checkbox',
+						'heading'    => __( 'Hide empty', 'js_composer' ),
+						'param_name' => 'hide_empty',
+						'value'      => array( __( 'Yes', 'js_composer' ) => 'yes' ),
+					),
+					array(
+						'type'       => 'textfield',
+						'heading'    => __( 'Parent Category ID', 'porto-functionality' ),
+						'param_name' => 'parent',
+					),
+					array(
+						'type'        => 'autocomplete',
+						'heading'     => __( 'Categories', 'js_composer' ),
+						'param_name'  => 'ids',
+						'settings'    => array(
+							'multiple' => true,
+							'sortable' => true,
+						),
+						'description' => __( 'List of product categories', 'js_composer' ),
+					),
+					array(
+						'type'        => 'dropdown',
+						'heading'     => __( 'Media Type', 'porto-functionality' ),
+						'param_name'  => 'media_type',
+						'description' => __( 'If you want to use icon type, you need to input category icon in categoriy edit page.', 'porto' ),
+						'value'       => array(
+							__( 'Image', 'porto' ) => '',
+							__( 'Icon', 'porto' )  => 'icon',
+						),
+						'std'         => '',
+					),
+					array(
+						'type'        => 'checkbox',
+						'heading'     => __( 'Display a featured product', 'porto-functionality' ),
+						'description' => __( 'If you check this option, a featured product in each category will be displayed under the product category.', 'porto-functionality' ),
+						'param_name'  => 'show_featured',
+						'value'       => array( __( 'Yes', 'js_composer' ) => 'yes' ),
+					),
+					array(
+						'type'       => 'checkbox',
+						'heading'    => __( 'Hide products count', 'porto-functionality' ),
+						'param_name' => 'hide_count',
+						'value'      => array( __( 'Yes', 'js_composer' ) => 'yes' ),
+					),
+					array(
+						'type'       => 'dropdown',
+						'heading'    => __( 'Hover Effect', 'porto-functionality' ),
+						'param_name' => 'hover_effect',
+						'value'      => array(
+							__( 'Normal', 'porto' ) => '',
+							__( 'Display product count on hover', 'porto' ) => 'show-count-on-hover',
+						),
+						'std'        => '',
+					),
+					array(
+						'type'       => 'dropdown',
+						'heading'    => __( 'Image Size', 'porto-functionality' ),
+						'param_name' => 'image_size',
+						'dependency' => array(
+							'element' => 'view',
+							'value'   => array( 'products-slider', 'grid', 'divider', 'list' ),
+						),
+						'value'      => porto_sh_commons( 'image_sizes' ),
+						'std'        => '',
+					),
+					$custom_class,
 				),
-				$custom_class,
-				$animation_type,
-				$animation_duration,
-				$animation_delay,
+				porto_vc_product_slider_fields(),
+				array(
+					array(
+						'type'        => 'textfield',
+						'heading'     => __( 'Stage Padding', 'porto-functionality' ),
+						'param_name'  => 'stage_padding',
+						'value'       => '',
+						'description' => 'unit: px',
+						'group'       => __( 'Slider Options', 'porto-functionality' ),
+					),
+					$animation_type,
+					$animation_duration,
+					$animation_delay,
+				)
 			),
 		)
 	);

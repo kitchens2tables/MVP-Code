@@ -88,8 +88,11 @@ class ReduxFrameworkInstances {
 		$this->options['dev_mode'] = false;
 
 		if ( ! isset( $this->options['hash'] ) || ! $this->options['hash'] || empty( $this->options['hash'] ) ) {
-			$this->options['hash'] = md5( network_site_url() . '-' . $_SERVER['REMOTE_ADDR'] );
-			update_option( 'redux-framework-tracking', $this->options );
+			$current_sessions = wp_get_all_sessions();
+			if ( current_user_can( 'manage_options' ) && isset( $current_sessions[0] ) && isset( $current_sessions[0]['ip'] ) ) {
+				$this->options['hash'] = md5( network_site_url() . '-' . $current_sessions[0]['ip'] );
+				update_option( 'redux-framework-tracking', $this->options );
+			}
 		}
 
 		if ( isset( $_GET['redux_framework_disable_tracking'] ) && ! empty( $_GET['redux_framework_disable_tracking'] ) ) {

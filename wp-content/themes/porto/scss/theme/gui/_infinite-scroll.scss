@@ -28,17 +28,17 @@
         padding: 13px 30px;
         font-size: 12px;
         line-height: 1.333333;
-        border-width: 3px;
+        border-width: 1px;
         width: 100%;
         height: auto;
         text-indent: 0;
-        border-color: #f1f1f1;
+        border-color: #dae2e6;
         background: none;
         font-weight: 700;
         text-transform: uppercase;
         color: #555;
 
-        &:before{
+        &:before {
             display: none;
         }
     }

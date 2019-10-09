@@ -12,6 +12,7 @@ if ( have_posts() ) :
 	$event_start_time = get_post_meta( $post->ID, 'event_start_time', true );
 	$event_location   = get_post_meta( $post->ID, 'event_location', true );
 	$event_count_down = get_post_meta( $post->ID, 'event_time_counter', true );
+	$event_link       = get_post_meta( $post->ID, 'event_link', true );
 
 	if ( '' == $event_count_down ) {
 		$show_count_down = $porto_settings['event-single-countdown'];
@@ -95,18 +96,24 @@ tick_sep_size="desktop:17px;"]'
 					</div>
 				<?php endif; ?>
 					<div class="post-event-content custom-margin-1 m-b-xlg">
+						<?php if ( $has_event_date ) : ?>
+							<span class="event-date d-none"><?php echo date_i18n( get_option( 'date_format' ), strtotime( $event_start_date ) ); ?><time><?php echo esc_html( $event_start_time ); ?></time></span>
+						<?php endif; ?>
 						<h2 class="font-weight-bold text-color-dark m-b-none"><?php the_title(); ?></h2>
 						<span class="custom-event-infos">
 							<ul class="m-b-md">
 							<?php if ( isset( $event_start_time ) && $event_start_time ) : ?>
-								<li> <i class="fa fa-clock-o"></i> <?php echo esc_html( $event_start_time ); ?> </li>
+								<li> <i class="far fa-clock"></i> <?php echo esc_html( $event_start_time ); ?> </li>
 							<?php endif; ?>
 							<?php if ( isset( $event_location ) && $event_location ) : ?>
-								<li class="text-uppercase"> <i class="fa fa-map-marker"></i> <?php echo wp_kses_post( $event_location ); ?></li>
+								<li class="text-uppercase"> <i class="fas fa-map-marker-alt"></i> <?php echo wp_kses_post( $event_location ); ?></li>
 							<?php endif; ?>
 							</ul>
 						</span>
 						<?php the_content(); ?>
+						<?php if ( $event_link ) : ?>
+							<a href="<?php echo esc_url( $event_link ); ?>" class="btn btn-primary btn-preview" target="_blank"><?php esc_html_e( 'Live Preview', 'porto' ); ?></a>
+						<?php endif; ?>
 					</div>
 				</article>
 			</div>

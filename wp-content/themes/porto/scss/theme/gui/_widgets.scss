@@ -56,7 +56,8 @@
             > ol {
                 margin-top: 8px;
                 margin-bottom: -8px;
-                margin-#{$left}: -5px;
+                /*margin-#{$left}: -5px;*/
+                margin-#{$left}: 10px;
             }
         }
     }
@@ -118,28 +119,30 @@
     }
 }
 
-.widget_recent_entries,
-.widget_recent_comments,
-.widget_pages,
-.widget_meta,
-.widget_nav_menu > div,
-.widget_archive,
-.widget_categories,
-.widget_rss {
-    > ul li {
-        padding: side-values(6px 0 6px 15px);
-        &:before {
-            content: $fa-var-chevron-right;
-            font-family: FontAwesome;
-            margin-#{$left}: -11px;
-            margin-#{$right}: 6px;
-            font-size: .45rem;
-            opacity: .7;
-            vertical-align: middle;
-        }
-        &:hover:before {
-            @include animation(navItemArrow .6s linear infinite);
-        }
+
+.widget_recent_entries > ul li,
+.widget_recent_comments > ul li,
+.widget_pages > ul li,
+.widget_meta > ul li,
+.widget_nav_menu > div > ul li,
+.widget_archive > ul li,
+.widget_categories > ul li,
+.widget_rss > ul li,
+.wp-block-categories-list li,
+.wp-block-archives-list li,
+.wp-block-latest-posts li {
+    padding: side-values(6px 0 6px 15px);
+    &:before {
+        content: $fa-var-chevron-right;
+        font-family: 'Font Awesome 5 Free'; font-weight: 900; -webkit-font-smoothing: antialiased;
+        margin-#{$left}: -11px;
+        margin-#{$right}: 6px;
+        font-size: .45rem;
+        opacity: .7;
+        vertical-align: middle;
+    }
+    &:hover:before {
+        @include animation(navItemArrow .6s linear infinite);
     }
 }
 
@@ -384,9 +387,9 @@
 
 // Widget Twitter Tweets
 .widget.twitter-tweets {
-    .fa {
+    .fa-twitter {
         clear: both;
-        font-size: 1.6em;
+        font-size: 1.5em;
         position: relative;
         top: 3px;
         margin-#{$right}: -22px;
@@ -410,7 +413,7 @@
 
         li {
             border-width: 0;
-            padding: 20px 0 0 30px;
+            padding: side-values(20px 0 0 30px);
 
             &:first-child {
                 padding-top: 0;
@@ -482,7 +485,7 @@
             margin: 2px;
             overflow: hidden;
             box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.3);
-            @include transition(all 0.2s ease 0s);
+            @include transition(all .2s);
             font-size: 14px;
 
             &:hover {

@@ -183,7 +183,7 @@ function is_porto_members_page() {
 function porto_members_page_id() {
 	global $porto_settings;
 
-	$members_page = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['member-archive-page'] ) && $porto_settings['member-archive-page'] ) ? esc_attr( $porto_settings['member-archive-page'] ) : 0 );
+	$members_page = (int) ( ( isset( $porto_settings ) && isset( $porto_settings['member-archive-page'] ) && $porto_settings['member-archive-page'] ) ? $porto_settings['member-archive-page'] : 0 );
 	return $members_page;
 }
 

@@ -57,7 +57,6 @@ if ( ! class_exists( 'ReduxFramework_Extension_options_object' ) ) {
 
 			$this->parent = $parent;
 			if ( empty( $this->extension_dir ) ) {
-				// $this->extension_dir = trailingslashit( str_replace( '\\', '/', dirname( __FILE__ ) ) );
 			}
 			$this->field_name = 'options_object';
 
@@ -97,7 +96,7 @@ if ( ! class_exists( 'ReduxFramework_Extension_options_object' ) ) {
 
 		// Forces the use of the embeded field path vs what the core typically would use
 		public function overload_field_path( $field ) {
-			return dirname( __FILE__ ) . '/' . $this->field_name . '/field_' . $this->field_name . '.php';
+			return PORTO_ADMIN . '/ReduxCore/inc/extensions/options_object/' . $this->field_name . '/field_' . $this->field_name . '.php';
 		}
 	} // class
 } // if

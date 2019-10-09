@@ -34,7 +34,7 @@ extract(
 	)
 );
 
-wp_enqueue_script( 'porto_shortcodes_flipshow_js' );
+wp_enqueue_script( 'jquery-flipshow' );
 wp_enqueue_script( 'porto_shortcodes_flipshow_loader_js' );
 
 $el_class = porto_shortcode_extract_class( $el_class );

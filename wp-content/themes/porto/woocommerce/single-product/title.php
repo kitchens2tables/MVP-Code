@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 global $porto_settings;
 ?>
-<h2 itemprop="name" class="product_title entry-title<?php echo ! $porto_settings['product-nav'] ? '' : ' show-product-nav'; ?>" >
+<h2 class="product_title entry-title<?php echo ! $porto_settings['product-nav'] ? '' : ' show-product-nav'; ?>" >
 	<?php if ( porto_is_ajax() ) : ?>
 	<a href="<?php the_permalink(); ?>">
 	<?php endif; ?>

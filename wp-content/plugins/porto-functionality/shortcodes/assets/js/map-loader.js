@@ -1,6 +1,7 @@
 /* Google Map */
 //resize map
 jQuery(document).ready(function(){
+    'use strict';
     function resize_porto_map() {
         jQuery('.porto-map-wrapper').each(function(i,wrapelement){
 
