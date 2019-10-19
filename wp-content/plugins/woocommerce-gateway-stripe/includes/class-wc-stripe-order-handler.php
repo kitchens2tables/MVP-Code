@@ -24,10 +24,10 @@ class WC_Stripe_Order_Handler extends WC_Stripe_Payment_Gateway {
 		$this->retry_interval = 1;
 
 		add_action( 'wp', array( $this, 'maybe_process_redirect_order' ) );
-		add_action( 'woocommerce_order_status_on-hold_to_processing', array( $this, 'capture_payment' ) );
-		add_action( 'woocommerce_order_status_on-hold_to_completed', array( $this, 'capture_payment' ) );
-		add_action( 'woocommerce_order_status_on-hold_to_cancelled', array( $this, 'cancel_payment' ) );
-		add_action( 'woocommerce_order_status_on-hold_to_refunded', array( $this, 'cancel_payment' ) );
+		add_action( 'woocommerce_order_status_processing', array( $this, 'capture_payment' ) );
+		add_action( 'woocommerce_order_status_completed', array( $this, 'capture_payment' ) );
+		add_action( 'woocommerce_order_status_cancelled', array( $this, 'cancel_payment' ) );
+		add_action( 'woocommerce_order_status_refunded', array( $this, 'cancel_payment' ) );
 	}
 
 	/**
@@ -299,6 +299,10 @@ class WC_Stripe_Order_Handler extends WC_Stripe_Payment_Gateway {
 					// Store other data such as fees
 					WC_Stripe_Helper::is_wc_lt( '3.0' ) ? update_post_meta( $order_id, '_transaction_id', $result->id ) : $order->set_transaction_id( $result->id );
 
+					if ( is_callable( array( $order, 'save' ) ) ) {
+						$order->save();
+					}
+
 					$this->update_fees( $order, $result->balance_transaction->id );
 				}
 
@@ -312,14 +316,19 @@ class WC_Stripe_Order_Handler extends WC_Stripe_Payment_Gateway {
 	 * Cancel pre-auth on refund/cancellation.
 	 *
 	 * @since 3.1.0
-	 * @version 4.0.0
+	 * @version 4.2.2
 	 * @param  int $order_id
 	 */
 	public function cancel_payment( $order_id ) {
 		$order = wc_get_order( $order_id );
 
 		if ( 'stripe' === ( WC_Stripe_Helper::is_wc_lt( '3.0' ) ? $order->payment_method : $order->get_payment_method() ) ) {
-			$this->process_refund( $order_id );
+			$captured = WC_Stripe_Helper::is_wc_lt( '3.0' )
+				? get_post_meta( $order_id, '_stripe_charge_captured', true )
+				: $order->get_meta( '_stripe_charge_captured', true );
+			if ( 'no' === $captured ) {
+				$this->process_refund( $order_id );
+			}
 
 			// This hook fires when admin manually changes order status to cancel.
 			do_action( 'woocommerce_stripe_process_manual_cancel', $order );

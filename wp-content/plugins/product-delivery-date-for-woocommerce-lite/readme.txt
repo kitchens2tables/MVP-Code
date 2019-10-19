@@ -5,8 +5,8 @@ Donate link: https://www.paypal.me/TycheSoftwares
 Author URI: https://www.tychesoftwares.com/
 Tags: delivery date, product delivery date, woocommerce delivery date, delivery, product delivery
 Requires at least: 1.3
-Tested up to: 5.1
-.1Stable tag: trunk
+Tested up to: 5.2.3
+Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -138,7 +138,7 @@ This is not possible in the free version. In the [Pro version](https://www.tyche
 
 = Can we change the language of the delivery date calendar? = 
 
-This is not possible in the free version. In the [Pro version](https://www.tychesoftwares.com/store/premium-plugins/product-delivery-date-pro-for-woocommerce/?utm_source=wprepo&utm_medium=faqlink&utm_campaign=ProductDeliveryDateLite), you can change the language of the delivery date calendar on the WooCommerce product page. There are 62 different languages to choose from.
+This is not possible in the free version. In the [Pro version](https://www.tychesoftwares.com/store/premium-plugins/product-delivery-date-pro-for-woocommerce/?utm_source=wprepo&utm_medium=faqlink&utm_campaign=ProductDeliveryDateLite), you can change the language of the delivery date calendar on the WooCommerce product page. There are 64 different languages to choose from.
 
 = Is it possible to add extra charges for weekdays or specific dates? =
 
@@ -167,19 +167,27 @@ You can refer **[here](https://www.tychesoftwares.com/differences-pro-lite-versi
 6. WooCommerce -> Orders - edit an existing order page.
 
 == Changelog ==
-= 1.10 (03.04.2019) =* Fixed an issue where if the current day is unavailable for delivery, the Minimum Delivery Time needed setting is ignored when displaying the first available date for delivery.* Calendar icon is not displayed in the date field on the product page. Fixed the same.* Removed the Welcome Page* Fixed some warnings being added in debug.log* Fixed an issue where orphan records were being left behind when the plugin is deleted.= 1.9 (03.07.2018) =
-* New Features:
+= 2.1.1 (17.09.2019) =
+* Fixed an error displayed on the View Deliveries page.
 
-* A new dismissible notice is added in the WordPress admin, which provides an option to allow usage tracking of the non-sensitive data of our plugin from the website.
-* A new link for FAQ list is added to Product Delivery Date meta box under Add/Edit Product page which lists the top 10 frequently asked questions. This helps you to resolve your queries in a more faster way if they are already been answered or you can simply contact our Support team with the contact details provided.
-* A Welcome page is added which will be shown on installation or updating of the plugin. It explains some exciting features of Lite version and PRO version as well.
-* A survey is added on deactivation of the plugin which helps us to know why is plugin is being or not used. This helps in improvising the plugin functionalities.
+= 2.1 (17.09.2019) = 
+* Made the plugin compliant with WPCS standards.
 
-* Bug Fixes:
+= 2.0 (02.08.2019) =
+* Now the delivery date field can be set as mandatory for each product. The customers will not be able to add the product to the cart without selecting a date if the Mandatory field option is enabled for the product.
+* Now the nonworking holidays or dates can be set for individual products as well as for all the products at the global level.
+* All the deliveries can now be viewed in one place under the Product Delivery Date -> View Deliveries menu. The deliveries can be filters using Deliveries From Today Onwards, Today's Deliveries and Tomorrow's Deliveries.
+* Date format for the delivery date selection on the product page can now be preferably set.
+* Delivery Date calendar language can now be set as per the language set for your website.
+* Delivery Date calendar can now be set into default color themes provided as per the colors of your website.
+* Prices in decimal values can now be set to the nearest integers using Enable Rounding of Prices option.
 
-* Some strings of the Product Delivery Date LITE plugin were not being translated. Now, we have updated the .pot and .po files. So, strings of the plugin can be translated.
-* Icon for the Delivery Date on the product page were not coming in the Delivery Date field. This issue has been fixed now.
-* Scripting error was coming on the product page. This is fixed now.
+= 1.10 (03.04.2019) =
+* Fixed an issue where if the current day is unavailable for delivery, the Minimum Delivery Time needed setting is ignored when displaying the first available date for delivery.
+* Calendar icon is not displayed in the date field on the product page. Fixed the same.
+* Removed the Welcome Page
+* Fixed some warnings being added in debug.log
+* Fixed an issue where orphan records were being left behind when the plugin is deleted.
 
 = 1.8 (23.05.2018) =
 * The plugin is now GDPR compliant.

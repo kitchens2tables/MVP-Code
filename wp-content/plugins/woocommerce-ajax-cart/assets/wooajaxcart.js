@@ -1,16 +1,19 @@
 jQuery(document).ready(function($){
-    wacUpdateTimeout = null;
+    // 'use strict';
 
-    wacChange = function(el_qty) {
+    var wacUpdateTimeout = null;
+
+    wacChange = function(qtyInput) {
+
 
         // ask user if they really want to remove this product
-        if ( !wacZeroQuantityCheck(el_qty) ) {
+        if ( ( wooajaxcart.confirm_zero_qty == 'yes' ) && !wacZeroQuantityCheck(qtyInput) ) {
             return false;
         }
 
         // when qty is set to zero, then fires default woocommerce remove link
-        if ( el_qty.val() == 0 ) {
-            removeLink = el_qty.closest('.cart_item').find('.product-remove a');
+        if ( qtyInput.val() == 0 ) {
+            var removeLink = qtyInput.closest('.cart_item').find('.product-remove a');
             removeLink.trigger('click');
 
             return false;
@@ -21,14 +24,17 @@ jQuery(document).ready(function($){
             clearTimeout(wacUpdateTimeout);
         }
 
-        wacUpdateTimeout = setTimeout(wacRefreshCart, wooajaxcart.ajax_timeout);
+        wacUpdateTimeout = setTimeout(function(){
+            wacRefreshCart(qtyInput);
+        }, wooajaxcart.ajax_timeout);
 
         return true;
     };
 
-    wacRefreshCart = function() {
+    wacRefreshCart = function(qtyInput) {
         // deal with update cart button
-        updateButton = $("button[name='update_cart'],input[name='update_cart']");
+        var updateButton = $("button[name='update_cart']:not(.dgfw-add-gift-button),input[name='update_cart']:not(.dgfw-add-gift-button)");
+
         updateButton.removeAttr('disabled')
                     .trigger('click')
                     .val( wooajaxcart.updating_text )
@@ -39,49 +45,12 @@ jQuery(document).ready(function($){
                                          .html( wooajaxcart.updating_text );
     };
 
-    wacPostCallback = function(resp) {
-        // ajax response
-        $('.cart-collaterals').html(resp.html);
-
-        el_qty.closest('.cart_item').find('.product-subtotal').html(resp.price);
-
-        $('#update_cart').remove();
-        $('#is_wac_ajax').remove();
-        $('#cart_item_key').remove();
-
-        $("button[name='update_cart'],input[name='update_cart']").val(resp.update_label).prop('disabled', false);
-
-        $("a.checkout-button.wc-forward").removeClass('disabled').html(resp.checkout_label);
-
-        // when changes to 0, remove the product from cart
-        if ( el_qty.val() == 0 ) {
-            el_qty.closest('tr.cart_item').remove();
-        }
-
-        // hide or show the "+" button based on max stock limit (snippet based on @evtihii idea)
-        maxStock = el_qty.attr('max');
-        if ( maxStock > 0 ) {
-            incrementButton = el_qty.parent().find('.wac-btn-inc').parent().parent();
-
-            exceded = ( parseInt( el_qty.val() ) >= parseInt( maxStock ) );
-            exceded ? incrementButton.hide() : incrementButton.show();
-        }
-
-        // fix to update "Your order" totals when cart is inside Checkout page (thanks @vritzka)
-        if ( $( '.woocommerce-checkout' ).length ) {
-            $( document.body ).trigger( 'update_checkout' );
-        }
-
-        $( document.body ).trigger( 'updated_cart_totals' );
-        $( document.body ).trigger( 'wc_fragment_refresh' );
-    };
-
     // overrided by wac-js-calls.php
-    wacZeroQuantityCheck = function(el_qty) {
-        if ( el_qty.val() == 0 ) {
+    var wacZeroQuantityCheck = function(qtyInput) {
+        if ( parseInt(qtyInput.val()) == 0 ) {
 
             if ( !confirm(wooajaxcart.warn_remove_text) ) {
-                el_qty.val(1);
+                qtyInput.val(1);
                 return false;
             }
         }
@@ -89,7 +58,7 @@ jQuery(document).ready(function($){
         return true;
     };
 
-    wacListenQtyChange = function() {
+    var wacListenQtyChange = function() {
         $(document.body).on('change', '.qty', function(e){
             // prevent to set invalid quantity on select
             if ( $(this).is('select') && ( $(this).attr('max') > 0 ) &&
@@ -104,20 +73,35 @@ jQuery(document).ready(function($){
         });
     };
 
-    wacListenQtyButtons = function() {
-        $(document.body).on('click', '.wac-btn-inc', function(e){
-            inputQty = $(this).parent().parent().parent().find('.qty');
+    var wacListenQtyButtons = function() {
+        var fnIncrement = function(e){
+            var inputQty = $(this).parent().parent().parent().find('.qty');
             inputQty.val( function(i, oldval) { return ++oldval; });
             inputQty.trigger('change');
+            
             return false;
-        });
+        };
 
-        $(document.body).on('click', '.wac-btn-sub', function(e){
-            inputQty = $(this).parent().parent().parent().find('.qty');
+        var fnDecrement = function(e){
+            var inputQty = $(this).parent().parent().parent().find('.qty');
             inputQty.val( function(i, oldval) { return oldval > 0 ? --oldval : 0; });
             inputQty.trigger('change');
+
             return false;
-        });
+        };
+
+        if ( $('.wac-btn-inc').length ) {
+            $('.wac-btn-inc').off('click.wac2910').on('click.wac2910', fnIncrement);
+            $('.wac-btn-sub').off('click.wac2911').on('click.wac2911', fnDecrement);
+
+            if ( $('.grid').length ) {
+                setTimeout(wacListenQtyButtons, 500);
+            }
+        }
+        else {
+            $(document.body).on('click', '.wac-btn-inc', fnIncrement);
+            $(document.body).on('click', '.wac-btn-sub', fnDecrement);
+        }
     };
 
     // onload calls

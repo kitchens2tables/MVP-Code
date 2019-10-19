@@ -173,6 +173,9 @@ if ( ! class_exists( 'Porto_Dynamic_Style' ) ) :
 		}
 
 		public function init_vc_custom_styles() {
+			if ( ! defined( 'WPB_VC_VERSION' ) ) {
+				return;
+			}
 			remove_action( 'wp_head', array( vc_manager()->vc(), 'addFrontCss' ), 1000 );
 			remove_action( 'wp_enqueue_scripts', array( vc_manager()->vc(), 'addFrontCss' ) );
 			ob_start();

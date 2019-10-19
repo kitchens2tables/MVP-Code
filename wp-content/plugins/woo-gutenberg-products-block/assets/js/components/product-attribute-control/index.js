@@ -7,14 +7,14 @@ import apiFetch from '@wordpress/api-fetch';
 import { Component, Fragment } from '@wordpress/element';
 import { debounce, find } from 'lodash';
 import PropTypes from 'prop-types';
+import { SearchListControl, SearchListItem } from '@woocommerce/components';
 import { SelectControl, Spinner } from '@wordpress/components';
+import { ENDPOINTS } from '@woocommerce/block-settings';
 
 /**
  * Internal dependencies
  */
 import './style.scss';
-import SearchListControl from '../search-list-control';
-import SearchListItem from '../search-list-control/item';
 
 class ProductAttributeControl extends Component {
 	constructor() {
@@ -35,7 +35,7 @@ class ProductAttributeControl extends Component {
 	componentDidMount() {
 		const { selected } = this.props;
 		apiFetch( {
-			path: addQueryArgs( '/wc-pb/v3/products/attributes', { per_page: -1 } ),
+			path: addQueryArgs( `${ ENDPOINTS.products }/attributes`, { per_page: -1 } ),
 		} )
 			.then( ( list ) => {
 				list = list.map( ( item ) => ( { ...item, parent: 0 } ) );
@@ -50,6 +50,10 @@ class ProductAttributeControl extends Component {
 			.catch( () => {
 				this.setState( { list: [], loading: false } );
 			} );
+	}
+
+	componentWillUnmount() {
+		this.debouncedGetTerms.cancel();
 	}
 
 	componentDidUpdate( prevProps, prevState ) {
@@ -68,12 +72,12 @@ class ProductAttributeControl extends Component {
 		}
 
 		apiFetch( {
-			path: addQueryArgs( `/wc-pb/v3/products/attributes/${ attribute }/terms`, {
+			path: addQueryArgs( `${ ENDPOINTS.products }/attributes/${ attribute }/terms`, {
 				per_page: -1,
 			} ),
 		} )
 			.then( ( terms ) => {
-				terms = terms.map( ( term ) => ( { ...term, parent: attribute } ) );
+				terms = terms.map( ( term ) => ( { ...term, parent: attribute, attr_slug: term.attribute.slug } ) );
 				this.setState( ( prevState ) => ( {
 					termsList: { ...prevState.termsList, [ attribute ]: terms },
 					termsLoading: false,

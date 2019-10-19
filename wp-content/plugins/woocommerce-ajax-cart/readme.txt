@@ -3,7 +3,7 @@ Contributors: moiseh, el.severo
 Tags: woocommerce, ajax, cart, shipping
 Requires at least: 4.2
 Tested up to: 5.0.1
-Stable tag: 1.3.0
+Stable tag: 1.3.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,6 +26,10 @@ Premium version features:
 
 * Allow to change quantities in shop, minicart and single product pages [view demo](https://youtu.be/a4w8wNlZhxk)
 * Make the `Add to cart` button to perform with AJAX, without full page reload [view demo](https://youtu.be/o0VPfMCIctc)
+* Faster AJAX reload call when change quantities in Cart page
+* Option to lock quantity inputs to allow only change using plus and minus buttons
+
+If you looking for a similar but with much more features please try [WooCommerce Better Usability](https://wordpress.org/plugins/woo-better-usability) plugin.
 
 == Installation ==
 
@@ -94,6 +98,20 @@ Premium version features:
 
 = 1.3.0 =
 * Added AJAX timeout option to delay when change cart quantity
+
+= 1.3.1 =
+* Registering scripts using common hook `wp_enqueue_scripts`
+
+= 1.3.2 =
+* Added compatibility with WooCommerce 3.6.4
+* Standardized to `use strict` mode on frontend script, removing unused code
+
+= 1.3.3 =
+* Removing +/- buttons when product is sold individually
+
+= 1.3.4 =
+* Changed limit from 50 to 1000 for quantity in select
+* Added compatibility with Giftable for WooCommerce plugin
 
 == Frequently Asked Questions ==
 

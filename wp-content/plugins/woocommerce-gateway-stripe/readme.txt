@@ -2,9 +2,9 @@
 Contributors: automattic, royho, akeda, mattyza, bor0, woothemes
 Tags: credit card, stripe, apple pay, payment request, google pay, sepa, sofort, bancontact, alipay, giropay, ideal, p24, woocommerce, automattic
 Requires at least: 4.4
-Tested up to: 5.2.1
+Tested up to: 5.2.2
 Requires PHP: 5.6
-Stable tag: 4.2.0
+Stable tag: 4.2.5
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Attributions: thorsten-stripe
@@ -113,16 +113,23 @@ If you get stuck, you can ask for help in the Plugin Forum.
 
 == Changelog ==
 
-= 4.2.0 - 2019-05-29 =
-* Update - Enable Payment Request buttons for Puerto Rico based stores.
-* Update - Add support for Strong Customer Authentication (SCA) for user-initiated payments.
-* Remove - Stripe Modal Checkout.
-* Remove - 3D Secure settings are no longer available in the gateway settings. Use Stripe Radar instead.
-* Fix - Display error messages only next to the chosen saved card.
+= 4.2.5 - 2019-10-02 =
+* Fix - WooCommerce Subscriptions that use only the Stripe customer ID can again be renewed
+
+= 4.2.4 - 2019-09-18 =
+* Fix - Unclear error message when email address not completely filled in.
+* Fix - Add payment request button compatibility with variable subscriptions
+* Tweak - Do not show payment request button for shippable trial subscription products
+* Fix - Do not copy the payment intent id when creating a subscription renewal
+* Fix - Return early from check intent status if no order - props strayobject
+* Fix - Extend webhook time window from 1 to 5 minutes to match Stripe client
+* Update - WooCommerce 3.7 compatibility
+* Update - Apple Pay Domain association file
+* Update - Grandfather pre-SCA subscription renewals for SCA
 
 [See changelog for all versions](https://raw.githubusercontent.com/woocommerce/woocommerce-gateway-stripe/master/changelog.txt).
 
 == Upgrade Notice ==
 
-= 4.1 =
-4.1 is a minor release. Please do a full site backup and test on a staging site before deploying to a live/production server.
+= 4.2 =
+4.2 is a minor release. Please do a full site backup and test on a staging site before deploying to a live/production server.

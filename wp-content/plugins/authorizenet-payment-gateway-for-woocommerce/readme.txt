@@ -4,8 +4,8 @@ Contributors: ishanverma
 Donate link: http://www.indatos.com?ref=wp.org
 Tags: woocommerce authorize.net, authorize.net, payment gateway, woocommerce, woocommerce payment gateway, credit cards, refunds, capture. authorize.net woocommerce
 Requires at least: 3.0.1
-Tested up to: 5.0.3
-Stable tag: 5.0
+Tested up to: 5.2.2
+Stable tag: 5.25
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,9 @@ SSL is not required
 
 
 == Changelog ==
+= 5.2 = 
+* Relay Whitelisting
+
 = 3.2.1 = Compatible to woocommerce 2.2.11
 = 3.1 = minor updates
 = 3.0 =

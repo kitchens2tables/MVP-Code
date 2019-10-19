@@ -1218,3 +1218,4 @@ h2.resp-accordion:first-child {
 #waitaminute .fas:before,
 #rs_overview_menu .fas:before,
 #builderView .fas:before { font-family: 'Font Awesome 5 Free'; font-weight: 900; }
+.wpb_element_wrapper .vc_message_box-icon > .fa { font-weight: 900; }

@@ -155,7 +155,5 @@ if ( isset( $porto_settings['js-code'] ) && $porto_settings['js-code'] ) {
 		<?php get_template_part( 'share' ); ?>
 	</div>
 <?php endif; ?>
-
-
 </body>
 </html>

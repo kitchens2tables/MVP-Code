@@ -691,6 +691,7 @@ ul.products,
 	#header .mobile-toggle { margin-<?php echo porto_filter_output( $left ); ?>: 0; }
 	#header.sticky-header .header-main > .container { display: -ms-flexbox; display: flex; -ms-flex-align: center; align-items: center; }
 	#header.sticky-header .header-main .header-center { -ms-flex: 1; flex: 1; }
+	#header.sticky-header .header-main .header-right { width: auto; }
 	#header .header-main .mega-menu { position: relative; padding-<?php echo porto_filter_output( $right ); ?>: 10px; margin-<?php echo porto_filter_output( $right ); ?>: 16px; vertical-align: middle; }
 	@media (min-width: 992px) {
 		#header .header-main .mega-menu { display: inline-block; }
@@ -3705,9 +3706,9 @@ if ( isset( $b['mainmenu-popup-top-border'] ) && isset( $b['mainmenu-popup-top-b
 		.page-wrapper.side-nav.side-nav-right .sidebar-menu .narrow ul.sub-menu ul.sub-menu { <?php echo porto_filter_output( $left ); ?>: auto; <?php echo porto_filter_output( $right ); ?>: 100%; }
 		.page-wrapper.side-nav.side-nav-right .sidebar-menu .narrow li.menu-item-has-children > a:before { float: <?php echo porto_filter_output( $left ); ?>; content: "\f0d9"; }
 		.page-wrapper.side-nav.side-nav-right .sidebar-menu.subeffect-fadein-<?php echo porto_filter_output( $left ); ?> > li.menu-item .popup,
-		.page-wrapper.side-nav.side-nav-right .sidebar-menu.subeffect-fadein-<?php echo porto_filter_output( $left ); ?> .narrow ul.sub-menu li.menu-item > ul.sub-menu { -webkit-animation: menuFadeInRight 0.2s ease-out; animation: menuFadeInRight 0.2s ease-out; }
+		.page-wrapper.side-nav.side-nav-right .sidebar-menu.subeffect-fadein-<?php echo porto_filter_output( $left ); ?> .narrow ul.sub-menu li.menu-item > ul.sub-menu { animation: menuFadeInRight 0.2s ease-out; }
 		.page-wrapper.side-nav.side-nav-right .sidebar-menu.subeffect-fadein-<?php echo porto_filter_output( $right ); ?> > li.menu-item .popup,
-		.page-wrapper.side-nav.side-nav-right .sidebar-menu.subeffect-fadein-<?php echo porto_filter_output( $right ); ?> > .narrow ul.sub-menu li.menu-item > ul.sub-menu { -webkit-animation: menuFadeInLeft 0.2s ease-out; animation: menuFadeInLeft 0.2s ease-out; }
+		.page-wrapper.side-nav.side-nav-right .sidebar-menu.subeffect-fadein-<?php echo porto_filter_output( $right ); ?> > .narrow ul.sub-menu li.menu-item > ul.sub-menu { animation: menuFadeInLeft 0.2s ease-out; }
 		.page-wrapper.side-nav.side-nav-right #mini-cart .cart-popup { <?php echo porto_filter_output( $left ); ?>: auto; <?php echo porto_filter_output( $right ); ?>: 0; }
 		.page-wrapper.side-nav.side-nav-right #mini-cart .cart-popup:before,
 		.page-wrapper.side-nav.side-nav-right #mini-cart .cart-popup:after { <?php echo porto_filter_output( $right ); ?>: 10px; <?php echo porto_filter_output( $left ); ?>: auto; }

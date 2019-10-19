@@ -4,9 +4,7 @@ jQuery( function( $ ) {
 	'use strict';
 
 	try {
-		var stripe = Stripe( wc_stripe_params.key, {
-			betas: [ 'payment_intent_beta_3' ],
-		} );
+		var stripe = Stripe( wc_stripe_params.key );
 	} catch( error ) {
 		console.log( error );
 		return;
@@ -464,21 +462,12 @@ jQuery( function( $ ) {
 				delete owner.name;
 			}
 
-			if ( $( '#billing_address_1' ).length > 0 ) {
-				owner.address.line1       = $( '#billing_address_1' ).val();
-				owner.address.line2       = $( '#billing_address_2' ).val();
-				owner.address.state       = $( '#billing_state' ).val();
-				owner.address.city        = $( '#billing_city' ).val();
-				owner.address.postal_code = $( '#billing_postcode' ).val();
-				owner.address.country     = $( '#billing_country' ).val();
-			} else if ( wc_stripe_params.billing_address_1 ) {
-				owner.address.line1       = wc_stripe_params.billing_address_1;
-				owner.address.line2       = wc_stripe_params.billing_address_2;
-				owner.address.state       = wc_stripe_params.billing_state;
-				owner.address.city        = wc_stripe_params.billing_city;
-				owner.address.postal_code = wc_stripe_params.billing_postcode;
-				owner.address.country     = wc_stripe_params.billing_country;
-			}
+			owner.address.line1       = $( '#billing_address_1' ).val() || wc_stripe_params.billing_address_1;
+			owner.address.line2       = $( '#billing_address_2' ).val() || wc_stripe_params.billing_address_2;
+			owner.address.state       = $( '#billing_state' ).val()     || wc_stripe_params.billing_state;
+			owner.address.city        = $( '#billing_city' ).val()      || wc_stripe_params.billing_city;
+			owner.address.postal_code = $( '#billing_postcode' ).val()  || wc_stripe_params.billing_postcode;
+			owner.address.country     = $( '#billing_country' ).val()   || wc_stripe_params.billing_country;
 
 			return {
 				owner: owner,
@@ -644,11 +633,14 @@ jQuery( function( $ ) {
 				}
 			}
 
-			/*
-			 * Customers do not need to know the specifics of the below type of errors
-			 * therefore return a generic localizable error message.
-			 */
-			if (
+			// Notify users that the email is invalid.
+			if ( 'email_invalid' === result.error.code ) {
+				message = wc_stripe_params.email_invalid;
+			} else if (
+				/*
+				 * Customers do not need to know the specifics of the below type of errors
+				 * therefore return a generic localizable error message.
+				 */
 				'invalid_request_error' === result.error.type ||
 				'api_connection_error'  === result.error.type ||
 				'api_error'             === result.error.type ||

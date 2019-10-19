@@ -35,6 +35,11 @@ if ( !class_exists('MHNotice') ) {
                 if ( get_transient($this->transactionAlias($alias)) ) {
                     continue;
                 }
+                
+                // custom hook to prevent display notices
+                if ( !apply_filters($this->common->getPluginAbbrev() . '_' . $alias, true) ) {
+                    continue;
+                }
 
                 // ignore undesired notices
                 if ( $isPremium && ( $alias == MHCommon::PREMIUM_ADV_NOTICE ) ) {
@@ -48,12 +53,14 @@ if ( !class_exists('MHNotice') ) {
                 $dismissUrl = admin_url('plugins.php?MHCommonDismiss=' . $pluginAlias . '&alias=' . $alias);
                 $dismissLink = sprintf('<a href="%s">Dismiss for %d days</a>', $dismissUrl, $notice['dismissDays']);
                 
-                $pluginTitle = $this->common->getPluginTitle();
+                $pluginTitle = esc_html__($this->common->getPluginTitle());
+                $type = esc_html__($notice['type']);
+                $message = $notice['message'];
 
-                echo '<div class="notice notice-'.$notice['type'].'">
+                echo '<div class="notice notice-'.$type.'">
                         <strong>'.$pluginTitle.'</strong>
                         <p>
-                            '.$notice['message'].'
+                            '.$message.'
                         </p>
                         <p style="text-align: right; margin-top: -10px;">
                             '.$dismissLink.'

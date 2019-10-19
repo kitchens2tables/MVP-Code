@@ -1,8 +1,9 @@
 (function($){
+    "use strict";
     
-    listenSubConfChange = function() {
+    var listenSubConfChange = function() {
         $('.check-subconf').change(function(){
-            subConfDiv = $(this).parent().parent().find('.mh-subconf');
+            var subConfDiv = $(this).parent().parent().find('.mh-subconf');
 
             // when subconf div is empty, hide them
             if ( subConfDiv.length && subConfDiv.html().trim().length === 0 ) {

@@ -1,24 +1,41 @@
+/**
+ * External dependencies
+ */
+import { min } from 'lodash';
+import { DEFAULT_COLUMNS, DEFAULT_ROWS } from '@woocommerce/block-settings';
+
 export default function getQuery( blockAttributes, name ) {
 	const {
 		attributes,
 		attrOperator,
 		categories,
 		catOperator,
+		tags,
+		tagOperator,
 		orderby,
 		products,
 	} = blockAttributes;
-	const columns = blockAttributes.columns || wc_product_block_data.default_columns;
-	const rows = blockAttributes.rows || wc_product_block_data.default_rows;
+	const columns = blockAttributes.columns || DEFAULT_COLUMNS;
+	const rows = blockAttributes.rows || DEFAULT_ROWS;
+	const apiMax = Math.floor( 100 / columns ) * columns; // Prevent uneven final row.
 
 	const query = {
 		status: 'publish',
-		per_page: rows * columns,
+		per_page: min( [ rows * columns, apiMax ] ),
+		catalog_visibility: 'visible',
 	};
 
 	if ( categories && categories.length ) {
 		query.category = categories.join( ',' );
 		if ( catOperator && 'all' === catOperator ) {
-			query.cat_operator = 'AND';
+			query.category_operator = 'and';
+		}
+	}
+
+	if ( tags && tags.length > 0 ) {
+		query.tag = tags.join( ',' );
+		if ( tagOperator && 'all' === tagOperator ) {
+			query.tag_operator = 'and';
 		}
 	}
 
@@ -45,7 +62,7 @@ export default function getQuery( blockAttributes, name ) {
 		query.attribute = attributes[ 0 ].attr_slug;
 
 		if ( attrOperator ) {
-			query.attr_operator = 'all' === attrOperator ? 'AND' : 'IN';
+			query.attribute_operator = 'all' === attrOperator ? 'and' : 'in';
 		}
 	}
 

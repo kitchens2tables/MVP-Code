@@ -30,12 +30,15 @@ class WCMp_Frontend {
         add_filter('woocommerce_cart_shipping_packages', array(&$this, 'wcmp_split_shipping_packages'), 0);
         // Rename woocommerce shipping packages
         add_filter('woocommerce_shipping_package_name', array(&$this, 'woocommerce_shipping_package_name'), 10, 3);
-        // Add extra vendor_id to shipping packages
-        add_action('woocommerce_checkout_create_order_shipping_item', array(&$this, 'add_meta_date_in_shipping_package'), 10, 4);
-        // processed woocomerce checkout order data
-        add_action('woocommerce_checkout_order_processed', array(&$this, 'wcmp_checkout_order_processed'), 30, 3);
+        if (is_wcmp_version_less_3_4_0()) {
+            // Add extra vendor_id to shipping packages
+            add_action('woocommerce_checkout_create_order_shipping_item', array(&$this, 'add_meta_date_in_shipping_package'), 10, 4);
+            // processed woocomerce checkout order data
+            add_action('woocommerce_checkout_order_processed', array(&$this, 'wcmp_checkout_order_processed'), 30, 3);
+        }
         // store visitors stats
-        add_action('template_redirect', array(&$this, 'wcmp_store_visitors_stats'), 99);
+        if(!apply_filters('wcmp_is_disable_store_visitors_stats', false))
+            add_action('template_redirect', array(&$this, 'wcmp_store_visitors_stats'), 99);
     }
 
     /**
@@ -126,9 +129,23 @@ class WCMp_Frontend {
      */
     function wcmp_validate_extra_register_fields($username, $email, $validation_errors) {
         $wcmp_vendor_registration_form_data = get_option('wcmp_vendor_registration_form_data');
-        if (isset($_POST['g-recaptcha-response']) && empty($_POST['g-recaptcha-response'])) {
-            $validation_errors->add('recaptcha is not validate', __('Please Verify  Recaptcha', 'dc-woocommerce-multi-vendor'));
+        if(isset($_POST['g-recaptchatype']) && $_POST['g-recaptchatype'] == 'v2'){
+            if (isset($_POST['g-recaptcha-response']) && empty($_POST['g-recaptcha-response'])) {
+                $validation_errors->add('recaptcha is not validate', __('Please Verify  Recaptcha', 'dc-woocommerce-multi-vendor'));
+            }
+        }elseif(isset($_POST['g-recaptchatype']) && $_POST['g-recaptchatype'] == 'v3') {
+            $recaptcha_secret = isset($_POST['recaptchav3_secretkey']) ? $_POST['recaptchav3_secretkey'] : '';
+            $recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
+            $recaptcha_response = isset($_POST['recaptchav3Response']) ? $_POST['recaptchav3Response'] : '';
+
+            $recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
+            $recaptcha = json_decode($recaptcha);
+
+            if ( !$recaptcha->success || $recaptcha->score < 0.5 ) {
+                $validation_errors->add('recaptcha is not validate', __('Please Verify  Recaptcha', 'dc-woocommerce-multi-vendor'));
+            }
         }
+        
         if (isset($_FILES['wcmp_vendor_fields'])) {
             $attacment_files = $_FILES['wcmp_vendor_fields'];
             if (!empty($attacment_files) && is_array($attacment_files)) {
@@ -314,7 +331,7 @@ class WCMp_Frontend {
         wp_register_script('wcmp_frontend_vdashboard_js', $frontend_script_path . 'wcmp_vendor_dashboard' . $suffix . '.js', array('jquery'), $WCMp->version, true);
         wp_register_script('frontend_js', $frontend_script_path . 'frontend' . $suffix . '.js', array('jquery'), $WCMp->version, true);
         wp_register_script('vendor_order_by_product_js', $frontend_script_path . 'vendor_order_by_product' . $suffix . '.js', array('jquery'), $WCMp->version, true);
-        wp_register_script('simplepopup_js', $frontend_script_path . 'simplepopup' . $suffix . '.js', array('jquery'), $WCMp->version, true);
+        //wp_register_script('simplepopup_js', $frontend_script_path . 'simplepopup' . $suffix . '.js', array('jquery'), $WCMp->version, true);
         wp_register_script('wcmp_new_vandor_dashboard_js', $frontend_script_path . 'vendor_dashboard' . $suffix . '.js', array('jquery'), $WCMp->version, true);
         wp_register_script('wcmp_seller_review_rating_js', $frontend_script_path . 'vendor_review_rating' . $suffix . '.js', array('jquery'), $WCMp->version, true);
         wp_register_script('wcmp_single_product_multiple_vendors', $frontend_script_path . 'single-product-multiple-vendors' . $suffix . '.js', array('jquery'), $WCMp->version, true);
@@ -351,7 +368,7 @@ class WCMp_Frontend {
         }
         if (is_woocommerce()) {
             wp_enqueue_script('frontend_js');
-            wp_enqueue_script('simplepopup_js');
+            //wp_enqueue_script('simplepopup_js');
             wp_enqueue_script('wcmp_single_product_multiple_vendors');
             wp_enqueue_script('wcmp_customer_qna_js');
         }
@@ -516,7 +533,6 @@ class WCMp_Frontend {
      */
     public function wcmp_store_visitors_stats() {
         global $WCMp;
-        $ip_data = get_visitor_ip_data();
         $product_vendor = false;
         if (is_product()) {
             global $post;
@@ -524,8 +540,9 @@ class WCMp_Frontend {
         } elseif (is_tax($WCMp->taxonomy->taxonomy_name)) {
             $product_vendor = get_wcmp_vendor_by_term(get_queried_object()->term_id);
         }
-        if ($product_vendor && !empty($ip_data) && isset($_COOKIE["_wcmp_user_cookie_" . get_current_user_id()])) {
-            if ($ip_data->status == 'success') {
+        if ($product_vendor && isset($_COOKIE["_wcmp_user_cookie_" . get_current_user_id()])) {
+            $ip_data = get_visitor_ip_data();
+            if( !empty($ip_data) && $ip_data->status == 'success' ) {
                 $ip_data->user_id = get_current_user_id();
                 $ip_data->user_cookie = $_COOKIE["_wcmp_user_cookie_" . get_current_user_id()];
                 $ip_data->session_id = session_id();

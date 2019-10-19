@@ -24,6 +24,9 @@ if ( ! function_exists( 'porto_generate_placeholder' ) ) :
 			if ( in_array( $image_size, $image_sizes ) ) {
 				$width  = $image_sizes[ $image_size ]['width'];
 				$height = $image_sizes[ $image_size ]['height'];
+			} elseif ( in_array( $image_size, array( 'thumbnail', 'medium', 'medium_large', 'large' ) ) ) { // standard sizes
+				$width  = get_option( "{$image_size}_size_w" );
+				$height = get_option( "{$image_size}_size_h" );
 			} else {
 				$width  = '1';
 				$height = '1';
@@ -53,8 +56,8 @@ if ( ! function_exists( 'porto_generate_placeholder' ) ) :
 		if ( isset( $porto_settings['placeholder-color'] ) && '#f4f4f4' != $porto_settings['placeholder-color'] ) {
 			require_once( PORTO_LIB . '/lib/color-lib.php' );
 			$porto_color_lib = PortoColorLib::getInstance();
-			$rgbColors       = $porto_color_lib->hexToRGB( $porto_settings['placeholder-color'], false );
-			$bgc             = @imagecolorallocate( $im, $rgbColors[0], $rgbColors[1], $rgbColors[2] );
+			$rgb_colors      = $porto_color_lib->hexToRGB( $porto_settings['placeholder-color'], false );
+			$bgc             = @imagecolorallocate( $im, $rgb_colors[0], $rgb_colors[1], $rgb_colors[2] );
 		} else {
 			$bgc = @imagecolorallocate( $im, 244, 244, 244 );
 		}

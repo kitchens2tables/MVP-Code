@@ -343,7 +343,7 @@ if ( ! class_exists( 'Porto_Studio' ) ) :
 					add_action( 'wp_print_scripts', array( $this, 'print_custom_css_frontend_eidtor' ) );
 				}
 				if ( isset( $_POST['meta']['custom_js_body'] ) ) {
-					add_filter( 'print_footer_scripts', array( $this, 'print_custom_js_frontend_eidtor' ) );
+					add_filter( 'print_footer_scripts', array( $this, 'print_custom_js_frontend_editor' ) );
 				}
 			}
 			if ( isset( $_POST['content'] ) && $_POST['content'] ) {
@@ -368,7 +368,7 @@ if ( ! class_exists( 'Porto_Studio' ) ) :
 			}
 		}
 
-		public function print_custom_js_frontend_eidtor( $flag ) {
+		public function print_custom_js_frontend_editor( $flag ) {
 			global $porto_studio_meta;
 			if ( $porto_studio_meta && isset( $porto_studio_meta['custom_js_body'] ) ) {
 				echo '<script data-type="porto-studio-custom-js">';

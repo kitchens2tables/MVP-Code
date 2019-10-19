@@ -79,6 +79,7 @@ class WCMp_Product {
             add_action( 'save_post_product', array( $this, 'wcmp_spmv_bulk_quick_edit_save_post' ), 99 );
             add_action( 'wcmp_create_duplicate_product', array( $this, 'wcmp_spmv_bulk_quick_edit_save_post' ), 99 );
             add_action( 'woocommerce_update_product', array( $this, 'wcmp_spmv_bulk_quick_edit_save_post' ), 99 );
+            add_action( 'woocommerce_product_duplicate_before_save', array( $this, 'wcmp_product_duplicate_before_save' ), 99, 2 );
         }
         add_action('woocommerce_product_query_tax_query', array(&$this, 'wcmp_filter_product_category'), 10);
         $this->vendor_product_restriction();
@@ -109,11 +110,13 @@ class WCMp_Product {
         // Hide products backend fields as per new product modifications
         add_action( 'add_meta_boxes', array( $this, 'remove_meta_boxes' ), 99 );
         // show default product categories
-        if( !apply_filters( 'wcmp_show_product_default_categories_hierarchy', false ) ) {
+        if( !apply_filters( 'wcmp_show_product_default_categories_hierarchy', false ) || ( get_wcmp_vendor_settings('is_disable_marketplace_plisting', 'general') != 'Enable' ) ) {
             add_filter( 'wcmp_vendor_product_list_row_product_categories', array($this, 'show_default_product_cats_in_vendor_list'), 10, 2);
             add_filter( 'woocommerce_admin_product_term_list', array($this, 'show_default_product_cats_in_wp_backend'), 99, 5);
             add_filter( 'term_links-product_cat', array($this, 'show_default_product_cats_product_single'), 99);
         }
+        // Woocommerce Block 
+        add_filter( 'woocommerce_blocks_product_grid_item_html', array( $this, 'woocommerce_blocks_product_grid_item_html' ), 99, 3 );
     }
     
     public function override_wc_product_post_parent( $data, $postarr ){
@@ -972,6 +975,13 @@ class WCMp_Product {
                     }
                 }
             }
+            
+            // Default cat hierarchy reset
+            $has_default_cat = get_post_meta( $post_id, '_default_cat_hierarchy_term_id', false );
+            $catagories = isset( $_POST['tax_input']['product_cat'] ) ? array_filter( array_map( 'intval', (array) $_POST['tax_input']['product_cat'] ) ) : array();
+            if( $has_default_cat && !in_array( $has_default_cat, $catagories ) ){
+                delete_post_meta( $post_id, '_default_cat_hierarchy_term_id' );
+            }
         }
     }
 
@@ -1258,41 +1268,37 @@ class WCMp_Product {
         global $product;
         if (apply_filters('wcmp_show_report_abuse_link', true, $product)) {
             $report_abuse_text = apply_filters('wcmp_report_abuse_text', __('Report Abuse', 'dc-woocommerce-multi-vendor'), $product);
+            $show_in_popup = apply_filters('wcmp_show_report_abuse_form_popup', true, $product)
             ?>
-            <a href="#" id="report_abuse"><?php echo $report_abuse_text; ?></a><br>
-            <div id="report_abuse_form" class="simplePopup"> 
-                <h3 class="wcmp-abuse-report-title"><?php _e('Report an abuse for product ', 'dc-woocommerce-multi-vendor') . ' ' . the_title(); ?> </h3>
-                <form action="#" method="post" id="report-abuse" class="report-abuse-form" name="report-abuse">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <input type="text" class="report_abuse_name" id="report_abuse_name" name="report_abuse[name]" value="" style="width: 100%;" placeholder="<?php _e('Name', 'dc-woocommerce-multi-vendor'); ?>" required="">
-                                    <span class="wcmp-report-abuse-error"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="email" class="report_abuse_email" id="report_abuse_email" name="report_abuse[email]" value="" style="width: 100%;" placeholder="<?php _e('Email', 'dc-woocommerce-multi-vendor'); ?>" required="">
-                                    <span class="wcmp-report-abuse-error"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <textarea name="report_abuse[message]" class="report_abuse_msg" id="report_abuse_msg" rows="5" style="width: 100%;" placeholder="<?php _e('Leave a message explaining the reasons for your abuse report', 'dc-woocommerce-multi-vendor'); ?>" required=""></textarea>
-                                    <span class="wcmp-report-abuse-error"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <input type="hidden" class="report_abuse_product_id" value="<?php echo $product->get_id(); ?>">
-                                    <input type="submit" class="submit-report-abuse submit" name="report_abuse[submit]" value="<?php _e('Report', 'dc-woocommerce-multi-vendor'); ?>">
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </form>
-            </div> 							
+            <div class="wcmp-report-abouse-wrapper">
+                <a href="javascript:void(0);" id="report_abuse"><?php echo $report_abuse_text; ?></a>
+                <div id="report_abuse_form"  class="<?php echo ( $show_in_popup ) ? 'report-abouse-modal' : ''; ?>" tabindex="-1" style="display: none;">
+                    <div class="<?php echo ( $show_in_popup ) ? 'modal-content' : 'toggle-content'; ?>">
+                        <div class="modal-header">
+                            <button type="button" class="close">&times;</button>
+                            <h2 class="wcmp-abuse-report-title1"><?php _e('Report an abuse for product ', 'dc-woocommerce-multi-vendor') . ' ' . the_title(); ?> </h2>
+                        </div>
+                        <div class="modal-body">
+                            <p class="field-row">
+                                <input type="text" class="report_abuse_name" id="report_abuse_name" name="report_abuse[name]" value="" style="width: 100%;" placeholder="<?php _e('Name', 'dc-woocommerce-multi-vendor'); ?>" required="">
+                                <span class="wcmp-report-abuse-error"></span>
+                            </p>
+                            <p class="field-row">
+                                <input type="email" class="report_abuse_email" id="report_abuse_email" name="report_abuse[email]" value="" style="width: 100%;" placeholder="<?php _e('Email', 'dc-woocommerce-multi-vendor'); ?>" required="">
+                                <span class="wcmp-report-abuse-error"></span>
+                            </p>
+                            <p class="field-row">
+                                <textarea name="report_abuse[message]" class="report_abuse_msg" id="report_abuse_msg" rows="5" style="width: 100%;" placeholder="<?php _e('Leave a message explaining the reasons for your abuse report', 'dc-woocommerce-multi-vendor'); ?>" required=""></textarea>
+                                <span class="wcmp-report-abuse-error"></span>
+                            </p>
+                        </div> 
+                        <div class="modal-footer">
+                            <input type="hidden" class="report_abuse_product_id" value="<?php echo $product->get_id(); ?>">
+                            <button type="button" class="btn btn-primary submit-report-abuse" name="report_abuse[submit]"><?php _e('Report', 'dc-woocommerce-multi-vendor'); ?></button>
+                        </div>
+                    </div>
+                </div>
+            </div>							
             <?php
         }
     }
@@ -1494,10 +1500,10 @@ class WCMp_Product {
      * @param Object $term
      */
     public function edit_product_cat_commission_fields($term) {
-        $commision = get_woocommerce_term_meta($term->term_id, 'commision', true);
-        $commission_percentage = get_woocommerce_term_meta($term->term_id, 'commission_percentage', true);
-        $fixed_with_percentage = get_woocommerce_term_meta($term->term_id, 'fixed_with_percentage', true);
-        $fixed_with_percentage_qty = get_woocommerce_term_meta($term->term_id, 'fixed_with_percentage_qty', true);
+        $commision = get_term_meta($term->term_id, 'commision', true);
+        $commission_percentage = get_term_meta($term->term_id, 'commission_percentage', true);
+        $fixed_with_percentage = get_term_meta($term->term_id, 'fixed_with_percentage', true);
+        $fixed_with_percentage_qty = get_term_meta($term->term_id, 'fixed_with_percentage_qty', true);
         ?>
         <?php if ('fixed' === get_wcmp_vendor_settings('commission_type', 'payment', '', 'fixed') || 'percent' === get_wcmp_vendor_settings('commission_type', 'payment', '', 'fixed')): ?>
             <tr class="form-field">
@@ -1534,16 +1540,16 @@ class WCMp_Product {
      */
     public function save_product_cat_commission_fields($term_id, $tt_id = '', $taxonomy = '') {
         if (isset($_POST['commision']) && 'product_cat' === $taxonomy) {
-            update_woocommerce_term_meta($term_id, 'commision', esc_attr($_POST['commision']));
+            update_term_meta($term_id, 'commision', esc_attr($_POST['commision']));
         }
         if (isset($_POST['commission_percentage']) && 'product_cat' === $taxonomy) {
-            update_woocommerce_term_meta($term_id, 'commission_percentage', absint($_POST['commission_percentage']));
+            update_term_meta($term_id, 'commission_percentage', absint($_POST['commission_percentage']));
         }
         if (isset($_POST['fixed_with_percentage']) && 'product_cat' === $taxonomy) {
-            update_woocommerce_term_meta($term_id, 'fixed_with_percentage', esc_attr($_POST['fixed_with_percentage']));
+            update_term_meta($term_id, 'fixed_with_percentage', esc_attr($_POST['fixed_with_percentage']));
         }
         if (isset($_POST['fixed_with_percentage_qty']) && 'product_cat' === $taxonomy) {
-            update_woocommerce_term_meta($term_id, 'fixed_with_percentage_qty', absint($_POST['fixed_with_percentage_qty']));
+            update_term_meta($term_id, 'fixed_with_percentage_qty', absint($_POST['fixed_with_percentage_qty']));
         }
     }
     
@@ -1800,7 +1806,7 @@ class WCMp_Product {
         return implode( ', ', $termlist );
     }
     
-    public function show_default_product_cats_product_single( $terms = array() ){
+    public function show_default_product_cats_product_single( $terms ){
         global $product;
         if( !is_object( $product )) $product = wc_get_product( get_the_ID() );
         if(is_product() && $product){
@@ -1822,6 +1828,33 @@ class WCMp_Product {
 
             return $links;
         }
+        return $terms;
+    }
+    
+    public function wcmp_product_duplicate_before_save($duplicate, $product){
+        $duplicate->set_name( $product->get_name() ); // remove duplicate (copy) strings
+    }
+    
+    public function woocommerce_blocks_product_grid_item_html( $html, $data, $product ) {
+        $vendor = get_wcmp_product_vendors( $product->get_id() );
+        if( !$vendor ) return $html;
+        if ( 'Enable' === get_wcmp_vendor_settings('sold_by_catalog', 'general') && apply_filters( 'wcmp_enable_sold_by_on_wc_blocks_product_grid', true, $product ) ) {
+            $sold_by_text = apply_filters( 'wcmp_sold_by_text', __('Sold By', 'dc-woocommerce-multi-vendor'), $product->get_id() );
+            $html = "<li class=\"wc-block-grid__product\">
+                    <a href=\"{$data->permalink}\" class=\"wc-block-grid__product-link\">
+                            {$data->image}
+                            {$data->title}
+                    </a>
+                    {$data->badge}
+                    {$data->price}
+                    {$data->rating}
+                    <a href=\"{$vendor->permalink}\" class=\"by-vendor-name-link\" style=\"display: block;\">
+                        {$sold_by_text} {$vendor->page_title}
+                    </a>
+                    {$data->button}
+            </li>";
+        }
+        return $html;
     }
     
 }

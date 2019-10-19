@@ -3,19 +3,24 @@
  */
 import { __ } from '@wordpress/i18n';
 import Gridicon from 'gridicons';
-import { RawHTML } from '@wordpress/element';
 import { registerBlockType } from '@wordpress/blocks';
+import { DEFAULT_COLUMNS, DEFAULT_ROWS } from '@woocommerce/block-settings';
 
 /**
  * Internal dependencies
  */
-import './style.scss';
+import './editor.scss';
 import Block from './block';
-import getShortcode from '../../utils/get-shortcode';
+import { deprecatedConvertToShortcode } from '../../utils/deprecations';
 
-registerBlockType( 'woocommerce/products-by-attribute', {
+const blockTypeName = 'woocommerce/products-by-attribute';
+
+registerBlockType( blockTypeName, {
 	title: __( 'Products by Attribute', 'woo-gutenberg-products-block' ),
-	icon: <Gridicon icon="custom-post-type" />,
+	icon: {
+		src: <Gridicon icon="custom-post-type" />,
+		foreground: '#96588a',
+	},
 	category: 'woocommerce',
 	keywords: [ __( 'WooCommerce', 'woo-gutenberg-products-block' ) ],
 	description: __(
@@ -24,6 +29,7 @@ registerBlockType( 'woocommerce/products-by-attribute', {
 	),
 	supports: {
 		align: [ 'wide', 'full' ],
+		html: false,
 	},
 	attributes: {
 		/**
@@ -47,7 +53,7 @@ registerBlockType( 'woocommerce/products-by-attribute', {
 		 */
 		columns: {
 			type: 'number',
-			default: wc_product_block_data.default_columns,
+			default: DEFAULT_COLUMNS,
 		},
 
 		/**
@@ -56,6 +62,19 @@ registerBlockType( 'woocommerce/products-by-attribute', {
 		editMode: {
 			type: 'boolean',
 			default: true,
+		},
+
+		/**
+		 * Content visibility setting
+		 */
+		contentVisibility: {
+			type: 'object',
+			default: {
+				title: true,
+				price: true,
+				rating: true,
+				button: true,
+			},
 		},
 
 		/**
@@ -71,9 +90,59 @@ registerBlockType( 'woocommerce/products-by-attribute', {
 		 */
 		rows: {
 			type: 'number',
-			default: wc_product_block_data.default_rows,
+			default: DEFAULT_ROWS,
+		},
+
+		/**
+		 * How to align cart buttons.
+		 */
+		alignButtons: {
+			type: 'boolean',
+			default: false,
 		},
 	},
+
+	deprecated: [
+		{
+			// Deprecate shortcode save method in favor of dynamic rendering.
+			attributes: {
+				attributes: {
+					type: 'array',
+					default: [],
+				},
+				attrOperator: {
+					type: 'string',
+					default: 'any',
+				},
+				columns: {
+					type: 'number',
+					default: DEFAULT_COLUMNS,
+				},
+				editMode: {
+					type: 'boolean',
+					default: true,
+				},
+				contentVisibility: {
+					type: 'object',
+					default: {
+						title: true,
+						price: true,
+						rating: true,
+						button: true,
+					},
+				},
+				orderby: {
+					type: 'string',
+					default: 'date',
+				},
+				rows: {
+					type: 'number',
+					default: DEFAULT_ROWS,
+				},
+			},
+			save: deprecatedConvertToShortcode( blockTypeName ),
+		},
+	],
 
 	/**
 	 * Renders and manages the block.
@@ -82,19 +151,7 @@ registerBlockType( 'woocommerce/products-by-attribute', {
 		return <Block { ...props } />;
 	},
 
-	/**
-	 * Save the block content in the post content. Block content is saved as a products shortcode.
-	 *
-	 * @return string
-	 */
-	save( props ) {
-		const {
-			align,
-		} = props.attributes; /* eslint-disable-line react/prop-types */
-		return (
-			<RawHTML className={ align ? `align${ align }` : '' }>
-				{ getShortcode( props, 'woocommerce/products-by-attribute' ) }
-			</RawHTML>
-		);
+	save() {
+		return null;
 	},
 } );

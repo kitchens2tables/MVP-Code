@@ -77,6 +77,10 @@ if ( !class_exists('MHCommon') ) {
                     $settings->tab_premium_url()
                 );
 
+                $text = wp_kses($text, array(
+                    'a' => array('href' => array())
+                ));
+
                 $noticeObject->addNotice(self::PREMIUM_ADV_NOTICE, 'success', $text, 90);
             }
         }

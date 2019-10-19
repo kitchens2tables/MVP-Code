@@ -418,11 +418,13 @@ class WCMp_Settings_WCMp_Vendors extends WP_List_Table {
 				if ( is_wp_error( $user_id ) ) {
 					$error_string = $user_id->get_error_message();
 					echo '<div id="message" class="error"><p>' . $error_string . '</p></div>';
+                                        $user_id = null;
 				} else {
 					if(isset($_POST['vendor_profile_image']) && $_POST['vendor_profile_image'] != '') update_user_meta($user_id, "_vendor_profile_image", $_POST['vendor_profile_image']);
 					echo '<div class="notice notice-success"><p>' . __( 'Vendor successfully created!', 'dc-woocommerce-multi-vendor' ) . '</p></div>';
 				}
                                 wp_safe_redirect(apply_filters('wcmp_add_new_vendor_redirect_url', admin_url('admin.php?page=vendors&action=edit&ID='.$user_id)));
+                                die();
 			}
 		}
 		
@@ -489,7 +491,7 @@ class WCMp_Settings_WCMp_Vendors extends WP_List_Table {
 								"vendor_phone" => array('label' => __('Phone', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'vendor_phone', 'label_for' => 'vendor_phone', 'name' => 'vendor_phone', 'value' => $vendor_obj->phone),
 								"vendor_address_1" => array('label' => __('Address', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'vendor_address_1', 'label_for' => 'vendor_address_1', 'name' => 'vendor_address_1', 'value' => $vendor_obj->address_1),
 								"vendor_address_2" => array('label' => '', 'type' => 'text', 'id' => 'vendor_address_2', 'label_for' => 'vendor_address_2', 'name' => 'vendor_address_2', 'value' => $vendor_obj->address_2),
-								"vendor_country" => array('label' => __('Country', 'dc-woocommerce-multi-vendor'), 'type' => 'select', 'id' => 'vendor_country', 'label_for' => 'vendor_country', 'name' => 'vendor_country', 'class' => 'country_to_state regular-text', 'options' => WC()->countries->get_shipping_countries(), 'value' => $vendor_obj->country_code),
+								"vendor_country" => array('label' => __('Country', 'dc-woocommerce-multi-vendor'), 'type' => 'select', 'id' => 'vendor_country', 'label_for' => 'vendor_country', 'name' => 'vendor_country', 'class' => 'country_to_state regular-text', 'options' => WC()->countries->get_allowed_countries(), 'value' => $vendor_obj->country_code),
 								"vendor_state" => array('label' => __('State', 'dc-woocommerce-multi-vendor'), 'type' => 'select', 'id' => 'vendor_state', 'label_for' => 'vendor_state', 'name' => 'vendor_state', 'class' => 'regular-text', 'options' => $states, 'value' => $vendor_obj->state_code),
 								"vendor_city" => array('label' => __('City', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'vendor_city', 'label_for' => 'vendor_city', 'name' => 'vendor_city', 'value' => $vendor_obj->city),
 								"vendor_postcode" => array('label' => __('ZIP code', 'dc-woocommerce-multi-vendor'), 'type' => 'text', 'id' => 'vendor_postcode', 'label_for' => 'vendor_postcode', 'name' => 'vendor_postcode', 'value' => $vendor_obj->postcode),

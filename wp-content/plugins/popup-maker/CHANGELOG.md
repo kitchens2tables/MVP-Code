@@ -1,3 +1,31 @@
+### v1.8.13 - 10/11/2019
+* Tweak: Added cap check to ensure only authorized users can access support debug text file. @Credit goes to Ilias Dimopoulos from Neurosoft S.A , RedyOps Team.
+
+### v1.8.12 - 10/01/2019
+* Improvement: Changed hook that we initialize Ninja Forms on so that it can be disabled from theme functions.php.
+* Improvement: Don't load CF7 scripts if they are forced off.
+* Improvement: Fixed some old options checks that were always being detected as true resulting in minor performance improvements.
+* Tweak: Added nonce to the system info file download available under Popup Maker -> Tools and simplified the pum_actions system. @Credit goes to Ilias Dimopoulos from Neurosoft S.A , RedyOps Team.
+
+### v1.8.11 - 08/18/2019
+* Improvement: Trigger window resize event when popups open to fix issues with some sliders & JS sized content.
+* Fix: Updated form value processing to prevent some edge cases where string values were converted to Infinity.
+* Fix: Custom "already subscribed" messages in MailChimp integration were not working correctly.
+
+### v1.8.10 - 07/06/2019
+* Fix: PHP backward compatibility issue due to short array syntax usage.
+
+### v1.8.9 - 07/04/2019
+* Fix: Issue where popup titles wouldn't render.
+
+### v1.8.8 - 06/30/2019
+* Fix: Bug where red alert icons didn't go away when visiting the tabs from the "Extend" menu.
+
+### v1.8.7 - 06/29/2019
+* Tweak: Restricted the admin toolbar to only show under strict circumstances.
+* Tweak: Updated available WooCommerce endpoints in our targeting conditions
+* Fix: Issue with instance based shortcodes when asset caching was enabled but running on every request.
+
 ### v1.8.6 - 05/05/2019
 * Fix: Typo in GDPR eraser that could sometimes result in errors when processing GDPR requests
 * Fix: Added function exists check to prevent errors on WP 4.1

@@ -12,7 +12,7 @@ if ( $porto_post_image_size ) {
 if ( count( $featured_images ) ) {
 	$attachment_id = $featured_images[0]['attachment_id'];
 	if ( $image_size ) {
-		$image_sizes        = wp_get_additional_image_sizes();
+		$image_sizes        = get_intermediate_image_sizes();
 		$attachment_related = porto_get_attachment( $attachment_id, $image_size, ( 'full' !== $image_size && ! in_array( $image_size, $image_sizes ) ) );
 	} else {
 		$attachment_related = porto_get_attachment( $attachment_id, 'related-post' );

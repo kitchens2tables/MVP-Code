@@ -1,4 +1,5 @@
 <?php
+
 global $porto_settings, $porto_layout;
 
 $default_layout = porto_meta_default_layout();

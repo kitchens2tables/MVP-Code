@@ -65,7 +65,7 @@ global $WCMp;
                         $flag++;
                     }
                     // give option to set default terms hierarchy
-                    if( $nos_hierarchy > 1 ){ ?>
+                    if( $nos_hierarchy > 1 && ( get_wcmp_vendor_settings('is_disable_marketplace_plisting', 'general') != 'Enable' ) ){ ?>
                     <p class="pull-right multiple-cat-hierarchy"><?php _e( 'Select a different category :', 'dc-woocommerce-multi-vendor' );?>
                         <strong id="multiple-cat-hierarchy-lbl" class="primary-color">
                             <button type="button" class="multi-cat-choose-dflt-btn editabble-button" data-toggle="collapse" data-target="#multi_cat_hierarchy_visiblity"><u><?php _e( 'Choose default', 'dc-woocommerce-multi-vendor' );?></u> <i class="wcmp-font ico-downarrow-2-icon"></i></button>
@@ -121,11 +121,11 @@ global $WCMp;
                 <p class="pro-title">
                     <label><?php _e('Product Title', 'dc-woocommerce-multi-vendor'); ?>: </label>
                     <strong class="editable-content"><?php echo $product_object->get_title( 'edit' ); ?></strong>
-                    <?php if( !$self->is_spmv() && $is_update ) : ?>
+                    <?php if( (!$self->is_spmv() && $is_update) || !apply_filters('wcmp_singleproductmultiseller_edit_product_title_disabled', true) ) : ?>
                     <button type="button" class="editable-content-button"><i class="wcmp-font ico-edit-pencil-icon" title="<?php _e('Edit', 'dc-woocommerce-multi-vendor'); ?>"></i> <!--span>edit</span--></button>
                     <?php endif; ?>
                     <span class="editing-content">
-                        <input type="text" class="form-control" name="post_title" id="post_title" value="<?php echo $product_object->get_title( 'edit' ); ?>"<?php if ( $self->is_spmv() ) echo ' readonly="readonly"'; ?>>
+                        <input type="text" class="form-control" name="post_title" id="post_title" value="<?php echo $product_object->get_title( 'edit' ); ?>"<?php if ( $self->is_spmv() && apply_filters('wcmp_singleproductmultiseller_edit_product_title_disabled', true) ) echo ' readonly="readonly"'; ?>>
                         <input type="hidden" name="original_post_title" value="<?php echo $product_object->get_title( 'edit' ); ?>">
                         <input type="hidden" name="post_ID" value="<?php echo $self->get_the_id(); ?>">
                         <input type="hidden" name="is_update" value="<?php esc_attr_e( $is_update ); ?>">

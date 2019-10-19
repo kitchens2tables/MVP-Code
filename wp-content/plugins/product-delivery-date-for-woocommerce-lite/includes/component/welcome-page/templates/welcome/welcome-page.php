@@ -36,7 +36,7 @@
 
         <h3><?php esc_html_e( "Get Started with " . $plugin_name . " ", 'woocommerce-prdd-lite' ); ?></h3>
 
-        <div class="video feature-section-item" style="float:left;padding-right:10px; display:inline-block; max-width:60%;">
+        <div class="video feature-section-item" style="float:left; padding-right:10px; display:inline-block; max-width:60%;">
             <img src="<?php echo $ts_dir_image_path . 'product-delivery-date-lite.png' ?>"
                 alt="<?php esc_attr_e( 'Order Delivery Date Lite', 'woocommerce-prdd-lite' ); ?>" style="width:600px;">
         </div>

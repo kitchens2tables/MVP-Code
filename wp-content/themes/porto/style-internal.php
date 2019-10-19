@@ -321,7 +321,7 @@ if ( isset( $porto_product_layout ) && $porto_product_layout ) :
 			.product-layout-full_width .product-summary-wrap { padding-<?php echo porto_filter_output( $right ); ?>: 30px; }
 		}
 		.product-layout-full_width .product-media { position: relative; }
-		.product-layout-full_width .product-thumbnails { position: absolute; top: 20px; <?php echo porto_filter_output( $left ); ?>: 20px; z-index: 2; bottom: 20px; overflow: hidden auto; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
+		.product-layout-full_width .product-thumbnails { position: absolute; top: 20px; <?php echo porto_filter_output( $left ); ?>: 20px; z-index: 2; bottom: 20px; overflow-x: hidden; overflow-y: auto; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
 		.product-layout-full_width .product-thumbnails::-webkit-scrollbar { width: 5px; }
 		.product-layout-full_width .product-thumbnails::-webkit-scrollbar-thumb { border-radius: 0px; background: <?php echo 'dark' != $b['css-type'] ? 'rgba(204, 204, 204, 0.5)' : '#39404c'; ?>; }
 		.main-boxed .product-layout-full_width .product-thumbnails,
@@ -1414,7 +1414,7 @@ endif;
 
 if ( function_exists( 'vc_is_inline' ) && vc_is_inline() ) :
 	?>
-	.vc_vc_column, .vc_vc_column_inner { padding-left: <?php echo intval( $b['grid-gutter-width'] ) / 2; ?>px; padding-right: <?php echo intval( $b['grid-gutter-width'] ) / 2; ?>px; }
+	.vc_vc_column, .vc_vc_column_inner, .row > .vc_col-sm-12 { padding-left: <?php echo intval( $b['grid-gutter-width'] ) / 2; ?>px; padding-right: <?php echo intval( $b['grid-gutter-width'] ) / 2; ?>px; }
 	<?php
 endif;
 
@@ -1422,7 +1422,7 @@ endif;
 if ( ! is_customize_preview() && ! porto_header_type_is_preset() ) {
 	$current_layout = porto_header_builder_layout();
 	if ( isset( $current_layout['custom_css'] ) && $current_layout['custom_css'] ) {
-		echo trim( preg_replace( '#<style[^>]*>(.*)</style>#is', '$1', $current_layout['custom_css'] ) );
+		echo wp_strip_all_tags( preg_replace( '#<style[^>]*>(.*)</style>#is', '$1', $current_layout['custom_css'] ) );
 	}
 }
 
@@ -1430,8 +1430,8 @@ if ( ! is_customize_preview() && ! porto_header_type_is_preset() ) {
 $theme_options_custom_css = $porto_settings['css-code'];
 $custom_css               = porto_get_meta_value( 'custom_css' );
 if ( $theme_options_custom_css ) {
-	echo trim( preg_replace( '#<style[^>]*>(.*)</style>#is', '$1', $theme_options_custom_css ) );
+	echo wp_strip_all_tags( preg_replace( '#<style[^>]*>(.*)</style>#is', '$1', $theme_options_custom_css ) );
 }
 if ( ! empty( $custom_css ) ) {
-	echo trim( preg_replace( '#<style[^>]*>(.*)</style>#is', '$1', $custom_css ) );
+	echo wp_strip_all_tags( preg_replace( '#<style[^>]*>(.*)</style>#is', '$1', $custom_css ) );
 }

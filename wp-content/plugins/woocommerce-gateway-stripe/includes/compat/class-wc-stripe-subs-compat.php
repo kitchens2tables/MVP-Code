@@ -221,10 +221,7 @@ class WC_Stripe_Subs_Compat extends WC_Gateway_Stripe {
 				$prepared_source->source = '';
 			}
 
-			$request            = $this->generate_payment_request( $renewal_order, $prepared_source );
-			$request['capture'] = 'true';
-			$request['amount']  = WC_Stripe_Helper::get_stripe_amount( $amount, $request['currency'] );
-			$response           = WC_Stripe_API::request( $request );
+			$response = $this->create_and_confirm_intent_for_renewal( $amount, $renewal_order, $prepared_source );
 
 			if ( ! empty( $response->error ) ) {
 				// We want to retry.
@@ -262,7 +259,8 @@ class WC_Stripe_Subs_Compat extends WC_Gateway_Stripe {
 
 			do_action( 'wc_gateway_stripe_process_payment', $response, $renewal_order );
 
-			$this->process_response( $response, $renewal_order );
+
+			$this->process_response( end( $response->charges->data ), $renewal_order );
 		} catch ( WC_Stripe_Exception $e ) {
 			WC_Stripe_Logger::log( 'Error: ' . $e->getMessage() );
 
@@ -271,6 +269,57 @@ class WC_Stripe_Subs_Compat extends WC_Gateway_Stripe {
 			/* translators: error message */
 			$renewal_order->update_status( 'failed' );
 		}
+	}
+
+	/**
+	 * Create and confirm a new PaymentIntent.
+	 *
+	 * @param float    $amount          The amount to charge.
+	 * @param WC_Order $order           The order that is being paid for.
+	 * @param object   $prepared_source The source that is used for the payment.
+	 * @return object                   An intent or an error.
+	 */
+	public function create_and_confirm_intent_for_renewal( $amount, $order, $prepared_source ) {
+		// The request for a charge contains metadata for the intent.
+		$full_request = $this->generate_payment_request( $order, $prepared_source );
+
+		$request = array(
+			'amount'               => WC_Stripe_Helper::get_stripe_amount( $amount, $full_request['currency'] ),
+			'currency'             => $full_request['currency'],
+			'description'          => $full_request['description'],
+			'metadata'             => $full_request['metadata'],
+			'payment_method_types' => array(
+				'card',
+			),
+			'off_session'          => 'true',
+			'confirm'              => 'true',
+			'confirmation_method'  => 'automatic',
+		);
+
+		if ( isset( $full_request['statement_descriptor'] ) ) {
+			$request['statement_descriptor'] = $full_request['statement_descriptor'];
+		}
+
+		if ( isset( $full_request['customer'] ) ) {
+			$request['customer'] = $full_request['customer'];
+		}
+
+		if ( isset( $full_request['source'] ) ) {
+			$request['source'] = $full_request['source'];
+		}
+
+		$intent = WC_Stripe_API::request( $request, 'payment_intents' );
+		if ( ! empty( $intent->error ) ) {
+			return $intent;
+		}
+
+		$order_id = WC_Stripe_Helper::is_wc_lt( '3.0' ) ? $order->id : $order->get_id();
+		WC_Stripe_Logger::log( "Stripe PaymentIntent $intent->id initiated for order $order_id" );
+
+		// Save the intent ID to the order.
+		$this->save_intent_to_order( $order, $intent );
+
+		return $intent;
 	}
 
 	/**
@@ -309,6 +358,8 @@ class WC_Stripe_Subs_Compat extends WC_Gateway_Stripe {
 		delete_post_meta( ( WC_Stripe_Helper::is_wc_lt( '3.0' ) ? $resubscribe_order->id : $resubscribe_order->get_id() ), '_stripe_source_id' );
 		// For BW compat will remove in future
 		delete_post_meta( ( WC_Stripe_Helper::is_wc_lt( '3.0' ) ? $resubscribe_order->id : $resubscribe_order->get_id() ), '_stripe_card_id' );
+		// delete payment intent ID
+		delete_post_meta( ( WC_Stripe_Helper::is_wc_lt( '3.0' ) ? $resubscribe_order->id : $resubscribe_order->get_id() ), '_stripe_intent_id' );
 		$this->delete_renewal_meta( $resubscribe_order );
 	}
 
@@ -319,6 +370,9 @@ class WC_Stripe_Subs_Compat extends WC_Gateway_Stripe {
 	public function delete_renewal_meta( $renewal_order ) {
 		WC_Stripe_Helper::delete_stripe_fee( $renewal_order );
 		WC_Stripe_Helper::delete_stripe_net( $renewal_order );
+
+		// delete payment intent ID
+		delete_post_meta( ( WC_Stripe_Helper::is_wc_lt( '3.0' ) ? $renewal_order->id : $renewal_order->get_id() ), '_stripe_intent_id' );
 
 		return $renewal_order;
 	}

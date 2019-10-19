@@ -24,6 +24,7 @@ class WCMp_Settings {
         add_action( 'settings_page_general_tab_init', array( &$this, 'general_tab_init' ), 10, 1 );
         add_action( 'settings_page_general_policies_tab_init', array( &$this, 'general_policies_tab_init' ), 10, 2 );
         add_action( 'settings_page_general_customer_support_details_tab_init', array( &$this, 'general_customer_support_details_tab_init' ), 10, 2 );
+        add_action( 'settings_page_general_tools_tab_init', array( &$this, 'general_tools_tab_init' ), 10, 2 );
         // Settings tabs vendor
         add_action( 'settings_page_vendor_general_tab_init', array( &$this, 'vendor_general_tab_init' ), 10, 2 );
         add_action( 'settings_page_vendor_registration_tab_init', array( &$this, 'vendor_registration_tab_init' ), 10, 2 );
@@ -92,6 +93,8 @@ class WCMp_Settings {
         $wcmp_extension_page = add_submenu_page( 'wcmp', __( 'Extensions', 'dc-woocommerce-multi-vendor' ), __( 'Extensions', 'dc-woocommerce-multi-vendor' ), 'manage_woocommerce', 'wcmp-extensions', array( $this, 'wcmp_extensions' ) );
         // transaction details page
         add_submenu_page( null, __( 'Transaction Details', 'dc-woocommerce-multi-vendor' ), __( 'Transaction Details', 'dc-woocommerce-multi-vendor' ), 'manage_woocommerce', 'wcmp-transaction-details', array( $this, 'wcmp_transaction_details' ) );
+        // Report a bugs
+        //$wcmp_extension_page = add_submenu_page( 'wcmp', __( 'Report a bugs', 'dc-woocommerce-multi-vendor' ), __( 'Report a bugs', 'dc-woocommerce-multi-vendor' ), 'manage_woocommerce', 'wcmp-report-bugs', array( $this, 'wcmp_report_bugs' ) );
 
         // Assign priority incrmented by 1
         $wcmp_submenu_priority = array(
@@ -280,6 +283,7 @@ class WCMp_Settings {
         if ( 'Enable' === get_wcmp_vendor_settings( 'is_customer_support_details', 'general', '' ) ) {
             $tabsection_general['customer_support_details'] = array( 'title' => __( 'Customer Support', 'dc-woocommerce-multi-vendor' ), 'icon' => 'dashicons-universal-access' );
         }
+        $tabsection_general['tools'] = array( 'title' => __( 'Tools', 'dc-woocommerce-multi-vendor' ), 'icon' => 'dashicons-hammer' );
 
         return $tabsection_general;
     }
@@ -407,7 +411,15 @@ class WCMp_Settings {
                     }
                 }
             }
-
+            /**
+             *  patch for duplicate field name override from different settings areas
+             */
+            $tab_sub_tab = '';
+            if( $tab ) $tab_sub_tab = $tab;
+            if( $tab_section ) $tab_sub_tab = $tab_sub_tab."_".$tab_section;
+            $tab_settings_options = ( get_option( "wcmp_{$tab_sub_tab}_settings_name", array() ) ) ? get_option( "wcmp_{$tab_sub_tab}_settings_name", array() ) : get_option( "wcmp_{$tab}_settings_name", array() );
+            $this->options = ( $tab_settings_options ) ? $tab_settings_options : $this->options;
+            
             foreach ( $this->tabs as $tab_id => $tab_name ) {
                 settings_errors( "wcmp_{$tab_id}_settings_name" );
                 if ( $this->is_wcmp_tab_has_subtab( $tab_id ) ) {
@@ -430,7 +442,11 @@ class WCMp_Settings {
                     settings_fields( "wcmp_{$tab}_{$tab_section}_settings_group" );
                     do_action( "wcmp_{$tab}_{$tab_section}_settings_before_submit" );
                     do_settings_sections( "wcmp-{$tab}-{$tab_section}-settings-admin" );
-                    submit_button();
+                    if ( $tab_section == 'tools' ) {
+                        do_action( "settings_page_{$tab}_{$tab_section}_tab_init", $tab, $tab_section );
+                    }else{
+                        submit_button();
+                    }
                 } else if ( $tab == 'payment' && isset( $_GET['tab_section'] ) && $_GET['tab_section'] != 'payment' ) {
                     settings_fields( "wcmp_{$tab}_{$tab_section}_settings_group" );
                     do_action( "wcmp_{$tab}_{$tab_section}_settings_before_submit" );
@@ -510,6 +526,77 @@ class WCMp_Settings {
         </div>
         <?php
     }
+    
+    public function wcmp_report_bugs(){
+        global $WCMp;
+        
+        if ( ! empty( $_POST ) && check_admin_referer( 'wcmp_split_report_bugs_nonce_action', 'wcmp_split_report_nonce' ) ) {
+            if(empty($_POST['report_title'])) echo '<div id="message" class="error"><p>' . __( 'Please, add a report title.', 'dc-woocommerce-multi-vendor' ) . '</p></div>';
+            $to = 'plugins@dualcube.com';
+            $subject = __( 'WCMp Split (v3.4) report bug - ', 'dc-woocommerce-multi-vendor' ) . sanitize_text_field( $_POST['report_title'] );
+            $message = get_option( 'blogname' ) . __( " has reported a bugs regarding WCMp (v3.4). Details are as follows -\n", 'dc-woocommerce-multi-vendor' );
+            $message .= sanitize_textarea_field( $_POST['report_comment'] );
+            $message .= __("\n\n From : ", 'dc-woocommerce-multi-vendor') . site_url();
+            $attachments = array();
+            $attachments[] = get_attached_file( absint($_POST['report_attach']) );
+            
+            $send = wp_mail($to, $subject, $message, $headers = '', $attachments);
+            if( $send ) {
+                echo '<div class="notice notice-success"><p>' . __( 'Thanks for reporting this bugs.', 'dc-woocommerce-multi-vendor' ) . '</p></div>';
+            } else {
+                echo '<div id="message" class="error"><p>' . __( 'Please try after sometime.', 'dc-woocommerce-multi-vendor' ) . '</p></div>';
+            }
+        }
+        
+        ?>  
+        <div class="wrap">
+            <h1><?php _e( 'Report a bugs', 'dc-woocommerce-multi-vendor' ) ?></h1>
+            <form method="post">
+                <table class="form-table wc-shipping-zone-settings" style="width: 70%;border: 1px solid #ddd;margin: 0 auto;margin-bottom: 40px;;">
+                    <tbody>
+                        <tr class="" valign="top">
+                            <th scope="row" class="titledesc" style="padding-left:24px;">
+                                <label for="report_title"><?php _e( 'Title', 'dc-woocommerce-multi-vendor' ) ?></label>
+                            </th>
+                            <td class="forminp">
+                                <input type="text" name="report_title" id="report_title" value="" placeholder="Title" style="width:100%;">
+                            </td>
+			</tr>
+                        <tr class="" valign="top">
+                            <th scope="row" class="titledesc" style="padding-left:24px;">
+                                <label for="report_comment"><?php _e( 'Comment', 'dc-woocommerce-multi-vendor' ) ?></label>
+                            </th>
+                            <td class="forminp">
+                                <textarea name="report_comment" id="report_comment" style="width:100%;"></textarea>
+                            </td>
+			</tr>
+                        <tr class="" valign="top">
+                            <th scope="row" class="titledesc" style="padding-left:24px;">
+                                <label for="report_attach"><?php _e( 'Attachments', 'dc-woocommerce-multi-vendor' ) ?></label>
+                            </th>
+                            <td class="forminp">
+                                <?php
+                                $reportoptions =  array(
+                                    "report_attach" => array('label' => __('', 'dc-woocommerce-multi-vendor'), 'type' => 'upload', 'id' => 'report_attach', 'label_for' => 'report_attach', 'name' => 'report_attach', 'in_table' => 'true'),
+                                );
+                                $WCMp->wcmp_wp_fields->dc_generate_form_field($reportoptions);
+                                ?>
+                            </td>
+			</tr>
+                        <tr class="" valign="top">
+                            <td colspan="2">
+                                <?php wp_nonce_field( 'wcmp_split_report_bugs_nonce_action', 'wcmp_split_report_nonce' ); ?>
+                                <input type="submit" class="button button-primary" name="report_bug_submit" value="<?php _e( 'Submit issue', 'dc-woocommerce-multi-vendor' ) ?>"/>
+                            </td>
+			</tr>
+                    </tbody>
+                </table>
+                
+            </form>
+            <?php do_action( 'dualcube_admin_footer' ); ?>
+        </div>
+        <?php
+    }
 
     /**
      * Register and add settings
@@ -518,7 +605,7 @@ class WCMp_Settings {
         do_action( 'befor_settings_page_init' );
         foreach ( $this->tabs as $tab_id => $tab ) {
             do_action( "settings_page_{$tab_id}_tab_init", $tab_id );
-            $exclude_list = apply_filters( 'wcmp_subtab_init_exclude_list', array( 'payment', 'registration' ), $tab_id );
+            $exclude_list = apply_filters( 'wcmp_subtab_init_exclude_list', array( 'tools', 'payment', 'registration' ), $tab_id );
             if ( $this->is_wcmp_tab_has_subtab( $tab_id ) ) {
                 foreach ( $this->get_wcmp_subtabs( $tab_id ) as $subtab_id => $subtab ) {
                     if ( ! in_array( $subtab_id, $exclude_list ) ) {
@@ -664,6 +751,12 @@ class WCMp_Settings {
         global $WCMp;
         $WCMp->admin->load_class( "settings-{$tab}-{$subsection}", $WCMp->plugin_path, $WCMp->token );
         new WCMp_Settings_General_Customer_support_Details( $tab, $subsection );
+    }
+    
+    public function general_tools_tab_init( $tab, $subsection ) {
+        global $WCMp;
+        $WCMp->admin->load_class( "settings-{$tab}-{$subsection}", $WCMp->plugin_path, $WCMp->token );
+        new WCMp_Settings_General_Tools( $tab, $subsection );
     }
 
     public function capabilites_product_tab_init( $tab, $subsection ) {
@@ -867,6 +960,7 @@ class WCMp_Settings {
      */
     public function text_field_callback( $field ) {
         global $WCMp;
+        //print_r($this->options);die;
         $field['dfvalue'] = isset( $field['dfvalue'] ) ? esc_attr( $field['dfvalue'] ) : '';
         $field['value'] = isset( $field['value'] ) ? esc_attr( $field['value'] ) : $field['dfvalue'];
         $field['value'] = isset( $this->options[$field['name']] ) ? esc_attr( $this->options[$field['name']] ) : $field['value'];

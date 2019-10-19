@@ -1,6 +1,6 @@
 <?php
 /*******************************************************************************
- * Copyright (c) 2018, WP Popup Maker
+ * Copyright (c) 2019, Code Atlantic LLC
  ******************************************************************************/
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -65,21 +65,6 @@ function pum_admin_url( $type = '', $query_args = array() ) {
 	 * @param array  $query_args Query arguments originally passed to pum_admin_url().
 	 */
 	return apply_filters( 'pum_admin_url', $url, $type, $query_args );
-}
-
-/**
- * Returns $_POST key.
- *
- * @since 1.0
- *
- * @param string $name is the key you are looking for. Can use dot notation for arrays such as my_meta.field1 which will resolve to $_POST['my_meta']['field1'].
- *
- * @return mixed results of lookup
- */
-function popmake_post( $name, $do_stripslashes = true ) {
-	$value = popmake_resolve( $_POST, $name, false );
-
-	return $do_stripslashes ? stripslashes_deep( $value ) : $value;
 }
 
 /**

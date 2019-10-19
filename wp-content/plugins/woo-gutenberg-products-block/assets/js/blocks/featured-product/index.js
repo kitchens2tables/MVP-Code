@@ -4,11 +4,13 @@
 import { __ } from '@wordpress/i18n';
 import { InnerBlocks } from '@wordpress/editor';
 import { registerBlockType } from '@wordpress/blocks';
+import { DEFAULT_HEIGHT } from '@woocommerce/block-settings';
 
 /**
  * Internal dependencies
  */
 import './style.scss';
+import './editor.scss';
 import Block from './block';
 
 /**
@@ -16,15 +18,19 @@ import Block from './block';
  */
 registerBlockType( 'woocommerce/featured-product', {
 	title: __( 'Featured Product', 'woo-gutenberg-products-block' ),
-	icon: 'star-filled',
+	icon: {
+		src: 'star-filled',
+		foreground: '#96588a',
+	},
 	category: 'woocommerce',
 	keywords: [ __( 'WooCommerce', 'woo-gutenberg-products-block' ) ],
 	description: __(
-		'Visually highlight a product and encourage prompt action.',
+		'Visually highlight a product or variation and encourage prompt action.',
 		'woo-gutenberg-products-block'
 	),
 	supports: {
 		align: [ 'wide', 'full' ],
+		html: false,
 	},
 	attributes: {
 		/**
@@ -52,11 +58,18 @@ registerBlockType( 'woocommerce/featured-product', {
 		},
 
 		/**
+		 * Focus point for the background image
+		 */
+		focalPoint: {
+			type: 'object',
+		},
+
+		/**
 		 * A fixed height for the block.
 		 */
 		height: {
 			type: 'number',
-			default: wc_product_block_data.default_height,
+			default: DEFAULT_HEIGHT,
 		},
 
 		/**

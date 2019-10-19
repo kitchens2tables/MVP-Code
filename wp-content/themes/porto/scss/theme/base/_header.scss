@@ -1787,7 +1787,8 @@ html:not(.touch):not(.no-touch) #mini-cart:hover .cart-popup {
         z-index: 99;
         .autocomplete-suggestions {
             max-height: 70vh;
-            overflow: hidden auto;
+            overflow-x: hidden;
+            overflow-y: auto;
             -webkit-overflow-scrolling: touch;
         }
         .autocomplete-suggestion:hover {

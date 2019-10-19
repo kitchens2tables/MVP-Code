@@ -259,6 +259,7 @@
             display: inline-block;
             content: "\e87f";
             font-family: "Porto";
+            font-weight: 400;
             margin-#{$right}: 4px;
             vertical-align: middle;
             font-size: 1.125rem;
@@ -923,7 +924,7 @@ h2.resp-accordion {
     
     .product_title {
         font-size: 25px;
-        line-height: 30px;
+        line-height: 1.2;
         color: #21293c;
         margin-bottom: 0.2em;
     }

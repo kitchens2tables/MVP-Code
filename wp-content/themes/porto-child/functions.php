@@ -1265,7 +1265,8 @@ function wcc_change_breadcrumb_home_text( $defaults ) {
  * @param $args
  */
 function custom_um_add_submit_button_to_register( $args ) {
-	// DO NOT add when reviewing user's details
+    
+ 	// DO NOT add when reviewing user's details
 	if ( isset( UM()->user()->preview ) && UM()->user()->preview == true && is_admin() ) return;
 
 	$primary_btn_word = $args['primary_btn_word'];

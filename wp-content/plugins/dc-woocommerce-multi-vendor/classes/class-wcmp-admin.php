@@ -21,10 +21,6 @@ class WCMp_Admin {
         add_action('admin_bar_menu', array(&$this, 'add_toolbar_items'), 100);
         add_action('admin_head', array(&$this, 'admin_header'));
         add_action('current_screen', array($this, 'conditonal_includes'));
-        add_action('delete_post', array($this, 'remove_commission_from_sales_report'), 10);
-        add_action('trashed_post', array($this, 'remove_commission_from_sales_report'), 10);
-        add_action('untrashed_post', array($this, 'restore_commission_from_sales_report'), 10);
-        add_action('woocommerce_order_status_changed', array($this, 'change_commission_status'), 20, 3);
         if (get_wcmp_vendor_settings('is_singleproductmultiseller', 'general') == 'Enable') {
             add_action('admin_enqueue_scripts', array($this, 'wcmp_kill_auto_save'));
         }
@@ -34,9 +30,9 @@ class WCMp_Admin {
 
         add_action('admin_menu', array(&$this, 'wcmp_admin_menu'));
         add_action('admin_head', array($this, 'menu_commission_count'));
-        //if (!get_option('_is_dismiss_service_notice', false) && current_user_can('manage_options')) {
-            //add_action('admin_notices', array(&$this, 'wcmp_service_page_notice'));
-        //}
+//        if (!get_option('_is_dismiss_wcmp340_notice', false) && current_user_can('manage_options')) {
+//            add_action('admin_notices', array(&$this, 'wcmp_service_page_notice'));
+//        }
         add_action('wp_dashboard_setup', array(&$this, 'wcmp_remove_wp_dashboard_widget'));
         add_filter('woocommerce_order_actions', array(&$this, 'woocommerce_order_actions'));
         add_action('woocommerce_order_action_regenerate_order_commissions', array(&$this, 'regenerate_order_commissions'));
@@ -44,117 +40,12 @@ class WCMp_Admin {
         // Admin notice for advance frontend modules (Temp)
         add_action('admin_notices', array(&$this, 'advance_frontend_manager_notice'));
     }
-
+    
     function add_hidden_order_items($order_items) {
         $order_items[] = '_give_tax_to_vendor';
         $order_items[] = '_give_shipping_to_vendor';
         // and so on...
         return $order_items;
-    }
-
-    public function change_commission_status($order_id, $old_status, $new_status) {
-        global $wpdb;
-        $myorder = get_post($order_id);
-        $post_type = $myorder->post_type;
-        if ($old_status == 'on-hold' || $old_status == 'pending' || $old_status == 'cancelled' || $old_status == 'refunded' || $old_status == 'failed') {
-            if ($new_status == 'processing' || $new_status == 'completed') {
-                if ($post_type == 'shop_order') {
-                    $args = array(
-                        'posts_per_page' => -1,
-                        'offset' => 0,
-                        'meta_key' => '_commission_order_id',
-                        'meta_value' => $order_id,
-                        'post_type' => 'dc_commission',
-                        'post_status' => 'trash',
-                        'suppress_filters' => true
-                    );
-                    $commission_array = get_posts($args);
-                    foreach ($commission_array as $commission) {
-                        $to_be_restore_commission = array();
-                        $to_be_restore_commission['ID'] = $commission->ID;
-                        $to_be_restore_commission['post_status'] = 'private';
-                        wp_update_post($to_be_restore_commission);
-                    }
-                    $order_query = "update " . $wpdb->prefix . "wcmp_vendor_orders set 	is_trashed = '' where `order_id` = " . $order_id;
-                    $wpdb->query($order_query);
-                }
-            }
-        } elseif ($old_status == 'processing' || $old_status == 'completed') {
-            if ($new_status == 'on-hold' || $new_status == 'pending' || $new_status == 'cancelled' || $new_status == 'refunded' || $new_status == 'failed') {
-                if ($post_type == 'shop_order') {
-                    $args = array(
-                        'posts_per_page' => -1,
-                        'offset' => 0,
-                        'meta_key' => '_commission_order_id',
-                        'meta_value' => $order_id,
-                        'post_type' => 'dc_commission',
-                        'post_status' => array('publish', 'private'),
-                        'suppress_filters' => true
-                    );
-                    $commission_array = get_posts($args);
-                    foreach ($commission_array as $commission) {
-                        $to_be_deleted_commission = array();
-                        $to_be_deleted_commission['ID'] = $commission->ID;
-                        $to_be_deleted_commission['post_status'] = 'trash';
-                        wp_update_post($to_be_deleted_commission);
-                    }
-                    $order_query = "update " . $wpdb->prefix . "wcmp_vendor_orders set 	is_trashed = '1' where `order_id` = " . $order_id;
-                    $wpdb->query($order_query);
-                }
-            }
-        }
-    }
-
-    public function remove_commission_from_sales_report($order_id) {
-        global $wpdb;
-        $order = get_post($order_id);
-        $post_type = $order->post_type;
-        if ($post_type == 'shop_order') {
-            $args = array(
-                'posts_per_page' => -1,
-                'offset' => 0,
-                'meta_key' => '_commission_order_id',
-                'meta_value' => $order_id,
-                'post_type' => 'dc_commission',
-                'post_status' => array('publish', 'private'),
-                'suppress_filters' => true
-            );
-            $commission_array = get_posts($args);
-            foreach ($commission_array as $commission) {
-                $to_be_deleted_commission = array();
-                $to_be_deleted_commission['ID'] = $commission->ID;
-                $to_be_deleted_commission['post_status'] = 'trash';
-                wp_update_post($to_be_deleted_commission);
-            }
-            $order_query = "update " . $wpdb->prefix . "wcmp_vendor_orders set 	is_trashed = '1' where `order_id` = " . $order_id;
-            $wpdb->query($order_query);
-        }
-    }
-
-    public function restore_commission_from_sales_report($order_id) {
-        global $wpdb;
-        $myorder = get_post($order_id);
-        $post_type = $myorder->post_type;
-        if ($post_type == 'shop_order') {
-            $args = array(
-                'posts_per_page' => -1,
-                'offset' => 0,
-                'meta_key' => '_commission_order_id',
-                'meta_value' => $order_id,
-                'post_type' => 'dc_commission',
-                'post_status' => 'trash',
-                'suppress_filters' => true
-            );
-            $commission_array = get_posts($args);
-            foreach ($commission_array as $commission) {
-                $to_be_restore_commission = array();
-                $to_be_restore_commission['ID'] = $commission->ID;
-                $to_be_restore_commission['post_status'] = 'private';
-                wp_update_post($to_be_restore_commission);
-            }
-            $order_query = "update " . $wpdb->prefix . "wcmp_vendor_orders set 	is_trashed = '' where `order_id` = " . $order_id;
-            $wpdb->query($order_query);
-        }
     }
 
     function conditonal_includes() {
@@ -337,6 +228,7 @@ class WCMp_Admin {
             'toplevel_page_wc-reports',
             'product',
             'edit-product',
+            'edit-shop_order',
             'user-edit',
             'profile',
             'users',
@@ -423,6 +315,7 @@ class WCMp_Admin {
             if (!wp_style_is('woocommerce_chosen_styles', 'queue')) {
                 wp_enqueue_style('woocommerce_chosen_styles', $WCMp->plugin_url . '/assets/admin/css/chosen' . $suffix . '.css');
             }
+            wp_enqueue_style( 'woocommerce_admin_styles' );
             wp_enqueue_script('WCMp_chosen');
             wp_enqueue_script('WCMp_ajax-chosen');
             wp_enqueue_script('wcmp-admin-commission-js');
@@ -481,6 +374,13 @@ class WCMp_Admin {
             }";
             wp_add_inline_style( 'woocommerce_admin_styles', $custom_css );
         }
+        
+        // report a bugs settings
+        if($screen->id == 'wcmp_page_wcmp-report-bugs'){
+            $WCMp->library->load_upload_lib();
+            wp_enqueue_style('woocommerce_admin_styles');
+        }
+        
     }
 
     function wcmp_kill_auto_save() {
@@ -501,16 +401,15 @@ class WCMp_Admin {
             <div class="round3"></div>
             <div class="round4"></div>
             <div class="wcmp_banner-content">
-                <span class="txt"><?php _e('WC Marketplace 3.0! It’s online marketplace experience at its highest level yet.', 'dc-woocommerce-multi-vendor') ?>  </span>
+                <span class="txt"><?php _e('Try out the brand new demo for WCMp. A well integrated order management, better commission disbursal system and a lot more exciting features to be unravelled.', 'dc-woocommerce-multi-vendor') ?>  </span>
                 <div class="rightside">        
-                    <a href="https://wc-marketplace.com/version-highlights/" target="_blank" class="wcmp_btn_service_claim_now"><?php _e('Version Highlights', 'dc-woocommerce-multi-vendor'); ?></a>
-                    <span class="link"><a href="https://wc-marketplace.com/version-highlights/?utm_source=WordPress&utm_medium=wp_admin&utm_campaign=admin_notice" target="_blank"><?php _e('Lend a Hand?', 'dc-woocommerce-multi-vendor'); ?></a></span>
+                    <a href="https://wc-marketplace.com/wcmp-split-order/" target="_blank" class="wcmp_btn_service_claim_now"><?php _e('Test ride Split order Module', 'dc-woocommerce-multi-vendor'); ?></a>
                     <button onclick="dismiss_servive_notice(event);" type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button>
                 </div>
 
             </div>
         </div>
-        <style type="text/css">.clearfix{clear:both}.wcmp_admin_new_banner.updated{border-left:0}.wcmp_admin_new_banner{box-shadow:0 3px 1px 1px rgba(0,0,0,.2);padding:10px 30px;background:#fff;position:relative;overflow:hidden;clear:both;border-top:2px solid #8abee5;text-align:left;background-size:contain}.wcmp_admin_new_banner .round{width:200px;height:200px;position:absolute;border-radius:100%;border:30px solid rgba(157,42,255,.05);top:-150px;left:73px;z-index:1}.wcmp_admin_new_banner .round1{position:absolute;border-radius:100%;border:45px solid rgba(194,108,144,.05);bottom:-82px;right:-58px;width:180px;height:180px;z-index:1}.wcmp_admin_new_banner .round2,.wcmp_admin_new_banner .round3{border-radius:100%;width:180px;height:180px;position:absolute;z-index:1}.wcmp_admin_new_banner .round2{border:18px solid rgba(194,108,144,.05);top:35px;left:249px}.wcmp_admin_new_banner .round3{border:45px solid rgba(31,194,255,.05);top:2px;right:40%}.wcmp_admin_new_banner .round4{position:absolute;border-radius:100%;border:31px solid rgba(31,194,255,.05);top:11px;left:-49px;width:100px;height:100px;z-index:1}.wcmp_banner-content{display: -webkit-box;display: -moz-box;display: -ms-flexbox;display: -webkit-flex;display: flex;align-items:center}.wcmp_admin_new_banner .txt{color:#333;font-size:18px;line-height:1.4;width:calc(100% - 330px);position:relative;z-index:2;display:inline-block;font-weight:400;float:left;padding-left:8px}.wcmp_admin_new_banner .link,.wcmp_admin_new_banner .wcmp_btn_service_claim_now{font-weight:400;display:inline-block;z-index:2;padding:0 20px;position:relative}.wcmp_admin_new_banner .rightside{float:right;width:500px}.wcmp_admin_new_banner .wcmp_btn_service_claim_now{cursor:pointer;background:#8abee5;height:40px;color:#fff;font-size:20px;text-align:center;border:none;margin:5px 13px;border-radius:5px;text-decoration:none;line-height:40px}.wcmp_admin_new_banner button:hover{opacity:.8;transition:.5s}.wcmp_admin_new_banner .link{font-size:18px;line-height:49px;background:0 0;height:50px}.wcmp_admin_new_banner .link a{color:#333;text-decoration:none}@media (max-width:990px){.wcmp_admin_new_banner::before{left:-4%;top:-12%}}@media (max-width:767px){.wcmp_admin_new_banner::before{left:0;top:0;transform:rotate(0);width:10px}.wcmp_admin_new_banner .txt{width:400px;max-width:100%;text-align:center;padding:0;margin:0 auto 5px;float:none;display:block;font-size:17px;line-height:1.6}.wcmp_admin_new_banner .rightside{width:100%;padding-left:10px;text-align:center;box-sizing:border-box}.wcmp_admin_new_banner .wcmp_btn_service_claim_now{margin:10px 0}.wcmp_banner-content{display:block}}.wcmp_admin_new_banner button.notice-dismiss{z-index:1;position:absolute;top:50%;transform:translateY(-50%)}</style>
+        <style type="text/css">.clearfix{clear:both}.wcmp_admin_new_banner.updated{border-left:0}.wcmp_admin_new_banner{box-shadow:0 3px 1px 1px rgba(0,0,0,.2);padding:10px 30px;background:#fff;position:relative;overflow:hidden;clear:both;border-top:2px solid #8abee5;text-align:left;background-size:contain}.wcmp_admin_new_banner .round{width:200px;height:200px;position:absolute;border-radius:100%;border:30px solid rgba(157,42,255,.05);top:-150px;left:73px;z-index:1}.wcmp_admin_new_banner .round1{position:absolute;border-radius:100%;border:45px solid rgba(194,108,144,.05);bottom:-82px;right:-58px;width:180px;height:180px;z-index:1}.wcmp_admin_new_banner .round2,.wcmp_admin_new_banner .round3{border-radius:100%;width:180px;height:180px;position:absolute;z-index:1}.wcmp_admin_new_banner .round2{border:18px solid rgba(194,108,144,.05);top:35px;left:249px}.wcmp_admin_new_banner .round3{border:45px solid rgba(31,194,255,.05);top:2px;right:40%}.wcmp_admin_new_banner .round4{position:absolute;border-radius:100%;border:31px solid rgba(31,194,255,.05);top:11px;left:-49px;width:100px;height:100px;z-index:1}.wcmp_banner-content{display: -webkit-box;display: -moz-box;display: -ms-flexbox;display: -webkit-flex;display: flex;align-items:center}.wcmp_admin_new_banner .txt{color:#333;font-size:15px;line-height:1.4;width:calc(100% - 345px);position:relative;z-index:2;display:inline-block;font-weight:400;float:left;padding-left:8px}.wcmp_admin_new_banner .link,.wcmp_admin_new_banner .wcmp_btn_service_claim_now{font-weight:400;display:inline-block;z-index:2;padding:0 20px;position:relative}.wcmp_admin_new_banner .rightside{float:right;width:345px}.wcmp_admin_new_banner .wcmp_btn_service_claim_now{cursor:pointer;background:#8abee5;height:40px;color:#fff;font-size:20px;text-align:center;border:none;margin:5px 13px;border-radius:5px;text-decoration:none;line-height:40px}.wcmp_admin_new_banner button:hover{opacity:.8;transition:.5s}.wcmp_admin_new_banner .link{font-size:18px;line-height:49px;background:0 0;height:50px}.wcmp_admin_new_banner .link a{color:#333;text-decoration:none}@media (max-width:990px){.wcmp_admin_new_banner::before{left:-4%;top:-12%}}@media (max-width:767px){.wcmp_admin_new_banner::before{left:0;top:0;transform:rotate(0);width:10px}.wcmp_admin_new_banner .txt{width:400px;max-width:100%;text-align:center;padding:0;margin:0 auto 5px;float:none;display:block;font-size:17px;line-height:1.6}.wcmp_admin_new_banner .rightside{width:100%;padding-left:10px;text-align:center;box-sizing:border-box}.wcmp_admin_new_banner .wcmp_btn_service_claim_now{margin:10px 0}.wcmp_banner-content{display:block}}.wcmp_admin_new_banner button.notice-dismiss{z-index:1;position:absolute;top:50%;transform:translateY(-50%)}</style>
         <script type="text/javascript">
             function dismiss_servive_notice(e, i) {
                 jQuery.post(ajaxurl, {action: "dismiss_wcmp_servive_notice"}, function (e) {
@@ -536,7 +435,14 @@ class WCMp_Admin {
     }
 
     public function woocommerce_order_actions($actions) {
-        $actions['regenerate_order_commissions'] = __('Regenerate order commissions', 'dc-woocommerce-multi-vendor');
+        global $post;
+        if( $post && wp_get_post_parent_id( $post->ID ) )
+            $actions['regenerate_order_commissions'] = __('Regenerate order commissions', 'dc-woocommerce-multi-vendor');
+        if(is_user_wcmp_vendor(get_current_user_id())){
+            if(isset($actions['regenerate_order_commissions'])) unset($actions['regenerate_order_commissions']);
+            if(isset($actions['send_order_details'])) unset( $actions['send_order_details'] );
+            if(isset($actions['send_order_details_admin'])) unset( $actions['send_order_details_admin'] );
+        }
         return $actions;
     }
 
@@ -547,21 +453,30 @@ class WCMp_Admin {
      */
     public function regenerate_order_commissions($order) {
         global $wpdb, $WCMp;
+        if ( !wp_get_post_parent_id( $order->get_id() ) ) {
+            return;
+        }
         if (!in_array($order->get_status(), $WCMp->commission->completed_statuses)) {
             return;
         }
-        $table_name = $wpdb->prefix . 'wcmp_vendor_orders';
         delete_post_meta($order->get_id(), '_commissions_processed');
-        delete_post_meta($order->get_id(), '_wcmp_order_processed');
-        $commission_ids = get_post_meta($order->get_id(), '_commission_ids', true) ? get_post_meta($order->get_id(), '_commission_ids', true) : array();
-        if ($commission_ids && is_array($commission_ids)) {
-            foreach ($commission_ids as $commission_id) {
-                wp_delete_post($commission_id, true);
-            }
+        $commission_id = get_post_meta($order->get_id(), '_commission_id', true) ? get_post_meta($order->get_id(), '_commission_id', true) : '';
+        if ($commission_id) {
+            wp_delete_post($commission_id, true);
         }
-        delete_post_meta($order->get_id(), '_commission_ids');
-        $wpdb->delete($table_name, array('order_id' => $order->get_id()), array('%d'));
-        $WCMp->commission->wcmp_process_commissions($order->get_id());
+        delete_post_meta($order->get_id(), '_commission_id');
+        // create vendor commission
+        $commission_id = WCMp_Commission::create_commission($order->get_id());
+        if ($commission_id) {
+            // Calculate commission
+            WCMp_Commission::calculate_commission($commission_id, $order);
+            update_post_meta($commission_id, '_paid_status', 'unpaid');
+
+            // add commission id with associated vendor order
+            update_post_meta($order->get_id(), '_commission_id', $commission_id);
+            // Mark commissions as processed
+            update_post_meta($order->get_id(), '_commissions_processed', 'yes');
+        }
     }
     
     public function add_wcmp_screen_ids($screen_ids){

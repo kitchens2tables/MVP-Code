@@ -2,70 +2,33 @@
  * External dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { addQueryArgs } from '@wordpress/url';
-import apiFetch from '@wordpress/api-fetch';
-import { InspectorControls } from '@wordpress/editor';
 import { Component, Fragment } from '@wordpress/element';
-import { debounce } from 'lodash';
-import Gridicon from 'gridicons';
-import { PanelBody, Placeholder, Spinner } from '@wordpress/components';
+import { Disabled, PanelBody } from '@wordpress/components';
+import { InspectorControls, ServerSideRender } from '@wordpress/editor';
+
 import PropTypes from 'prop-types';
 
 /**
  * Internal dependencies
  */
-import getQuery from '../../utils/get-query';
+import GridContentControl from '../../components/grid-content-control';
 import GridLayoutControl from '../../components/grid-layout-control';
 import ProductCategoryControl from '../../components/product-category-control';
-import ProductPreview from '../../components/product-preview';
 
 /**
  * Component to handle edit mode of "Top Rated Products".
  */
 class ProductTopRatedBlock extends Component {
-	constructor() {
-		super( ...arguments );
-		this.state = {
-			products: [],
-			loaded: false,
-		};
-
-		this.debouncedGetProducts = debounce( this.getProducts.bind( this ), 200 );
-	}
-
-	componentDidMount() {
-		if ( this.props.attributes.categories ) {
-			this.getProducts();
-		}
-	}
-
-	componentDidUpdate( prevProps ) {
-		const hasChange = [ 'rows', 'columns', 'categories', 'catOperator' ].reduce( ( acc, key ) => {
-			return acc || prevProps.attributes[ key ] !== this.props.attributes[ key ];
-		}, false );
-		if ( hasChange ) {
-			this.debouncedGetProducts();
-		}
-	}
-
-	getProducts() {
-		apiFetch( {
-			path: addQueryArgs(
-				'/wc-pb/v3/products',
-				getQuery( this.props.attributes, this.props.name )
-			),
-		} )
-			.then( ( products ) => {
-				this.setState( { products, loaded: true } );
-			} )
-			.catch( () => {
-				this.setState( { products: [], loaded: true } );
-			} );
-	}
-
 	getInspectorControls() {
 		const { attributes, setAttributes } = this.props;
-		const { categories, catOperator, columns, rows } = attributes;
+		const {
+			categories,
+			catOperator,
+			columns,
+			contentVisibility,
+			rows,
+			alignButtons,
+		} = attributes;
 
 		return (
 			<InspectorControls key="inspector">
@@ -76,7 +39,17 @@ class ProductTopRatedBlock extends Component {
 					<GridLayoutControl
 						columns={ columns }
 						rows={ rows }
+						alignButtons={ alignButtons }
 						setAttributes={ setAttributes }
+					/>
+				</PanelBody>
+				<PanelBody
+					title={ __( 'Content', 'woo-gutenberg-products-block' ) }
+					initialOpen
+				>
+					<GridContentControl
+						settings={ contentVisibility }
+						onChange={ ( value ) => setAttributes( { contentVisibility: value } ) }
 					/>
 				</PanelBody>
 				<PanelBody
@@ -103,41 +76,14 @@ class ProductTopRatedBlock extends Component {
 	}
 
 	render() {
-		const { columns } = this.props.attributes;
-		const { loaded, products } = this.state;
-		const classes = [ 'wc-block-products-grid', 'wc-block-top-rated-products' ];
-		if ( columns ) {
-			classes.push( `cols-${ columns }` );
-		}
-		if ( products && ! products.length ) {
-			if ( ! loaded ) {
-				classes.push( 'is-loading' );
-			} else {
-				classes.push( 'is-not-found' );
-			}
-		}
+		const { name, attributes } = this.props;
 
 		return (
 			<Fragment>
 				{ this.getInspectorControls() }
-				<div className={ classes.join( ' ' ) }>
-					{ products.length ? (
-						products.map( ( product ) => (
-							<ProductPreview product={ product } key={ product.id } />
-						) )
-					) : (
-						<Placeholder
-							icon={ <Gridicon icon="trophy" /> }
-							label={ __( 'Top Rated Products', 'woo-gutenberg-products-block' ) }
-						>
-							{ ! loaded ? (
-								<Spinner />
-							) : (
-								__( 'No products found.', 'woo-gutenberg-products-block' )
-							) }
-						</Placeholder>
-					) }
-				</div>
+				<Disabled>
+					<ServerSideRender block={ name } attributes={ attributes } />
+				</Disabled>
 			</Fragment>
 		);
 	}

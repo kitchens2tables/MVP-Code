@@ -39,7 +39,7 @@ if ( !class_exists('MHSettings') ) {
 
         public function settings_plugin_links($links) {
             $action_links = array(
-                'settings' => sprintf('<a href="%s">%s</a>', $this->admin_url(), __('Settings', 'woocommerce')),
+                'settings' => sprintf('<a href="%s">%s</a>', $this->admin_url(), esc_html__('Settings', 'woocommerce')),
             );
     
             return array_merge( $action_links, $links );
@@ -67,6 +67,9 @@ if ( !class_exists('MHSettings') ) {
                     if ( is_numeric($defaultSettings[$key]) ) {
                         $allOptions[$key] = (int) sanitize_text_field($val);
                     }
+                    else if ( is_array($val) ) {
+                        $allOptions[$key] = $val;
+                    }
                     else {
                         $allOptions[$key] = sanitize_text_field($val);
                     }
@@ -89,9 +92,9 @@ if ( !class_exists('MHSettings') ) {
                                array()));
         }
         
-        public function get_option($name) {
+        public function get_option($name, $default = null) {
             $options = $this->all_options();
-            $value = isset($options[$name]) ? $options[$name] : null;
+            $value = isset($options[$name]) ? $options[$name] : $default;
     
             return $value;
         }
@@ -130,7 +133,7 @@ if ( !class_exists('MHSettings') ) {
         }
         
         public function admin_tab() {
-            return esc_attr(str_replace('.php', '', $this->active_tab()));
+            return esc_html__(str_replace('.php', '', $this->active_tab()));
         }
         
         public function settings_page() {
@@ -140,18 +143,17 @@ if ( !class_exists('MHSettings') ) {
     
             // Save settings if data has been posted
             if ( ! empty( $_POST ) && check_admin_referer('mh_nonce') ) {
-    
-                if ( sanitize_text_field($_POST['save']) == __( 'Save settings' ) ) {
+                if ( sanitize_text_field($_POST['save']) == esc_html__( 'Save settings' ) ) {
                     $this->settings_save();
                 }
-                else if ( sanitize_text_field($_POST['save']) == __( 'Reset all settings' ) ) {
+                else if ( sanitize_text_field($_POST['save']) == esc_html__( 'Reset all settings' ) ) {
                     update_option($this->pluginAbbrev . '_settings', $this->default_settings());
                 }
             }
             
             $this->enqueue_admin_scripts();
 
-            $title = $this->common->getPluginTitle();
+            $title = esc_html__($this->common->getPluginTitle());
             $displayPremiumTab = ( !$this->common->isPremiumVersion() && $this->has_premium_features() );
 
             ?>
@@ -169,7 +171,7 @@ if ( !class_exists('MHSettings') ) {
                     <?php if ( $displayPremiumTab ): ?>
                         <?php echo $this->setting_tab(
                             'tab-buy.php',
-                            '<span style="color: orange;">' . __('Get PRO') . '</span>'
+                            '<span style="color: orange;">' . esc_html__('Get PRO') . '</span>'
                         ); ?>
                     <?php endif; ?>
                 </nav>
@@ -236,6 +238,10 @@ if ( !class_exists('MHSettings') ) {
 
                 case 'select':
                     $this->select($name, $conf['label'], $conf['options']);
+                    break;
+
+                case 'multiselect':
+                    $this->multiselect($name, $conf['label'], $conf['options']);
                     break;
             }
         }
@@ -305,20 +311,30 @@ if ( !class_exists('MHSettings') ) {
         }
         
         public function form_footer() {
-            $pluginUrl = 'https://wordpress.org/support/plugin/'.$this->pluginAlias.'/reviews/#new-post';
-    
             ?>
                 <hr/>
-                <input name="save" class="button-primary" type="submit" value="<?php echo __( 'Save settings' ); ?>" />
-                <input name="save" class="button" type="submit" value="<?php echo __( 'Reset all settings' ); ?>" onclick="return confirm('Are you sure?')"/>
+                <input name="save" class="button-primary" type="submit" value="<?php echo esc_html__( 'Save settings' ); ?>" />
+                <input name="save" class="button" type="submit" value="<?php echo esc_html__( 'Reset all settings' ); ?>" onclick="return confirm('Are you sure?')"/>
             </form>
             <?php if ( !$this->common->isPremiumVersion() ): ?>
                 <br/>
                 <h4>
-                    <?php echo sprintf(__('If you liked this plugin, please help us <a href="%s" target="_blank">giving a 5-star rate</a> on WordPress.org :)'), $pluginUrl); ?>
+                    <?php echo $this->get_rate_recommendation(); ?>
                 </h4>
             <?php endif; ?>
             <?php
+        }
+
+        private function get_rate_recommendation() {
+            $pluginUrl = 'https://wordpress.org/support/plugin/' . $this->pluginAlias . '/reviews/#new-post';
+
+            $text = sprintf(__('If you liked this plugin, please help us <a href="%s" target="_blank">giving a 5-star rate</a> on WordPress.org :)'), $pluginUrl);
+
+            $text = wp_kses($text, array(
+                'a' => array('href' => array(), 'target' => array())
+            ));
+
+            return $text;
         }
 
         public function get_premium_url() {
@@ -378,31 +394,38 @@ if ( !class_exists('MHSettings') ) {
             preg_match('/\[view demo\](.*)/', $feature, $fmatch);
     
             if ( !empty($fmatch[1]) ) {
-                $urlDemo = str_replace(array('(', ')'), '', $fmatch[1]);
+                $urlDemo = trim(str_replace(array('(', ')'), '', $fmatch[1]));
+                $urlDemo = filter_var($urlDemo, FILTER_VALIDATE_URL);
+
                 return $urlDemo;
             }
 
             return null;
         }
 
+        private function parse_field_options($options) {
+            if ( is_callable($options) ) {
+                return call_user_func($options);
+            }
+
+            return $options;
+        }
+
         public function render_buy_tab() {
             ?>
             <div class="mh-buy-div">
                 <h1>
-                    <?php echo $this->pluginTitle . ' PRO'; ?>
+                    <?php echo esc_html__($this->pluginTitle) . ' PRO'; ?>
                 </h1>
                 <h3>
-                    <?= __('Features included in PRO version') ?>:
+                    <?= esc_html__('Features included in PRO version') ?>:
                 </h3>
                 <ul class="mh-premium-features">
                     <?php $this->render_premium_features(); ?>
                 </ul>
-                <!-- <h1>
-                    <a href="http://ragob.com/dddddd" target="_blank"><?= __('View live demo') ?> &rarr;</a>
-                </h1> -->
                 <h1>
                     <a href="<?php echo $this->get_premium_url(); ?>" target="_blank" style="">
-                        <?= __('Buy on Gumroad') ?> &rarr;
+                        <?= esc_html__('Buy on Gumroad') ?> &rarr;
                     </a>
                 </h1>
             </div>
@@ -419,7 +442,7 @@ if ( !class_exists('MHSettings') ) {
                        <?php if ( $value === 'yes' ): ?>checked<?php endif; ?>
                        class="<?php echo $class ?>"
                        name="<?php echo $name ?>">
-                <?php echo $label ?>
+                <?php echo esc_html__($label); ?>
             </label>
             <?php
         }
@@ -428,8 +451,11 @@ if ( !class_exists('MHSettings') ) {
             $value = $this->get_option($name);
             
             ?>
-            <?php echo $label ?>:
-            <input type="text" value="<?php echo $value; ?>" size="<?php echo $size; ?>" name="<?php echo $name; ?>">
+            <?php echo esc_html__($label); ?>:
+            <input type="text"
+                    value="<?php echo $value; ?>"
+                    size="<?php echo $size; ?>"
+                    name="<?php echo $name; ?>">
             <?php
         }
         
@@ -437,8 +463,12 @@ if ( !class_exists('MHSettings') ) {
             $value = $this->get_option($name);
             
             ?>
-            <?php echo $label ?>:
-            <input type="number" value="<?php echo $value; ?>" name="<?php echo $name; ?>" min="<?php echo $min; ?>" max="<?php echo $max; ?>">
+            <?php echo esc_html__($label); ?>:
+            <input type="number"
+                    value="<?php echo $value; ?>"
+                    name="<?php echo $name; ?>"
+                    min="<?php echo $min; ?>"
+                    max="<?php echo $max; ?>">
             <?php
         }
         
@@ -446,12 +476,33 @@ if ( !class_exists('MHSettings') ) {
             $value = $this->get_option($name);
             
             ?>
-            <?php echo $label; ?>:
+            <?php echo esc_html__($label); ?>:
             <select name="<?php echo $name ?>">
                 <?php foreach ( (array) $options as $optVal => $optLabel ): ?>
                     <option <?php if ( $value == $optVal ): ?>selected<?php endif; ?>
                             value="<?php echo $optVal ?>"><?php echo $optLabel; ?></option>
                 <?php endforeach; ?>
+            </select>
+            <?php
+        }
+
+        public function multiselect($name, $label, $options) {
+            $values = (array) $this->get_option($name, array());
+            $options = $this->parse_field_options($options);
+            
+            ?>
+            <br/>
+            <?php echo esc_html__($label); ?>:
+            <br/>
+            <input type="hidden" name="<?php echo $name; ?>" value=""/>
+            <select multiple="multiple" name="<?php echo $name; ?>[]">
+                <?php
+                foreach ($options as $key => $label ) { ?>
+                <?php $selected = in_array( $key, $values ) ? ' selected="selected" ' : ''; ?>
+                    <option value="<?php echo $key; ?>" <?php echo $selected; ?> >
+                        <?php echo $label; ?>
+                    </option>
+                <?php } //endforeach ?>
             </select>
             <?php
         }

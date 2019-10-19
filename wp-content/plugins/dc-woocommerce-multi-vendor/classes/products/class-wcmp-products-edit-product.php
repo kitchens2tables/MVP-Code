@@ -47,6 +47,8 @@ class WCMp_Products_Edit_Product {
         if ( ! wcmp_is_allowed_vendor_shipping() ) {
             add_filter( 'wcmp_product_data_tabs', array( $this, 'remove_shipping_tab' ) );
         }
+        //check support for virtual and downloadable
+        add_filter( 'wcmp_product_type_options', array( $this, 'wcmp_set_product_type_options' ), 99 );
     }
 
     private function product_capablity_check( $action = 'add', $product_id = '' ) {
@@ -56,10 +58,10 @@ class WCMp_Products_Edit_Product {
             $this->error_msg = __( 'You do not have permission to view this content. Please contact site administrator.', 'dc-woocommerce-multi-vendor' );
             return false;
         }
-        if ( $WCMp->vendor_caps->vendor_can('simple') ) {
+        if ( ! empty( wcmp_get_product_types() ) ) {
             switch ( $action ) {
                 case 'add':
-                    if ( ! ( current_vendor_can( 'edit_product' ) ) ) {
+                    if ( ! ( current_vendor_can( 'edit_products' ) ) ) {
                         $this->error_msg = __( 'You do not have enough permission to submit a new coupon. Please contact site administrator.', 'dc-woocommerce-multi-vendor' );
                         return false;
                     }
@@ -68,16 +70,27 @@ class WCMp_Products_Edit_Product {
                     if ( $product_id && get_wcmp_product_vendors( $product_id ) ) {
                         $product = wc_get_product( $product_id );
                         if ( $product->get_status() === 'trash' ) {
-                            $this->error_msg = __( 'You can&#8217;t edit this item because it is in the Trash. Please restore it and try again.' );
+                            $this->error_msg = __( 'You can&#8217;t edit this item because it is in the Trash. Please restore it and try again.', 'dc-woocommerce-multi-vendor' );
                             return false;
                         }
-                        if ( ! ( current_vendor_can( 'edit_product' ) && current_vendor_can( 'edit_published_products' ) ) ) {
-                            $this->error_msg = __( 'Sorry, you are not allowed to edit this item.' );
-                            return false;
+                        if ( $product->get_status() === 'publish' ) {
+                            if ( ! current_vendor_can( 'edit_published_products' ) ) {
+                                $this->error_msg = __( 'Sorry, you are not allowed to edit this item.', 'dc-woocommerce-multi-vendor' );
+                                return false;
+                            }
+                        } else {
+                            if ( ! current_vendor_can( 'edit_product' ) ) {
+                                $this->error_msg = __( 'Sorry, you are not allowed to edit this item.', 'dc-woocommerce-multi-vendor' );
+                                return false;
+                            }
                         }
+//                        if ( ! ( current_vendor_can( 'edit_product' ) && current_vendor_can( 'edit_published_products' ) ) ) {
+//                            $this->error_msg = __( 'Sorry, you are not allowed to edit this item.', 'dc-woocommerce-multi-vendor' );
+//                            return false;
+//                        }
                         return true;
                     }
-                    $this->error_msg = __( 'You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?' );
+                    $this->error_msg = __( 'You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?', 'dc-woocommerce-multi-vendor' );
                     return false;
             }
         } else {
@@ -366,6 +379,16 @@ class WCMp_Products_Edit_Product {
      */
     public function get_gtin_no() {
         return (get_post_meta($this->product_id, '_wcmp_gtin_code', true)) ? get_post_meta($this->product_id, '_wcmp_gtin_code', true) : '';
+    }
+    
+    public function wcmp_set_product_type_options( $option ) {
+        global $WCMp;
+        foreach ( $option as $key => $val ) {
+            if ( ! $WCMp->vendor_caps->vendor_can( $key ) ) {
+                unset( $option[$key] );
+            }
+        }
+        return $option;
     }
 
 }

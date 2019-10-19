@@ -2,13 +2,13 @@
 /*
    Plugin Name: Authorize.net Payment Gateway For WooCommerce
    Description: Extends WooCommerce to Process Payments with Authorize.net gateway. HMAC-SHA512 Compatible version.
-   Version: 5.0
+   Version: 5.2
    Plugin URI: http://www.indatos.com?source=woocomautho
-   Author: Ishan Verma 
+   Author: Eshan Varma 
    Author URI: https://twitter.com/justishan
    License: Under GPL2
    WC requires at least: 3.0.0
-   WC tested up to: 3.5.3
+   WC tested up to: 3.7
 */
 
 add_action('plugins_loaded', 'woocommerce_tech_autho_init', 0);
@@ -52,6 +52,7 @@ function woocommerce_tech_autho_init() {
          $this->powerpay         = 'https://verifi.powerpay.biz/cart/ausi.php';
          $this->msg['message']   = "";
          $this->msg['class']     = "";
+         $this->newrelay         = "";
         
 
          add_action('init', array(&$this, 'check_authorize_response'));
@@ -135,7 +136,13 @@ function woocommerce_tech_autho_init() {
                   'title'        => __('Transaction Mode'),
                   'type'         => 'select',
                   'options'      => array( 'auth_capture'=>'Authorize and Capture', 'authorize'=>'Authorize Only'),
-                  'description'  => "Transaction Mode. If you are not sure what to use set to Authorize and Capture" )
+                  'description'  => "Transaction Mode. If you are not sure what to use set to Authorize and Capture" ),
+            'newrelay'           => array(
+                  'title'        => __('Relay URL'),
+                  'type'         => 'text',
+                  'description'  => __('Required for whitelisting. Refer <a href="https://www.indatos.com/authorize-net-relay-url-whitelisting-for-woocommerce/">https://www.indatos.com/authorize-net-relay-url-whitelisting-for-woocommerce/</a>'),
+                  'default'      => home_url(). '/wc-api/Wc_Tech_Autho' ,
+                  'custom_attributes'     => array('readonly' => 'readonly' ) )
          );
       }
       
@@ -147,11 +154,11 @@ function woocommerce_tech_autho_init() {
       public function admin_options()
       {
          echo '<h3>'.__('Authorize.net Payment Gateway (Basic)', 'tech').'</h3>';
-         echo '<p>'.__('Authorize.net is most popular payment gateway for online payment processing. For any support connect with Tech Support team on <a href="http://www.indatos.com/?ref=plugin-sim">Our Site</a> For GDPR details, contact support.').'</p><p style="background:#6f14f1; color:#fff; padding:20px; font-size:14px;">Limited Period Discount. <a href="https://www.indatos.com/products/authorize-net-woocommerce-plugin-certified-solution/?utm=sim" style="text-decoration:none; color:#fff; font-weight:500; border:1px solid #fff; padding: 5px;"> Download Now! Authorize.net Certified Version <strike> $49.00 </strike> $19.60 </a></p>
+         echo '<p>'.__('Authorize.net is most popular payment gateway for online payment processing. For any support connect with Tech Support team on <a href="http://www.indatos.com/?ref=plugin-sim">Our Site</a> For GDPR details, contact support.').'</p><p style="background:#6f14f1; color:#fff; padding:20px; font-size:14px;">Limited Period Discount. <a href="https://www.indatos.com/products/authorize-net-woocommerce-plugin-certified-solution/?utm=sim" style="text-decoration:none; color:#fff; font-weight:500; border:1px solid #fff; padding: 5px;"> Download Now! Authorize.net Certified Version <strike> $49.00 </strike> $29.00 </a> Limited time offer. use code <b>"PROUPGRADE"</b> on checkout page.</p>
          <p><a href="https://www.indatos.com/wordpress-support/woocommerce-authorize-net-notification-form/">Fill in this to receive priority notification on updates for this plugin(optional).</a></p>
-         <p>Thanks for your patience and support, HMAC-SHA512 update was hell of an update :) <a href="https://www.paypal.me/indatos">You can buy me a beer! Cheers!</a> </p>
          ';
          echo '<table class="form-table">';
+         
          $this->generate_settings_html();
          echo '</table>';
 

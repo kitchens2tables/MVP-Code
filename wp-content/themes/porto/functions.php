@@ -146,7 +146,11 @@ if ( ! function_exists( 'porto_setup' ) ) :
 			update_option( 'msp_woocommerce', $options );
 		}
 
-		$porto_settings_optimize = get_option( 'porto_settings_optimize', array() );
+		if ( ! is_customize_preview() ) {
+			$porto_settings_optimize = get_option( 'porto_settings_optimize', array() );
+		} else {
+			$porto_settings_optimize = array();
+		}
 
 		if ( isset( $porto_settings['google-webfont-loader'] ) && $porto_settings['google-webfont-loader'] ) {
 			add_filter( 'wp_head', 'porto_google_webfont_loader' );

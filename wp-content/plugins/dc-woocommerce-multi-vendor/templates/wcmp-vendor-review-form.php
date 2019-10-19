@@ -15,9 +15,6 @@ if (!defined('ABSPATH')) {
 }
 
 if (isset($queried_object->term_id) && !empty($queried_object)) {
-    
-    
-    
     $vendor = get_wcmp_vendor_by_term($queried_object->term_id);
     $shop_name = $vendor->page_title;
     $vendor_id = $vendor->id;
@@ -25,13 +22,8 @@ if (isset($queried_object->term_id) && !empty($queried_object)) {
     $is_enable = wcmp_seller_review_enable($queried_object->term_id);
     $current_user = wp_get_current_user();
     $reviews_lists = $vendor->get_reviews_and_rating(0);
-    
-   
-    
 }
 ?>
-
-
 <div class="wocommerce" >
     <div id="reviews" >
         <div id="wcmp_vendor_reviews">
@@ -66,7 +58,7 @@ if (isset($queried_object->term_id) && !empty($queried_object)) {
                                         <input id="wcmp_vendor_for_rating" name="wcmp_vendor_for_rating" type="hidden" value="<?php echo $vendor_id; ?>"  >
                                         <input id="author" name="author" type="hidden" value="<?php echo $current_user->display_name; ?>" size="30" aria-required="true">					 
                                         <input id="email" name="email" type="hidden" value="<?php echo $current_user->user_email; ?>" size="30" aria-required="true">
-                                        <input name="submit" type="button" id="submit" class="submit"  value="<?php _e('Submit', 'dc-woocommerce-multi-vendor') ?>">
+                                        <input name="submit" type="button" id="submit" class="submit" value="<?php _e('Submit', 'dc-woocommerce-multi-vendor') ?>">
 
                                     </p>				
                                 </form>
@@ -110,51 +102,3 @@ if (isset($queried_object->term_id) && !empty($queried_object)) {
         </div>
     </div>
 </div>
-
-
-
-
-<script type="text/javascript"></script>
-
-<script>
- /*jQuery( document ).ajaxComplete(function() {
- var reviewForm = jQuery('#commentform').length;
- 
- if(reviewForm == 1){
-     ajaxCall();
- }
-  
-  
-});
-
-
-
-function ajaxCall(){
-    
-     var ajaxurl = "<?php echo   admin_url('../wp-content/themes/porto/test.php');?>";
-      
-     
-   var id = jQuery('#wcmp_vendor_for_rating').val();
-   
-    var data = {
-    action: 'folder_contents',
-   id: id
-};
-
-jQuery.post(ajaxurl, data, function(response) {
-   // alert('Got this from the server: ' + response);
-  
-});
- }
-
- //end of edited by ajay */
-
-</script>
-
-
-
-
-
-
-
-

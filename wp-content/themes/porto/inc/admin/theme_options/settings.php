@@ -2042,7 +2042,7 @@ if ( ! class_exists( 'Redux_Framework_porto_settings' ) ) {
 					array(
 						'id'     => '1',
 						'type'   => 'info',
-						'title'  => __( 'Menu Custom Content (if header type is 1, 3, 4, 9, 13 or 14)', 'porto' ),
+						'title'  => __( 'Menu Custom Content (if header type is 1, 3, 4, 9, 13, 14 or header builder)', 'porto' ),
 						'notice' => false,
 					),
 					array(
